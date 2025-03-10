@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "lycanitestweaks.mixin.lycanitesmobsfeatures",
+  "refmap": "mixins.lycanitestweaks.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "creature.EntityRahovartMinionLevelsMixin",
+    "creature.EntityAsmodeusMinionLevelsMixin"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}
