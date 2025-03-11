@@ -1,5 +1,8 @@
 package lycanitestweaks;
 
+import lycanitestweaks.handlers.ForgeConfigHandler;
+import lycanitestweaks.handlers.features.equipment.ItemEquipmentRLCombatSweepHandler;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -26,5 +29,7 @@ public class LycanitesTweaks {
     public void preInit(FMLPreInitializationEvent event) {
         ModRegistry.init();
         LycanitesTweaks.PROXY.preInit();
+
+        if(ForgeConfigHandler.mixinConfig.craftedEquipmentRLCombatSweep) MinecraftForge.EVENT_BUS.register(ItemEquipmentRLCombatSweepHandler.class);
     }
 }

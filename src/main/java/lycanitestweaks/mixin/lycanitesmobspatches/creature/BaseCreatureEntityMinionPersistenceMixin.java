@@ -14,9 +14,9 @@ public class BaseCreatureEntityMinionPersistenceMixin {
     @Inject(
             method = "summonMinion",
             at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/core/entity/BaseCreatureEntity;onFirstSpawn()V"),
-            remap = true
+            remap = false
     )
-    protected void lycanitestweaks_lycanitesSummonMinionsGoal_summonMinion(EntityLivingBase minion, double angle, double distance, CallbackInfo ci){
+    protected void lycanitestweaks_lycanitesBaseCreatureEntity_summonMinion(EntityLivingBase minion, double angle, double distance, CallbackInfo ci){
         if(minion instanceof BaseCreatureEntity) ((BaseCreatureEntity)minion).enablePersistence();
         else if(minion instanceof EntityLiving) ((EntityLiving)minion).enablePersistence();
     }

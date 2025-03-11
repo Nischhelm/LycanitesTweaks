@@ -57,6 +57,16 @@ public class ForgeConfigHandler {
 		@Config.Name("Level match minions host method")
 		@Config.RequiresMcRestart
 		public boolean levelMatchMinionsHostMethod = true;
+
+		@Config.Comment("Cancels Crafted Sweep and rehandle with RLCombat Sweep")
+		@Config.Name("Crafted Equipment RLCombat Sweep (RLCombat)")
+		@Config.RequiresMcRestart
+		public boolean craftedEquipmentRLCombatSweep = true;
+
+		@Config.Comment("Make offhand crafted equipment RMB ability require player to be sneaking")
+		@Config.Name("Crafted Equipment Offhand RMB Needs Sneak")
+		@Config.RequiresMcRestart
+		public boolean craftedEquipmentOffhandRMBSneak = true;
 	}
 
 	public static class PatchConfig {
@@ -70,6 +80,11 @@ public class ForgeConfigHandler {
 		@Config.Name("Fix Ettin grief flag")
 		@Config.RequiresMcRestart
 		public boolean fixEttinBlockBreak = true;
+
+		@Config.Comment("Fix Serpix Blizzard projectile spawning in the ground")
+		@Config.Name("Fix Serpix Blizzard Offset")
+		@Config.RequiresMcRestart
+		public boolean fixSerpixBlizzardOffset = true;
 	}
 
 	@Mod.EventBusSubscriber(modid = LycanitesTweaks.MODID)
