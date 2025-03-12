@@ -18,14 +18,17 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 		Map<String, String> map = new HashMap<>();
 
 		// Features
+		map.put("Boss DPS Limit Recalc", "mixins.lycanitestweaks.featurebossdamagelimitdpsrecalc.json");
 		map.put("Level match minions goal", "mixins.lycanitestweaks.featureaiminionhostlevelmatch.json");
 		map.put("Level match minions host method", "mixins.lycanitestweaks.featurebasecreatureminionhostlevelmatch.json");
+		map.put("Treat Sets Persistence", "mixins.lycanitestweaks.featuretameabletreatpersistence.json");
 		map.put("Crafted Equipment RLCombat Sweep (RLCombat)", "mixins.lycanitestweaks.equipmentrlcombatsweep.json");
 		map.put("Crafted Equipment Offhand RMB Needs Sneak", "mixins.lycanitestweaks.equipmentrmbneedssneak.json");
 		// Patches
+		map.put("Fix AgeableCreature baby drops", "mixins.lycanitestweaks.patchesageablebabydrops.json");
+		map.put("Fix BaseCreature Summon Persistence", "mixins.lycanitestweaks.patchesbasecreatureminionpersistence.json");
 		map.put("Fix Ettin grief flag", "mixins.lycanitestweaks.patchesettingriefflag.json");
 		map.put("Fix Serpix Blizzard Offset", "mixins.lycanitestweaks.patcheserpixblizzardoffset.json");
-		map.put("Fix BaseCreature Summon Persistence", "mixins.lycanitestweaks.patchesbasecreatureminionpersistence.json");
 
 		return Collections.unmodifiableMap(map);
 	}

@@ -16,6 +16,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ItemEquipment.class)
 public class ItemEquipmentAbilityNeedsSneakMixin {
 
+    /*
+    *   Original Behavior if Mainhand and no Offhand
+    *   If Offhand, require sneak
+    *   If Mainhand with offhand, require sneak (enables offhand like shields now)
+     */
     @Inject(
             method = "onItemRightClick",
             at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/core/item/equipment/ItemEquipment;getMana(Lnet/minecraft/item/ItemStack;)I", remap = false),
@@ -24,6 +29,6 @@ public class ItemEquipmentAbilityNeedsSneakMixin {
     )
     private void lycanitesTweaks_lycanitesItemEquipment_onItemRightClick(World world, EntityPlayer player, EnumHand hand, CallbackInfoReturnable<ActionResult<ItemStack>> cir, @Local ItemStack itemStack){
         if(hand == EnumHand.OFF_HAND && !player.isSneaking()) cir.setReturnValue(new ActionResult<>(EnumActionResult.FAIL, itemStack));
-        else if(hand == EnumHand.MAIN_HAND && itemStack.getItem() == player.getHeldItem(EnumHand.OFF_HAND).getItem() && !player.isSneaking()) cir.setReturnValue(new ActionResult<>(EnumActionResult.FAIL, itemStack));
+        else if(hand == EnumHand.MAIN_HAND && player.getHeldItem(EnumHand.OFF_HAND).getItem() != ItemStack.EMPTY.getItem() && !player.isSneaking()) cir.setReturnValue(new ActionResult<>(EnumActionResult.FAIL, itemStack));
     }
 }

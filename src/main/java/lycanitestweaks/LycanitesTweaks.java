@@ -1,6 +1,7 @@
 package lycanitestweaks;
 
 import lycanitestweaks.handlers.ForgeConfigHandler;
+import lycanitestweaks.handlers.features.boss.DamageLimitCalcHandler;
 import lycanitestweaks.handlers.features.equipment.ItemEquipmentRLCombatSweepHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -30,6 +31,7 @@ public class LycanitesTweaks {
         ModRegistry.init();
         LycanitesTweaks.PROXY.preInit();
 
+        if(ForgeConfigHandler.mixinConfig.bossDPSLimitRecalc) MinecraftForge.EVENT_BUS.register(DamageLimitCalcHandler.class);
         if(ForgeConfigHandler.mixinConfig.craftedEquipmentRLCombatSweep) MinecraftForge.EVENT_BUS.register(ItemEquipmentRLCombatSweepHandler.class);
     }
 }

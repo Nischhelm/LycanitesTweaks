@@ -48,6 +48,11 @@ public class ForgeConfigHandler {
 
 	public static class MixinConfig {
 
+		@Config.Comment("Move the Damage Limit DPS calc to LivingHurtEvent LOWEST from attackEntityFrom")
+		@Config.Name("Boss DPS Limit Recalc")
+		@Config.RequiresMcRestart
+		public boolean bossDPSLimitRecalc = true;
+
 		@Config.Comment("Summon minion goal matches host and minion levels (AI Goal)")
 		@Config.Name("Level match minions goal")
 		@Config.RequiresMcRestart
@@ -57,6 +62,11 @@ public class ForgeConfigHandler {
 		@Config.Name("Level match minions host method")
 		@Config.RequiresMcRestart
 		public boolean levelMatchMinionsHostMethod = true;
+
+		@Config.Comment("Feeding Treats will prevent natural and forced despawning")
+		@Config.Name("Treat Sets Persistence")
+		@Config.RequiresMcRestart
+		public boolean treatSetsPersistence = true;
 
 		@Config.Comment("Cancels Crafted Sweep and rehandle with RLCombat Sweep")
 		@Config.Name("Crafted Equipment RLCombat Sweep (RLCombat)")
@@ -70,6 +80,11 @@ public class ForgeConfigHandler {
 	}
 
 	public static class PatchConfig {
+
+		@Config.Comment("Fix hostile AgeableCreature babies not dropping loot")
+		@Config.Name("Fix AgeableCreature baby drops")
+		@Config.RequiresMcRestart
+		public boolean fixAgeableBabyDrops = true;
 
 		@Config.Comment("Add persistence to summons via BaseCreature method")
 		@Config.Name("Fix BaseCreature Summon Persistence")
