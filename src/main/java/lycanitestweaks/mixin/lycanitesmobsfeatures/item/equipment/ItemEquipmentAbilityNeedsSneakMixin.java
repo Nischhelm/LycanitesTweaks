@@ -9,12 +9,16 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ItemEquipment.class)
-public class ItemEquipmentAbilityNeedsSneakMixin {
+public abstract class ItemEquipmentAbilityNeedsSneakMixin {
+
+    @Shadow(remap = false)
+    public abstract void onItemLeftClick(World world, EntityPlayer player, EnumHand hand);
 
     /*
     *   Original Behavior if Mainhand and no Offhand
@@ -28,7 +32,12 @@ public class ItemEquipmentAbilityNeedsSneakMixin {
             remap = true
     )
     private void lycanitesTweaks_lycanitesItemEquipment_onItemRightClick(World world, EntityPlayer player, EnumHand hand, CallbackInfoReturnable<ActionResult<ItemStack>> cir, @Local ItemStack itemStack){
-        if(hand == EnumHand.OFF_HAND && !player.isSneaking()) cir.setReturnValue(new ActionResult<>(EnumActionResult.FAIL, itemStack));
+        if(hand == EnumHand.OFF_HAND){
+            if(!player.isSneaking()) {
+                this.onItemLeftClick(world, player, EnumHand.OFF_HAND);
+                cir.setReturnValue(new ActionResult<>(EnumActionResult.FAIL, itemStack));
+            }
+        }
         else if(hand == EnumHand.MAIN_HAND && player.getHeldItem(EnumHand.OFF_HAND).getItem() != ItemStack.EMPTY.getItem() && !player.isSneaking()) cir.setReturnValue(new ActionResult<>(EnumActionResult.FAIL, itemStack));
     }
 }

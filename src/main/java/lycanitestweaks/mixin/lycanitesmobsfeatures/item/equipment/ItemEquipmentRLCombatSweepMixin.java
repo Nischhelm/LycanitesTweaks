@@ -1,5 +1,6 @@
 package lycanitestweaks.mixin.lycanitesmobsfeatures.item.equipment;
 
+import com.lycanitesmobs.core.item.ItemBase;
 import com.lycanitesmobs.core.item.equipment.ItemEquipment;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -7,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(ItemEquipment.class)
-public class ItemEquipmentRLCombatSweepMixin {
+public abstract class ItemEquipmentRLCombatSweepMixin extends ItemBase {
 
     @Redirect(
             method = "hitEntity",

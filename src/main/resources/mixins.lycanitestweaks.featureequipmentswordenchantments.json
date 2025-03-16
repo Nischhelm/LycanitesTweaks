@@ -1,12 +1,12 @@
 {
   "required": true,
-  "package": "lycanitestweaks.mixin",
+  "package": "lycanitestweaks.mixin.lycanitesmobsfeatures",
   "refmap": "mixins.lycanitestweaks.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "lycanitesmobsfeatures.item.equipment.ItemEquipmentRLCombatSweepMixin"
+    "item.equipment.ItemEquipmentSwordEnchantmentsMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

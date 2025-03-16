@@ -53,6 +53,16 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		public boolean bossDPSLimitRecalc = true;
 
+		@Config.Comment("When reading familiars from URL, Set Spawning Active to false")
+		@Config.Name("Familiars Inactive On Join")
+		@Config.RequiresMcRestart
+		public boolean familiarsInactiveOnJoin = true;
+
+		@Config.Comment("Fix Golems attacking tamed mobs")
+		@Config.Name("Fix Golems Attacking Tamed Mobs")
+		@Config.RequiresMcRestart
+		public boolean ironGolemsTamedTarget = true;
+
 		@Config.Comment("Summon minion goal matches host and minion levels (AI Goal)")
 		@Config.Name("Level match minions goal")
 		@Config.RequiresMcRestart
@@ -68,6 +78,16 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		public boolean treatSetsPersistence = true;
 
+		@Config.Comment("Allows Crafted Equipment to use Sword Enchantments")
+		@Config.Name("Crafted Equipment Sword Enchantments")
+		@Config.RequiresMcRestart
+		public boolean craftedEquipmentSwordEnchantments = true;
+
+		@Config.Comment("Makes Crafted Equipment reach stat influence ReachFix attack range")
+		@Config.Name("Crafted Equipment ReachFix (ReachFix)")
+		@Config.RequiresMcRestart
+		public boolean craftedEquipmentReachFix = true;
+
 		@Config.Comment("Cancels Crafted Sweep and rehandle with RLCombat Sweep")
 		@Config.Name("Crafted Equipment RLCombat Sweep (RLCombat)")
 		@Config.RequiresMcRestart
@@ -80,6 +100,11 @@ public class ForgeConfigHandler {
 	}
 
 	public static class PatchConfig {
+
+		@Config.Comment("Disables Soul Bounds using portals, which would kill them and set respawn cooldown")
+		@Config.Name("Disable Soul Bounds Using Portals")
+		@Config.RequiresMcRestart
+		public boolean soulBoundNoPortal = true;
 
 		@Config.Comment("Fix hostile AgeableCreature babies not dropping loot")
 		@Config.Name("Fix AgeableCreature baby drops")
