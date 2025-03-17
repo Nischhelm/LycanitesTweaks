@@ -33,7 +33,7 @@ public class ItemEquipmentRLCombatSweepHandler {
 
             if (!event.getEntityPlayer().isSneaking() && !attackOnCooldown){
                 doLycanitesSweepAttack(event);
-                event.setDoSweep(false);
+//                event.setDoSweep(false); // commit some crimes
             }
         }
     }

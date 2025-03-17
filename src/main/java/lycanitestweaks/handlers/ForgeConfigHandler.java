@@ -41,9 +41,28 @@ public class ForgeConfigHandler {
 
 	public static class ServerConfig {
 
-		@Config.Comment("Example server side config option")
-		@Config.Name("Example Server Option")
-		public boolean exampleServerOption = true;
+		@Config.Comment("Distance between entities to trigger auto pickup drop")
+		@Config.Name("Pick Up Distance")
+		@Config.RangeDouble(min = 0)
+		public double pickUpDistance = 32.0D;
+
+		@Config.Comment("Perch Angle In Radians")
+		@Config.Name("Perch Angle Radians")
+		@Config.RangeDouble(min = -360, max = 360)
+		public double perchAngle = 90.0D;
+
+		@Config.Comment("Perch Distance Scale, based on ridden entity, Default Lycanites is 0.7")
+		@Config.Name("Perch Distance")
+		@Config.RangeDouble(min = 0)
+		public double perchDistance = 1.0D;
+
+		@Config.Comment("Default Lycanites is true")
+		@Config.Name("Soulbounds Should Get Variant Stats")
+		public boolean variantStatSoulbound = true;
+
+		@Config.Comment("Default Lycanites if false")
+		@Config.Name("Tamed Should Get Variant Stats")
+		public boolean variantStatTame = true;
 	}
 
 	public static class MixinConfig {
@@ -73,10 +92,35 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		public boolean levelMatchMinionsHostMethod = true;
 
+		@Config.Comment("Allow the pet perch position to be modifiable via config")
+		@Config.Name("Perch Position Modifiable")
+		@Config.RequiresMcRestart
+		public boolean perchPositionModifiable = true;
+
+		@Config.Comment("Add distance checks to pickup mobs teleporting vicitims")
+		@Config.Name("Pickup Checks Distances")
+		@Config.RequiresMcRestart
+		public boolean pickupChecksDistance = true;
+
 		@Config.Comment("Feeding Treats will prevent natural and forced despawning")
 		@Config.Name("Treat Sets Persistence")
 		@Config.RequiresMcRestart
 		public boolean treatSetsPersistence = true;
+
+		@Config.Comment("Make Soul Gazing a creature riding an entity dismount and attack the player")
+		@Config.Name("Soul Gazer Dismounts")
+		@Config.RequiresMcRestart
+		public boolean soulGazerDismounts = true;
+
+		@Config.Comment("Enable toggles for whether normal tames or soundbounds should get variant stats")
+		@Config.Name("Modifiable Tamed Variant Condition")
+		@Config.RequiresMcRestart
+		public boolean modifiableTamedVariantCondition = true;
+
+		@Config.Comment("Enable setting owned creature and animal variant status with Soul Keys")
+		@Config.Name("Modifiable Variant Condition")
+		@Config.RequiresMcRestart
+		public boolean modifiableVariantCondition = true;
 
 		@Config.Comment("Allows Crafted Equipment to use Sword Enchantments")
 		@Config.Name("Crafted Equipment Sword Enchantments")

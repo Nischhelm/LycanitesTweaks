@@ -32,7 +32,12 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 		map.put("Familiars Inactive On Join", "mixins.lycanitestweaks.featurefamiliarsinactiveonjoin.json");
 		map.put("Level match minions goal", "mixins.lycanitestweaks.featureaiminionhostlevelmatch.json");
 		map.put("Level match minions host method", "mixins.lycanitestweaks.featurebasecreatureminionhostlevelmatch.json");
+		map.put("Perch Position Modifiable", "mixins.lycanitestweaks.featureperchposition.json");
+		map.put("Pickup Checks Distances", "mixins.lycanitestweaks.featureentitypickupfix.json");
 		map.put("Treat Sets Persistence", "mixins.lycanitestweaks.featuretameabletreatpersistence.json");
+		map.put("Soul Gazer Dismounts", "mixins.lycanitestweaks.featuresoulgazerdismounts.json");
+		map.put("Modifiable Tamed Variant Condition", "mixins.lycanitestweaks.featuremodifytamedvariantstatcondition.json");
+		map.put("Modifiable Variant Condition", "mixins.lycanitestweaks.featuresoulkeyvariantset.json");
 		map.put("Crafted Equipment Sword Enchantments", "mixins.lycanitestweaks.featureequipmentswordenchantments.json");
 		map.put("Crafted Equipment ReachFix (ReachFix)", "mixins.lycanitestweaks.equipmentreachfix.json");
 		map.put("Crafted Equipment RLCombat Sweep (RLCombat)", "mixins.lycanitestweaks.equipmentrlcombatsweep.json");
