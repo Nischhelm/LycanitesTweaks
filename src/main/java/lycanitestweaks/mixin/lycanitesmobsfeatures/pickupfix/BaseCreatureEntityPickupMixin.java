@@ -1,4 +1,4 @@
-package lycanitestweaks.mixin.lycanitesmobsfeatures.creature;
+package lycanitestweaks.mixin.lycanitesmobsfeatures.pickupfix;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;

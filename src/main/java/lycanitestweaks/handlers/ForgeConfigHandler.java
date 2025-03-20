@@ -56,13 +56,45 @@ public class ForgeConfigHandler {
 		@Config.RangeDouble(min = 0)
 		public double perchDistance = 1.0D;
 
-		@Config.Comment("Default Lycanites is true")
-		@Config.Name("Soulbounds Should Get Variant Stats")
-		public boolean variantStatSoulbound = true;
+		@Config.Comment("Knowledge Rank to summon normal minions")
+		@Config.Name("Normal Summon Rank")
+		@Config.RangeInt(min = 0)
+		public int normalSummonRank = 1;
 
-		@Config.Comment("Default Lycanites if false")
-		@Config.Name("Tamed Should Get Variant Stats")
-		public boolean variantStatTame = true;
+		@Config.Comment("Knowledge Rank to summon variant minions")
+		@Config.Name("Variant Summon Rank")
+		@Config.RangeInt(min = 0)
+		public int variantSummonRank = 2;
+
+		@Config.Comment("Nerfs minions who are summoned without variant summoning knowledge")
+		@Config.Name("Low Rank Imperfect Summoning")
+		public boolean imperfectSummoning = true;
+
+		@Config.Comment("Chance for imperfect minion to spawn with reduced defenses or offenses")
+		@Config.Name("Reduced Stat Summon Base Chance")
+		@Config.RangeDouble(min = 0.0, max = 1.0)
+		public double imperfectStatsBaseChance = 1.0D;
+
+		@Config.Comment("Chance Reduction per point of creature knowledge")
+		@Config.Name("Reduced Stat Summon Chance Modifier")
+		@Config.RangeDouble(min = 0.0)
+		public double imperfectStatsChanceModifier = 0.001D;
+
+		@Config.Comment("Chance for an imperfect minion to be hostile to the host")
+		@Config.Name("Hostile Summon Base Chance")
+		@Config.RangeDouble(min = 0.0, max = 1.0)
+		public double imperfectHostileBaseChance = 0.1D;
+
+		@Config.Comment("Chance Reduction per point of creature knowledge")
+		@Config.Name("Hostile Summon Chance Modifier")
+		@Config.RangeDouble(min = 0.0)
+		public double imperfectHostileChanceModifier = 0.0D;
+
+		@Config.Comment("Max degree for size change food based on lycanitesmobs config range")
+		@Config.Name("Tamed Size Change Degree")
+		@Config.RangeDouble(min = 0.0)
+		public double sizeChangeDegree = 0.1D;
+
 	}
 
 	public static class MixinConfig {
@@ -112,15 +144,30 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		public boolean soulGazerDismounts = true;
 
-		@Config.Comment("Enable toggles for whether normal tames or soundbounds should get variant stats")
-		@Config.Name("Modifiable Tamed Variant Condition")
+		@Config.Comment("Enable whether all tamed (tamed/summoned/soulbound) variants get stats bonuses")
+		@Config.Name("Tamed Variant Stat Bonuses")
 		@Config.RequiresMcRestart
-		public boolean modifiableTamedVariantCondition = true;
+		public boolean tamedVariantStats = true;
+
+		@Config.Comment("Rework summon progression to allow summoning weaker minions at low knowledge")
+		@Config.Name("Summon Progression Rework")
+		@Config.RequiresMcRestart
+		public boolean summonProgressionRework = true;
+
+		@Config.Comment("Feeding tamed creatures Burritos and Risottos will increase/decrease size scale")
+		@Config.Name("Size Change Foods")
+		@Config.RequiresMcRestart
+		public boolean sizeChangeFoods = true;
+
+		@Config.Comment("Giving a thick potion to a tamed creature will turn it into a baby")
+		@Config.Name("Baby Age Potion")
+		@Config.RequiresMcRestart
+		public boolean babyAgePotion = true;
 
 		@Config.Comment("Enable setting owned creature and animal variant status with Soul Keys")
-		@Config.Name("Modifiable Variant Condition")
+		@Config.Name("Soulkeys Set Variant")
 		@Config.RequiresMcRestart
-		public boolean modifiableVariantCondition = true;
+		public boolean soulkeysSetVariant = true;
 
 		@Config.Comment("Allows Crafted Equipment to use Sword Enchantments")
 		@Config.Name("Crafted Equipment Sword Enchantments")

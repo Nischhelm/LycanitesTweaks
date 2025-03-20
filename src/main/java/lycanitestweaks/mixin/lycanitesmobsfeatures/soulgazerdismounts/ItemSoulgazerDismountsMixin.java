@@ -1,4 +1,4 @@
-package lycanitestweaks.mixin.lycanitesmobsfeatures.item;
+package lycanitestweaks.mixin.lycanitesmobsfeatures.soulgazerdismounts;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;

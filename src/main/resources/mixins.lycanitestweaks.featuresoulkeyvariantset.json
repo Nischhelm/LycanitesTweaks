@@ -6,8 +6,8 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "creature.BaseCreatureEntitySoulKeyVariantMixin",
-    "creature.TameableCreatureEntitySoulKeyVariantMixin"
+    "soulkeyvariantset.BaseCreatureEntitySoulKeyVariantMixin",
+    "soulkeyvariantset.TameableCreatureEntitySoulKeyVariantMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

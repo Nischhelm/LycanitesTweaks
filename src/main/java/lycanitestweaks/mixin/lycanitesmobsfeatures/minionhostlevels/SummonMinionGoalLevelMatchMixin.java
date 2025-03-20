@@ -1,4 +1,4 @@
-package lycanitestweaks.mixin.lycanitesmobsfeatures.goals;
+package lycanitestweaks.mixin.lycanitesmobsfeatures.minionhostlevels;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;

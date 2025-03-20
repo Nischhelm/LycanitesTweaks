@@ -1,4 +1,4 @@
-package lycanitestweaks.mixin.lycanitesmobsfeatures.item.equipment;
+package lycanitestweaks.mixin.lycanitesmobsfeatures.equipmentswordenchants;
 
 import com.lycanitesmobs.core.item.ItemBase;
 import com.lycanitesmobs.core.item.equipment.ItemEquipment;

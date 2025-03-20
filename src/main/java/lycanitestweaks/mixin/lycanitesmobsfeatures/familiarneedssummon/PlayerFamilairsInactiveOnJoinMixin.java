@@ -1,4 +1,4 @@
-package lycanitestweaks.mixin.lycanitesmobsfeatures.pets;
+package lycanitestweaks.mixin.lycanitesmobsfeatures.familiarneedssummon;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.lycanitesmobs.core.pets.PetEntryFamiliar;

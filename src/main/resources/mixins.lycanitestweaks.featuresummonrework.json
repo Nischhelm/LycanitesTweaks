@@ -6,7 +6,10 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "creature.CreatureStatsVariantConditionsMixin"
+    "summoningrework.CreatureListReworkMixin",
+    "summoningrework.SummonSetReworkMixin",
+    "summoningrework.BeastiarySummonMixin",
+    "summoningrework.SubspeciesListVariantsMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

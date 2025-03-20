@@ -1,4 +1,4 @@
-package lycanitestweaks.mixin.lycanitesmobsfeatures.item.equipment;
+package lycanitestweaks.mixin.lycanitesmobsfeatures.equipmentrmbneedssneak;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.lycanitesmobs.core.item.equipment.ItemEquipment;

@@ -1,21 +1,19 @@
-package lycanitestweaks.mixin.lycanitesmobsfeatures.creature;
+package lycanitestweaks.mixin.lycanitesmobsfeatures.tamedvariantstats;
 
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.CreatureStats;
-import lycanitestweaks.handlers.ForgeConfigHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(CreatureStats.class)
-public abstract class CreatureStatsVariantConditionsMixin {
+public abstract class CreatureStatsTamedVariantStatsMixin {
 
     @Unique
     public boolean lycanitesTweaks$getConfigVariantCondition(BaseCreatureEntity entity){
-        if(entity.isTamed() && !entity.isBoundPet()) return true;
-        return ((!ForgeConfigHandler.server.variantStatTame) && entity.isTamed()) ||
-                ((!ForgeConfigHandler.server.variantStatSoulbound) && entity.isBoundPet());
+        // BaseCreatureEntity methods were not giving correct values when CreatureStats did tame/summon/soulbound checks
+        return false;
     }
 
     @Redirect(

@@ -1,4 +1,4 @@
-package lycanitestweaks.mixin.lycanitesmobsfeatures.creature;
+package lycanitestweaks.mixin.lycanitesmobsfeatures.perchposition;
 
 import com.lycanitesmobs.core.entity.ExtendedEntity;
 import lycanitestweaks.handlers.ForgeConfigHandler;

@@ -1,4 +1,4 @@
-package lycanitestweaks.mixin.lycanitesmobsfeatures.creature;
+package lycanitestweaks.mixin.lycanitesmobsfeatures.soulkeyvariantset;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
@@ -42,7 +42,7 @@ public abstract class BaseCreatureEntitySoulKeyVariantMixin extends EntityLiving
             at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;", ordinal = 0, remap = true),
             remap = false
     )
-    public void lycanitesTweaks_lycanitesBaseCreatureEntity_getInteractCommands(EntityPlayer player, EnumHand hand, ItemStack itemStack, CallbackInfoReturnable<HashMap<Integer, String>> cir, @Local() HashMap<Integer, String> commands){
+    public void lycanitesTweaks_lycanitesBaseCreatureEntity_getInteractCommandsSoulkey(EntityPlayer player, EnumHand hand, ItemStack itemStack, CallbackInfoReturnable<HashMap<Integer, String>> cir, @Local() HashMap<Integer, String> commands){
         if(itemStack.getItem() instanceof ItemSoulkey && hand == EnumHand.OFF_HAND && player.isSneaking() && lycanitesTweaks$canPlayerSetAnimal(player)){
             commands.put(BaseCreatureEntity.COMMAND_PIORITIES.ITEM_USE.id, COMMAND_VARIANT_ANIMAL);
         }
@@ -54,7 +54,7 @@ public abstract class BaseCreatureEntitySoulKeyVariantMixin extends EntityLiving
             cancellable = true,
             remap = false
     )
-    public void lycanitesTweaks_lycanitesBaseCreatureEntity_performCommand(String command, EntityPlayer player, EnumHand hand, ItemStack itemStack, CallbackInfoReturnable<Boolean> cir){
+    public void lycanitesTweaks_lycanitesBaseCreatureEntity_performCommandSoulkey(String command, EntityPlayer player, EnumHand hand, ItemStack itemStack, CallbackInfoReturnable<Boolean> cir){
         if(COMMAND_VARIANT_ANIMAL.equals(command)){
             if(((ItemSoulkey)itemStack.getItem()).variant != this.getVariantIndex()) {
                 this.applyVariant(((ItemSoulkey) itemStack.getItem()).variant);

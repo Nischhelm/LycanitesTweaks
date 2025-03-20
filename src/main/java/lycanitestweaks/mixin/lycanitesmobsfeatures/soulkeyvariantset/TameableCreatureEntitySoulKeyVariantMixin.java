@@ -1,4 +1,4 @@
-package lycanitestweaks.mixin.lycanitesmobsfeatures.creature;
+package lycanitestweaks.mixin.lycanitesmobsfeatures.soulkeyvariantset;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.lycanitesmobs.core.entity.AgeableCreatureEntity;
@@ -36,7 +36,7 @@ public abstract class TameableCreatureEntitySoulKeyVariantMixin extends AgeableC
             at = @At(value = "INVOKE", target = "Ljava/util/HashMap;putAll(Ljava/util/Map;)V"),
             remap = false
     )
-    public void lycanitesTweaks_lycanitesTameableCreatureEntity_getInteractCommands(EntityPlayer player, EnumHand hand, ItemStack itemStack, CallbackInfoReturnable<HashMap<Integer, String>> cir, @Local() HashMap<Integer, String> commands){
+    public void lycanitesTweaks_lycanitesTameableCreatureEntity_getInteractCommandsSoulkey(EntityPlayer player, EnumHand hand, ItemStack itemStack, CallbackInfoReturnable<HashMap<Integer, String>> cir, @Local() HashMap<Integer, String> commands){
         if(itemStack.getItem() instanceof ItemSoulkey && hand == EnumHand.OFF_HAND && player.isSneaking() && lycanitesTweaks$canPlayerSetTame(player)){
             commands.put(BaseCreatureEntity.COMMAND_PIORITIES.ITEM_USE.id, COMMAND_VARIANT_TAMED);
         }
@@ -48,11 +48,13 @@ public abstract class TameableCreatureEntitySoulKeyVariantMixin extends AgeableC
             cancellable = true,
             remap = false
     )
-    public void lycanitesTweaks_lycanitesTameableCreatureEntity_performCommand(String command, EntityPlayer player, EnumHand hand, ItemStack itemStack, CallbackInfoReturnable<Boolean> cir){
+    public void lycanitesTweaks_lycanitesTameableCreatureEntity_performCommandSoulkey(String command, EntityPlayer player, EnumHand hand, ItemStack itemStack, CallbackInfoReturnable<Boolean> cir){
         if(COMMAND_VARIANT_TAMED.equals(command)){
             if(((ItemSoulkey)itemStack.getItem()).variant != this.getVariantIndex()) {
                 this.applyVariant(((ItemSoulkey) itemStack.getItem()).variant);
-                if(isBoundPet()) this.getPetEntry().variantIndex = this.getVariantIndex();
+                if(isBoundPet()){
+                    this.getPetEntry().setEntityVariant(this.getVariantIndex());
+                }
                 this.consumePlayersItem(player, hand, itemStack);
                 cir.setReturnValue(true);
             }

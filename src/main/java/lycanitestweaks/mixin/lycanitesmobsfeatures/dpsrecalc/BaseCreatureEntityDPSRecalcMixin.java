@@ -1,4 +1,4 @@
-package lycanitestweaks.mixin.lycanitesmobsfeatures.creature;
+package lycanitestweaks.mixin.lycanitesmobsfeatures.dpsrecalc;
 
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import net.minecraft.util.DamageSource;

@@ -36,8 +36,11 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 		map.put("Pickup Checks Distances", "mixins.lycanitestweaks.featureentitypickupfix.json");
 		map.put("Treat Sets Persistence", "mixins.lycanitestweaks.featuretameabletreatpersistence.json");
 		map.put("Soul Gazer Dismounts", "mixins.lycanitestweaks.featuresoulgazerdismounts.json");
-		map.put("Modifiable Tamed Variant Condition", "mixins.lycanitestweaks.featuremodifytamedvariantstatcondition.json");
-		map.put("Modifiable Variant Condition", "mixins.lycanitestweaks.featuresoulkeyvariantset.json");
+		map.put("Tamed Variant Stat Bonuses", "mixins.lycanitestweaks.featurealltamedvariantstats.json");
+		map.put("Summon Progression Rework", "mixins.lycanitestweaks.featuresummonrework.json");
+		map.put("Size Change Foods", "mixins.lycanitestweaks.featuretamedsizechangefood.json");
+		map.put("Baby Age Potion", "mixins.lycanitestweaks.featuretamedbabypotion.json");
+		map.put("Soulkeys Set Variant", "mixins.lycanitestweaks.featuresoulkeyvariantset.json");
 		map.put("Crafted Equipment Sword Enchantments", "mixins.lycanitestweaks.featureequipmentswordenchantments.json");
 		map.put("Crafted Equipment ReachFix (ReachFix)", "mixins.lycanitestweaks.equipmentreachfix.json");
 		map.put("Crafted Equipment RLCombat Sweep (RLCombat)", "mixins.lycanitestweaks.equipmentrlcombatsweep.json");
