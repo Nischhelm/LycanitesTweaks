@@ -1,5 +1,6 @@
 package lycanitestweaks.handlers;
 
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -10,11 +11,15 @@ import org.apache.logging.log4j.Level;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.HashSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Config(modid = LycanitesTweaks.MODID)
 public class ForgeConfigHandler {
+
+	private static HashSet<ResourceLocation> cleansedCureEffects = null;
+	private static HashSet<ResourceLocation> flowersaurBiomes = null;
 
 	@Config.Comment("Client-Side Options")
 	@Config.Name("Client Options")
@@ -95,6 +100,23 @@ public class ForgeConfigHandler {
 		@Config.RangeDouble(min = 0.0)
 		public double sizeChangeDegree = 0.1D;
 
+		@Config.Comment("List of potion resource locations cleansed will cure")
+		@Config.Name("Cleansed Effects To Cure")
+		public String[] cleansedEffectsToCure = {
+				"minecraft:wither",
+				"minecraft:unluck",
+				"lycanitesmobs:fear",
+				"lycanitesmobs:insomnia",
+				"lycanitesmobs:decay"
+		};
+
+		@Config.Comment("List of biome resource locations where custom name Arisaurs will spawn in")
+		@Config.Name("Biomes Flowersaurs Spawn In")
+		public String[] flowersaurSpawningBiomes = {
+				"minecraft:mutated_forest",
+				"biomesoplenty:mystic_grove",
+				"twilightforest:enchanted_forest"
+		};
 	}
 
 	public static class MixinConfig {
@@ -169,6 +191,26 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		public boolean soulkeysSetVariant = true;
 
+		@Config.Comment("Whether a Smited BaseCreatureEntity should be considered undead")
+		@Config.Name("Lycanites Smited Are Undead")
+		@Config.RequiresMcRestart
+		public boolean smitedMakesBaseCreatureUndead = true;
+
+		@Config.Comment("Whether a Smited LivingEntityBase is undead if method inherited (often overridden)")
+		@Config.Name("Most Smited Are Undead")
+		@Config.RequiresMcRestart
+		public boolean smitedMakesMostUndead = true;
+
+		@Config.Comment("Enable customizable effect list and handling for the cleansed effect")
+		@Config.Name("Customizable Cleansed Curing list")
+		@Config.RequiresMcRestart
+		public boolean cleansedEffectList = true;
+
+		@Config.Comment("Enable customizable biome list for Arisaurs with the custom name Flowersaur")
+		@Config.Name("Flowersaurs Naturally Spawn")
+		@Config.RequiresMcRestart
+		public boolean flowersaurSpawningBiomes = true;
+
 		@Config.Comment("Allows Crafted Equipment to use Sword Enchantments")
 		@Config.Name("Crafted Equipment Sword Enchantments")
 		@Config.RequiresMcRestart
@@ -207,6 +249,11 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		public boolean fixBaseCreatureSummonPersistence = true;
 
+		@Config.Comment("Add a call to super in BaseCreature's isPotionApplicable method")
+		@Config.Name("Fix BaseCreature Potion Applicable")
+		@Config.RequiresMcRestart
+		public boolean fixBaseCreaturePotionApplicableSuper = true;
+
 		@Config.Comment("Fix Ettin checking for inverted griefing flag")
 		@Config.Name("Fix Ettin grief flag")
 		@Config.RequiresMcRestart
@@ -218,12 +265,36 @@ public class ForgeConfigHandler {
 		public boolean fixSerpixBlizzardOffset = true;
 	}
 
+	public static HashSet<ResourceLocation> getCleansedCureEffects(){
+		if(ForgeConfigHandler.cleansedCureEffects == null){
+			HashSet<ResourceLocation> list = new HashSet<>();
+			for(String string: ForgeConfigHandler.server.cleansedEffectsToCure){
+				list.add(new ResourceLocation(string));
+			}
+			ForgeConfigHandler.cleansedCureEffects = list;
+		}
+		return ForgeConfigHandler.cleansedCureEffects;
+	}
+
+	public static HashSet<ResourceLocation> getFlowersaurBiomes(){
+		if(ForgeConfigHandler.flowersaurBiomes == null){
+			HashSet<ResourceLocation> list = new HashSet<>();
+			for(String string: ForgeConfigHandler.server.flowersaurSpawningBiomes){
+				list.add(new ResourceLocation(string));
+			}
+			ForgeConfigHandler.flowersaurBiomes = list;
+		}
+		return ForgeConfigHandler.flowersaurBiomes;
+	}
+
 	@Mod.EventBusSubscriber(modid = LycanitesTweaks.MODID)
 	private static class EventHandler{
 
 		@SubscribeEvent
 		public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
 			if(event.getModID().equals(LycanitesTweaks.MODID)) {
+				ForgeConfigHandler.cleansedCureEffects = null;
+				ForgeConfigHandler.flowersaurBiomes = null;
 				ConfigManager.sync(LycanitesTweaks.MODID, Config.Type.INSTANCE);
 			}
 		}

@@ -19,6 +19,8 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 		Map<String, String> map = new HashMap<>();
 
 		// Features
+		map.put("Most Smited Are Undead", "mixins.lycanitestweaks.vanillasmitedundeadlivingbase.json");
+		// Patches
 		map.put("Fix Golems Attacking Tamed Mobs", "mixins.lycanitestweaks.vanillairongolemtargettamed.json");
 
 		return Collections.unmodifiableMap(map);
@@ -41,17 +43,20 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 		map.put("Size Change Foods", "mixins.lycanitestweaks.featuretamedsizechangefood.json");
 		map.put("Baby Age Potion", "mixins.lycanitestweaks.featuretamedbabypotion.json");
 		map.put("Soulkeys Set Variant", "mixins.lycanitestweaks.featuresoulkeyvariantset.json");
+		map.put("Lycanites Smited Are Undead", "mixins.lycanitestweaks.featuresmitedundeadbasecreature.json");
+		map.put("Customizable Cleansed Curing list", "mixins.lycanitestweaks.featurescustomcleansedlist.json");
 		map.put("Crafted Equipment Sword Enchantments", "mixins.lycanitestweaks.featureequipmentswordenchantments.json");
 		map.put("Crafted Equipment ReachFix (ReachFix)", "mixins.lycanitestweaks.equipmentreachfix.json");
 		map.put("Crafted Equipment RLCombat Sweep (RLCombat)", "mixins.lycanitestweaks.equipmentrlcombatsweep.json");
 		map.put("Crafted Equipment Offhand RMB Needs Sneak", "mixins.lycanitestweaks.equipmentrmbneedssneak.json");
+		map.put("Flowersaurs Naturally Spawn", "mixins.lycanitestweaks.featuresflowersaurspawning.json");
 		// Patches
 		map.put("Disable Soul Bounds Using Portals", "mixins.lycanitestweaks.patchessoulboundnoportal.json");
 		map.put("Fix AgeableCreature baby drops", "mixins.lycanitestweaks.patchesageablebabydrops.json");
 		map.put("Fix BaseCreature Summon Persistence", "mixins.lycanitestweaks.patchesbasecreatureminionpersistence.json");
+		map.put("Fix BaseCreature Potion Applicable", "mixins.lycanitestweaks.patchesbasecreaturepotionapplicable.json");
 		map.put("Fix Ettin grief flag", "mixins.lycanitestweaks.patchesettingriefflag.json");
 		map.put("Fix Serpix Blizzard Offset", "mixins.lycanitestweaks.patcheserpixblizzardoffset.json");
-		// Mixins
 
 		return Collections.unmodifiableMap(map);
 	}
