@@ -1,5 +1,7 @@
 package lycanitestweaks.capability;
 
+import com.lycanitesmobs.LycanitesMobs;
+import com.lycanitesmobs.core.entity.ExtendedPlayer;
 import lycanitestweaks.LycanitesTweaks;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,11 +29,26 @@ public class PlayerMobLevelCapability {
         mainHandLevels.add(0);
     }
 
+    public static PlayerMobLevelCapability getForPlayer(EntityPlayer player) {
+        if (player == null) {
+            return null;
+        }
+        PlayerMobLevelCapability pml = player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
+        if (pml != null && pml.player != player) {
+            pml.player = player;
+        }
+        return pml;
+    }
+
+    public int getTotalLevelsWithDegree(double modifier){
+        return (int)(getTotalLevels() * modifier);
+    }
+
     public int getTotalLevels(){
         int total = 0;
 
         for(int lvl : nonMainLevels){
-            LycanitesTweaks.LOGGER.log(Level.INFO, "SLOT LVL: " + lvl);
+//            LycanitesTweaks.LOGGER.log(Level.INFO, "SLOT LVL: " + lvl);
             total += lvl;
         }
         total += getHighestMainHandLevels();
@@ -42,7 +59,7 @@ public class PlayerMobLevelCapability {
     public int getHighestMainHandLevels(){
         Object[] mainHandLevelsCopy = mainHandLevels.toArray();
         Arrays.sort(mainHandLevelsCopy, Comparator.comparingInt(a -> (int)a).reversed());
-        LycanitesTweaks.LOGGER.log(Level.INFO, "MAINHAND LVL: " + (int)mainHandLevelsCopy[0]);
+//        LycanitesTweaks.LOGGER.log(Level.INFO, "MAINHAND LVL: " + (int)mainHandLevelsCopy[0]);
         return (int)mainHandLevelsCopy[0];
     }
 
@@ -57,10 +74,10 @@ public class PlayerMobLevelCapability {
                 levels += (int)((ench.getMinEnchantability(ench.getMinLevel())) * ((float)enchLvl / ench.getMaxLevel()));
 //                levels += enchLvl * (ench.getMaxEnchantability(ench.getMaxLevel()) - ench.getMinEnchantability(ench.getMaxLevel())) / ench.getMaxLevel();
 //                levels += (ench.getMaxEnchantability(enchLvl) / (enchLvl * ench.getMaxLevel()));
-                LycanitesTweaks.LOGGER.log(Level.INFO, ench.getName() + " : " + ench.getMinEnchantability(ench.getMinLevel()));
+//                LycanitesTweaks.LOGGER.log(Level.INFO, ench.getName() + " : " + ench.getMinEnchantability(ench.getMinLevel()));
             }
         }
-        LycanitesTweaks.LOGGER.log(Level.INFO, "LEVELS: " + levels);
+//        LycanitesTweaks.LOGGER.log(Level.INFO, "LEVELS: " + levels);
         return levels;
     }
 

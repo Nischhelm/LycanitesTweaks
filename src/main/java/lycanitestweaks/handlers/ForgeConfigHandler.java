@@ -100,6 +100,11 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		public boolean playerMobLevelCapability = true;
 
+		@Config.Comment("Ratio of Player Mob Level used to set for summon staff minions")
+		@Config.Name("Summon Player Mob Level Degree")
+		@Config.RangeDouble(min = 0.0)
+		public double summonPMLDegree = 0.5D;
+
 		@Config.Comment("Max degree for size change food based on lycanitesmobs config range")
 		@Config.Name("Tamed Size Change Degree")
 		@Config.RangeDouble(min = 0.0)

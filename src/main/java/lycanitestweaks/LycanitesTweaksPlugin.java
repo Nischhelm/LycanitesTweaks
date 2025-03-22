@@ -40,6 +40,7 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 		map.put("Soul Gazer Dismounts", "mixins.lycanitestweaks.featuresoulgazerdismounts.json");
 		map.put("Tamed Variant Stat Bonuses", "mixins.lycanitestweaks.featurealltamedvariantstats.json");
 		map.put("Summon Progression Rework", "mixins.lycanitestweaks.featuresummonrework.json");
+		map.put("Player Mob Level Summon Staff (Requires Capability)", "mixins.lycanitestweaks.featuresummonstaffplayermoblevel.json");
 		map.put("Size Change Foods", "mixins.lycanitestweaks.featuretamedsizechangefood.json");
 		map.put("Baby Age Potion", "mixins.lycanitestweaks.featuretamedbabypotion.json");
 		map.put("Soulkeys Set Variant", "mixins.lycanitestweaks.featuresoulkeyvariantset.json");
