@@ -1,5 +1,6 @@
 package lycanitestweaks;
 
+import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.features.boss.DamageLimitCalcHandler;
 import lycanitestweaks.handlers.features.effect.CleansedHandler;
@@ -31,6 +32,12 @@ public class LycanitesTweaks {
     public void preInit(FMLPreInitializationEvent event) {
         ModRegistry.init();
         LycanitesTweaks.PROXY.preInit();
+
+        if(ForgeConfigHandler.server.playerMobLevelCapability){
+            PlayerMobLevelCapabilityHandler.registerCapability();
+            MinecraftForge.EVENT_BUS.register(PlayerMobLevelCapabilityHandler.AttachCapabilityHandler.class);
+            MinecraftForge.EVENT_BUS.register(PlayerMobLevelCapabilityHandler.class);
+        }
 
         if(ForgeConfigHandler.mixinConfig.bossDPSLimitRecalc) MinecraftForge.EVENT_BUS.register(DamageLimitCalcHandler.class);
         if(ForgeConfigHandler.mixinConfig.cleansedEffectList) MinecraftForge.EVENT_BUS.register(CleansedHandler.class);

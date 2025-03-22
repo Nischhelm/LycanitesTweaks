@@ -9,7 +9,8 @@
     "summoningrework.CreatureListReworkMixin",
     "summoningrework.SummonSetReworkMixin",
     "summoningrework.BeastiarySummonMixin",
-    "summoningrework.SubspeciesListVariantsMixin"
+    "summoningrework.SubspeciesListVariantsMixin",
+    "summoningrework.PortalEntityReworkMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

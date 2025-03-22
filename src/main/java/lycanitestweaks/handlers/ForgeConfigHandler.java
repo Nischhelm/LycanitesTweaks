@@ -95,6 +95,11 @@ public class ForgeConfigHandler {
 		@Config.RangeDouble(min = 0.0)
 		public double imperfectHostileChanceModifier = 0.0D;
 
+		@Config.Comment("Enable Capability to calculate a Mob Level associated to a player")
+		@Config.Name("Player Mob Level Capability")
+		@Config.RequiresMcRestart
+		public boolean playerMobLevelCapability = true;
+
 		@Config.Comment("Max degree for size change food based on lycanitesmobs config range")
 		@Config.Name("Tamed Size Change Degree")
 		@Config.RangeDouble(min = 0.0)
@@ -210,6 +215,16 @@ public class ForgeConfigHandler {
 		@Config.Name("Flowersaurs Naturally Spawn")
 		@Config.RequiresMcRestart
 		public boolean flowersaurSpawningBiomes = true;
+
+		@Config.Comment("Use Player Mob Level to affect summon staff minions")
+		@Config.Name("Player Mob Level Summon Staff (Requires Capability)")
+		@Config.RequiresMcRestart
+		public boolean playerMobLevelSummonStaff = true;
+
+		@Config.Comment("Use Player Mob Level to affect Soul Key Bosses")
+		@Config.Name("Player Mob Level Bosses (Requires Capability)")
+		@Config.RequiresMcRestart
+		public boolean playerMobLevelBosses = true;
 
 		@Config.Comment("Allows Crafted Equipment to use Sword Enchantments")
 		@Config.Name("Crafted Equipment Sword Enchantments")
