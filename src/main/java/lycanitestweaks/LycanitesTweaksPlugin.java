@@ -32,6 +32,7 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 		// Features
 		map.put("Boss DPS Limit Recalc", "mixins.lycanitestweaks.featurebossdamagelimitdpsrecalc.json");
 		map.put("Boss Player Mob Levels (Requires Capability)", "mixins.lycanitestweaks.featurebossesplayermoblevels.json");
+		map.put("Boss Lower Health Scale", "mixins.lycanitestweaks.featurebossbonushealthmodifier.json");
 		map.put("Cap Specific Creature Stats", "mixins.lycanitestweaks.featurecreaturestatbonuscap.json");
 		map.put("Familiars Inactive On Join", "mixins.lycanitestweaks.featurefamiliarsinactiveonjoin.json");
 		map.put("Level match minions goal", "mixins.lycanitestweaks.featureaiminionhostlevelmatch.json");

@@ -54,6 +54,11 @@ public class ForgeConfigHandler {
 
 	public static class ServerConfig {
 
+		@Config.Comment("Ratio of lycanites bonus Health bosses will receive")
+		@Config.Name("Boss Health Bonus Ratio")
+		@Config.RangeDouble(min = 0)
+		public double bossHealthBonusRatio = 0.1D;
+
 		@Config.Comment("Ratio of max lycanites bonus movement defense, variants get more, set to 0 to disable")
 		@Config.Name("Cap Defense Ratio")
 		@Config.RangeDouble(min = 0)
@@ -177,6 +182,11 @@ public class ForgeConfigHandler {
 		@Config.Name("Boss Player Mob Levels (Requires Capability)")
 		@Config.RequiresMcRestart
 		public boolean bossMainPlayerMobLevels = true;
+
+		@Config.Comment("Main Boss HP level bonus scaled down via config")
+		@Config.Name("Boss Lower Health Scale")
+		@Config.RequiresMcRestart
+		public boolean bossLowerHealthScale = true;
 
 		@Config.Comment("Add configurable caps to creature speed, effect durations, and pierce")
 		@Config.Name("Cap Specific Creature Stats")
