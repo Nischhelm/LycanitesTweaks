@@ -5,7 +5,7 @@ import com.lycanitesmobs.core.entity.AgeableCreatureEntity;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.TameableCreatureEntity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemPotion;
+import net.minecraft.item.ItemAppleGold;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
@@ -19,17 +19,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.HashMap;
 
 @Mixin(TameableCreatureEntity.class)
-public abstract class TameableCreatureEntityBabyPotionMixin extends AgeableCreatureEntity {
+public abstract class TameableCreatureEntityBabyGappleMixin extends AgeableCreatureEntity {
 
     @Unique
     private final String COMMAND_AGE_BABY = "baby age";
 
-    public TameableCreatureEntityBabyPotionMixin(World world) {
+    public TameableCreatureEntityBabyGappleMixin(World world) {
         super(world);
     }
 
     @Shadow(remap = false)
     public abstract EntityPlayer getPlayerOwner();
+    @Shadow(remap = false)
+    public abstract void playEatSound();
 
     @Inject(
             method = "getInteractCommands",
@@ -37,7 +39,7 @@ public abstract class TameableCreatureEntityBabyPotionMixin extends AgeableCreat
             remap = false
     )
     public void lycanitesTweaks_lycanitesTameableCreatureEntity_getInteractCommandsSize(EntityPlayer player, EnumHand hand, ItemStack itemStack, CallbackInfoReturnable<HashMap<Integer, String>> cir, @Local() HashMap<Integer, String> commands) {
-        if(player.isSneaking() && itemStack.getItem() instanceof ItemPotion && lycanitesTweaks$canPlayerModify(player)){
+        if(player.isSneaking() && hand == EnumHand.OFF_HAND &&itemStack.getItem() instanceof ItemAppleGold && itemStack.getMetadata() > 0 && lycanitesTweaks$canPlayerModify(player)){
             commands.put(BaseCreatureEntity.COMMAND_PIORITIES.ITEM_USE.id, COMMAND_AGE_BABY);
         }
     }
@@ -48,10 +50,11 @@ public abstract class TameableCreatureEntityBabyPotionMixin extends AgeableCreat
             cancellable = true,
             remap = false
     )
-    public void lycanitesTweaks_lycanitesTameableCreatureEntity_performCommandSoulkey(String command, EntityPlayer player, EnumHand hand, ItemStack itemStack, CallbackInfoReturnable<Boolean> cir){
+    public void lycanitesTweaks_lycanitesTameableCreatureEntity_performCommandSize(String command, EntityPlayer player, EnumHand hand, ItemStack itemStack, CallbackInfoReturnable<Boolean> cir){
         if(COMMAND_AGE_BABY.equals(command)) {
             this.setGrowingAge(this.growthTime);
             this.consumePlayersItem(player, hand, itemStack);
+            this.playEatSound();
             cir.setReturnValue(true);
         }
     }

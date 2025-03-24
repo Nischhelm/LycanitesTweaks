@@ -32,13 +32,14 @@ public abstract class PortalEntityReworkMixin {
             remap = false
     )
     public boolean lycanitesTweaks_lycanitesPortalEntity_summonHostile(TameableCreatureEntity instance, EntityPlayer player) {
-        if (ForgeConfigHandler.server.imperfectSummoning && instance.getVariantIndex() == 0) {
+        ExtendedPlayer extendedPlayer = ExtendedPlayer.getForPlayer(player);
+        if (extendedPlayer == null) return true;
+
+        if (ForgeConfigHandler.server.imperfectSummoning &&
+                !extendedPlayer.getBeastiary().hasKnowledgeRank(instance.creatureInfo.getName(), ForgeConfigHandler.server.variantSummonRank)) {
             double hostileChance = ForgeConfigHandler.server.imperfectHostileBaseChance;
-            if (ForgeConfigHandler.server.imperfectHostileChanceModifier != 0.0D) {
-                ExtendedPlayer extendedPlayer = ExtendedPlayer.getForPlayer(player);
-                if (extendedPlayer != null && extendedPlayer.getBeastiary().hasKnowledgeRank(instance.creatureInfo.getName(), 1)) {
-                    hostileChance -= extendedPlayer.getBeastiary().getCreatureKnowledge(instance.creatureInfo.getName()).experience * ForgeConfigHandler.server.imperfectHostileChanceModifier;
-                }
+            if (ForgeConfigHandler.server.imperfectHostileBaseChance != 0.0D && extendedPlayer.getBeastiary().hasKnowledgeRank(instance.creatureInfo.getName(), 1)) {
+                hostileChance -= extendedPlayer.getBeastiary().getCreatureKnowledge(instance.creatureInfo.getName()).experience * ForgeConfigHandler.server.imperfectHostileChanceModifier;
             }
             lycanitesTweaks$isHostileToPlayer = player.getEntityWorld().rand.nextDouble() < hostileChance;
             if(lycanitesTweaks$isHostileToPlayer) instance.setRevengeTarget(player);
@@ -53,13 +54,14 @@ public abstract class PortalEntityReworkMixin {
             remap = false
     )
     public void lycanitesTweaks_lycanitesPortalEntity_summonImperfect(CallbackInfoReturnable<Integer> cir, @Local BaseCreatureEntity entityCreature) {
-        if(ForgeConfigHandler.server.imperfectSummoning && !lycanitesTweaks$isHostileToPlayer && entityCreature.getVariantIndex() == 0){
+        ExtendedPlayer extendedPlayer = ExtendedPlayer.getForPlayer(this.shootingEntity);
+
+        if(ForgeConfigHandler.server.imperfectSummoning &&
+                !lycanitesTweaks$isHostileToPlayer && extendedPlayer != null &&
+                !extendedPlayer.getBeastiary().hasKnowledgeRank(entityCreature.creatureInfo.getName(), ForgeConfigHandler.server.variantSummonRank)){
             double lowerStatsChance = ForgeConfigHandler.server.imperfectStatsBaseChance;
-            if(ForgeConfigHandler.server.imperfectStatsChanceModifier != 0.0D){
-                ExtendedPlayer extendedPlayer = ExtendedPlayer.getForPlayer(this.shootingEntity);
-                if(extendedPlayer != null && extendedPlayer.getBeastiary().hasKnowledgeRank(entityCreature.creatureInfo.getName(), 1)){
-                    lowerStatsChance -= extendedPlayer.getBeastiary().getCreatureKnowledge(entityCreature.creatureInfo.getName()).experience * ForgeConfigHandler.server.imperfectStatsChanceModifier;
-                }
+            if(ForgeConfigHandler.server.imperfectStatsChanceModifier != 0.0D && extendedPlayer.getBeastiary().hasKnowledgeRank(entityCreature.creatureInfo.getName(), 1)){
+                lowerStatsChance -= extendedPlayer.getBeastiary().getCreatureKnowledge(entityCreature.creatureInfo.getName()).experience * ForgeConfigHandler.server.imperfectStatsChanceModifier;
             }
             if(this.shootingEntity.getEntityWorld().rand.nextDouble() < lowerStatsChance){
                 lowerStatsChance = Math.max(0.1D, 1.0F - lowerStatsChance);

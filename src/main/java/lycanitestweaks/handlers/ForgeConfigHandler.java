@@ -42,9 +42,37 @@ public class ForgeConfigHandler {
 		@Config.Comment("Example client side config option")
 		@Config.Name("Example Client Option")
 		public boolean exampleClientOption = true;
+
+		@Config.Comment("Test Int")
+		@Config.Name("Test Int")
+		public int testInt = 1;
+
+		@Config.Comment("Test Double")
+		@Config.Name("Test Double")
+		public double testDouble = 1.0D;
 	}
 
 	public static class ServerConfig {
+
+		@Config.Comment("Ratio of max lycanites bonus movement defense, variants get more, set to 0 to disable")
+		@Config.Name("Cap Defense Ratio")
+		@Config.RangeDouble(min = 0)
+		public double capDefenseRatio = 5.0D;
+
+		@Config.Comment("Ratio of max lycanites bonus movement speed, variants get more, set to 0 to disable")
+		@Config.Name("Cap Speed Ratio")
+		@Config.RangeDouble(min = 0)
+		public double capSpeedRatio = 3.0D;
+
+		@Config.Comment("Ratio of max lycanites bonus effect duration, variants get more, set to 0 to disable")
+		@Config.Name("Cap Effect Duration Ratio")
+		@Config.RangeDouble(min = 0)
+		public double capEffectDurationRatio = 5.0D;
+
+		@Config.Comment("Ratio of max lycanites bonus pierce, variants get more, set to 0 to disable")
+		@Config.Name("Cap Pierce Ratio")
+		@Config.RangeDouble(min = 0)
+		public double capPierceRatio = 3.0D;
 
 		@Config.Comment("Distance between entities to trigger auto pickup drop")
 		@Config.Name("Pick Up Distance")
@@ -103,12 +131,21 @@ public class ForgeConfigHandler {
 		@Config.Comment("Ratio of Player Mob Level used to set for summon staff minions")
 		@Config.Name("Summon Player Mob Level Degree")
 		@Config.RangeDouble(min = 0.0)
-		public double summonPMLDegree = 0.5D;
+		public double summonPMLDegree = 0.2D;
+
+		@Config.Comment("Ratio of Player Mob Level used to set for summon hostile bosses")
+		@Config.Name("Boss Player Mob Level Degree")
+		@Config.RangeDouble(min = 0.0)
+		public double bossPMLDegree = 0.2D;
 
 		@Config.Comment("Max degree for size change food based on lycanitesmobs config range")
 		@Config.Name("Tamed Size Change Degree")
 		@Config.RangeDouble(min = 0.0)
 		public double sizeChangeDegree = 0.1D;
+
+		@Config.Comment("Minimum level all parts of crafted equipment must be in order to be enchantable")
+		@Config.Name("Equipment Minimum Level for to be Enchantable")
+		public int equipmentMinLevelEnchantable = 0;
 
 		@Config.Comment("List of potion resource locations cleansed will cure")
 		@Config.Name("Cleansed Effects To Cure")
@@ -135,6 +172,16 @@ public class ForgeConfigHandler {
 		@Config.Name("Boss DPS Limit Recalc")
 		@Config.RequiresMcRestart
 		public boolean bossDPSLimitRecalc = true;
+
+		@Config.Comment("Main Boss Event is scaled to Player Mob Levels Capability")
+		@Config.Name("Boss Player Mob Levels (Requires Capability)")
+		@Config.RequiresMcRestart
+		public boolean bossMainPlayerMobLevels = true;
+
+		@Config.Comment("Add configurable caps to creature speed, effect durations, and pierce")
+		@Config.Name("Cap Specific Creature Stats")
+		@Config.RequiresMcRestart
+		public boolean capSpecificStats = true;
 
 		@Config.Comment("When reading familiars from URL, Set Spawning Active to false")
 		@Config.Name("Familiars Inactive On Join")
@@ -191,10 +238,10 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		public boolean sizeChangeFoods = true;
 
-		@Config.Comment("Giving a thick potion to a tamed creature will turn it into a baby")
-		@Config.Name("Baby Age Potion")
+		@Config.Comment("Giving an Enchanted Golden Apple to a tamed creature will turn it into a baby")
+		@Config.Name("Baby Age Gapple")
 		@Config.RequiresMcRestart
-		public boolean babyAgePotion = true;
+		public boolean babyAgeGapple = true;
 
 		@Config.Comment("Enable setting owned creature and animal variant status with Soul Keys")
 		@Config.Name("Soulkeys Set Variant")
@@ -273,6 +320,11 @@ public class ForgeConfigHandler {
 		@Config.Name("Fix BaseCreature Potion Applicable")
 		@Config.RequiresMcRestart
 		public boolean fixBaseCreaturePotionApplicableSuper = true;
+
+		@Config.Comment("Fix divide by zero crash in FireProjectilesGoal and RangedSpeed of zero preventing attacks")
+		@Config.Name("Fix Creature Ranged Speed")
+		@Config.RequiresMcRestart
+		public boolean fixRangedSpeedDivideZero = true;
 
 		@Config.Comment("Fix Ettin checking for inverted griefing flag")
 		@Config.Name("Fix Ettin grief flag")

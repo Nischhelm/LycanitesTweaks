@@ -49,7 +49,7 @@ public class ItemEquipmentRLCombatSweepHandler {
         ItemEquipment lycanitesEquipment = (ItemEquipment)event.getItemStack().getItem();
         double sweepAngle = lycanitesEquipment.getDamageSweep(event.getItemStack()) / (double)2.0F;
         if (sweepAngle > 0.0D) {
-            float sweepingDamage = 1.0F + (float)lycanitesEquipment.getDamageSweep(event.getItemStack());
+            float sweepingDamage = 1.0F + event.getBaseDamage();
             event.setSweepingAABB(event.getSweepingAABB().grow(lycanitesEquipment.getDamageRange(event.getItemStack())));
             AxisAlignedBB sweepingAABB = event.getSweepingAABB();
             DamageSource sweepingDamageSource = event.getSweepingDamageSource();

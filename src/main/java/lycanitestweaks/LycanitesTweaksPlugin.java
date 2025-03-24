@@ -31,6 +31,8 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 
 		// Features
 		map.put("Boss DPS Limit Recalc", "mixins.lycanitestweaks.featurebossdamagelimitdpsrecalc.json");
+		map.put("Boss Player Mob Levels (Requires Capability)", "mixins.lycanitestweaks.featurebossesplayermoblevels.json");
+		map.put("Cap Specific Creature Stats", "mixins.lycanitestweaks.featurecreaturestatbonuscap.json");
 		map.put("Familiars Inactive On Join", "mixins.lycanitestweaks.featurefamiliarsinactiveonjoin.json");
 		map.put("Level match minions goal", "mixins.lycanitestweaks.featureaiminionhostlevelmatch.json");
 		map.put("Level match minions host method", "mixins.lycanitestweaks.featurebasecreatureminionhostlevelmatch.json");
@@ -42,7 +44,7 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 		map.put("Summon Progression Rework", "mixins.lycanitestweaks.featuresummonrework.json");
 		map.put("Player Mob Level Summon Staff (Requires Capability)", "mixins.lycanitestweaks.featuresummonstaffplayermoblevel.json");
 		map.put("Size Change Foods", "mixins.lycanitestweaks.featuretamedsizechangefood.json");
-		map.put("Baby Age Potion", "mixins.lycanitestweaks.featuretamedbabypotion.json");
+		map.put("Baby Age Gapple", "mixins.lycanitestweaks.featuretamedbabygapple.json");
 		map.put("Soulkeys Set Variant", "mixins.lycanitestweaks.featuresoulkeyvariantset.json");
 		map.put("Lycanites Smited Are Undead", "mixins.lycanitestweaks.featuresmitedundeadbasecreature.json");
 		map.put("Customizable Cleansed Curing list", "mixins.lycanitestweaks.featurescustomcleansedlist.json");
@@ -56,6 +58,7 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 		map.put("Fix AgeableCreature baby drops", "mixins.lycanitestweaks.patchesageablebabydrops.json");
 		map.put("Fix BaseCreature Summon Persistence", "mixins.lycanitestweaks.patchesbasecreatureminionpersistence.json");
 		map.put("Fix BaseCreature Potion Applicable", "mixins.lycanitestweaks.patchesbasecreaturepotionapplicable.json");
+		map.put("Fix Creature Ranged Speed", "mixins.lycanitestweaks.patchesrangedspeeddividebyzero.json");
 		map.put("Fix Ettin grief flag", "mixins.lycanitestweaks.patchesettingriefflag.json");
 		map.put("Fix Serpix Blizzard Offset", "mixins.lycanitestweaks.patcheserpixblizzardoffset.json");
 
