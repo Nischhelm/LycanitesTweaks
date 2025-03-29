@@ -1,5 +1,6 @@
 package lycanitestweaks.handlers;
 
+import lycanitestweaks.loot.EnchantWithMobLevels;
 import lycanitestweaks.loot.HasMobLevels;
 import lycanitestweaks.loot.ScaleWithMobLevels;
 import net.minecraft.potion.Potion;
@@ -18,7 +19,10 @@ public class ModRegistry {
         // wasted an hour wondering why it couldn't be like RLMixins
         public static void init() {
                 if(ForgeConfigHandler.server.registerPMLLootCondition) LootConditionManager.registerCondition(new HasMobLevels.Serializer());
-                if(ForgeConfigHandler.server.registerPMLLootFunction) LootFunctionManager.registerFunction(new ScaleWithMobLevels.Serializer());
+                if(ForgeConfigHandler.server.registerPMLLootFunction) {
+                        LootFunctionManager.registerFunction(new EnchantWithMobLevels.Serializer());
+                        LootFunctionManager.registerFunction(new ScaleWithMobLevels.Serializer());
+                }
         }
 
         @SubscribeEvent
