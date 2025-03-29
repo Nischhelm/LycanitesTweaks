@@ -13,6 +13,5 @@ public class DamageLimitCalcHandler {
         if(!(event.getEntityLiving() instanceof BaseCreatureEntity)) return;
         BaseCreatureEntity boss = (BaseCreatureEntity)event.getEntityLiving();
         boss.onDamage(event.getSource(), event.getAmount());
-        if(boss.damageLimit > 0.0F && boss.damageTakenThisSec >= boss.damageLimit) event.setAmount(boss.damageLimit);
     }
 }

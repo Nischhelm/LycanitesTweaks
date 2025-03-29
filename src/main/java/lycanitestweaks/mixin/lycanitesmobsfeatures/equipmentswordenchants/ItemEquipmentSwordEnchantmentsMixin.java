@@ -35,6 +35,13 @@ public abstract class ItemEquipmentSwordEnchantmentsMixin extends ItemBase {
         return 1;
     }
 
+//    @Override
+//    @Unique
+//    public boolean isBookEnchantable(@Nonnull ItemStack stack, @Nonnull ItemStack book)
+//    {
+//        return lycanitesTweaks$getLowestLevel(stack) >= ForgeConfigHandler.server.equipmentMinLevelEnchantable;
+//    }
+
     @Override
     @Unique
     public boolean canApplyAtEnchantingTable(@Nonnull ItemStack stack, @Nonnull Enchantment enchantment){

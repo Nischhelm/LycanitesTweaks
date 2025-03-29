@@ -1,12 +1,12 @@
 {
   "required": true,
-  "package": "lycanitestweaks.mixin",
-  "refmap": "mixins.replacememodid.refmap.json",
+  "package": "lycanitestweaks.mixin.lycanitesmobsfeatures",
+  "refmap": "mixins.lycanitestweaks.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "vanilla.EntityPlayerMixin"
+    "potiontweaks.PotionEffectsBleedPierceMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

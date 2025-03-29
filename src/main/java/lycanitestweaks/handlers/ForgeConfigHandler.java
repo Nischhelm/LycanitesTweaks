@@ -148,8 +148,8 @@ public class ForgeConfigHandler {
 		@Config.RangeDouble(min = 0.0)
 		public double sizeChangeDegree = 0.1D;
 
-		@Config.Comment("Minimum level all parts of crafted equipment must be in order to be enchantable")
-		@Config.Name("Equipment Minimum Level for to be Enchantable")
+		@Config.Comment("Minimum level all parts of equipment must be in order to apply Sword Enchantments")
+		@Config.Name("Equipment Minimum Level for to sword Enchantments")
 		public int equipmentMinLevelEnchantable = 0;
 
 		@Config.Comment("List of potion resource locations cleansed will cure")
@@ -187,6 +187,16 @@ public class ForgeConfigHandler {
 		@Config.Name("Boss Lower Health Scale")
 		@Config.RequiresMcRestart
 		public boolean bossLowerHealthScale = true;
+
+		@Config.Comment("Invert bonus Health/Damage level scale for Bosses")
+		@Config.Name("Boss Invert Health and Damage Scale")
+		@Config.RequiresMcRestart
+		public boolean bossInvertHealthDamageScale = true;
+
+		@Config.Comment("Invert bonus Health/Damage level scale for Tamed Creatures")
+		@Config.Name("Tamed Invert Health and Damage Scale")
+		@Config.RequiresMcRestart
+		public boolean tamedInvertHealthDamageScale = true;
 
 		@Config.Comment("Add configurable caps to creature speed, effect durations, and pierce")
 		@Config.Name("Cap Specific Creature Stats")
@@ -267,6 +277,11 @@ public class ForgeConfigHandler {
 		@Config.Name("Most Smited Are Undead")
 		@Config.RequiresMcRestart
 		public boolean smitedMakesMostUndead = true;
+
+		@Config.Comment("Bleed damage uses setDamageIsAbsolute ontop of Magic/Armor ignoring")
+		@Config.Name("Bleed Pierces")
+		@Config.RequiresMcRestart
+		public boolean bleedPierces = true;
 
 		@Config.Comment("Enable customizable effect list and handling for the cleansed effect")
 		@Config.Name("Customizable Cleansed Curing list")

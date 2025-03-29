@@ -1,5 +1,5 @@
-FermiumTemplateMod
+LycanitesTweaks
 
-A template mod for 1.12.2 using FermiumBooter for mixins, including some basic modding examples.
+A 1.12.2 mod that includes patches and tweaks to LycanitesMobs
 
-Search and refactor any names using "ReplaceMe" or "Example" to fit your needs.
+Patches are intended to be migrated to LycanitesMobs itself while any tweaks that are outside LycanitesMobs will remain here.

@@ -2,12 +2,12 @@ package lycanitestweaks.potion;
 
 import net.minecraft.entity.EntityLivingBase;
 
-public class PotionExample extends PotionBase {
+public class PotionConsumed extends PotionBase {
 
-    public static final PotionExample INSTANCE = new PotionExample();
+    public static final PotionConsumed INSTANCE = new PotionConsumed();
 
-    public PotionExample() {
-        super("example", false, 0xF3F4F9);
+    public PotionConsumed() {
+        super("consumed", false, 0xF3F4F9);
     }
 
     @Override

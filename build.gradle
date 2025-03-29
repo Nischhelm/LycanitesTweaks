@@ -60,8 +60,6 @@ dependencies {
     implementation fg.deobf("curse.maven:lycanitesmobs-${lycanitesmobs_version}")
     implementation fg.deobf("curse.maven:reachfix-${reachfix_version}")
     implementation fg.deobf("curse.maven:rlcombat-${rlcombat_version}")
-
-    implementation fg.deobf("curse.maven:jei-${jei_version}")
 }
 
 mixin {

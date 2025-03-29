@@ -33,6 +33,8 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 		map.put("Boss DPS Limit Recalc", "mixins.lycanitestweaks.featurebossdamagelimitdpsrecalc.json");
 		map.put("Boss Player Mob Levels (Requires Capability)", "mixins.lycanitestweaks.featurebossesplayermoblevels.json");
 		map.put("Boss Lower Health Scale", "mixins.lycanitestweaks.featurebossbonushealthmodifier.json");
+		map.put("Boss Invert Health and Damage Scale", "mixins.lycanitestweaks.featureinvertbossdamagehealthscale.json");
+		map.put("Tamed Invert Health and Damage Scale", "mixins.lycanitestweaks.featureinverttameddamagehealthscale.json");
 		map.put("Cap Specific Creature Stats", "mixins.lycanitestweaks.featurecreaturestatbonuscap.json");
 		map.put("Familiars Inactive On Join", "mixins.lycanitestweaks.featurefamiliarsinactiveonjoin.json");
 		map.put("Level match minions goal", "mixins.lycanitestweaks.featureaiminionhostlevelmatch.json");
@@ -49,6 +51,7 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 		map.put("Soulkeys Set Variant", "mixins.lycanitestweaks.featuresoulkeyvariantset.json");
 		map.put("Lycanites Smited Are Undead", "mixins.lycanitestweaks.featuresmitedundeadbasecreature.json");
 		map.put("Customizable Cleansed Curing list", "mixins.lycanitestweaks.featurescustomcleansedlist.json");
+		map.put("Bleed Pierces", "mixins.lycanitestweaks.featurebleedpierces.json");
 		map.put("Crafted Equipment Sword Enchantments", "mixins.lycanitestweaks.featureequipmentswordenchantments.json");
 		map.put("Crafted Equipment ReachFix (ReachFix)", "mixins.lycanitestweaks.equipmentreachfix.json");
 		map.put("Crafted Equipment RLCombat Sweep (RLCombat)", "mixins.lycanitestweaks.equipmentrlcombatsweep.json");
