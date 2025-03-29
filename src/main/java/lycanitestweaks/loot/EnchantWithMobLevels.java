@@ -6,6 +6,7 @@ import com.google.gson.JsonSerializationContext;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import lycanitestweaks.LycanitesTweaks;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
@@ -32,11 +33,18 @@ public class EnchantWithMobLevels extends LootFunction {
     @Override
     public ItemStack apply(ItemStack stack, Random rand, LootContext context) {
         if(context.getLootedEntity() instanceof BaseCreatureEntity) {
-            return EnchantmentHelper.addRandomEnchantment(rand, stack,
-                    (int)(((BaseCreatureEntity)context.getLootedEntity()).getLevel() * this.scale),
-                    this.isTreasure);
+            int levels = (int)(((BaseCreatureEntity)context.getLootedEntity()).getLevel() * this.scale);
+            return this.addRandomEnchantmentUntilSuccess(rand, stack, levels, this.isTreasure);
         }
         return EnchantmentHelper.addRandomEnchantment(rand, stack, randomLevel.generateInt(rand), this.isTreasure);
+    }
+
+    public ItemStack addRandomEnchantmentUntilSuccess(Random rand, ItemStack stack, int levels, boolean isTreasure){
+        ItemStack loot = EnchantmentHelper.addRandomEnchantment(rand, stack, levels, isTreasure);
+        boolean emptyEnchant = (loot.getItem() == Items.ENCHANTED_BOOK) ? !loot.hasTagCompound() : loot.getEnchantmentTagList().isEmpty();
+
+        if(emptyEnchant && levels > 0) return addRandomEnchantmentUntilSuccess(rand, stack, levels / 2, isTreasure);
+        return loot;
     }
 
     public static class Serializer extends LootFunction.Serializer<EnchantWithMobLevels> {
@@ -55,7 +63,7 @@ public class EnchantWithMobLevels extends LootFunction {
             RandomValueRange levels = (RandomValueRange)JsonUtils.deserializeClass(object, "levels", deserializationContext, RandomValueRange.class);
             boolean isTreasure = JsonUtils.getBoolean(object, "treasure", false);
             float scale = JsonUtils.getFloat(object, "scale", 1.0F);
-            return new EnchantWithMobLevels(conditionsIn, (RandomValueRange)JsonUtils.deserializeClass(object, "count", deserializationContext, RandomValueRange.class), isTreasure, scale);
+            return new EnchantWithMobLevels(conditionsIn, levels, isTreasure, scale);
         }
     }
 }

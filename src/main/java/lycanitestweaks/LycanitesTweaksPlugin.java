@@ -56,6 +56,7 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 		map.put("Player Mob Level Bosses (Requires Capability)", "mixins.lycanitestweaks.featurebossesplayermoblevels.json");
 		map.put("Player Mob Level JSON Spawner (Requires Capability)", "mixins.lycanitestweaks.featurejsonspawnerplayermoblevels.json");
 		map.put("Player Mob Level Summon Staff (Requires Capability)", "mixins.lycanitestweaks.featuresummonstaffplayermoblevel.json");
+		map.put("Vanilla BaseCreatureEntity Loot Table", "mixins.lycanitestweaks.featurecreaturevanillaloottables.json");
 		map.put("Crafted Equipment ReachFix (ReachFix)", "mixins.lycanitestweaks.equipmentreachfix.json");
 		map.put("Crafted Equipment RLCombat Sweep (RLCombat)", "mixins.lycanitestweaks.equipmentrlcombatsweep.json");
 		// Patches

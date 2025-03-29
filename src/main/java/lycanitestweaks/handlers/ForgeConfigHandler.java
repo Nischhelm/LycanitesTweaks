@@ -350,6 +350,11 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		public boolean playerMobLevelSummonStaff = true;
 
+		@Config.Comment("Lycanites Creatures can use JSON loot tables alongside LycanitesMobs drop list")
+		@Config.Name("Vanilla BaseCreatureEntity Loot Table")
+		@Config.RequiresMcRestart
+		public boolean vanillaBaseCreatureLootTable = true;
+
 		@Config.Comment("Makes Crafted Equipment reach stat influence ReachFix attack range")
 		@Config.Name("Crafted Equipment ReachFix (ReachFix)")
 		@Config.RequiresMcRestart
