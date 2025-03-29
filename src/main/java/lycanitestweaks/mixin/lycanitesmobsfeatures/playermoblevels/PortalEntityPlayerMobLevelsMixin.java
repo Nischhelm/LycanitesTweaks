@@ -27,7 +27,7 @@ public abstract class PortalEntityPlayerMobLevelsMixin {
         if(ForgeConfigHandler.mixinConfig.playerMobLevelSummonStaff){
             PlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(this.shootingEntity);
             if(pml != null){
-                entityCreature.setLevel(pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.summonPMLDegree));
+                entityCreature.setLevel(pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlSummonDegree));
             }
         }
     }

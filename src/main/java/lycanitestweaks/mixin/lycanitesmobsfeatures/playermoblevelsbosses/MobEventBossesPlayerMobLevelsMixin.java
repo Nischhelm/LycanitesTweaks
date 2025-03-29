@@ -27,9 +27,12 @@ public abstract class MobEventBossesPlayerMobLevelsMixin {
             remap = false
     )
     public int lycanitesTweaks_lycanitesMobEvent_onSpawn(int level, @Local(argsOnly = true) EntityPlayer player){
-        PlayerMobLevelCapability pml = player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
-        if(pml != null){
-            if(CHANNEL_BOSS.equals(this.channel)) return level + pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.bossPMLDegree);
+        if(player != null) {
+            PlayerMobLevelCapability pml = player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
+            if (pml != null) {
+                if (CHANNEL_BOSS.equals(this.channel))
+                    return level + pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlBossDegree);
+            }
         }
         return level;
     }
