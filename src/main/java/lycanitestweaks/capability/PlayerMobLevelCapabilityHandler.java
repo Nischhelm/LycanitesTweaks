@@ -15,7 +15,6 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.apache.logging.log4j.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -25,7 +24,7 @@ public class PlayerMobLevelCapabilityHandler {
     public static final ResourceLocation PLAYER_MOB_LEVEL_KEY = new ResourceLocation(LycanitesTweaks.MODID, "moblevel");
 
     @CapabilityInject(PlayerMobLevelCapability.class)
-    public static Capability<PlayerMobLevelCapability> PLAYER_MOB_LEVEL;
+    public static Capability<IPlayerMobLevelCapability> PLAYER_MOB_LEVEL;
 
     public static void registerCapability() {
         CapabilityManager.INSTANCE.register(PlayerMobLevelCapability.class, new Storage(), PlayerMobLevelCapability::new);
@@ -41,7 +40,7 @@ public class PlayerMobLevelCapabilityHandler {
     }
 
     public static class Provider implements ICapabilitySerializable<NBTTagCompound> {
-        private final PlayerMobLevelCapability instance;
+        private final IPlayerMobLevelCapability instance;
 
         public Provider(EntityPlayer player) {
             this.instance = new PlayerMobLevelCapability(player);
@@ -74,21 +73,18 @@ public class PlayerMobLevelCapabilityHandler {
         @Override
         public NBTBase writeNBT(Capability<PlayerMobLevelCapability> capability, PlayerMobLevelCapability instance, EnumFacing side) {
             NBTTagCompound nbt = new NBTTagCompound();
-//            nbt.setInteger("armorLevels", instance.getArmorLevels());
             return nbt;
         }
 
         @Override
         public void readNBT(Capability<PlayerMobLevelCapability> capability, PlayerMobLevelCapability instance, EnumFacing side, NBTBase nbt) {
             NBTTagCompound tags = (NBTTagCompound) nbt;
-//            instance.setArmorLevelsFromNBT(tags.getInteger("armorLevels"));
-
         }
     }
     
     @SubscribeEvent
     public static void checkPlayerEquipmentLevels(LivingEquipmentChangeEvent event){
-        PlayerMobLevelCapability pml = event.getEntityLiving().getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
+        IPlayerMobLevelCapability pml = event.getEntityLiving().getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
         if(pml == null) {
             return;
         }

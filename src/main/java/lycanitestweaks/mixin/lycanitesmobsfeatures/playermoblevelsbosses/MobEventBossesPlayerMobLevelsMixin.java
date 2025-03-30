@@ -2,7 +2,7 @@ package lycanitestweaks.mixin.lycanitesmobsfeatures.playermoblevelsbosses;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.lycanitesmobs.core.mobevent.MobEvent;
-import lycanitestweaks.capability.PlayerMobLevelCapability;
+import lycanitestweaks.capability.IPlayerMobLevelCapability;
 import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,7 +28,7 @@ public abstract class MobEventBossesPlayerMobLevelsMixin {
     )
     public int lycanitesTweaks_lycanitesMobEvent_onSpawn(int level, @Local(argsOnly = true) EntityPlayer player){
         if(player != null) {
-            PlayerMobLevelCapability pml = player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
+            IPlayerMobLevelCapability pml = player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
             if (pml != null) {
                 if (CHANNEL_BOSS.equals(this.channel))
                     return level + pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlBossDegree);

@@ -3,7 +3,8 @@ package lycanitestweaks.mixin.lycanitesmobsfeatures.playermoblevels;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.PortalEntity;
-import lycanitestweaks.capability.PlayerMobLevelCapability;
+import lycanitestweaks.capability.IPlayerMobLevelCapability;
+import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,7 +26,7 @@ public abstract class PortalEntityPlayerMobLevelsMixin {
     )
     public void lycanitesTweaks_lycanitesPortalEntity_summonHostile(CallbackInfoReturnable<Integer> cir, @Local BaseCreatureEntity entityCreature) {
         if(ForgeConfigHandler.mixinConfig.playerMobLevelSummonStaff){
-            PlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(this.shootingEntity);
+            IPlayerMobLevelCapability pml = this.shootingEntity.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
             if(pml != null){
                 entityCreature.setLevel(pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlSummonDegree));
             }
