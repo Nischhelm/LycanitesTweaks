@@ -1,0 +1,64 @@
+{
+    "pools": [
+        {
+			"name": "amalgalich_emeralds_with_mob_levels",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "minecraft:emerald_block",
+                    "weight": 1,
+                    "functions": [
+						{
+							"function": "lycanitesTweaks:scale_with_mob_levels",
+							"count": {
+								"min": 0,
+								"max": 1
+							},
+							"scale": 1.0,
+							"limit": 512
+						}
+                    ]
+                }
+            ],
+            "conditions": [
+                {
+                    "condition": "killed_by_player"
+                },
+				{
+					"condition": "lycanitesTweaks:has_mob_levels",
+					"range": 10
+				}
+            ]
+        },
+        {
+			"name": "amalgalich_book_with_mob_levels",
+            "rolls": {
+                "min": 1,
+                "max": 4
+            },
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "minecraft:book",
+                    "weight": 1,
+                    "functions": [
+						{"function": "lycanitesTweaks:enchant_with_mob_levels", "levels": 50,"scale": 1.0},
+						{"function": "lycanitesTweaks:enchant_with_mob_levels", "levels": 25,"treasure": true,"scale": 0.5,"conditions": [{"condition": "random_chance","chance": 0.5}]},
+						{"function": "lycanitesTweaks:enchant_with_mob_levels", "levels": 50,"treasure": true,"scale": 1.0,"conditions": [{"condition": "random_chance","chance": 0.5}]},
+						{"function": "lycanitesTweaks:enchant_with_mob_levels", "levels": 100,"treasure": true,"scale": 2.0,"conditions": [{"condition": "random_chance","chance": 0.25}]}
+                    ]
+                }
+            ],
+            "conditions": [
+                {
+                    "condition": "killed_by_player"
+                },
+				{
+					"condition": "lycanitesTweaks:has_mob_levels",
+					"range": 50
+				}
+            ]
+        }
+    ]
+}

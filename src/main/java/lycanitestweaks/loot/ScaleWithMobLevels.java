@@ -15,6 +15,27 @@ import net.minecraft.world.storage.loot.functions.LootFunction;
 
 import java.util.Random;
 
+/*
+
+    *** Modeled after looting_enchant
+
+    *** "count" - Required, specifies minimum OR minimum AND maximum.
+    *** "scale" - Optional, multiplies with creature's levels
+    *** "limit" - Optional, maximum items
+
+    "functions": [
+        {
+            "function": "lycanitesTweaks:scale_with_mob_levels",
+            "count": {
+                "min": 0,
+                "max": 1
+            },
+            "limit": 10
+        }
+    ]
+
+ */
+
 public class ScaleWithMobLevels extends LootFunction {
 
     private final RandomValueRange count;
@@ -63,9 +84,10 @@ public class ScaleWithMobLevels extends LootFunction {
         }
 
         public ScaleWithMobLevels deserialize(JsonObject object, JsonDeserializationContext deserializationContext, LootCondition[] conditionsIn) {
+            RandomValueRange count = (RandomValueRange)JsonUtils.deserializeClass(object, "count", deserializationContext, RandomValueRange.class);
             float scale = JsonUtils.getFloat(object, "scale", 1.0F);
             int limit = JsonUtils.getInt(object, "limit", 0);
-            return new ScaleWithMobLevels(conditionsIn, (RandomValueRange)JsonUtils.deserializeClass(object, "count", deserializationContext, RandomValueRange.class), scale, limit);
+            return new ScaleWithMobLevels(conditionsIn, count, scale, limit);
         }
     }
 }

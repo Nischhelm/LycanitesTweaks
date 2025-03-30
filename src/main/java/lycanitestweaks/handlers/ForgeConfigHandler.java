@@ -192,6 +192,11 @@ public class ForgeConfigHandler {
 		@Config.Name("PML Spawner Names Blacklist")
 		public boolean pmlSpawnerNameStringsIsBlacklist = false;
 
+		@Config.Comment("Register Loot Tables for Amalgalich, Asmodeus, and Rahovart that are scaled to Mob Levels")
+		@Config.Name("Register Boss With Levels Loot Tables")
+		@Config.RequiresMcRestart
+		public boolean registerBossWithLevelsLootTables = true;
+
 		@Config.Comment("Register Has Mob Levels Loot Condition")
 		@Config.Name("Register HasMobLevels Loot Condition")
 		@Config.RequiresMcRestart

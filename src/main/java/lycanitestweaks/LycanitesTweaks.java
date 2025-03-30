@@ -3,6 +3,7 @@ package lycanitestweaks;
 import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.features.boss.DamageLimitCalcHandler;
+import lycanitestweaks.handlers.features.boss.RemoveDefaultBossWithLevelsLootHandler;
 import lycanitestweaks.handlers.features.effect.CleansedHandler;
 import lycanitestweaks.handlers.features.equipment.ItemEquipmentRLCombatSweepHandler;
 import net.minecraftforge.common.MinecraftForge;
@@ -38,6 +39,7 @@ public class LycanitesTweaks {
             MinecraftForge.EVENT_BUS.register(PlayerMobLevelCapabilityHandler.AttachCapabilityHandler.class);
             MinecraftForge.EVENT_BUS.register(PlayerMobLevelCapabilityHandler.class);
         }
+        if(!ForgeConfigHandler.server.registerBossWithLevelsLootTables) MinecraftForge.EVENT_BUS.register(RemoveDefaultBossWithLevelsLootHandler.class);
 
         if(ForgeConfigHandler.mixinConfig.bossDPSLimitRecalc) MinecraftForge.EVENT_BUS.register(DamageLimitCalcHandler.class);
         if(ForgeConfigHandler.mixinConfig.cleansedEffectList) MinecraftForge.EVENT_BUS.register(CleansedHandler.class);
