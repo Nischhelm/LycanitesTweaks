@@ -4,7 +4,6 @@ import lycanitestweaks.loot.EnchantWithMobLevels;
 import lycanitestweaks.loot.HasMobLevels;
 import lycanitestweaks.loot.ScaleWithMobLevels;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.storage.loot.conditions.LootConditionManager;
 import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraftforge.event.RegistryEvent;
@@ -16,9 +15,6 @@ import lycanitestweaks.potion.PotionVoided;
 
 @Mod.EventBusSubscriber(modid = LycanitesTweaks.MODID)
 public class LycanitesTweaksRegistry {
-
-        public static final DamageSource CONSUMED = (new DamageSource("consumedEffect")).setDamageBypassesArmor().setDamageIsAbsolute();
-        public static final DamageSource VOIDED = (new DamageSource("voidedEffect")).setDamageBypassesArmor().setDamageIsAbsolute();
 
         // wasted an hour wondering why it couldn't be like RLMixins
         public static void init() {

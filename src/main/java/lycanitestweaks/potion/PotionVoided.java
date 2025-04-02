@@ -3,6 +3,10 @@ package lycanitestweaks.potion;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+
+import javax.annotation.Nonnull;
 
 public class PotionVoided extends PotionBase {
 
@@ -14,6 +18,17 @@ public class PotionVoided extends PotionBase {
         registerPotionAttributeModifier(SharedMonsterAttributes.MAX_HEALTH, UUID_HEALTH, ForgeConfigHandler.server.effectsConfig.voidedHealthModifier, 2);
     }
 
+    public void applyAttributesModifiersToEntity(@Nonnull EntityLivingBase entityLivingBaseIn, @Nonnull AbstractAttributeMap attributeMapIn, int amplifier){
+        super.applyAttributesModifiersToEntity(entityLivingBaseIn, attributeMapIn, amplifier);
+        if (entityLivingBaseIn.getHealth() > entityLivingBaseIn.getMaxHealth()) {
+            entityLivingBaseIn.setHealth(entityLivingBaseIn.getMaxHealth());
+        }
+    }
+
+    public double getAttributeModifierAmount(int amplifier, AttributeModifier modifier){
+        return modifier.getAmount();
+    }
+
     @Override
     public boolean isReady(int duration, int amplifier) {
         return true;
@@ -22,6 +37,5 @@ public class PotionVoided extends PotionBase {
     @Override
     public void performEffect(EntityLivingBase entityLivingBase, int amplifier) {
         if(entityLivingBase.world.isRemote) return;
-        if(ForgeConfigHandler.server.effectsConfig.voidedHealthModifier == -1) entityLivingBase.setHealth(0);
     }
 }

@@ -1,6 +1,5 @@
 package lycanitestweaks.mixin.lycanitesmobsfeatures.summoningrework;
 
-import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.lycanitesmobs.client.gui.beastiary.lists.SubspeciesList;
 import com.lycanitesmobs.core.info.Beastiary;

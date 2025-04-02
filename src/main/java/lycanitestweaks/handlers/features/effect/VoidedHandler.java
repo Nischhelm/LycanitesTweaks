@@ -1,11 +1,12 @@
 package lycanitestweaks.handlers.features.effect;
 
 import lycanitestweaks.handlers.ForgeConfigHandler;
-import lycanitestweaks.handlers.LycanitesTweaksRegistry;
 import lycanitestweaks.potion.PotionVoided;
 import lycanitestweaks.util.Helpers;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.DamageSource;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.PotionEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -16,7 +17,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class VoidedHandler {
 
-    private static boolean isHandlingDamage = false;
+    private static DamageSource source;
+    private static float damage = 0;
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void voidedBuffPurge(PotionEvent.PotionApplicableEvent event){
@@ -51,19 +53,25 @@ public class VoidedHandler {
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void voidedPiercing(LivingHurtEvent event){
+    public static void voidedPiercingHurt(LivingHurtEvent event){
         if(event.getEntityLiving() == null || event.getEntityLiving().getEntityWorld().isRemote) return;
         if(!event.getEntityLiving().isPotionActive(PotionVoided.INSTANCE)) return;
 
-        if(((ForgeConfigHandler.server.effectsConfig.voidedPiecingEnvironment && event.getSource().getTrueSource() == null) ||
-            ForgeConfigHandler.server.effectsConfig.voidedPiecingAll) &&
-            !isHandlingDamage) {
-            isHandlingDamage = true;
+        if((ForgeConfigHandler.server.effectsConfig.voidedPiecingEnvironment && event.getSource().getTrueSource() == null) ||
+            ForgeConfigHandler.server.effectsConfig.voidedPiecingAll) {
+            source = event.getSource();
+            damage = event.getAmount();
+        }
+    }
 
-            // wtf are iframes and forge doing, this is to deal 1x piercing damage
-            event.getEntityLiving().attackEntityFrom(LycanitesTweaksRegistry.VOIDED, event.getAmount() * 2.0F);
-            event.setCanceled(true);
-            isHandlingDamage = false;
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void voidedPiercingDamage(LivingDamageEvent event) {
+        if (event.getEntityLiving() == null || event.getEntityLiving().getEntityWorld().isRemote) return;
+        if (!event.getEntityLiving().isPotionActive(PotionVoided.INSTANCE)) return;
+
+        if(source == event.getSource()) {
+            event.setAmount(Math.max(damage, event.getAmount()));
+            damage = 0;
         }
     }
 }
