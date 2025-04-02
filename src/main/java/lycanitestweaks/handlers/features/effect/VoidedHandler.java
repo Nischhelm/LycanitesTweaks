@@ -13,7 +13,6 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class VoidedHandler {
 
@@ -27,22 +26,16 @@ public class VoidedHandler {
         if(entity == null) return;
         if(entity.getEntityWorld().isRemote) return;
 
+        if(event.getPotionEffect().getPotion() == PotionVoided.INSTANCE &&
+                entity instanceof EntityPlayer &&
+                ((EntityPlayer) entity).isCreative())
+            event.setResult(Event.Result.DENY);
+
         if(ForgeConfigHandler.server.effectsConfig.voidedDeniesBuffs && entity.isPotionActive(PotionVoided.INSTANCE))
-            if(event.getPotionEffect().getPotion().isBeneficial()) event.setResult(Event.Result.DENY);
+            if(!event.getPotionEffect().getPotion().isBadEffect()) event.setResult(Event.Result.DENY);
 
         if(ForgeConfigHandler.server.effectsConfig.voidedRemovesBuffs && event.getPotionEffect().getPotion() == PotionVoided.INSTANCE)
             Helpers.removeAllPositiveEffects(entity);
-    }
-
-    @SubscribeEvent
-    public static void voidedCooldown(TickEvent.PlayerTickEvent event){
-        EntityPlayer player = event.player;
-        if(player == null || player.world.isRemote) return;
-
-        if(ForgeConfigHandler.server.effectsConfig.voidedItemCooldown > 0 && player.isPotionActive(PotionVoided.INSTANCE)) {
-            player.getCooldownTracker().setCooldown(player.getHeldItemMainhand().getItem(), ForgeConfigHandler.server.effectsConfig.voidedItemCooldown);
-            player.getCooldownTracker().setCooldown(player.getHeldItemOffhand().getItem(), ForgeConfigHandler.server.effectsConfig.voidedItemCooldown);
-        }
     }
 
     @SubscribeEvent

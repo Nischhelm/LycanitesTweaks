@@ -129,7 +129,7 @@ public class ForgeConfigHandler {
 			@Config.Name("Consumed Health Modifier")
 			@Config.RequiresMcRestart
 			@Config.RangeDouble(min = -1D, max = 0)
-			public double consumedHealthModifier = -0.9D;
+			public double consumedHealthModifier = -0.95D;
 
 			@Config.Comment("Consumed applies item cooldown")
 			@Config.Name("Consumed Item Cooldown Ticks")
@@ -161,7 +161,7 @@ public class ForgeConfigHandler {
 			@Config.Name("Voided Health Modifier")
 			@Config.RequiresMcRestart
 			@Config.RangeDouble(min = -1D, max = 0)
-			public double voidedHealthModifier = 0D;
+			public double voidedHealthModifier = -0.1D;
 
 			@Config.Comment("Voided applies item cooldown")
 			@Config.Name("Voided Item Cooldown Ticks")

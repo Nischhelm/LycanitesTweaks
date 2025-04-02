@@ -13,7 +13,6 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class ConsumedHandler {
 
@@ -27,22 +26,16 @@ public class ConsumedHandler {
         if (entity == null) return;
         if (entity.getEntityWorld().isRemote) return;
 
+        if(event.getPotionEffect().getPotion() == PotionConsumed.INSTANCE &&
+                entity instanceof EntityPlayer &&
+                ((EntityPlayer) entity).isCreative())
+            event.setResult(Event.Result.DENY);
+
         if (ForgeConfigHandler.server.effectsConfig.consumedDeniesBuffs && entity.isPotionActive(PotionConsumed.INSTANCE))
-            if (event.getPotionEffect().getPotion().isBeneficial()) event.setResult(Event.Result.DENY);
+            if (!event.getPotionEffect().getPotion().isBadEffect()) event.setResult(Event.Result.DENY);
 
         if (ForgeConfigHandler.server.effectsConfig.consumedRemovesBuffs && event.getPotionEffect().getPotion() == PotionConsumed.INSTANCE)
             Helpers.removeAllPositiveEffects(entity);
-    }
-
-    @SubscribeEvent
-    public static void consumedCooldown(TickEvent.PlayerTickEvent event) {
-        EntityPlayer player = event.player;
-        if (player == null || player.world.isRemote) return;
-
-        if (ForgeConfigHandler.server.effectsConfig.consumedItemCooldown > 0 && player.isPotionActive(PotionConsumed.INSTANCE)) {
-            player.getCooldownTracker().setCooldown(player.getHeldItemMainhand().getItem(), ForgeConfigHandler.server.effectsConfig.consumedItemCooldown);
-            player.getCooldownTracker().setCooldown(player.getHeldItemOffhand().getItem(), ForgeConfigHandler.server.effectsConfig.consumedItemCooldown);
-        }
     }
 
     @SubscribeEvent

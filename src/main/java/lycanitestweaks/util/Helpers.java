@@ -19,7 +19,7 @@ public class Helpers {
         ArrayList<Potion> toRemove = new ArrayList<>();
 
         for(PotionEffect effect : entity.getActivePotionEffects())
-            if(effect.getPotion().isBeneficial()) toRemove.add(effect.getPotion());
+            if(!effect.getPotion().isBadEffect()) toRemove.add(effect.getPotion());
 
         for(Potion potion : toRemove) entity.removePotionEffect(potion);
     }

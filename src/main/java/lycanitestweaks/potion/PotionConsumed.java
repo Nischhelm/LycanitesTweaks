@@ -5,8 +5,12 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PotionConsumed extends PotionBase {
 
@@ -14,10 +18,17 @@ public class PotionConsumed extends PotionBase {
     public String UUID_HEALTH = "a7c92128-9cd8-4309-9c94-352e3be1029b";
 
     public PotionConsumed() {
-        super("consumed", false, 0xF3F4F9);
+        super("consumed", true, 0xFFFFFF);
         registerPotionAttributeModifier(SharedMonsterAttributes.MAX_HEALTH, UUID_HEALTH, ForgeConfigHandler.server.effectsConfig.consumedHealthModifier, 2);
     }
 
+    @Override
+    @Nonnull
+    public List<ItemStack> getCurativeItems(){
+        return new ArrayList<>();
+    }
+
+    @Override
     public void applyAttributesModifiersToEntity(@Nonnull EntityLivingBase entityLivingBaseIn, @Nonnull AbstractAttributeMap attributeMapIn, int amplifier){
         super.applyAttributesModifiersToEntity(entityLivingBaseIn, attributeMapIn, amplifier);
         if (entityLivingBaseIn.getHealth() > entityLivingBaseIn.getMaxHealth()) {
@@ -25,6 +36,7 @@ public class PotionConsumed extends PotionBase {
         }
     }
 
+    @Override
     public double getAttributeModifierAmount(int amplifier, AttributeModifier modifier){
         return modifier.getAmount();
     }
@@ -37,5 +49,14 @@ public class PotionConsumed extends PotionBase {
     @Override
     public void performEffect(EntityLivingBase entityLivingBase, int amplifier) {
         if(entityLivingBase.world.isRemote) return;
+
+        if(entityLivingBase instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) entityLivingBase;
+
+            if (ForgeConfigHandler.server.effectsConfig.consumedItemCooldown > 0) {
+                player.getCooldownTracker().setCooldown(player.getHeldItemMainhand().getItem(), ForgeConfigHandler.server.effectsConfig.consumedItemCooldown);
+                player.getCooldownTracker().setCooldown(player.getHeldItemOffhand().getItem(), ForgeConfigHandler.server.effectsConfig.consumedItemCooldown);
+            }
+        }
     }
 }

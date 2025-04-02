@@ -34,13 +34,14 @@ public abstract class PortalEntitySummonPMLMixin {
         }
     }
 
-    // Attempt to fix creature state check desyncs and client desyncs
-    @Inject(
-            method = "summonCreatures",
-            at = @At(value = "FIELD", target = "Lcom/lycanitesmobs/core/entity/PortalEntity;shootingEntity:Lnet/minecraft/entity/player/EntityPlayer;", ordinal = 3),
-            remap = false
-    )
-    public void lycanitesTweaks_lycanitesPortalEntity_summonCreaturesRefreshAttributes(CallbackInfoReturnable<Integer> cir, @Local BaseCreatureEntity entityCreature){
-        entityCreature.refreshAttributes();
-    }
+    // Actually undoes reworked summon weakened stats
+//    // Attempt to fix creature state check desyncs and client desyncs
+//    @Inject(
+//            method = "summonCreatures",
+//            at = @At(value = "FIELD", target = "Lcom/lycanitesmobs/core/entity/PortalEntity;shootingEntity:Lnet/minecraft/entity/player/EntityPlayer;", ordinal = 3),
+//            remap = false
+//    )
+//    public void lycanitesTweaks_lycanitesPortalEntity_summonCreaturesRefreshAttributes(CallbackInfoReturnable<Integer> cir, @Local BaseCreatureEntity entityCreature){
+//        entityCreature.refreshAttributes();
+//    }
 }

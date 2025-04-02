@@ -1,2 +1,8 @@
 effects.lycanitestweaks.consumed=Consumed
 effects.lycanitestweaks.voided=Voided
+
+soulbound.limited.levels=Your bound creature has limited power here, it is level: %levels%!
+
+summon.imperfect.hostile=Your lack of knowledge has manifested a hostile creature!
+summon.imperfect.attack=Your lack of knowledge has manifested a weak creature!
+summon.imperfect.health=Your lack of knowledge has manifested a fragile creature!
