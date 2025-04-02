@@ -16,7 +16,7 @@ public abstract class BeastiarySummonMixin {
             remap = false
     )
     public int lycanitesTweaks_lycanitesBeastiary_sendAddedMessage(int constant){
-        return ForgeConfigHandler.server.normalSummonRank;
+        return ForgeConfigHandler.server.imperfectSummoningConfig.normalSummonRank;
     }
 
     // Summon Gameplay
@@ -26,6 +26,6 @@ public abstract class BeastiarySummonMixin {
             remap = false
     )
     public int lycanitesTweaks_lycanitesBeastiary_getSummonableList(int constant){
-        return ForgeConfigHandler.server.normalSummonRank;
+        return ForgeConfigHandler.server.imperfectSummoningConfig.normalSummonRank;
     }
 }

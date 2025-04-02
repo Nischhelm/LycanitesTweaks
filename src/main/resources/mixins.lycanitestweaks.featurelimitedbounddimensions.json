@@ -6,7 +6,10 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "playermoblevels.PortalEntitySummonPMLMixin"
+    "playermoblevels.CreatureStatsBoundDimLimitedMixin",
+    "playermoblevels.RideableCreatureEntityBoundDimLimitedMixin",
+    "playermoblevels.PetEntryBoundDimLimitedMixin",
+    "playermoblevels.InventoryCreatureBoundDimLimitedMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

@@ -7,8 +7,22 @@ import com.lycanitesmobs.core.item.equipment.features.ProjectileEquipmentFeature
 import com.lycanitesmobs.core.item.equipment.features.SummonEquipmentFeature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+
+import java.util.ArrayList;
+
 
 public class Helpers {
+
+    public static void  removeAllPositiveEffects(EntityLivingBase entity){
+        ArrayList<Potion> toRemove = new ArrayList<>();
+
+        for(PotionEffect effect : entity.getActivePotionEffects())
+            if(effect.getPotion().isBeneficial()) toRemove.add(effect.getPotion());
+
+        for(Potion potion : toRemove) entity.removePotionEffect(potion);
+    }
 
     // Performs hit effect without dealing damage
     public static void doEquipmentHitEffect(ItemStack itemStack, EntityLivingBase target, EntityLivingBase attacker){

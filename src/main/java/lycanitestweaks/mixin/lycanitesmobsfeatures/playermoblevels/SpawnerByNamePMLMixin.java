@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Spawner.class)
-public abstract class SpawnerPlayerMobLevelsMixin {
+public abstract class SpawnerByNamePMLMixin {
 
     @Shadow(remap = false)
     public String name;
@@ -34,9 +34,9 @@ public abstract class SpawnerPlayerMobLevelsMixin {
             if (pml != null) {
                 boolean isInList = ForgeConfigHandler.getPMLSpawnerNames().contains(this.name);
 
-                isInList = ForgeConfigHandler.server.pmlSpawnerNameStringsIsBlacklist != isInList;
+                isInList = ForgeConfigHandler.server.pmlConfig.pmlSpawnerNameStringsIsBlacklist != isInList;
 
-                if (isInList) entityCreature.applyLevel(entityCreature.getLevel() + pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlSpawnerDegree));
+                if (isInList) entityCreature.applyLevel(entityCreature.getLevel() + pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlSpawnerDegree));
             }
         }
     }

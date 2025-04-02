@@ -16,6 +16,6 @@ public abstract class CreatureListReworkMixin {
             remap = false
     )
     public int lycanitesTweaks_lycanitesCreatureList_refreshList(int constant){
-        return ForgeConfigHandler.server.normalSummonRank;
+        return ForgeConfigHandler.server.imperfectSummoningConfig.normalSummonRank;
     }
 }

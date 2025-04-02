@@ -56,30 +56,17 @@ public class ForgeConfigHandler {
 
 	public static class ServerConfig {
 
-		@Config.Comment("Ratio of lycanites bonus Health bosses will receive")
-		@Config.Name("Boss Health Bonus Ratio")
-		@Config.RangeDouble(min = 0)
-		public double bossHealthBonusRatio = 0.1D;
+		@Config.Name("Lycanites Tweaks Potion Effects")
+		public final PotionEffectsConfig effectsConfig = new PotionEffectsConfig();
 
-		@Config.Comment("Ratio of max lycanites bonus movement defense, variants get more, set to 0 to disable")
-		@Config.Name("Cap Defense Ratio")
-		@Config.RangeDouble(min = 0)
-		public double capDefenseRatio = 5.0D;
+		@Config.Name("Lycanites Tweaks Imperfect Summoning")
+		public final ImperfectSummoningConfig imperfectSummoningConfig = new ImperfectSummoningConfig();
 
-		@Config.Comment("Ratio of max lycanites bonus movement speed, variants get more, set to 0 to disable")
-		@Config.Name("Cap Speed Ratio")
-		@Config.RangeDouble(min = 0)
-		public double capSpeedRatio = 3.0D;
+		@Config.Name("Lycanites Tweaks Player Mob Levels")
+		public final PlayerMobLevelsConfig pmlConfig = new PlayerMobLevelsConfig();
 
-		@Config.Comment("Ratio of max lycanites bonus effect duration, variants get more, set to 0 to disable")
-		@Config.Name("Cap Effect Duration Ratio")
-		@Config.RangeDouble(min = 0)
-		public double capEffectDurationRatio = 5.0D;
-
-		@Config.Comment("Ratio of max lycanites bonus pierce, variants get more, set to 0 to disable")
-		@Config.Name("Cap Pierce Ratio")
-		@Config.RangeDouble(min = 0)
-		public double capPierceRatio = 3.0D;
+		@Config.Name("Lycanites Tweaks Creature Stats")
+		public final StatsConfig statsConfig = new StatsConfig();
 
 		@Config.Comment("Distance between entities to trigger auto pickup drop")
 		@Config.Name("Pick Up Distance")
@@ -95,60 +82,6 @@ public class ForgeConfigHandler {
 		@Config.Name("Perch Distance")
 		@Config.RangeDouble(min = 0)
 		public double perchDistance = 1.0D;
-
-		@Config.Comment("Nerfs minions who are summoned without variant summoning knowledge")
-		@Config.Name("Imperfect Summoning")
-		public boolean imperfectSummoning = true;
-
-		@Config.Comment("Knowledge Rank to summon normal minions")
-		@Config.Name("Imperfect Normal Summon Rank")
-		@Config.RangeInt(min = 0)
-		public int normalSummonRank = 1;
-
-		@Config.Comment("Knowledge Rank to summon variant minions")
-		@Config.Name("Imperfect Variant Summon Rank")
-		@Config.RangeInt(min = 0)
-		public int variantSummonRank = 2;
-
-		@Config.Comment("Chance for imperfect minion to spawn with reduced defenses or offenses")
-		@Config.Name("Imperfect Reduced Stat Summon Base Chance")
-		@Config.RangeDouble(min = 0.0, max = 1.0)
-		public double imperfectStatsBaseChance = 1.0D;
-
-		@Config.Comment("Chance Reduction per point of creature knowledge")
-		@Config.Name("Imperfect Reduced Stat Summon Chance Modifier")
-		@Config.RangeDouble(min = 0.0)
-		public double imperfectStatsChanceModifier = 0.001D;
-
-		@Config.Comment("Chance for an imperfect minion to be hostile to the host")
-		@Config.Name("Imperfect Hostile Summon Base Chance")
-		@Config.RangeDouble(min = 0.0, max = 1.0)
-		public double imperfectHostileBaseChance = 0.1D;
-
-		@Config.Comment("Chance Reduction per point of creature knowledge")
-		@Config.Name("Imperfect Hostile Summon Chance Modifier")
-		@Config.RangeDouble(min = 0.0)
-		public double imperfectHostileChanceModifier = 0.0D;
-
-		@Config.Comment("Enable Capability to calculate a Mob Level associated to a player")
-		@Config.Name("Player Mob Level Capability")
-		@Config.RequiresMcRestart
-		public boolean playerMobLevelCapability = true;
-
-		@Config.Comment("Ratio of Player Mob Level used to set for summon staff minions")
-		@Config.Name("Player Mob Level Degree Summon")
-		@Config.RangeDouble(min = 0.0)
-		public double pmlSummonDegree = 0.2D;
-
-		@Config.Comment("Ratio of Player Mob Level used to set for summon hostile bosses")
-		@Config.Name("Player Mob Level Degree Boss")
-		@Config.RangeDouble(min = 0.0)
-		public double pmlBossDegree = 0.2D;
-
-		@Config.Comment("Ratio of Player Mob Level used to set for Lycanites Spawners")
-		@Config.Name("Player Mob Level Degree Spawner")
-		@Config.RangeDouble(min = 0.0)
-		public double pmlSpawnerDegree = 0.2D;
 
 		@Config.Comment("Max degree for size change food based on lycanitesmobs config range")
 		@Config.Name("Tamed Size Change Degree")
@@ -177,35 +110,218 @@ public class ForgeConfigHandler {
 				"twilightforest:enchanted_forest"
 		};
 
-		@Config.Comment("List of Lycanites Spawner Names to attempt to apply Player Mob Levels (ex World triggers don't have players)")
-		@Config.Name("PML Spawner Names")
-		public String[] pmlSpawnerNameStrings = {
-				"chaos",
-				"darkness",
-				"death",
-				"disruption",
-				"sleep",
-				"undeath"
-		};
+		public static class PotionEffectsConfig {
 
-		@Config.Comment("PML Spawner Names is a blacklist instead of whitelist")
-		@Config.Name("PML Spawner Names Blacklist")
-		public boolean pmlSpawnerNameStringsIsBlacklist = false;
+			@Config.Comment("Register Consumed Potion Effect")
+			@Config.Name("Register Consumed")
+			@Config.RequiresMcRestart
+			public boolean registerConsumed = true;
 
-		@Config.Comment("Register Loot Tables for Amalgalich, Asmodeus, and Rahovart that are scaled to Mob Levels")
-		@Config.Name("Register Boss With Levels Loot Tables")
-		@Config.RequiresMcRestart
-		public boolean registerBossWithLevelsLootTables = true;
+			@Config.Comment("Consumed denies buffs being applied")
+			@Config.Name("Consumed Buffs Denies")
+			public boolean consumedDeniesBuffs = true;
 
-		@Config.Comment("Register Has Mob Levels Loot Condition")
-		@Config.Name("Register HasMobLevels Loot Condition")
-		@Config.RequiresMcRestart
-		public boolean registerPMLLootCondition = true;
+			@Config.Comment("Consumed removes buffs when applied")
+			@Config.Name("Consumed Buffs Removes")
+			public boolean consumedRemovesBuffs = true;
 
-		@Config.Comment("Register Scale With Mob Levels Loot Function")
-		@Config.Name("Register ScaleWithMobLevels Loot Function")
-		@Config.RequiresMcRestart
-		public boolean registerPMLLootFunction = true;
+			@Config.Comment("Consumed Max Health multiplied total to reduce")
+			@Config.Name("Consumed Health Modifier")
+			@Config.RequiresMcRestart
+			@Config.RangeDouble(min = -1D, max = 0)
+			public double consumedHealthModifier = -0.9D;
+
+			@Config.Comment("Consumed applies item cooldown")
+			@Config.Name("Consumed Item Cooldown Ticks")
+			@Config.RangeInt(min = 0)
+			public int consumedItemCooldown = 10;
+
+			@Config.Comment("Consumed makes all damage piercing")
+			@Config.Name("Consumed Piercing All")
+			public boolean consumedPiecingAll = true;
+
+			@Config.Comment("Consumed makes environmental damage piercing")
+			@Config.Name("Consumed Piercing Environment")
+			public boolean consumedPiecingEnvironment = false;
+
+			@Config.Comment("Register Voided Potion Effect")
+			@Config.Name("Register Voided")
+			@Config.RequiresMcRestart
+			public boolean registerVoided = true;
+
+			@Config.Comment("Voided denies buffs being applied")
+			@Config.Name("Voided Buffs Denies")
+			public boolean voidedDeniesBuffs = true;
+
+			@Config.Comment("Voided removes buffs when applied")
+			@Config.Name("Voided Buffs Removes")
+			public boolean voidedRemovesBuffs = false;
+
+			@Config.Comment("Voided Max Health multiplied total to reduce")
+			@Config.Name("Voided Health Modifier")
+			@Config.RequiresMcRestart
+			@Config.RangeDouble(min = -1D, max = 0)
+			public double voidedHealthModifier = 0D;
+
+			@Config.Comment("Voided applies item cooldown")
+			@Config.Name("Voided Item Cooldown Ticks")
+			@Config.RangeInt(min = 0)
+			public int voidedItemCooldown = 0;
+
+			@Config.Comment("Voided makes all damage piercing")
+			@Config.Name("Voided Piercing All")
+			public boolean voidedPiecingAll = false;
+
+			@Config.Comment("Voided makes environmental damage piercing")
+			@Config.Name("Voided Piercing Environment")
+			public boolean voidedPiecingEnvironment = true;
+		}
+
+		public static class ImperfectSummoningConfig{
+
+			@Config.Comment("Nerfs minions who are summoned without variant summoning knowledge")
+			@Config.Name("Imperfect Summoning")
+			public boolean imperfectSummoning = true;
+
+			@Config.Comment("Knowledge Rank to summon normal minions")
+			@Config.Name("Imperfect Normal Summon Rank")
+			@Config.RangeInt(min = 0)
+			public int normalSummonRank = 1;
+
+			@Config.Comment("Knowledge Rank to summon variant minions")
+			@Config.Name("Imperfect Variant Summon Rank")
+			@Config.RangeInt(min = 0)
+			public int variantSummonRank = 2;
+
+			@Config.Comment("Chance for imperfect minion to spawn with reduced defenses or offenses")
+			@Config.Name("Imperfect Reduced Stat Summon Base Chance")
+			@Config.RangeDouble(min = 0.0, max = 1.0)
+			public double imperfectStatsBaseChance = 1.0D;
+
+			@Config.Comment("Chance Reduction per point of creature knowledge")
+			@Config.Name("Imperfect Reduced Stat Summon Chance Modifier")
+			@Config.RangeDouble(min = 0.0)
+			public double imperfectStatsChanceModifier = 0.001D;
+
+			@Config.Comment("Chance for an imperfect minion to be hostile to the host")
+			@Config.Name("Imperfect Hostile Summon Base Chance")
+			@Config.RangeDouble(min = 0.0, max = 1.0)
+			public double imperfectHostileBaseChance = 0.1D;
+
+			@Config.Comment("Chance Reduction per point of creature knowledge")
+			@Config.Name("Imperfect Hostile Summon Chance Modifier")
+			@Config.RangeDouble(min = 0.0)
+			public double imperfectHostileChanceModifier = 0.0D;
+		}
+
+		public static class PlayerMobLevelsConfig{
+
+			@Config.Comment("Enable Capability to calculate a Mob Level associated to a player")
+			@Config.Name("Player Mob Level Capability")
+			@Config.RequiresMcRestart
+			public boolean playerMobLevelCapability = true;
+
+			@Config.Comment("Ratio of Player Mob Level used to set for summon staff minions")
+			@Config.Name("Player Mob Level Degree Summon")
+			@Config.RangeDouble(min = 0.0)
+			public double pmlSummonDegree = 0.2D;
+
+			@Config.Comment("Ratio of Player Mob Level used to set for soulbounds in limited dimensions")
+			@Config.Name("Player Mob Level Degree Soulbound")
+			@Config.RangeDouble(min = 0.0)
+			public double pmlSoulboundDegree = 0.2D;
+
+			@Config.Comment("Ratio of Player Mob Level used to set for summon hostile bosses")
+			@Config.Name("Player Mob Level Degree Boss")
+			@Config.RangeDouble(min = 0.0)
+			public double pmlBossDegree = 0.2D;
+
+			@Config.Comment("Ratio of Player Mob Level used to set for Lycanites Spawners")
+			@Config.Name("Player Mob Level Degree Spawner")
+			@Config.RangeDouble(min = 0.0)
+			public double pmlSpawnerDegree = 0.2D;
+
+			@Config.Comment("Dimension IDs where soulbounds are level capped to Player Mob Level")
+			@Config.Name("Player Mob Level Dimensions")
+			public int[] pmlMinionLimitDimIds = {
+					111,
+					3
+			};
+
+			@Config.Comment("Player Mob Level Dimensions is Whitelist")
+			@Config.Name("Player Mob Level Dimensions is Whitelist")
+			public boolean pmlMinionLimitDimIdsWhitelist = true;
+
+			@Config.Comment("Whether limited soulbounds can spawn in dimensions blacklisted by vanilla Lycanites")
+			@Config.Name("Player Mob Level Dimensions Overrules Blacklist")
+			public boolean pmlMinionLimitDimOverruleBlacklist = true;
+
+			@Config.Comment("Whether limited soulbound inventories can not have items put inside")
+			@Config.Name("Player Mob Level Dimensions no inventory")
+			public boolean pmlMinionLimitDimNoInventory = true;
+
+			@Config.Comment("Whether limited soulbounds can be mounted")
+			@Config.Name("Player Mob Level Dimensions not mountable")
+			public boolean pmlMinionLimitDimNoMount = true;
+
+			@Config.Comment("List of Lycanites Spawner Names to attempt to apply Player Mob Levels (ex World triggers don't have players)")
+			@Config.Name("PML Spawner Names")
+			public String[] pmlSpawnerNameStrings = {
+					"chaos",
+					"darkness",
+					"death",
+					"disruption",
+					"sleep",
+					"undeath"
+			};
+
+			@Config.Comment("PML Spawner Names is a blacklist instead of whitelist")
+			@Config.Name("PML Spawner Names Blacklist")
+			public boolean pmlSpawnerNameStringsIsBlacklist = false;
+
+			@Config.Comment("Register Loot Tables for Amalgalich, Asmodeus, and Rahovart that are scaled to Mob Levels")
+			@Config.Name("Register Boss With Levels Loot Tables")
+			@Config.RequiresMcRestart
+			public boolean registerBossWithLevelsLootTables = true;
+
+			@Config.Comment("Register Has Mob Levels Loot Condition")
+			@Config.Name("Register HasMobLevels Loot Condition")
+			@Config.RequiresMcRestart
+			public boolean registerPMLLootCondition = true;
+
+			@Config.Comment("Register Scale With Mob Levels Loot Function")
+			@Config.Name("Register ScaleWithMobLevels Loot Function")
+			@Config.RequiresMcRestart
+			public boolean registerPMLLootFunction = true;
+		}
+
+		public static class StatsConfig{
+
+			@Config.Comment("Ratio of lycanites bonus Health bosses will receive")
+			@Config.Name("Boss Health Bonus Ratio")
+			@Config.RangeDouble(min = 0)
+			public double bossHealthBonusRatio = 0.1D;
+
+			@Config.Comment("Ratio of max lycanites bonus movement defense, variants get more, set to 0 to disable")
+			@Config.Name("Cap Defense Ratio")
+			@Config.RangeDouble(min = 0)
+			public double capDefenseRatio = 5.0D;
+
+			@Config.Comment("Ratio of max lycanites bonus movement speed, variants get more, set to 0 to disable")
+			@Config.Name("Cap Speed Ratio")
+			@Config.RangeDouble(min = 0)
+			public double capSpeedRatio = 3.0D;
+
+			@Config.Comment("Ratio of max lycanites bonus effect duration, variants get more, set to 0 to disable")
+			@Config.Name("Cap Effect Duration Ratio")
+			@Config.RangeDouble(min = 0)
+			public double capEffectDurationRatio = 5.0D;
+
+			@Config.Comment("Ratio of max lycanites bonus pierce, variants get more, set to 0 to disable")
+			@Config.Name("Cap Pierce Ratio")
+			@Config.RangeDouble(min = 0)
+			public double capPierceRatio = 3.0D;
+		}
 	}
 
 	public static class MixinConfig {
@@ -350,6 +466,11 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		public boolean playerMobLevelJSONSpawner = true;
 
+		@Config.Comment("Use Player Mob Level to limit soulbounds in specified dimensions")
+		@Config.Name("Player Mob Level Soulbound Limit Dims (Requires Capability)")
+		@Config.RequiresMcRestart
+		public boolean playerMobLevelSoulboundLimitedDimensions = true;
+
 		@Config.Comment("Use Player Mob Level to affect summon staff minions")
 		@Config.Name("Player Mob Level Summon Staff (Requires Capability)")
 		@Config.RequiresMcRestart
@@ -436,9 +557,20 @@ public class ForgeConfigHandler {
 		return ForgeConfigHandler.flowersaurBiomes;
 	}
 
+	public static boolean isDimensionLimitedMinion(int dim){
+		boolean found = false;
+		for(int id : ForgeConfigHandler.server.pmlConfig.pmlMinionLimitDimIds){
+			if (dim == id) {
+				found = true;
+				break;
+			}
+		}
+		return ForgeConfigHandler.server.pmlConfig.pmlMinionLimitDimIdsWhitelist == found;
+	}
+
 	public static HashSet<String> getPMLSpawnerNames(){
 		if(ForgeConfigHandler.pmlSpawnerNames == null){
-			ForgeConfigHandler.pmlSpawnerNames = new HashSet<>(Arrays.asList(ForgeConfigHandler.server.pmlSpawnerNameStrings));
+			ForgeConfigHandler.pmlSpawnerNames = new HashSet<>(Arrays.asList(ForgeConfigHandler.server.pmlConfig.pmlSpawnerNameStrings));
 		}
 		return ForgeConfigHandler.pmlSpawnerNames;
 	}

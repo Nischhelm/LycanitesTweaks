@@ -19,8 +19,8 @@ public abstract class SubspeciesListVariantsMixin {
             remap = false
     )
     public boolean lycanitesTweaks_lycanitesSubspeciesList_refreshList(Beastiary instance, String creatureName, int rank, @Local(ordinal = 1) int variantIndex){
-        if(instance.hasKnowledgeRank(creatureName, ForgeConfigHandler.server.variantSummonRank)) return true;
-        else if(instance.hasKnowledgeRank(creatureName, ForgeConfigHandler.server.normalSummonRank)) return variantIndex == 0;
+        if(instance.hasKnowledgeRank(creatureName, ForgeConfigHandler.server.imperfectSummoningConfig.variantSummonRank)) return true;
+        else if(instance.hasKnowledgeRank(creatureName, ForgeConfigHandler.server.imperfectSummoningConfig.normalSummonRank)) return variantIndex == 0;
         return false;
     }
 }

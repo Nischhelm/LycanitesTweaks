@@ -4,6 +4,7 @@ import lycanitestweaks.loot.EnchantWithMobLevels;
 import lycanitestweaks.loot.HasMobLevels;
 import lycanitestweaks.loot.ScaleWithMobLevels;
 import net.minecraft.potion.Potion;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.storage.loot.conditions.LootConditionManager;
 import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraftforge.event.RegistryEvent;
@@ -14,12 +15,15 @@ import lycanitestweaks.potion.PotionConsumed;
 import lycanitestweaks.potion.PotionVoided;
 
 @Mod.EventBusSubscriber(modid = LycanitesTweaks.MODID)
-public class ModRegistry {
+public class LycanitesTweaksRegistry {
+
+        public static final DamageSource CONSUMED = (new DamageSource("consumedEffect")).setDamageBypassesArmor().setDamageIsAbsolute();
+        public static final DamageSource VOIDED = (new DamageSource("voidedEffect")).setDamageBypassesArmor().setDamageIsAbsolute();
 
         // wasted an hour wondering why it couldn't be like RLMixins
         public static void init() {
-                if(ForgeConfigHandler.server.registerPMLLootCondition) LootConditionManager.registerCondition(new HasMobLevels.Serializer());
-                if(ForgeConfigHandler.server.registerPMLLootFunction) {
+                if(ForgeConfigHandler.server.pmlConfig.registerPMLLootCondition) LootConditionManager.registerCondition(new HasMobLevels.Serializer());
+                if(ForgeConfigHandler.server.pmlConfig.registerPMLLootFunction) {
                         LootFunctionManager.registerFunction(new EnchantWithMobLevels.Serializer());
                         LootFunctionManager.registerFunction(new ScaleWithMobLevels.Serializer());
                 }
@@ -27,7 +31,7 @@ public class ModRegistry {
 
         @SubscribeEvent
         public static void registerPotionEvent(RegistryEvent.Register<Potion> event) {
-                event.getRegistry().register(PotionConsumed.INSTANCE);
-                event.getRegistry().register(PotionVoided.INSTANCE);
+                if(ForgeConfigHandler.server.effectsConfig.registerConsumed) event.getRegistry().register(PotionConsumed.INSTANCE);
+                if(ForgeConfigHandler.server.effectsConfig.registerVoided) event.getRegistry().register(PotionVoided.INSTANCE);
         }
 }

@@ -23,7 +23,7 @@ public abstract class SummonSetReworkMixin {
             remap = false
     )
     public int lycanitesTweaks_lycanitesSummonSet_getVariant(int original){
-        if(this.playerExt.getBeastiary().hasKnowledgeRank(this.summonType, ForgeConfigHandler.server.variantSummonRank)) return original;
+        if(this.playerExt.getBeastiary().hasKnowledgeRank(this.summonType, ForgeConfigHandler.server.imperfectSummoningConfig.variantSummonRank)) return original;
         return 0;
     }
 }

@@ -31,7 +31,7 @@ public abstract class MobEventBossesPlayerMobLevelsMixin {
             IPlayerMobLevelCapability pml = player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
             if (pml != null) {
                 if (CHANNEL_BOSS.equals(this.channel))
-                    return level + pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlBossDegree);
+                    return level + pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlBossDegree);
             }
         }
         return level;

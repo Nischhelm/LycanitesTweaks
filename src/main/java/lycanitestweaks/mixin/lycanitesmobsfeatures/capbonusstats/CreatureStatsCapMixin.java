@@ -23,8 +23,8 @@ public abstract class CreatureStatsCapMixin {
             remap = false
     )
     public double lycanitesTweaks_lycanitesCreatureStats_getDefense(double original, @Local String statName){
-        if(ForgeConfigHandler.server.capDefenseRatio == 0) return original;
-        return Math.min(original, ForgeConfigHandler.server.capDefenseRatio * this.entity.creatureInfo.defense * this.getVariantMultiplier(statName));
+        if(ForgeConfigHandler.server.statsConfig.capDefenseRatio == 0) return original;
+        return Math.min(original, ForgeConfigHandler.server.statsConfig.capDefenseRatio * this.entity.creatureInfo.defense * this.getVariantMultiplier(statName));
     }
 
     @ModifyReturnValue(
@@ -33,8 +33,8 @@ public abstract class CreatureStatsCapMixin {
             remap = false
     )
     public double lycanitesTweaks_lycanitesCreatureStats_getSpeed(double original, @Local String statName){
-        if(ForgeConfigHandler.server.capSpeedRatio == 0) return original;
-        return Math.min(original, ForgeConfigHandler.server.capSpeedRatio * this.entity.creatureInfo.speed * this.getVariantMultiplier(statName) * 0.01D);
+        if(ForgeConfigHandler.server.statsConfig.capSpeedRatio == 0) return original;
+        return Math.min(original, ForgeConfigHandler.server.statsConfig.capSpeedRatio * this.entity.creatureInfo.speed * this.getVariantMultiplier(statName) * 0.01D);
     }
 
     @ModifyReturnValue(
@@ -43,8 +43,8 @@ public abstract class CreatureStatsCapMixin {
             remap = false
     )
     public double lycanitesTweaks_lycanitesCreatureStats_getEffect(double original, @Local String statName){
-        if(ForgeConfigHandler.server.capEffectDurationRatio == 0) return original;
-        return Math.min(original, ForgeConfigHandler.server.capEffectDurationRatio * this.entity.creatureInfo.effectDuration * this.getVariantMultiplier(statName));
+        if(ForgeConfigHandler.server.statsConfig.capEffectDurationRatio == 0) return original;
+        return Math.min(original, ForgeConfigHandler.server.statsConfig.capEffectDurationRatio * this.entity.creatureInfo.effectDuration * this.getVariantMultiplier(statName));
     }
 
     @ModifyReturnValue(
@@ -53,7 +53,7 @@ public abstract class CreatureStatsCapMixin {
             remap = false
     )
     public double lycanitesTweaks_lycanitesCreatureStats_getPierce(double original, @Local String statName){
-        if(ForgeConfigHandler.server.capPierceRatio == 0) return original;
-        return Math.min(original, ForgeConfigHandler.server.capPierceRatio * this.entity.creatureInfo.pierce * this.getVariantMultiplier(statName));
+        if(ForgeConfigHandler.server.statsConfig.capPierceRatio == 0) return original;
+        return Math.min(original, ForgeConfigHandler.server.statsConfig.capPierceRatio * this.entity.creatureInfo.pierce * this.getVariantMultiplier(statName));
     }
 }
