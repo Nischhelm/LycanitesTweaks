@@ -43,10 +43,10 @@
                     "name": "minecraft:book",
                     "weight": 1,
                     "functions": [
-						{"function": "lycanitesTweaks:enchant_with_mob_levels", "levels": 50,"scale": 1.0},
-						{"function": "lycanitesTweaks:enchant_with_mob_levels", "levels": 25,"treasure": true,"scale": 0.5,"conditions": [{"condition": "random_chance","chance": 0.5}]},
-						{"function": "lycanitesTweaks:enchant_with_mob_levels", "levels": 50,"treasure": true,"scale": 1.0,"conditions": [{"condition": "random_chance","chance": 0.5}]},
-						{"function": "lycanitesTweaks:enchant_with_mob_levels", "levels": 100,"treasure": true,"scale": 2.0,"conditions": [{"condition": "random_chance","chance": 0.25}]}
+                      {"function": "lycanitesTweaks:enchant_with_mob_levels", "levels": 100,"treasure": true,"scale": 2.0,"conditions": [{"condition": "random_chance","chance": 0.10}]},
+                      {"function": "lycanitesTweaks:enchant_with_mob_levels", "levels": 50,"treasure": true,"scale": 1.0,"conditions": [{"condition": "random_chance","chance": 0.25}]},
+                      {"function": "lycanitesTweaks:enchant_with_mob_levels", "levels": 25,"treasure": true,"scale": 0.5,"conditions": [{"condition": "random_chance","chance": 0.10}]},
+                      {"function": "lycanitesTweaks:enchant_with_mob_levels", "levels": 50,"scale": 1.0}
                     ]
                 }
             ],
