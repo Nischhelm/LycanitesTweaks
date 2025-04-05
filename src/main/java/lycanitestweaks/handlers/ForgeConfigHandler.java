@@ -56,6 +56,9 @@ public class ForgeConfigHandler {
 
 	public static class ServerConfig {
 
+		@Config.Name("Lycanites Tweaks Rahovart")
+		public final BossRahovartConfig rahovartConfig = new BossRahovartConfig();
+
 		@Config.Name("Lycanites Tweaks Potion Effects")
 		public final PotionEffectsConfig effectsConfig = new PotionEffectsConfig();
 
@@ -109,6 +112,49 @@ public class ForgeConfigHandler {
 				"biomesoplenty:mystic_grove",
 				"twilightforest:enchanted_forest"
 		};
+
+		public static class BossRahovartConfig {
+
+			@Config.Comment("Projectile to replace main 'hellfireball' attack")
+			@Config.Name("Main Projectile Name")
+			@Config.RequiresMcRestart
+			public String mainProjectile = "sigilwraithskull";
+
+			@Config.Comment("Minimum spawn range for only Belphs and Behemoths")
+			@Config.Name("Minion Spawn Range Minimum")
+			@Config.RangeInt(min = 0, max = 35)
+			public int minionSpawnRangeMin = 15;
+
+			@Config.Comment("Maximum spawn range for only Belphs and Behemoths")
+			@Config.Name("Minion Spawn Range Maximum")
+			@Config.RangeInt(min = 0, max = 35)
+			public int minionSpawnRangeMax = 35;
+
+			@Config.Comment("Specifies Hellfire Walls to clear away from Rahovart")
+			@Config.Name("Hellfire Wall Displacement")
+			@Config.RangeInt(min = 0, max = 4)
+			public int hellfireWallDisplacement = 2;
+
+			@Config.Comment("Specifies Tick Duration of Hellfire Walls")
+			@Config.Name("Hellfire Wall Duration")
+			@Config.RangeInt(min = 0)
+			public int hellfireWallTimeMax = 800;
+
+			@Config.Comment("Specifies Hellfire Barriers to clear away from Rahovart")
+			@Config.Name("Hellfire Barrier Displacement")
+			@Config.RangeInt(min = 0, max = 4)
+			public int hellfireBarrierDisplacement = 1;
+
+			@Config.Comment("Specifies Hellfire Barriers degration per Belph kill (Lycanites uses 50/100)")
+			@Config.Name("Hellfire Barrier Belph Degrade")
+			@Config.RangeInt(min = 0, max = 100)
+			public int hellfireBarrierBelphDegrade = 25;
+
+			@Config.Comment("Specifies Hellfire Barriers degration per Behemoth kill (Lycanites uses 100/100)")
+			@Config.Name("Hellfire Barrier Behemoth Degrade")
+			@Config.RangeInt(min = 0, max = 100)
+			public int hellfireBarrierBehemothDegrade = 50;
+		}
 
 		public static class PotionEffectsConfig {
 
@@ -220,6 +266,10 @@ public class ForgeConfigHandler {
 			@Config.Name("Player Mob Level Capability")
 			@Config.RequiresMcRestart
 			public boolean playerMobLevelCapability = true;
+
+			@Config.Comment("Require a held main hand Soulgazer in order to summon a boss with additional levels")
+			@Config.Name("Player Mob Level Boss Requires Soulgazer")
+			public boolean pmlBossRequiresSoulgazer = true;
 
 			@Config.Comment("Ratio of Player Mob Level used to set for summon staff minions")
 			@Config.Name("Player Mob Level Degree Summon")
@@ -336,6 +386,11 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		public boolean smitedMakesMostUndead = true;
 
+		@Config.Comment("Have LycanitesMobs check and load resources from LycanitesTweaks")
+		@Config.Name("Add LycanitesTweaks default JSON")
+		@Config.RequiresMcRestart
+		public boolean addLycanitesTweaksDefaultJSON = true;
+
 		@Config.Comment("Giving an Enchanted Golden Apple to a tamed creature will turn it into a baby")
 		@Config.Name("Baby Age Gapple")
 		@Config.RequiresMcRestart
@@ -361,10 +416,10 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		public boolean bossLowerHealthScale = true;
 
-		@Config.Comment("Main Boss Event is scaled to Player Mob Levels Capability")
-		@Config.Name("Boss Player Mob Levels (Requires Capability)")
+		@Config.Comment("Tweaks to Rahovart with additional config options")
+		@Config.Name("Boss Tweaks Rahovart")
 		@Config.RequiresMcRestart
-		public boolean bossMainPlayerMobLevels = true;
+		public boolean bossTweaksRahovart = true;
 
 		@Config.Comment("Add configurable caps to creature speed, effect durations, and pierce")
 		@Config.Name("Cap Specific Creature Stats")
@@ -528,6 +583,11 @@ public class ForgeConfigHandler {
 		@Config.Name("Fix Fear Survival Flying")
 		@Config.RequiresMcRestart
 		public boolean fixFearSurvivalFlying = true;
+
+		@Config.Comment("Fix HealWhenNoPlayersGoal trigger check using AND instead of OR")
+		@Config.Name("Fix Heal Goal Check")
+		@Config.RequiresMcRestart
+		public boolean fixHealGoalCheck = true;
 
 		@Config.Comment("Fix Serpix Blizzard projectile spawning in the ground")
 		@Config.Name("Fix Serpix Blizzard Offset")

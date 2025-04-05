@@ -1,0 +1,10 @@
+{
+  "projectile.sigilwraithskull": {
+    "category": "hostile",
+    "sounds": [{"name": "lycanitesmobs:projectile/sigilwraithskull", "stream": false}]
+  },
+  "projectile.sigilwraithskull.impact": {
+    "category": "ambient",
+    "sounds": [{"name": "lycanitesmobs:projectile/sigilwraithskull_impact", "stream": false}]
+  }
+}

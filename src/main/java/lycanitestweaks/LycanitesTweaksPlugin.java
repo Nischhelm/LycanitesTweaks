@@ -30,11 +30,13 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 		Map<String, String> map = new HashMap<>();
 
 		// Features
+		map.put("Add LycanitesTweaks default JSON", "mixins.lycanitestweaks.featureinjectdefaultjsonloading.json");
 		map.put("Baby Age Gapple", "mixins.lycanitestweaks.featuretamedbabygapple.json");
 		map.put("Bleed Pierces", "mixins.lycanitestweaks.featurebleedpierces.json");
 		map.put("Boss DPS Limit Recalc", "mixins.lycanitestweaks.featurebossdamagelimitdpsrecalc.json");
 		map.put("Boss Invert Health and Damage Scale", "mixins.lycanitestweaks.featureinvertbossdamagehealthscale.json");
 		map.put("Boss Lower Health Scale", "mixins.lycanitestweaks.featurebossbonushealthmodifier.json");
+		map.put("Boss Tweaks Rahovart", "mixins.lycanitestweaks.featurebossrahovarttweaks.json");
 		map.put("Cap Specific Creature Stats", "mixins.lycanitestweaks.featurecreaturestatbonuscap.json");
 		map.put("Crafted Equipment Offhand RMB Needs Sneak", "mixins.lycanitestweaks.equipmentrmbneedssneak.json");
 		map.put("Crafted Equipment Sword Enchantments", "mixins.lycanitestweaks.featureequipmentswordenchantments.json");
@@ -68,7 +70,9 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 		map.put("Fix Creature Ranged Speed", "mixins.lycanitestweaks.patchesrangedspeeddividebyzero.json");
 		map.put("Fix Ettin grief flag", "mixins.lycanitestweaks.patchesettingriefflag.json");
 		map.put("Fix Fear Survival Flying", "mixins.lycanitestweaks.patchesfearsurvivalflying.json");
+		map.put("Fix Heal Goal Check", "mixins.lycanitestweaks.patcheshealgoalcheck.json");
 		map.put("Fix Serpix Blizzard Offset", "mixins.lycanitestweaks.patcheserpixblizzardoffset.json");
+		map.put("Fix Summon Minion Goal Persistence", "");
 
 		return Collections.unmodifiableMap(map);
 	}

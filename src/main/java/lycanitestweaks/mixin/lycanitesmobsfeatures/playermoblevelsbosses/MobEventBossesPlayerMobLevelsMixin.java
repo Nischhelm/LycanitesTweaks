@@ -1,6 +1,7 @@
 package lycanitestweaks.mixin.lycanitesmobsfeatures.playermoblevelsbosses;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import com.lycanitesmobs.core.item.special.ItemSoulgazer;
 import com.lycanitesmobs.core.mobevent.MobEvent;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
 import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
@@ -27,7 +28,7 @@ public abstract class MobEventBossesPlayerMobLevelsMixin {
             remap = false
     )
     public int lycanitesTweaks_lycanitesMobEvent_onSpawn(int level, @Local(argsOnly = true) EntityPlayer player){
-        if(player != null) {
+        if(player != null && (!ForgeConfigHandler.server.pmlConfig.pmlBossRequiresSoulgazer || player.getHeldItemMainhand().getItem() instanceof ItemSoulgazer)) {
             IPlayerMobLevelCapability pml = player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
             if (pml != null) {
                 if (CHANNEL_BOSS.equals(this.channel))
