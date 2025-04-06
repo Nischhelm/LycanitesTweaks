@@ -1,6 +1,11 @@
 effects.lycanitestweaks.consumed=Consumed
 effects.lycanitestweaks.voided=Voided
 
+element.consuming.name=Consuming
+element.voiding.name=Voiding
+
+event.boss.playermoblevels=The Soulgazer has unleashed a reflection of your soul!
+
 soulbound.limited.levels=Your bound creature has limited power here, it is level: %levels%!
 
 summon.imperfect.hostile=Your lack of knowledge has manifested a hostile creature!

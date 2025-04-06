@@ -17,7 +17,7 @@ public class SummonLeveledMinionsGoal extends BaseGoal {
 	protected CreatureInfo minionInfo;
 	protected boolean perPlayer = false;
 	protected boolean antiFlight = false;
-	protected double sizeScale = -1;
+	protected double sizeScale = 1.0F;
 
 	/**
 	 * Constructor

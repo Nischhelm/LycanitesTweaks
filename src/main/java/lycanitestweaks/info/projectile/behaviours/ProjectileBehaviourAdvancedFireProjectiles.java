@@ -15,7 +15,7 @@ public class ProjectileBehaviourAdvancedFireProjectiles extends ProjectileBehavi
 
     private AimType aimType = AimType.RANDOM;
 
-    private float targetRange = -1F;
+    private boolean impactOnly = false;
 
     public ProjectileBehaviourAdvancedFireProjectiles(){
 
@@ -27,9 +27,14 @@ public class ProjectileBehaviourAdvancedFireProjectiles extends ProjectileBehavi
         if (json.has("aimType")) {
             this.aimType = AimType.get(json.get("aimType").getAsString());
         }
-        if (json.has("targetRange")) {
-            this.targetRange = json.get("targetRange").getAsFloat();
+        if(json.has("impactOnly")){
+            this.impactOnly = json.get("impactOnly").getAsBoolean();
         }
+    }
+
+    @Override
+    public void onProjectileUpdate(BaseProjectileEntity projectile) {
+        if(!this.impactOnly) super.onProjectileUpdate(projectile);
     }
 
     @Override

@@ -36,6 +36,8 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 		map.put("Boss DPS Limit Recalc", "mixins.lycanitestweaks.featurebossdamagelimitdpsrecalc.json");
 		map.put("Boss Invert Health and Damage Scale", "mixins.lycanitestweaks.featureinvertbossdamagehealthscale.json");
 		map.put("Boss Lower Health Scale", "mixins.lycanitestweaks.featurebossbonushealthmodifier.json");
+		map.put("Boss Tweaks Amalgalich", "mixins.lycanitestweaks.featurebossamalgalich.json");
+		map.put("Boss Tweaks Asmodeus", "mixins.lycanitestweaks.featurebossasmodeustweaks.json");
 		map.put("Boss Tweaks Rahovart", "mixins.lycanitestweaks.featurebossrahovarttweaks.json");
 		map.put("Cap Specific Creature Stats", "mixins.lycanitestweaks.featurecreaturestatbonuscap.json");
 		map.put("Crafted Equipment Offhand RMB Needs Sneak", "mixins.lycanitestweaks.equipmentrmbneedssneak.json");

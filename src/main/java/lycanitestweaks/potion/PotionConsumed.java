@@ -19,7 +19,7 @@ public class PotionConsumed extends PotionBase {
 
     public PotionConsumed() {
         super("consumed", true, 0xFFFFFF);
-        registerPotionAttributeModifier(SharedMonsterAttributes.MAX_HEALTH, UUID_HEALTH, ForgeConfigHandler.server.effectsConfig.consumedHealthModifier, 2);
+        registerPotionAttributeModifier(SharedMonsterAttributes.MAX_HEALTH, this.UUID_HEALTH, ForgeConfigHandler.server.effectsConfig.consumedHealthModifier, 2);
     }
 
     @Override

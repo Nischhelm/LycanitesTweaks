@@ -19,7 +19,7 @@ public class PotionVoided extends PotionBase {
 
     public PotionVoided() {
         super("voided", true, 0x000000);
-        registerPotionAttributeModifier(SharedMonsterAttributes.MAX_HEALTH, UUID_HEALTH, ForgeConfigHandler.server.effectsConfig.voidedHealthModifier, 2);
+        registerPotionAttributeModifier(SharedMonsterAttributes.MAX_HEALTH, this.UUID_HEALTH, ForgeConfigHandler.server.effectsConfig.voidedHealthModifier, 2);
     }
 
     @Override

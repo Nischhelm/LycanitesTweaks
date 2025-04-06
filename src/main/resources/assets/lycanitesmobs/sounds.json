@@ -1,6 +1,30 @@
 {
+  "projectile.demonicchaosorb": {
+    "category": "ambient",
+    "sounds": [{"name": "lycanitesmobs:projectile/demonicchaosorb", "stream": false}]
+  },
+  "projectile.demonicchaosorb.impact": {
+    "category": "ambient",
+    "sounds": [{"name": "lycanitesmobs:projectile/demonicchaosorb_impact", "stream": false}]
+  },
+  "projectile.demonicshockspark": {
+    "category": "ambient",
+    "sounds": [{"name": "lycanitesmobs:projectile/demonicshockspark", "stream": false}]
+  },
+  "projectile.lichshadowfire": {
+    "category": "ambient",
+    "sounds": [{"name": "lycanitesmobs:projectile/lichshadowfire", "stream": false}]
+  },
+  "projectile.lichshadowfire.impact": {
+    "category": "ambient",
+    "sounds": [{"name": "lycanitesmobs:projectile/lichshadowfire_impact", "stream": false}]
+  },
+  "projectile.lichspectralbolt": {
+    "category": "ambient",
+    "sounds": [{"name": "lycanitesmobs:projectile/lichspectralbolt", "stream": false}]
+  },
   "projectile.sigilwraithskull": {
-    "category": "hostile",
+    "category": "ambient",
     "sounds": [{"name": "lycanitesmobs:projectile/sigilwraithskull", "stream": false}]
   },
   "projectile.sigilwraithskull.impact": {

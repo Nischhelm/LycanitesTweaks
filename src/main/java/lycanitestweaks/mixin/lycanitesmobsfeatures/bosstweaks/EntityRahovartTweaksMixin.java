@@ -7,6 +7,7 @@ import lycanitestweaks.entity.goals.ExtendedGoalConditions;
 import lycanitestweaks.entity.goals.actions.abilities.HealPortionWhenNoPlayersGoal;
 import lycanitestweaks.entity.goals.actions.abilities.SummonLeveledMinionsGoal;
 import lycanitestweaks.handlers.ForgeConfigHandler;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,7 +25,9 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
         Added -> Summon Ebon Cacodemon Minimum Phase 3
 
         IDEAS
-        Wave/Wall config spawn on phase start
+        Barrier/Wall config spawn on phase start
+        Barrier count config
+        Cap Minion Count
      */
 
     public EntityRahovartTweaksMixin(World world) {
@@ -76,7 +79,21 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
             remap = true
     )
     public void lycanitesTweaks_lycanitesMobsEntityRahovart_initEntityAIAdditionalGoals(CallbackInfo ci){
-        this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setMinionInfo("cacodemon").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(2)));
+        if(ForgeConfigHandler.server.rahovartConfig.cacodemonSummon)
+            this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setMinionInfo("cacodemon").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(2)));
+    }
+
+    @ModifyArg(
+            method = "updatePhases",
+            at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/core/entity/creature/EntityRahovart;summonMinion(Lnet/minecraft/entity/EntityLivingBase;DD)V"),
+            index = 0,
+            remap = false
+    )
+    public EntityLivingBase lycanitesTweaks_lycanitesMobsEntityRahovart_updatePhasesSetTemporaryMinions(EntityLivingBase creature){
+        // Skip BaseCreatureCheck, we know they are
+        if(ForgeConfigHandler.server.rahovartConfig.minionTemporaryDuration > 0)
+            ((BaseCreatureEntity)creature).setTemporary(ForgeConfigHandler.server.rahovartConfig.minionTemporaryDuration);
+        return creature;
     }
 
     @ModifyArg(

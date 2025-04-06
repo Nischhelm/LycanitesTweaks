@@ -56,6 +56,15 @@ public class ForgeConfigHandler {
 
 	public static class ServerConfig {
 
+		@Config.Comment("Requires 'Boss Tweaks Amalgalich' Mixin enabled")
+		@Config.Name("Lycanites Tweaks Amalgalich")
+		public final BossAmalgalichConfig amalgalichConfig = new BossAmalgalichConfig();
+
+		@Config.Comment("Requires 'Boss Tweaks Asmodeus' Mixin enabled")
+		@Config.Name("Lycanites Tweaks Asmodeus")
+		public final BossAsmodeusConfig asmodeusConfig = new BossAsmodeusConfig();
+
+		@Config.Comment("Requires 'Boss Tweaks Rahovart' Mixin enabled")
 		@Config.Name("Lycanites Tweaks Rahovart")
 		public final BossRahovartConfig rahovartConfig = new BossRahovartConfig();
 
@@ -113,12 +122,147 @@ public class ForgeConfigHandler {
 				"twilightforest:enchanted_forest"
 		};
 
+		public static class BossAmalgalichConfig {
+
+			@Config.Comment("Projectile to replace main 'spectralbolt' auto attack")
+			@Config.Name("Main Projectile Name")
+			@Config.RequiresMcRestart
+			public String mainProjectile = "lichspectralbolt";
+
+			@Config.Comment("Add AI task for targeted attack to use alongside auto attacks")
+			@Config.Name("Targeted Projectile Attack")
+			@Config.RequiresMcRestart
+			public boolean targetedAttack = true;
+
+			@Config.Comment("Projectile to used for targeted attack")
+			@Config.Name("Targeted Projectile Name")
+			public String targetedProjectile = "lichshadowfire";
+
+			@Config.Comment("Consumption in any phases, goal/animation shared across the fight")
+			@Config.Name("Consumption All Phases")
+			@Config.RequiresMcRestart
+			public boolean consumptionAllPhases = true;
+
+			@Config.Comment("If consumption should use LycanitesTweaks Consumption debuff")
+			@Config.Name("Consumption Debuff effect")
+			@Config.RequiresMcRestart
+			public boolean consumptionEffect = true;
+
+			@Config.Comment("If consumption should deal damage based on victim's max hp")
+			@Config.Name("Consumption Damage Max HP")
+			public boolean consumptionDamageMaxHP = true;
+
+			@Config.Comment("Make Consumption more immersive by relying on Consumption debuff to reduce max hp.")
+			@Config.Name("Consumption Damages Players")
+			public boolean consumptionDamagesPlayers = false;
+
+			@Config.Comment("Portion of HP healed on minion kill, set to 0 to use original 25.0 healing")
+			@Config.Name("Consumption Kill Heal")
+			public float consumptionKillHeal = 0.005F;
+
+			@Config.Comment("Crimson multiplier to shadow fire extinguish width on death")
+			@Config.Name("Crimson Epion Extinguish Width")
+			public float crimsonEpionExtinguishWidth = 3.0F;
+
+			@Config.Comment("Replace Lob Darkling with Summon Goal, as a high level Amalgalich spams too much")
+			@Config.Name("Lob Darklings Replace")
+			@Config.RequiresMcRestart
+			public boolean replaceLobDarkling = true;
+
+			@Config.Comment("Epion Summons one Crimson variant instead of 3 normal")
+			@Config.Name("Spawns Crimson Epion")
+			@Config.RequiresMcRestart
+			public boolean crimsonEpion = true;
+
+			@Config.Comment("Should Phase 3 Summon a Lunar Grue")
+			@Config.Name("Spawns Lunar Grue")
+			@Config.RequiresMcRestart
+			public boolean grueSummon = true;
+
+		}
+
+		public static class BossAsmodeusConfig {
+
+			@Config.Comment("Add AI Ranged auto attacking for an additional projectile")
+			@Config.Name("Additional Projectile Register")
+			@Config.RequiresMcRestart
+			public boolean additionalProjectileAdd = true;
+
+			@Config.Comment("Projectile to use for auto attacking")
+			@Config.Name("Additional Projectile Name")
+			@Config.RequiresMcRestart
+			public String additionalProjectile = "demonicchaosorb";
+
+			@Config.Comment("Fixes double damage and has better player Xray")
+			@Config.Name("Disable Ranged Hitscan")
+			public boolean disableRangedHitscan = true;
+
+			@Config.Comment("Should on hit purge remove more than Lycanites defined list?")
+			@Config.Name("Devil Gatling Purge Any Buff")
+			public boolean devilGatlingPurgeAnyBuff = true;
+
+			@Config.Comment("Duration of Voided Debuff in seconds, set to 0 to disable")
+			@Config.Name("Devil Gatling Voided Time")
+			public int devilGatlingVoidedTime = 10;
+
+			@Config.Comment("Projectile to replace Devilstar Stream attack")
+			@Config.Name("Devilstar Projectile Name")
+			@Config.RequiresMcRestart
+			public String devilstarProjectile = "demonicshockspark";
+
+			@Config.Comment("Whether Devilstar Stream can be used outside Phase 1")
+			@Config.Name("Devilstar Stream All Phases")
+			public boolean devilstarStreamAllPhases = true;
+
+			@Config.Comment("Whether Astaroth Minions are teleported away on spawn")
+			@Config.Name("Astaroths Teleport Adjacent Node")
+			public boolean astarothsTeleportAdjacent = true;
+
+			@Config.Comment("Whether Astaroth Minions use Rare/Boss Damage Limit")
+			@Config.Name("Astaroths Boss Damage Limit")
+			public boolean astarothsUseBossDamageLimit = false;
+
+			@Config.Comment("Hell Shield Exponent for base ATTACK_DAMAGE to damage shield with")
+			@Config.Name("Hell Shield Damage Power")
+			@Config.RangeInt(min = 1)
+			public int hellShieldDamagePower = 3;
+
+			@Config.Comment("Hell Shield Health for 100% Damage Reduction")
+			@Config.Name("Hell Shield Maximum Health")
+			@Config.RangeInt(min = 1)
+			public int hellShieldHealthMax = 20000;
+
+			@Config.Comment("Hell Shield Overheal to extend full power shield")
+			@Config.Name("Hell Shield Overheal Ratio")
+			@Config.RangeDouble(min = 1D)
+			public double hellShieldOverhealRatio = 2.0D;
+
+			@Config.Comment("Hell Shield Max Health Regenerated by Astaroths")
+			@Config.Name("Hell Shield Astaroth Regeneration")
+			@Config.RangeDouble(min = 0D)
+			public double hellShieldAstarothRegen = 0.1D;
+
+			@Config.Comment("Should Asmodeus attempt attacks on players behind arena pillars")
+			@Config.Name("Player Xray Target")
+			public boolean playerXrayTarget = true;
+
+			@Config.Comment("Should Phase 3 Summon a Phosphorescent Chupacabra")
+			@Config.Name("Spawns Phosphorescent Chupacabra")
+			@Config.RequiresMcRestart
+			public boolean chupacabraSummon = true;
+		}
+
 		public static class BossRahovartConfig {
 
 			@Config.Comment("Projectile to replace main 'hellfireball' attack")
 			@Config.Name("Main Projectile Name")
 			@Config.RequiresMcRestart
 			public String mainProjectile = "sigilwraithskull";
+
+			@Config.Comment("Tick Maximum Lifespan for Belphs and Behemoths. Set to 0 to disable")
+			@Config.Name("Minion Temporary Duration")
+			@Config.RangeInt(min = 0)
+			public int minionTemporaryDuration = 1200;
 
 			@Config.Comment("Minimum spawn range for only Belphs and Behemoths")
 			@Config.Name("Minion Spawn Range Minimum")
@@ -143,7 +287,7 @@ public class ForgeConfigHandler {
 			@Config.Comment("Specifies Hellfire Barriers to clear away from Rahovart")
 			@Config.Name("Hellfire Barrier Displacement")
 			@Config.RangeInt(min = 0, max = 4)
-			public int hellfireBarrierDisplacement = 1;
+			public int hellfireBarrierDisplacement = 2;
 
 			@Config.Comment("Specifies Hellfire Barriers degration per Belph kill (Lycanites uses 50/100)")
 			@Config.Name("Hellfire Barrier Belph Degrade")
@@ -154,6 +298,11 @@ public class ForgeConfigHandler {
 			@Config.Name("Hellfire Barrier Behemoth Degrade")
 			@Config.RangeInt(min = 0, max = 100)
 			public int hellfireBarrierBehemothDegrade = 50;
+
+			@Config.Comment("Should Phase 3 Summon an Ebon Cacodemon")
+			@Config.Name("Spawns Ebon Cacodemon")
+			@Config.RequiresMcRestart
+			public boolean cacodemonSummon = true;
 		}
 
 		public static class PotionEffectsConfig {
@@ -355,7 +504,7 @@ public class ForgeConfigHandler {
 			@Config.Comment("Ratio of max lycanites bonus movement defense, variants get more, set to 0 to disable")
 			@Config.Name("Cap Defense Ratio")
 			@Config.RangeDouble(min = 0)
-			public double capDefenseRatio = 5.0D;
+			public double capDefenseRatio = 4.0D;
 
 			@Config.Comment("Ratio of max lycanites bonus movement speed, variants get more, set to 0 to disable")
 			@Config.Name("Cap Speed Ratio")
@@ -415,6 +564,17 @@ public class ForgeConfigHandler {
 		@Config.Name("Boss Lower Health Scale")
 		@Config.RequiresMcRestart
 		public boolean bossLowerHealthScale = true;
+
+
+		@Config.Comment("Tweaks to Amalgalich with additional config options")
+		@Config.Name("Boss Tweaks Amalgalich")
+		@Config.RequiresMcRestart
+		public boolean bossTweaksAmalgalich = true;
+
+		@Config.Comment("Tweaks to Asmodeus with additional config options")
+		@Config.Name("Boss Tweaks Asmodeus")
+		@Config.RequiresMcRestart
+		public boolean bossTweaksAsmodeus = true;
 
 		@Config.Comment("Tweaks to Rahovart with additional config options")
 		@Config.Name("Boss Tweaks Rahovart")
