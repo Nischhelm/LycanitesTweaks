@@ -8,14 +8,10 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import lycanitestweaks.LycanitesTweaks;
-import org.apache.logging.log4j.Level;
 
-import java.io.File;
-import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 @Config(modid = LycanitesTweaks.MODID)
 public class ForgeConfigHandler {

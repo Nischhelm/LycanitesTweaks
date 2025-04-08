@@ -1,0 +1,17 @@
+{
+  "soulgazer_craftingtable": {
+    "category": "player",
+    "sounds":
+    [
+      {"name": "lycanitestweaks:item/soulgazerinteract_craftingtable", "stream": false}
+    ]
+  },
+  "soulgazer_player": {
+    "category": "player",
+    "sounds":
+    [
+      {"name": "lycanitestweaks:item/soulgazerinteract_player01", "stream": false},
+      {"name": "lycanitestweaks:item/soulgazerinteract_player02", "stream": false}
+    ]
+  }
+}

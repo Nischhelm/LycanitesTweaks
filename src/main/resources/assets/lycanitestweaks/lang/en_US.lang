@@ -8,6 +8,9 @@ event.boss.playermoblevels=The Soulgazer has unleashed a reflection of your soul
 
 soulbound.limited.levels=Your bound creature has limited power here, it is level: %levels%!
 
+soulgazer.playermoblevels.boss=The Soulgazer foresees... Level: %levels% if you keep hold of the gazer
+soulgazer.playermoblevels.spawner=The Soulgazer forecasts... Level: %levels% creatures may appear around you
+
 summon.imperfect.hostile=Your lack of knowledge has manifested a hostile creature!
 summon.imperfect.attack=Your lack of knowledge has manifested a weak creature!
 summon.imperfect.health=Your lack of knowledge has manifested a fragile creature!

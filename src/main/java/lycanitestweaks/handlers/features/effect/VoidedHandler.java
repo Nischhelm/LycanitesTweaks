@@ -28,7 +28,7 @@ public class VoidedHandler {
 
         if(event.getPotionEffect().getPotion() == PotionVoided.INSTANCE &&
                 entity instanceof EntityPlayer &&
-                ((EntityPlayer) entity).isCreative())
+                (((EntityPlayer) entity).isCreative() || ((EntityPlayer) entity).isSpectator()))
             event.setResult(Event.Result.DENY);
 
         if(ForgeConfigHandler.server.effectsConfig.voidedDeniesBuffs && entity.isPotionActive(PotionVoided.INSTANCE))

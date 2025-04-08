@@ -28,7 +28,7 @@ public class ConsumedHandler {
 
         if(event.getPotionEffect().getPotion() == PotionConsumed.INSTANCE &&
                 entity instanceof EntityPlayer &&
-                ((EntityPlayer) entity).isCreative())
+                (((EntityPlayer) entity).isCreative() || ((EntityPlayer) entity).isSpectator()))
             event.setResult(Event.Result.DENY);
 
         if (ForgeConfigHandler.server.effectsConfig.consumedDeniesBuffs && entity.isPotionActive(PotionConsumed.INSTANCE))

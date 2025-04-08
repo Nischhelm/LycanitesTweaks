@@ -8,6 +8,7 @@ import lycanitestweaks.handlers.features.effect.ConsumedHandler;
 import lycanitestweaks.handlers.features.effect.ItemCuringEffectsHandler;
 import lycanitestweaks.handlers.features.effect.VoidedHandler;
 import lycanitestweaks.handlers.features.item.ItemEquipmentRLCombatSweepHandler;
+import lycanitestweaks.handlers.features.item.ItemSoulgazerMoreInteractionsHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -40,6 +41,7 @@ public class LycanitesTweaks {
             PlayerMobLevelCapabilityHandler.registerCapability();
             MinecraftForge.EVENT_BUS.register(PlayerMobLevelCapabilityHandler.AttachCapabilityHandler.class);
             MinecraftForge.EVENT_BUS.register(PlayerMobLevelCapabilityHandler.class);
+            MinecraftForge.EVENT_BUS.register(ItemSoulgazerMoreInteractionsHandler.class);
         }
         if(ForgeConfigHandler.server.effectsConfig.registerConsumed) MinecraftForge.EVENT_BUS.register(ConsumedHandler.class);
         if(ForgeConfigHandler.server.effectsConfig.registerVoided) MinecraftForge.EVENT_BUS.register(VoidedHandler.class);
