@@ -1,16 +1,24 @@
 package lycanitestweaks.mixin.lycanitesmobsfeatures.bosstweaks;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.sugar.Local;
+import com.lycanitesmobs.core.block.BlockFireBase;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.creature.EntityRahovart;
+import com.lycanitesmobs.core.entity.goals.actions.abilities.SummonMinionsGoal;
 import lycanitestweaks.entity.goals.ExtendedGoalConditions;
 import lycanitestweaks.entity.goals.actions.abilities.HealPortionWhenNoPlayersGoal;
 import lycanitestweaks.entity.goals.actions.abilities.SummonLeveledMinionsGoal;
 import lycanitestweaks.handlers.ForgeConfigHandler;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockFire;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -21,7 +29,7 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
     /*
         Heal 50 -> Heal 1%
         Summon Wraith -> Not flight restricted, level match
-        Summon Archvile -> Summon Royal Variant Minimum Phase 2
+        Summon Archvile -> Option Summon Royal Variant or three normal Minimum Phase 2
         Added -> Summon Ebon Cacodemon Minimum Phase 3
 
         IDEAS
@@ -34,13 +42,22 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
         super(world);
     }
 
+
     @ModifyConstant(
             method = "initEntityAI",
-            constant = @Constant(stringValue = "hellfireball"),
+            constant = @Constant(stringValue = "hellfireball", ordinal = 0),
             remap = true
     )
-    public String lycanitesTweaks_lycanitesMobsEntityRahovart_initEntityAIReplaceProjectile(String constant){
-        return ForgeConfigHandler.server.rahovartConfig.mainProjectile;
+    public String lycanitesTweaks_lycanitesMobsEntityRahovart_initEntityAIReplaceProjectileAll(String constant){
+        return ForgeConfigHandler.server.rahovartConfig.mainProjectileAll;
+    }
+    @ModifyConstant(
+            method = "initEntityAI",
+            constant = @Constant(stringValue = "hellfireball", ordinal = 1),
+            remap = true
+    )
+    public String lycanitesTweaks_lycanitesMobsEntityRahovart_initEntityAIReplaceProjectileTargeted(String constant){
+        return ForgeConfigHandler.server.rahovartConfig.mainProjectileTarget;
     }
 
     @ModifyArg(
@@ -70,7 +87,9 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
             remap = true
     )
     public EntityAIBase lycanitesTweaks_lycanitesMobsEntityRahovart_initEntityAIArchville(EntityAIBase task){
-        return (new SummonLeveledMinionsGoal(this)).setMinionInfo("archvile").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(1));
+        if(ForgeConfigHandler.server.rahovartConfig.royalArchvile)
+            return (new SummonLeveledMinionsGoal(this)).setMinionInfo("archvile").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(1));
+        return (new SummonMinionsGoal(this)).setMinionInfo("archvile").setSummonRate(200).setSummonCap(3).setPerPlayer(true).setSizeScale((double)2.0F).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(1));
     }
 
     @Inject(
@@ -134,5 +153,37 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
     )
     public int lycanitesTweaks_lycanitesMobsEntityRahovart_onMinionDeathBelphBarrier(int constant){
         return ForgeConfigHandler.server.rahovartConfig.hellfireBarrierBelphDegrade;
+    }
+
+    // Stop the stupid float above fire and swim in water
+    @ModifyExpressionValue(
+            method = "onLivingUpdate",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;isAirBlock(Lnet/minecraft/util/math/BlockPos;)Z"),
+            remap = true
+    )
+    public boolean lycanitesTweaks_lycanitesMobsEntityRahovart_onLivingUpdate(boolean original, @Local BlockPos arenaPos){
+        return original || this.world.getBlockState(arenaPos).getBlock().isPassable(this.world, arenaPos);
+    }
+
+    // Thanks Iqury
+    @Unique
+    @Override
+    public void onDeath(DamageSource damageSource) {
+        super.onDeath(damageSource);
+        if (!this.getEntityWorld().isRemote) {
+            int extinguishWidth = 3;
+            int extinguishHeight = 2;
+            for(int x = (int)this.posX - extinguishWidth; x <= (int)this.posX + extinguishWidth; ++x) {
+                for(int y = (int)this.posY - extinguishHeight; y <= (int)this.posY + 2; ++y) {
+                    for(int z = (int)this.posZ - extinguishWidth; z <= (int)this.posZ + extinguishWidth; ++z) {
+                        Block block = this.getEntityWorld().getBlockState(new BlockPos(x, y, z)).getBlock();
+                        if (block instanceof BlockFireBase || block instanceof BlockFire) {
+                            BlockPos placePos = new BlockPos(x, y, z);
+                            this.getEntityWorld().setBlockToAir(placePos);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

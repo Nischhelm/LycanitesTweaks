@@ -70,7 +70,7 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             remap = true
     )
     public EntityAIBase lycanitesTweaks_lycanitesMobsEntityAsmodeus_initEntityAIHeal(EntityAIBase task){
-        return (new HealPortionWhenNoPlayersGoal(this));
+        return (new HealPortionWhenNoPlayersGoal(this).setCheckRange(80));
     }
 
     @ModifyArg(
@@ -104,8 +104,8 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
         if(ForgeConfigHandler.server.asmodeusConfig.chupacabraSummon)
             this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setMinionInfo("chupacabra").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(2)));
         if(ForgeConfigHandler.server.asmodeusConfig.additionalProjectileAdd) {
-            this.tasks.addTask(this.nextIdleGoalIndex, (new FireProjectilesGoal(this)).setProjectile(ForgeConfigHandler.server.asmodeusConfig.additionalProjectile).setFireRate(640).setVelocity(1.0F).setScale(8.0F).setAllPlayers(true));
-            this.tasks.addTask(this.nextIdleGoalIndex, (new FireProjectilesGoal(this)).setProjectile(ForgeConfigHandler.server.asmodeusConfig.additionalProjectile).setFireRate(960).setVelocity(1.0F).setScale(8.0F));
+            this.tasks.addTask(this.nextIdleGoalIndex, (new FireProjectilesGoal(this)).setProjectile(ForgeConfigHandler.server.asmodeusConfig.additionalProjectile).setFireRate(640).setVelocity(0.8F).setScale(8.0F).setAllPlayers(true));
+            this.tasks.addTask(this.nextIdleGoalIndex, (new FireProjectilesGoal(this)).setProjectile(ForgeConfigHandler.server.asmodeusConfig.additionalProjectile).setFireRate(960).setVelocity(0.8F).setScale(8.0F));
         }
     }
 
@@ -121,6 +121,7 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
         if(ForgeConfigHandler.server.asmodeusConfig.astarothsUseBossDamageLimit) {
             minion.damageMax = BaseCreatureEntity.BOSS_DAMAGE_LIMIT;
             minion.damageLimit = (float) BaseCreatureEntity.BOSS_DAMAGE_LIMIT;
+            minion.spawnedAsBoss = true;
         }
         if(ForgeConfigHandler.server.asmodeusConfig.astarothsTeleportAdjacent && this.currentArenaNode != null){
             BlockPos randomPos = this.currentArenaNode.getRandomAdjacentNode().pos;
@@ -142,6 +143,7 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
         if(ForgeConfigHandler.server.asmodeusConfig.astarothsUseBossDamageLimit) {
             minion.damageMax = BaseCreatureEntity.BOSS_DAMAGE_LIMIT;
             minion.damageLimit = (float) BaseCreatureEntity.BOSS_DAMAGE_LIMIT;
+            minion.spawnedAsBoss = true;
         }
         if(ForgeConfigHandler.server.asmodeusConfig.astarothsTeleportAdjacent && this.currentArenaNode != null){
             BlockPos randomPos = this.currentArenaNode.getRandomAdjacentNode().pos;
@@ -230,6 +232,16 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
     )
     public boolean lycanitesTweaks_lycanitesMobsEntityAsmodeus_isDamageTypeApplicableWhileBlocking(boolean original, @Local(argsOnly = true) DamageSource source, @Local(argsOnly = true) float damage){
         return false;
+    }
+
+    // Stop the stupid float above fire and swim in water
+    @ModifyExpressionValue(
+            method = "updateArenaMovement",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;isAirBlock(Lnet/minecraft/util/math/BlockPos;)Z"),
+            remap = true
+    )
+    public boolean lycanitesTweaks_lycanitesMobsEntityAsmodeus_updateArenaMovement(boolean original, @Local BlockPos arenaPos){
+        return original || this.world.getBlockState(arenaPos).getBlock().isPassable(this.world, arenaPos);
     }
 
     @Unique

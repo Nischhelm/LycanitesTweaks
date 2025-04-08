@@ -1,4 +1,4 @@
-package lycanitestweaks.handlers.features.equipment;
+package lycanitestweaks.handlers.features.item;
 
 import bettercombat.mod.compat.EnchantCompatHandler;
 import bettercombat.mod.event.RLCombatSweepEvent;

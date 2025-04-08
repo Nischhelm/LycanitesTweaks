@@ -1,5 +1,6 @@
 package lycanitestweaks.handlers;
 
+import fermiumbooter.annotations.MixinConfig;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
@@ -21,6 +22,7 @@ public class ForgeConfigHandler {
 
 	private static HashSet<ResourceLocation> cleansedCureEffects = null;
 	private static HashSet<ResourceLocation> flowersaurBiomes = null;
+	private static HashSet<ResourceLocation> immunizationCureEffects = null;
 	private static HashSet<String> pmlSpawnerNames = null;
 
 	@Config.Comment("Client-Side Options")
@@ -33,10 +35,12 @@ public class ForgeConfigHandler {
 
 	@Config.Comment("Enable/Disable Tweaks")
 	@Config.Name("Toggle Mixins")
-	public static final MixinConfig mixinConfig = new MixinConfig();
+	@MixinConfig.SubInstance
+	public static final featuresConfig featuresMixinConfig = new featuresConfig();
 
 	@Config.Comment("Enable/Disable Patches")
 	@Config.Name("Toggle Patches")
+	@MixinConfig.SubInstance
 	public static final PatchConfig mixinPatchesConfig = new PatchConfig();
 
 	public static class ClientConfig {
@@ -80,6 +84,10 @@ public class ForgeConfigHandler {
 		@Config.Name("Lycanites Tweaks Creature Stats")
 		public final StatsConfig statsConfig = new StatsConfig();
 
+		@Config.Comment("Do an instance check for BlockFire with Mixin 'Lycanites Fire Extinguish (Vanilla)'")
+		@Config.Name("Only Check Lycanites Fire Punchable")
+		public boolean onlyCheckLycanitesFire = false;
+
 		@Config.Comment("Distance between entities to trigger auto pickup drop")
 		@Config.Name("Pick Up Distance")
 		@Config.RangeDouble(min = 0)
@@ -114,6 +122,16 @@ public class ForgeConfigHandler {
 				"lycanitesmobs:decay"
 		};
 
+		@Config.Comment("List of potion resource locations immunization will cure")
+		@Config.Name("Immunization Effects To Cure")
+		public String[] immunizationEffectsToCure = {
+				"minecraft:poison",
+				"minecraft:hunger",
+				"minecraft:weakness",
+				"minecraft:nausea",
+				"lycanitesmobs:paralysis"
+		};
+
 		@Config.Comment("List of biome resource locations where custom name Arisaurs will spawn in")
 		@Config.Name("Biomes Flowersaurs Spawn In")
 		public String[] flowersaurSpawningBiomes = {
@@ -124,7 +142,7 @@ public class ForgeConfigHandler {
 
 		public static class BossAmalgalichConfig {
 
-			@Config.Comment("Projectile to replace main 'spectralbolt' auto attack")
+			@Config.Comment("Projectile to replace main 'spectralbolt' auto attack (targeted/all)")
 			@Config.Name("Main Projectile Name")
 			@Config.RequiresMcRestart
 			public String mainProjectile = "lichspectralbolt";
@@ -160,9 +178,13 @@ public class ForgeConfigHandler {
 			@Config.Name("Consumption Kill Heal")
 			public float consumptionKillHeal = 0.005F;
 
-			@Config.Comment("Crimson multiplier to shadow fire extinguish width on death")
-			@Config.Name("Crimson Epion Extinguish Width")
-			public float crimsonEpionExtinguishWidth = 3.0F;
+			@Config.Comment("Chance that Amalgalich killing an Epion will Extinguish Shadow Fire")
+			@Config.Name("Consumption Kill Epion Extinguish")
+			public float consumptionKillEpionChance = 0.8F;
+
+			@Config.Comment("Custom value to shadow fire extinguish width on death")
+			@Config.Name("Custom Epion Extinguish Width")
+			public int customEpionExtinguishWidth = 10;
 
 			@Config.Comment("Replace Lob Darkling with Summon Goal, as a high level Amalgalich spams too much")
 			@Config.Name("Lob Darklings Replace")
@@ -183,7 +205,7 @@ public class ForgeConfigHandler {
 
 		public static class BossAsmodeusConfig {
 
-			@Config.Comment("Add AI Ranged auto attacking for an additional projectile")
+			@Config.Comment("Add AI Ranged auto attacking (targeted/all) for an additional projectile")
 			@Config.Name("Additional Projectile Register")
 			@Config.RequiresMcRestart
 			public boolean additionalProjectileAdd = true;
@@ -203,7 +225,7 @@ public class ForgeConfigHandler {
 
 			@Config.Comment("Duration of Voided Debuff in seconds, set to 0 to disable")
 			@Config.Name("Devil Gatling Voided Time")
-			public int devilGatlingVoidedTime = 10;
+			public int devilGatlingVoidedTime = 1;
 
 			@Config.Comment("Projectile to replace Devilstar Stream attack")
 			@Config.Name("Devilstar Projectile Name")
@@ -220,7 +242,7 @@ public class ForgeConfigHandler {
 
 			@Config.Comment("Whether Astaroth Minions use Rare/Boss Damage Limit")
 			@Config.Name("Astaroths Boss Damage Limit")
-			public boolean astarothsUseBossDamageLimit = false;
+			public boolean astarothsUseBossDamageLimit = true;
 
 			@Config.Comment("Hell Shield Exponent for base ATTACK_DAMAGE to damage shield with")
 			@Config.Name("Hell Shield Damage Power")
@@ -254,10 +276,15 @@ public class ForgeConfigHandler {
 
 		public static class BossRahovartConfig {
 
-			@Config.Comment("Projectile to replace main 'hellfireball' attack")
-			@Config.Name("Main Projectile Name")
+			@Config.Comment("Projectile to replace targeted 'hellfireball' auto attack")
+			@Config.Name("Main Targeted Projectile Name")
 			@Config.RequiresMcRestart
-			public String mainProjectile = "sigilwraithskull";
+			public String mainProjectileTarget = "sigilwraithskull";
+
+			@Config.Comment("Projectile to replace all players 'hellfireball' auto attack")
+			@Config.Name("Main All Players Projectile Name")
+			@Config.RequiresMcRestart
+			public String mainProjectileAll = "sigilhellfireball";
 
 			@Config.Comment("Tick Maximum Lifespan for Belphs and Behemoths. Set to 0 to disable")
 			@Config.Name("Minion Temporary Duration")
@@ -298,6 +325,11 @@ public class ForgeConfigHandler {
 			@Config.Name("Hellfire Barrier Behemoth Degrade")
 			@Config.RangeInt(min = 0, max = 100)
 			public int hellfireBarrierBehemothDegrade = 50;
+
+			@Config.Comment("Archvile Summons one Royal variant instead of 3 normal")
+			@Config.Name("Spawns Royal Archvile")
+			@Config.RequiresMcRestart
+			public boolean royalArchvile = true;
 
 			@Config.Comment("Should Phase 3 Summon an Ebon Cacodemon")
 			@Config.Name("Spawns Ebon Cacodemon")
@@ -523,235 +555,327 @@ public class ForgeConfigHandler {
 		}
 	}
 
-	public static class MixinConfig {
+	public static class featuresConfig {
+
+		/*
+		*
+		* Features, no plans on porting Vanilla Mixins into Lycanites
+		*
+		 */
 
 		@Config.Comment("Fix Golems attacking tamed mobs")
-		@Config.Name("Fix Golems Attacking Tamed Mobs")
+		@Config.Name("Fix Golems Attacking Tamed Mobs (Vanilla)")
 		@Config.RequiresMcRestart
+		@MixinConfig.EarlyMixin(name = "mixins.lycanitestweaks.vanillairongolemtargettamed.json")
 		public boolean ironGolemsTamedTarget = true;
 
-		@Config.Comment("Whether a Smited LivingEntityBase is undead if method inherited (often overridden)")
-		@Config.Name("Most Smited Are Undead")
+		@Config.Comment("Add Modded Fires to the specific Blocks.FIRE check made by the World")
+		@Config.Name("Lycanites Fire Extinguish (Vanilla)")
 		@Config.RequiresMcRestart
+		@MixinConfig.EarlyMixin(name = "mixins.lycanitestweaks.vanillaextinguishmoddedfire.json")
+		public boolean lycanitesFireExtinguish = true;
+
+		@Config.Comment("Whether a Smited LivingEntityBase is undead if method inherited (often overridden)")
+		@Config.Name("Most Smited Are Undead (Vanilla)")
+		@Config.RequiresMcRestart
+		@MixinConfig.EarlyMixin(name = "mixins.lycanitestweaks.vanillasmitedundeadlivingbase.json")
 		public boolean smitedMakesMostUndead = true;
+
+		/*
+		 *
+		 * Features that I feel are otherwise out of scope of LycanitesMobs, can change of course
+		 *
+		 */
 
 		@Config.Comment("Have LycanitesMobs check and load resources from LycanitesTweaks")
 		@Config.Name("Add LycanitesTweaks default JSON")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureinjectdefaultjsonloading.json")
 		public boolean addLycanitesTweaksDefaultJSON = true;
 
 		@Config.Comment("Giving an Enchanted Golden Apple to a tamed creature will turn it into a baby")
 		@Config.Name("Baby Age Gapple")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuretamedbabygapple.json")
 		public boolean babyAgeGapple = true;
 
 		@Config.Comment("Bleed damage uses setDamageIsAbsolute ontop of Magic/Armor ignoring")
 		@Config.Name("Bleed Pierces")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebleedpierces.json")
 		public boolean bleedPierces = true;
 
 		@Config.Comment("Move the Damage Limit DPS calc to LivingHurtEvent LOWEST from attackEntityFrom")
 		@Config.Name("Boss DPS Limit Recalc")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossdamagelimitdpsrecalc.json")
 		public boolean bossDPSLimitRecalc = true;
 
 		@Config.Comment("Invert bonus Health/Damage level scale for Bosses")
 		@Config.Name("Boss Invert Health and Damage Scale")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureinvertbossdamagehealthscale.json")
 		public boolean bossInvertHealthDamageScale = true;
 
 		@Config.Comment("Main Boss HP level bonus scaled down via config")
 		@Config.Name("Boss Lower Health Scale")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossbonushealthmodifier.json")
 		public boolean bossLowerHealthScale = true;
-
 
 		@Config.Comment("Tweaks to Amalgalich with additional config options")
 		@Config.Name("Boss Tweaks Amalgalich")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossamalgalich.json")
 		public boolean bossTweaksAmalgalich = true;
 
 		@Config.Comment("Tweaks to Asmodeus with additional config options")
 		@Config.Name("Boss Tweaks Asmodeus")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossasmodeustweaks.json")
 		public boolean bossTweaksAsmodeus = true;
 
 		@Config.Comment("Tweaks to Rahovart with additional config options")
 		@Config.Name("Boss Tweaks Rahovart")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossrahovarttweaks.json")
 		public boolean bossTweaksRahovart = true;
 
 		@Config.Comment("Add configurable caps to creature speed, effect durations, and pierce")
 		@Config.Name("Cap Specific Creature Stats")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurecreaturestatbonuscap.json")
 		public boolean capSpecificStats = true;
 
 		@Config.Comment("Make offhand crafted equipment RMB ability require player to be sneaking")
 		@Config.Name("Crafted Equipment Offhand RMB Needs Sneak")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.equipmentrmbneedssneak.json")
 		public boolean craftedEquipmentOffhandRMBSneak = true;
 
 		@Config.Comment("Allows Crafted Equipment to use Sword Enchantments")
 		@Config.Name("Crafted Equipment Sword Enchantments")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureequipmentswordenchantments.json")
 		public boolean craftedEquipmentSwordEnchantments = true;
 
-		@Config.Comment("Enable customizable effect list and handling for the cleansed effect")
-		@Config.Name("Customizable Cleansed Curing list")
+		@Config.Comment("Enable customizable effect list and handling for the cleansed/immunization effect")
+		@Config.Name("Customizable Curing Item Effects List")
 		@Config.RequiresMcRestart
-		public boolean cleansedEffectList = true;
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurescustomcureitemlist.json")
+		public boolean customItemCureEffectList = true;
 
 		@Config.Comment("When reading familiars from URL, Set Spawning Active to false")
 		@Config.Name("Familiars Inactive On Join")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurefamiliarsinactiveonjoin.json")
 		public boolean familiarsInactiveOnJoin = true;
 
 		@Config.Comment("Enable customizable biome list for Arisaurs with the custom name Flowersaur")
 		@Config.Name("Flowersaurs Naturally Spawn")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresflowersaurspawning.json")
 		public boolean flowersaurSpawningBiomes = true;
 
 		@Config.Comment("Summon minion goal matches host and minion levels (AI Goal)")
 		@Config.Name("Level match minions goal")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureaiminionhostlevelmatch.json")
 		public boolean levelMatchMinionsGoal = true;
 
 		@Config.Comment("Host entity summons minions at matching levels (Hard Coded)")
 		@Config.Name("Level match minions host method")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebasecreatureminionhostlevelmatch.json")
 		public boolean levelMatchMinionsHostMethod = true;
+
+		@Config.Comment("Set noBreakCollision, pair with early Mixin 'Lycanites Fire Extinguish (Vanilla)")
+		@Config.Name("Lycanites Fire No Break Collision")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurelycanitesfirepassable.json")
+		public boolean lycanitesFiresNoBreakCollision = true;
 
 		@Config.Comment("Whether a Smited BaseCreatureEntity should be considered undead")
 		@Config.Name("Lycanites Smited Are Undead")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresmitedundeadbasecreature.json")
 		public boolean smitedMakesBaseCreatureUndead = true;
+
+		@Config.Comment("Invert bonus Health/Damage level scale for Hostile Minion Creatures")
+		@Config.Name("Minion Invert Health and Damage Scale")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureinverthostileminiondamagehealthscale.json")
+		public boolean minionInvertHealthDamageScale = true;
 
 		@Config.Comment("Allow the pet perch position to be modifiable via config")
 		@Config.Name("Perch Position Modifiable")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureperchposition.json")
 		public boolean perchPositionModifiable = true;
 
 		@Config.Comment("Add distance checks to pickup mobs teleporting vicitims")
 		@Config.Name("Pickup Checks Distances")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureentitypickupfix.json")
 		public boolean pickupChecksDistance = true;
+
+		@Config.Comment("Adds more parity to Repulsion and Weight, repulsion gains weights benefits")
+		@Config.Name("Repulsion Weight Benefits")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurerepulsionweight.json")
+		public boolean repulsionWeight = true;
 
 		@Config.Comment("Feeding tamed creatures Burritos and Risottos will increase/decrease size scale")
 		@Config.Name("Size Change Foods")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuretamedsizechangefood.json")
 		public boolean sizeChangeFoods = true;
 
 		@Config.Comment("Make Soul Gazing a creature riding an entity dismount and attack the player")
 		@Config.Name("Soul Gazer Dismounts")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresoulgazerdismounts.json")
 		public boolean soulGazerDismounts = true;
 
 		@Config.Comment("Enable setting owned creature and animal variant status with Soul Keys")
 		@Config.Name("Soulkeys Set Variant")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresoulkeyvariantset.json")
 		public boolean soulkeysSetVariant = true;
 
 		@Config.Comment("Rework summon progression to allow summoning weaker minions at low knowledge")
 		@Config.Name("Summon Progression Rework")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresummonrework.json")
 		public boolean summonProgressionRework = true;
 
 		@Config.Comment("Invert bonus Health/Damage level scale for Tamed Creatures")
 		@Config.Name("Tamed Invert Health and Damage Scale")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureinverttameddamagehealthscale.json")
 		public boolean tamedInvertHealthDamageScale = true;
 
 		@Config.Comment("Enable whether all tamed (tamed/summoned/soulbound) variants get stats bonuses")
 		@Config.Name("Tamed Variant Stat Bonuses")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurealltamedvariantstats.json")
 		public boolean tamedVariantStats = true;
 
 		@Config.Comment("Feeding Treats will prevent natural and forced despawning")
 		@Config.Name("Treat Sets Persistence")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuretameabletreatpersistence.json")
 		public boolean treatSetsPersistence = true;
 
 		@Config.Comment("Use Player Mob Level to affect Soul Key Bosses")
 		@Config.Name("Player Mob Level Bosses (Requires Capability)")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossesplayermoblevels.json")
 		public boolean playerMobLevelBosses = true;
 
 		@Config.Comment("Use Player Mob Level to affect JSON Spawners by whitelist")
 		@Config.Name("Player Mob Level JSON Spawner (Requires Capability)")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurejsonspawnerplayermoblevels.json")
 		public boolean playerMobLevelJSONSpawner = true;
 
 		@Config.Comment("Use Player Mob Level to limit soulbounds in specified dimensions")
 		@Config.Name("Player Mob Level Soulbound Limit Dims (Requires Capability)")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurelimitedbounddimensions.json")
 		public boolean playerMobLevelSoulboundLimitedDimensions = true;
 
 		@Config.Comment("Use Player Mob Level to affect summon staff minions")
 		@Config.Name("Player Mob Level Summon Staff (Requires Capability)")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresummonstaffplayermoblevel.json")
 		public boolean playerMobLevelSummonStaff = true;
 
 		@Config.Comment("Lycanites Creatures can use JSON loot tables alongside LycanitesMobs drop list")
 		@Config.Name("Vanilla BaseCreatureEntity Loot Table")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurecreaturevanillaloottables.json")
 		public boolean vanillaBaseCreatureLootTable = true;
+
+		/*
+		*
+		* Temporary Mod Compatibility Mixins, things I should really make a PR for
+		*
+		 */
 
 		@Config.Comment("Makes Crafted Equipment reach stat influence ReachFix attack range")
 		@Config.Name("Crafted Equipment ReachFix (ReachFix)")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.equipmentreachfix.json")
 		public boolean craftedEquipmentReachFix = false;
 
 		@Config.Comment("Cancels Crafted Sweep and rehandle with RLCombat Sweep")
 		@Config.Name("Crafted Equipment RLCombat Sweep (RLCombat)")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.equipmentrlcombatsweep.json")
 		public boolean craftedEquipmentRLCombatSweep = false;
 	}
 
 	public static class PatchConfig {
 
+		/*
+		 *
+		 * Temporary Mixin Patches, intended to become PR in LycanitesMobs
+		 *
+		 */
+
 		@Config.Comment("Disables Soul Bounds using portals, which would kill them and set respawn cooldown")
 		@Config.Name("Disable Soul Bounds Using Portals")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchessoulboundnoportal.json")
 		public boolean soulBoundNoPortal = true;
 
 		@Config.Comment("Fix hostile AgeableCreature babies not dropping loot")
 		@Config.Name("Fix AgeableCreature baby drops")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesageablebabydrops.json")
 		public boolean fixAgeableBabyDrops = true;
 
 		@Config.Comment("Add persistence to summons via BaseCreature method")
 		@Config.Name("Fix BaseCreature Summon Persistence")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesbasecreatureminionpersistence.json")
 		public boolean fixBaseCreatureSummonPersistence = true;
 
 		@Config.Comment("Add a call to super in BaseCreature's isPotionApplicable method")
 		@Config.Name("Fix BaseCreature Potion Applicable")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesbasecreaturepotionapplicable.json")
 		public boolean fixBaseCreaturePotionApplicableSuper = true;
 
 		@Config.Comment("Fix divide by zero crash in FireProjectilesGoal and RangedSpeed of zero preventing attacks")
 		@Config.Name("Fix Creature Ranged Speed")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesrangedspeeddividebyzero.json")
 		public boolean fixRangedSpeedDivideZero = true;
 
 		@Config.Comment("Fix Ettin checking for inverted griefing flag")
 		@Config.Name("Fix Ettin grief flag")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesettingriefflag.json")
 		public boolean fixEttinBlockBreak = true;
 
 		@Config.Comment("Fix Fear checking for creative capabilities instead of flight")
 		@Config.Name("Fix Fear Survival Flying")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesfearsurvivalflying.json")
 		public boolean fixFearSurvivalFlying = true;
 
 		@Config.Comment("Fix HealWhenNoPlayersGoal trigger check using AND instead of OR")
 		@Config.Name("Fix Heal Goal Check")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patcheshealgoalcheck.json")
 		public boolean fixHealGoalCheck = true;
 
 		@Config.Comment("Fix Serpix Blizzard projectile spawning in the ground")
 		@Config.Name("Fix Serpix Blizzard Offset")
 		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patcheserpixblizzardoffset.json")
 		public boolean fixSerpixBlizzardOffset = true;
 	}
 
@@ -775,6 +899,17 @@ public class ForgeConfigHandler {
 			ForgeConfigHandler.flowersaurBiomes = list;
 		}
 		return ForgeConfigHandler.flowersaurBiomes;
+	}
+
+	public static HashSet<ResourceLocation> getImmunizationCureEffects(){
+		if(ForgeConfigHandler.immunizationCureEffects == null){
+			HashSet<ResourceLocation> list = new HashSet<>();
+			for(String string: ForgeConfigHandler.server.immunizationEffectsToCure){
+				list.add(new ResourceLocation(string));
+			}
+			ForgeConfigHandler.immunizationCureEffects = list;
+		}
+		return ForgeConfigHandler.immunizationCureEffects;
 	}
 
 	public static boolean isDimensionLimitedMinion(int dim){
@@ -807,24 +942,5 @@ public class ForgeConfigHandler {
 				ConfigManager.sync(LycanitesTweaks.MODID, Config.Type.INSTANCE);
 			}
 		}
-	}
-
-	private static File configFile = null;
-	private static String configBooleanString = "";
-
-	public static boolean getBoolean(String name) {
-		if(configFile==null) {
-			configFile = new File("config", LycanitesTweaks.MODID + ".cfg");
-			if(configFile.exists() && configFile.isFile()) {
-				try (Stream<String> stream = Files.lines(configFile.toPath())) {
-					configBooleanString = stream.filter(s -> s.trim().startsWith("B:")).collect(Collectors.joining());
-				}
-				catch(Exception ex) {
-					LycanitesTweaks.LOGGER.log(Level.ERROR, "Failed to parse LycanitesTweaks config: " + ex);
-				}
-			}
-		}
-		//If config is not generated or missing entries, don't enable injection on first run
-		return configBooleanString.contains("B:\"" + name + "\"=true");
 	}
 }

@@ -18,7 +18,7 @@ public class HealPortionWhenNoPlayersGoal extends EntityAIBase {
 	private int tickDelay = 200;
 	private int tickRate = 20;
 	private int checkRange = 64;
-    private float healAmount = 0.01F;
+    private float healAmount = 0.02F;
 
 	/**
 	 * Constrcutor

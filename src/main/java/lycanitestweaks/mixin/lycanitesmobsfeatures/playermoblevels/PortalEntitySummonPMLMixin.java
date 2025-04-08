@@ -26,7 +26,7 @@ public abstract class PortalEntitySummonPMLMixin {
             remap = false
     )
     public void lycanitesTweaks_lycanitesPortalEntity_summonCreatures(CallbackInfoReturnable<Integer> cir, @Local BaseCreatureEntity entityCreature) {
-        if(ForgeConfigHandler.mixinConfig.playerMobLevelSummonStaff){
+        if(ForgeConfigHandler.featuresMixinConfig.playerMobLevelSummonStaff){
             IPlayerMobLevelCapability pml = this.shootingEntity.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
             if(pml != null){
                 entityCreature.setLevel(pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlSummonDegree));

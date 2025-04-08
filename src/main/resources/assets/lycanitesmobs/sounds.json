@@ -23,6 +23,10 @@
     "category": "ambient",
     "sounds": [{"name": "lycanitesmobs:projectile/lichspectralbolt", "stream": false}]
   },
+  "projectile.sigilhellfireball": {
+    "category": "ambient",
+    "sounds": [{"name": "lycanitesmobs:projectile/sigilhellfireball", "stream": false}]
+  },
   "projectile.sigilwraithskull": {
     "category": "ambient",
     "sounds": [{"name": "lycanitesmobs:projectile/sigilwraithskull", "stream": false}]

@@ -1,7 +1,7 @@
 {
   "name": "consuming",
   "loadDefault": true,
-  "debuffDurationMultiplier": 2,
+  "debuffDurationMultiplier": 1,
   "buffs": [
     "lycanitesmobs:leech"
   ],

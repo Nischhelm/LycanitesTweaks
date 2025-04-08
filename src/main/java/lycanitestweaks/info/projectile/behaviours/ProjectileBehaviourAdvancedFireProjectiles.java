@@ -16,6 +16,7 @@ public class ProjectileBehaviourAdvancedFireProjectiles extends ProjectileBehavi
     private AimType aimType = AimType.RANDOM;
 
     private boolean impactOnly = false;
+    private float sizeScale = -1;
 
     public ProjectileBehaviourAdvancedFireProjectiles(){
 
@@ -29,6 +30,9 @@ public class ProjectileBehaviourAdvancedFireProjectiles extends ProjectileBehavi
         }
         if(json.has("impactOnly")){
             this.impactOnly = json.get("impactOnly").getAsBoolean();
+        }
+        if(json.has("sizeScale")){
+            this.sizeScale = json.get("sizeScale").getAsFloat();
         }
     }
 
@@ -104,6 +108,8 @@ public class ProjectileBehaviourAdvancedFireProjectiles extends ProjectileBehavi
             }
         }
         else if(aimType == AimType.NONE){ }
+
+        if(this.sizeScale != -1) childProjectile.setProjectileScale(this.sizeScale);
 
         childProjectile.shoot(
                 childMotionX,

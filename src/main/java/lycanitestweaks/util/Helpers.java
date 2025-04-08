@@ -9,19 +9,24 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 
 public class Helpers {
 
-    public static void  removeAllPositiveEffects(EntityLivingBase entity){
-        ArrayList<Potion> toRemove = new ArrayList<>();
-
-        for(PotionEffect effect : entity.getActivePotionEffects())
-            if(!effect.getPotion().isBadEffect()) toRemove.add(effect.getPotion());
-
-        for(Potion potion : toRemove) entity.removePotionEffect(potion);
+    public static void cureActiveEffectsFromResourceSet(EntityLivingBase entity, HashSet<ResourceLocation> curingSet){
+        List<Potion> potionsToRemove = new ArrayList<>();
+        for(PotionEffect effect : entity.getActivePotionEffects()){
+            if(curingSet.contains(effect.getPotion().getRegistryName()))
+                potionsToRemove.add(effect.getPotion());
+        }
+        for(Potion potion : potionsToRemove){
+            entity.removePotionEffect(potion);
+        }
     }
 
     // Performs hit effect without dealing damage
@@ -50,5 +55,14 @@ public class Helpers {
         if (usedMana) {
           lycanitesEquipment.removeMana(itemStack, 1);
         }
+    }
+
+    public static void  removeAllPositiveEffects(EntityLivingBase entity){
+        ArrayList<Potion> toRemove = new ArrayList<>();
+
+        for(PotionEffect effect : entity.getActivePotionEffects())
+            if(!effect.getPotion().isBadEffect()) toRemove.add(effect.getPotion());
+
+        for(Potion potion : toRemove) entity.removePotionEffect(potion);
     }
 }
