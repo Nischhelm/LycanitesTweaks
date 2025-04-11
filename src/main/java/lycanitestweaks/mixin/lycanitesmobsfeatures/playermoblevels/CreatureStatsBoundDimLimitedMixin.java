@@ -30,9 +30,11 @@ public abstract class CreatureStatsBoundDimLimitedMixin {
             IPlayerMobLevelCapability pml = this.entity.getPetEntry().host.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
             if(pml != null){
                 int levels = Math.min(original, pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlSoulboundDegree));
-                String message = LanguageManager.translate("soulbound.limited.levels");
-                message = message.replace("%levels%", ""+levels);
-                ((EntityPlayer)this.entity.getPetEntry().host).sendStatusMessage(new TextComponentString(message), true);
+                if(this.entity.ticksExisted == 0) {
+                    String message = LanguageManager.translate("soulbound.limited.levels");
+                    message = message.replace("%levels%", "" + levels);
+                    ((EntityPlayer) this.entity.getPetEntry().host).sendStatusMessage(new TextComponentString(message), true);
+                }
                 return levels;
             }
         }

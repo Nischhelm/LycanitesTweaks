@@ -109,6 +109,42 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
         }
     }
 
+    @ModifyExpressionValue(
+            method = "updatePhases",
+            at = @At(value = "FIELD", target = "Lcom/lycanitesmobs/core/entity/creature/EntityAsmodeus;devilstarStreamTimeMax:I"),
+            remap = false
+    )
+    public int lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesDevilstarUpTime(int original){
+        return ForgeConfigHandler.server.asmodeusConfig.devilstarStreamUpTime;
+    }
+
+    @ModifyExpressionValue(
+            method = "updatePhases",
+            at = @At(value = "FIELD", target = "Lcom/lycanitesmobs/core/entity/creature/EntityAsmodeus;devilstarStreamChargeMax:I"),
+            remap = false
+    )
+    public int lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesDevilstarCooldown(int original){
+        return ForgeConfigHandler.server.asmodeusConfig.devilstarCooldown;
+    }
+
+    @ModifyExpressionValue(
+            method = "updatePhases",
+            at = @At(value = "FIELD", target = "Lcom/lycanitesmobs/core/entity/creature/EntityAsmodeus;hellshieldAstarothRespawnTimeMax:I"),
+            remap = false
+    )
+    public int lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesAstarothsRespawnP2(int original){
+        return ForgeConfigHandler.server.asmodeusConfig.astarothsRespawnTimePhase2;
+    }
+
+    @ModifyExpressionValue(
+            method = "updatePhases",
+            at = @At(value = "FIELD", target = "Lcom/lycanitesmobs/core/entity/creature/EntityAsmodeus;rebuildAstarothRespawnTimeMax:I"),
+            remap = false
+    )
+    public int lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesAstarothsRespawnP3(int original){
+        return ForgeConfigHandler.server.asmodeusConfig.astarothsRespawnTimePhase3;
+    }
+
     // Arachnotron
     @Inject(
             method = "updatePhases",

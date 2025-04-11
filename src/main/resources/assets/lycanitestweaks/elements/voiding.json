@@ -1,7 +1,7 @@
 {
   "name": "voiding",
   "loadDefault": true,
-  "debuffDurationMultiplier": 1,
+  "debuffDurationMultiplier": 3,
   "buffs": [
     "lycanitesmobs:leech"
   ],

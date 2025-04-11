@@ -87,7 +87,7 @@ public class ForgeConfigHandler {
 		@Config.Comment("Distance between entities to trigger auto pickup drop")
 		@Config.Name("Pick Up Distance")
 		@Config.RangeDouble(min = 0)
-		public double pickUpDistance = 32.0D;
+		public double pickUpDistance = 8.0D;
 
 		@Config.Comment("Perch Angle In Radians")
 		@Config.Name("Perch Angle Radians")
@@ -103,6 +103,23 @@ public class ForgeConfigHandler {
 		@Config.Name("Tamed Size Change Degree")
 		@Config.RangeDouble(min = 0.0)
 		public double sizeChangeDegree = 0.1D;
+
+		@Config.Comment("Chance for a successful attempt to tame with healing food")
+		@Config.Name("Tamed With Healing Food Chance")
+		@Config.RangeDouble(min = 0.0, max = 1.0)
+		public float tameWithFoodChance = 0.3F;
+
+		@Config.Comment("Do not allow flying creatures to be tamed with healing food")
+		@Config.Name("Tame With Food No Flying")
+		public boolean tameWithFoodNoFlying = true;
+
+		@Config.Comment("In order to use a vanilla saddle, the mount most be at least this level")
+		@Config.Name("Vanilla Saddle Creature Level Requirement")
+		public int vanillaSaddleLevelRequirement = 16;
+
+		@Config.Comment("Do not allow flying creatures use the vanilla saddle")
+		@Config.Name("Vanilla Saddle No Flying")
+		public boolean vanillaSaddleNoFlying = true;
 
 		@Config.Comment("Minimum level all parts of equipment must be in order to apply Sword Enchantments")
 		@Config.Name("Equipment Minimum Level for to sword Enchantments")
@@ -152,10 +169,28 @@ public class ForgeConfigHandler {
 			@Config.Name("Targeted Projectile Name")
 			public String targetedProjectile = "lichshadowfire";
 
+			@Config.Comment("Targeted Projectile Cooldown Ticks")
+			@Config.Name("Targeted Projectile Cooldown Ticks")
+			@Config.RangeInt(min = 0)
+			@Config.RequiresMcRestart
+			public int targetedProjectileGoalCooldown = 360;
+
+			@Config.Comment("Targeted Projectile Stamina Drain (Uptime = Cooldown/DrainRate)")
+			@Config.Name("Targeted Projectile Stamina Drain Rate")
+			@Config.RangeInt(min = 0)
+			@Config.RequiresMcRestart
+			public int targetedProjectileStaminaDrainRate = 6;
+
 			@Config.Comment("Consumption in any phases, goal/animation shared across the fight")
 			@Config.Name("Consumption All Phases")
 			@Config.RequiresMcRestart
 			public boolean consumptionAllPhases = true;
+
+			@Config.Comment("Consumption Cooldown Duration Ticks")
+			@Config.Name("Consumption Cooldown Duration Ticks")
+			@Config.RangeInt(min = 0)
+			@Config.RequiresMcRestart
+			public int consumptionGoalCooldown = 400;
 
 			@Config.Comment("If consumption should use LycanitesTweaks Consumption debuff")
 			@Config.Name("Consumption Debuff effect")
@@ -228,6 +263,16 @@ public class ForgeConfigHandler {
 			@Config.RequiresMcRestart
 			public String devilstarProjectile = "demonicshockspark";
 
+			@Config.Comment("Devilstar Stream projectile firing active ticks")
+			@Config.Name("Devilstar Stream UpTime")
+			@Config.RangeInt(min = 0)
+			public int devilstarStreamUpTime = 100;
+
+			@Config.Comment("Devilstar Stream cooldown ticks (Lycanites uses 400, Gatling is 200)")
+			@Config.Name("Devilstar Stream Cooldown")
+			@Config.RangeInt(min = 0)
+			public int devilstarCooldown = 360;
+
 			@Config.Comment("Whether Devilstar Stream can be used outside Phase 1")
 			@Config.Name("Devilstar Stream All Phases")
 			public boolean devilstarStreamAllPhases = true;
@@ -240,6 +285,16 @@ public class ForgeConfigHandler {
 			@Config.Name("Astaroths Boss Damage Limit")
 			public boolean astarothsUseBossDamageLimit = true;
 
+			@Config.Comment("Astaroth respawn time in seconds (2 per Player Max 2 Alive)")
+			@Config.Name("Astaroths Phase 2 Respawn Time")
+			@Config.RangeInt(min = 0)
+			public int astarothsRespawnTimePhase2 = 30;
+
+			@Config.Comment("Astaroth respawn time in seconds (1 per Player Max 4 Alive per Player)")
+			@Config.Name("Astaroths Phase 3 Respawn Time")
+			@Config.RangeInt(min = 0)
+			public int astarothsRespawnTimePhase3 = 30;
+
 			@Config.Comment("Hell Shield Exponent for base ATTACK_DAMAGE to damage shield with")
 			@Config.Name("Hell Shield Damage Power")
 			@Config.RangeInt(min = 1)
@@ -248,7 +303,7 @@ public class ForgeConfigHandler {
 			@Config.Comment("Hell Shield Health for 100% Damage Reduction")
 			@Config.Name("Hell Shield Maximum Health")
 			@Config.RangeInt(min = 1)
-			public int hellShieldHealthMax = 20000;
+			public int hellShieldHealthMax = 10000;
 
 			@Config.Comment("Hell Shield Overheal to extend full power shield")
 			@Config.Name("Hell Shield Overheal Ratio")
@@ -297,20 +352,50 @@ public class ForgeConfigHandler {
 			@Config.RangeInt(min = 0, max = 35)
 			public int minionSpawnRangeMax = 35;
 
+			@Config.Comment("How much Hellfire energy is gained from a Belph in Phase 1")
+			@Config.Name("Hellfire Energy Belph")
+			@Config.RangeInt(min = 0, max = 100)
+			public int hellfireEnergyBelph = 20;
+
+			@Config.Comment("How much Hellfire energy is gained from a Behemoth in Phase 2")
+			@Config.Name("Hellfire Energy Behemoth")
+			@Config.RangeInt(min = 0, max = 100)
+			public int hellfireEnergyBehemoth = 20;
+
+			@Config.Comment("Hellfire energy passively gained per second in Phase 1 (Belph required to fire Wave)")
+			@Config.Name("Hellfire Energy Self Phase 1")
+			@Config.RangeInt(min = 0, max = 100)
+			public int hellfireEnergySelfP1 = 5;
+
+			@Config.Comment("Hellfire energy passively gained per second in Phase 2 (Behemoth required for wall)")
+			@Config.Name("Hellfire Energy Self Phase 2")
+			@Config.RangeInt(min = 0, max = 100)
+			public int hellfireEnergySelfP2 = 5;
+
+			@Config.Comment("Hellfire energy passively gained per second in Phase 3")
+			@Config.Name("Hellfire Energy Self Phase 3")
+			@Config.RangeInt(min = 0, max = 100)
+			public int hellfireEnergySelfP3 = 10;
+
 			@Config.Comment("Specifies Hellfire Walls to clear away from Rahovart")
 			@Config.Name("Hellfire Wall Displacement")
 			@Config.RangeInt(min = 0, max = 4)
 			public int hellfireWallDisplacement = 2;
 
-			@Config.Comment("Specifies Tick Duration of Hellfire Walls")
+			@Config.Comment("Specifies Tick Duration of Hellfire Walls (Every 200 lines up with E/W Axis)")
 			@Config.Name("Hellfire Wall Duration")
 			@Config.RangeInt(min = 0)
 			public int hellfireWallTimeMax = 800;
 
+			@Config.Comment("How much Hellfire energy is refunded upon a p2->p3 transition per active wall")
+			@Config.Name("Hellfire Wall Cleanup Refund")
+			@Config.RangeInt(min = 0, max = 100)
+			public int hellfireWallCleanupRefund = 50;
+
 			@Config.Comment("Specifies Hellfire Barriers to clear away from Rahovart")
 			@Config.Name("Hellfire Barrier Displacement")
 			@Config.RangeInt(min = 0, max = 4)
-			public int hellfireBarrierDisplacement = 2;
+			public int hellfireBarrierDisplacement = 3;
 
 			@Config.Comment("Specifies Hellfire Barriers degration per Belph kill (Lycanites uses 50/100)")
 			@Config.Name("Hellfire Barrier Belph Degrade")
@@ -320,7 +405,12 @@ public class ForgeConfigHandler {
 			@Config.Comment("Specifies Hellfire Barriers degration per Behemoth kill (Lycanites uses 100/100)")
 			@Config.Name("Hellfire Barrier Behemoth Degrade")
 			@Config.RangeInt(min = 0, max = 100)
-			public int hellfireBarrierBehemothDegrade = 50;
+			public int hellfireBarrierBehemothDegrade = 75;
+
+			@Config.Comment("How much Hellfire energy is refunded upon a p3->p2 transition per active barrier")
+			@Config.Name("Hellfire Barrier Cleanup Refund")
+			@Config.RangeInt(min = 0, max = 100)
+			public int hellfireBarrierCleanupRefund = 50;
 
 			@Config.Comment("Archvile Summons one Royal variant instead of 3 normal")
 			@Config.Name("Spawns Royal Archvile")
@@ -490,6 +580,10 @@ public class ForgeConfigHandler {
 			@Config.Comment("Whether limited soulbounds can be mounted")
 			@Config.Name("Player Mob Level Dimensions not mountable")
 			public boolean pmlMinionLimitDimNoMount = true;
+
+			@Config.Comment("Whether limited dimensions prevent soulbound spirit recharge")
+			@Config.Name("Player Mob Level Dimensions no spirit recharge")
+			public boolean pmlMinionLimitDimNoSpiritRecharge = true;
 
 			@Config.Comment("List of Lycanites Spawner Names to attempt to apply Player Mob Levels (ex World triggers don't have players)")
 			@Config.Name("PML Spawner Names")
@@ -703,6 +797,12 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureinverthostileminiondamagehealthscale.json")
 		public boolean minionInvertHealthDamageScale = true;
 
+		@Config.Comment("Allow mounts to be use vanilla saddles under certain conditions (has configs)")
+		@Config.Name("Mounts can use Vanilla saddles with limitations")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurelimitedvanillasaddle.json")
+		public boolean mountVanillaSaddleLimited = true;
+
 		@Config.Comment("Allow the pet perch position to be modifiable via config")
 		@Config.Name("Perch Position Modifiable")
 		@Config.RequiresMcRestart
@@ -744,6 +844,12 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresummonrework.json")
 		public boolean summonProgressionRework = true;
+
+		@Config.Comment("Allow creatures to be tamed/studied with their healing foods (has configs)")
+		@Config.Name("Tame Creatures with their healing food")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuretamewithhealingfood.json")
+		public boolean tameWithHealingFood = true;
 
 		@Config.Comment("Invert bonus Health/Damage level scale for Tamed Creatures")
 		@Config.Name("Tamed Invert Health and Damage Scale")

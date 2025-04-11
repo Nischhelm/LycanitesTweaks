@@ -51,6 +51,15 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
         super(world);
     }
 
+    @ModifyConstant(
+            method = "initEntityAI",
+            constant = @Constant(intValue = 400),
+            remap = true
+    )
+    public int lycanitesTweaks_lycanitesMobsEntityAmalgalich_initEntityAICooldownSet(int constant){
+        return ForgeConfigHandler.server.amalgalichConfig.consumptionGoalCooldown;
+    }
+
     @ModifyArg(
             method = "initEntityAI",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/EntityAITasks;addTask(ILnet/minecraft/entity/ai/EntityAIBase;)V", ordinal = 8),
@@ -163,7 +172,10 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
     )
     public void lycanitesTweaks_lycanitesMobsEntityAmalgalich_initEntityAIAdditionalGoals(CallbackInfo ci, @Local int consumptionGoalCooldown) {
         if (ForgeConfigHandler.server.amalgalichConfig.targetedAttack)
-            this.tasks.addTask(this.nextCombatGoalIndex++, new AttackRangedGoal(this).setSpeed(1.0D).setStaminaTime(260).setStaminaDrainRate(4).setRange(90.0F).setChaseTime(0).setCheckSight(false));
+            this.tasks.addTask(this.nextCombatGoalIndex++, new AttackRangedGoal(this).setSpeed(1.0D).
+                    setStaminaTime(ForgeConfigHandler.server.amalgalichConfig.targetedProjectileGoalCooldown).
+                    setStaminaDrainRate(ForgeConfigHandler.server.amalgalichConfig.targetedProjectileStaminaDrainRate).
+                    setRange(90.0F).setChaseTime(0).setCheckSight(false));
         if (ForgeConfigHandler.server.amalgalichConfig.grueSummon)
             this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setMinionInfo("grue").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(2)));
 

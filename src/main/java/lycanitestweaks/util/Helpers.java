@@ -1,5 +1,6 @@
 package lycanitestweaks.util;
 
+import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.item.equipment.ItemEquipment;
 import com.lycanitesmobs.core.item.equipment.features.EffectEquipmentFeature;
 import com.lycanitesmobs.core.item.equipment.features.EquipmentFeature;
@@ -17,6 +18,11 @@ import java.util.List;
 
 
 public class Helpers {
+
+    // mfw Lycanites config for no flying mount doesn't catch mobs whose flight check considers landed state
+    public static boolean isPracticallyFlying(BaseCreatureEntity entity){
+        return (entity.isFlying() || entity.flySoundSpeed > 0);
+    }
 
     public static void cureActiveEffectsFromResourceSet(EntityLivingBase entity, HashSet<ResourceLocation> curingSet){
         List<Potion> potionsToRemove = new ArrayList<>();

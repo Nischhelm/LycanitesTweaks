@@ -23,11 +23,11 @@
     {
       "type": "lycanitestweaks:advancedfireProjectiles",
       "projectileName": "devilstar",
-      "tickRate": 20,
+      "tickRate": 10,
       "persistentCount": 1,
       "impactCount": 0,
       "sizeScale": 1.5,
-      "velocity": 1.1,
+      "velocity": 0.9,
       "aimType": "target"
     },
     {

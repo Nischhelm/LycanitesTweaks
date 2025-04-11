@@ -7,6 +7,7 @@
   "minVersion": "0.8",
   "mixins": [
     "playermoblevels.CreatureStatsBoundDimLimitedMixin",
+    "playermoblevels.ExtendedPlayerSpiritDimLimitedMixin",
     "playermoblevels.RideableCreatureEntityBoundDimLimitedMixin",
     "playermoblevels.PetEntryBoundDimLimitedMixin",
     "playermoblevels.InventoryCreatureBoundDimLimitedMixin"

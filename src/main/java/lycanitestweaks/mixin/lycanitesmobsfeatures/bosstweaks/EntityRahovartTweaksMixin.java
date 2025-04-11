@@ -18,6 +18,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -37,6 +38,9 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
         Barrier count config
         Cap Minion Count
      */
+
+    @Shadow(remap = false)
+    public int hellfireEnergy;
 
     public EntityRahovartTweaksMixin(World world) {
         super(world);
@@ -128,6 +132,53 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
         return (this.getRNG().nextFloat() * (max - min)) + min;
     }
 
+    @ModifyConstant(
+            method = "updatePhases",
+            constant = @Constant(intValue = 20, ordinal = 0),
+            remap = false
+    )
+    public int lycanitesTweaks_lycanitesMobsEntityRahovart_updatePhasesBelphEnergy(int constant){
+        return ForgeConfigHandler.server.rahovartConfig.hellfireEnergyBelph;
+    }
+
+    @ModifyConstant(
+            method = "updatePhases",
+            constant = @Constant(intValue = 20, ordinal = 1),
+            remap = false
+    )
+    public int lycanitesTweaks_lycanitesMobsEntityRahovart_updatePhasesBehemothEnergy(int constant){
+        return ForgeConfigHandler.server.rahovartConfig.hellfireEnergyBehemoth;
+    }
+
+    @Inject(
+            method = "updatePhases",
+            at = @At(value = "FIELD", target = "Lcom/lycanitesmobs/core/entity/creature/EntityRahovart;hellfireEnergy:I", ordinal = 2),
+            remap = false
+    )
+    public void lycanitesTweaks_lycanitesMobsEntityRahovart_updatePhasesSelfEnergyP1(CallbackInfo ci){
+        if (this.updateTick % 20L == 0L && this.hellfireEnergy < 100)
+            this.hellfireEnergy = Math.min(99, this.hellfireEnergy + ForgeConfigHandler.server.rahovartConfig.hellfireEnergySelfP1);
+    }
+
+    @Inject(
+            method = "updatePhases",
+            at = @At(value = "FIELD", target = "Lcom/lycanitesmobs/core/entity/creature/EntityRahovart;hellfireEnergy:I", ordinal = 6),
+            remap = false
+    )
+    public void lycanitesTweaks_lycanitesMobsEntityRahovart_updatePhasesSelfEnergyP2(CallbackInfo ci){
+        if (this.updateTick % 20L == 0L && this.hellfireEnergy < 100)
+            this.hellfireEnergy = Math.min(99, this.hellfireEnergy + ForgeConfigHandler.server.rahovartConfig.hellfireEnergySelfP2);
+    }
+
+    @ModifyConstant(
+            method = "updatePhases",
+            constant = @Constant(intValue = 5, ordinal = 2),
+            remap = false
+    )
+    public int lycanitesTweaks_lycanitesMobsEntityRahovart_updatePhasesSelfEnergyP3(int constant){
+        return ForgeConfigHandler.server.rahovartConfig.hellfireEnergySelfP3;
+    }
+
     @ModifyExpressionValue(
             method = "hellfireWallAttack",
             at = @At(value = "FIELD", target = "Lcom/lycanitesmobs/core/entity/creature/EntityRahovart;hellfireWallTimeMax:I"),
@@ -135,6 +186,15 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
     )
     public int lycanitesTweaks_lycanitesMobsEntityRahovart_hellfireWallAttackTimeMax(int original){
         return ForgeConfigHandler.server.rahovartConfig.hellfireWallTimeMax;
+    }
+
+    @Inject(
+            method = "hellfireWallCleanup",
+            at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/core/entity/projectile/EntityHellfireBarrier;setDead()V"),
+            remap = true
+    )
+    public void lycanitesTweaks_lycanitesMobsEntityRahovart_hellfireWallCleanupRefund(CallbackInfo ci){
+        this.hellfireEnergy += ForgeConfigHandler.server.rahovartConfig.hellfireWallCleanupRefund;
     }
 
     @ModifyConstant(
@@ -153,6 +213,15 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
     )
     public int lycanitesTweaks_lycanitesMobsEntityRahovart_onMinionDeathBelphBarrier(int constant){
         return ForgeConfigHandler.server.rahovartConfig.hellfireBarrierBelphDegrade;
+    }
+
+    @Inject(
+            method = "hellfireBarrierCleanup",
+            at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/core/entity/projectile/EntityHellfireBarrier;setDead()V"),
+            remap = true
+    )
+    public void lycanitesTweaks_lycanitesMobsEntityRahovart_hellfireBarrierCleanupRefund(CallbackInfo ci){
+        this.hellfireEnergy += ForgeConfigHandler.server.rahovartConfig.hellfireBarrierCleanupRefund;
     }
 
     // Stop the stupid float above fire and swim in water

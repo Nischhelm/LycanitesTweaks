@@ -18,8 +18,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ItemSoulgazerMoreInteractionsHandler {
 
-    // Might Append a tooltip once I clientside mod
-
     @SubscribeEvent
     public static void soulgazeBlockRightClick(PlayerInteractEvent.RightClickBlock event){
         if(event.getEntityPlayer() == null || event.getWorld().isRemote) return;
@@ -29,13 +27,13 @@ public class ItemSoulgazerMoreInteractionsHandler {
         if(player.getHeldItemMainhand().getItem() instanceof ItemSoulgazer){
             IPlayerMobLevelCapability pml = player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
             if (pml != null) {
-                if (block == Blocks.BED) {
+                if (ForgeConfigHandler.featuresMixinConfig.playerMobLevelJSONSpawner && block == Blocks.BED) {
                     int levels = Math.max(1, pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlSpawnerDegree));
                     String message = LanguageManager.translate("soulgazer.playermoblevels.spawner");
                     message = message.replace("%levels%", "" + levels);
                     player.sendMessage(new TextComponentString(message));
                 }
-                else if (block instanceof BlockSoulcube) {
+                else if (ForgeConfigHandler.featuresMixinConfig.playerMobLevelBosses && block instanceof BlockSoulcube) {
                     int levels = Math.max(1, pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlSoulboundDegree));
                     String message = LanguageManager.translate("soulgazer.playermoblevels.boss");
                     message = message.replace("%levels%", "" + levels);
