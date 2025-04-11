@@ -34,7 +34,6 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
 
     // Changes with no configs
     /*
-        Heal 50 -> Heal 1%
         Summon Grigori -> Not flight restricted, level match
         Summon Trite -> Summon more
         Replaced -> Grell method summon to SummonGoal, Asmodeus wasn't using the saved grells for anything
@@ -70,7 +69,8 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             remap = true
     )
     public EntityAIBase lycanitesTweaks_lycanitesMobsEntityAsmodeus_initEntityAIHeal(EntityAIBase task){
-        return (new HealPortionWhenNoPlayersGoal(this).setCheckRange(80));
+        if(ForgeConfigHandler.server.asmodeusConfig.healPortionNoPlayers) return new HealPortionWhenNoPlayersGoal(this).setCheckRange(80);
+        else return task;
     }
 
     @ModifyArg(

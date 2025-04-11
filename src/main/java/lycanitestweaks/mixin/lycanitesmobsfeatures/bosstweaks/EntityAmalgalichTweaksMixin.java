@@ -33,7 +33,6 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
 
     // Changes with no configs
     /*
-        Heal 50 -> Heal 1%
         Summon Banshee -> Not flight restricted, level match
         Summon Repear -> All phases
         Summon Geist -> More and minimum phase 2
@@ -108,7 +107,8 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
             remap = true
     )
     public EntityAIBase lycanitesTweaks_lycanitesMobsEntityAmalgalich_initEntityAIHeal(EntityAIBase task) {
-        return (new HealPortionWhenNoPlayersGoal(this));
+        if(ForgeConfigHandler.server.amalgalichConfig.healPortionNoPlayers) return new HealPortionWhenNoPlayersGoal(this);
+        else return task;
     }
 
     @ModifyArg(

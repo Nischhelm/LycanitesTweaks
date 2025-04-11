@@ -28,7 +28,6 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
 
     // Changes with no configs
     /*
-        Heal 50 -> Heal 1%
         Summon Wraith -> Not flight restricted, level match
         Summon Archvile -> Option Summon Royal Variant or three normal Minimum Phase 2
         Added -> Summon Ebon Cacodemon Minimum Phase 3
@@ -71,7 +70,8 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
             remap = true
     )
     public EntityAIBase lycanitesTweaks_lycanitesMobsEntityRahovart_initEntityAIHeal(EntityAIBase task){
-        return (new HealPortionWhenNoPlayersGoal(this).setCheckRange(48));
+        if(ForgeConfigHandler.server.rahovartConfig.healPortionNoPlayers) return new HealPortionWhenNoPlayersGoal(this).setCheckRange(48);
+        else return task;
     }
 
     @ModifyArg(

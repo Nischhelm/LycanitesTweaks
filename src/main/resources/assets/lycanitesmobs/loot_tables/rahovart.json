@@ -34,8 +34,8 @@
         {
 			"name": "rahovart_book_with_mob_levels",
             "rolls": {
-                "min": 1,
-                "max": 4
+                "min": 4,
+                "max": 8
             },
             "entries": [
                 {

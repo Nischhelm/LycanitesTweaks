@@ -160,6 +160,11 @@ public class ForgeConfigHandler {
 			@Config.RequiresMcRestart
 			public String mainProjectile = "lichspectralbolt";
 
+			@Config.Comment("Replace the 50hp/sec heal with a 2% Max HP/sec heal")
+			@Config.Name("Heal Portion When No Players")
+			@Config.RequiresMcRestart
+			public boolean healPortionNoPlayers = true;
+
 			@Config.Comment("Add AI task for targeted attack to use alongside auto attacks")
 			@Config.Name("Targeted Projectile Attack")
 			@Config.RequiresMcRestart
@@ -235,6 +240,11 @@ public class ForgeConfigHandler {
 		}
 
 		public static class BossAsmodeusConfig {
+
+			@Config.Comment("Replace the 50hp/sec heal with a 2% Max HP/sec heal")
+			@Config.Name("Heal Portion When No Players")
+			@Config.RequiresMcRestart
+			public boolean healPortionNoPlayers = true;
 
 			@Config.Comment("Add AI Ranged auto attacking (targeted/all) for an additional projectile")
 			@Config.Name("Additional Projectile Register")
@@ -336,6 +346,11 @@ public class ForgeConfigHandler {
 			@Config.Name("Main All Players Projectile Name")
 			@Config.RequiresMcRestart
 			public String mainProjectileAll = "sigilhellfireball";
+
+			@Config.Comment("Replace the 50hp/sec heal with a 2% Max HP/sec heal")
+			@Config.Name("Heal Portion When No Players")
+			@Config.RequiresMcRestart
+			public boolean healPortionNoPlayers = true;
 
 			@Config.Comment("Tick Maximum Lifespan for Belphs and Behemoths. Set to 0 to disable")
 			@Config.Name("Minion Temporary Duration")
