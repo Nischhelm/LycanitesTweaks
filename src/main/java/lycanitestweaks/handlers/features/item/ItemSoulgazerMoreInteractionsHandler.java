@@ -3,8 +3,11 @@ package lycanitestweaks.handlers.features.item;
 import com.lycanitesmobs.client.localisation.LanguageManager;
 import com.lycanitesmobs.core.block.BlockSoulcube;
 import com.lycanitesmobs.core.item.special.ItemSoulgazer;
+import lycanitestweaks.capability.EntityStoreCreatureCapabilityHandler;
+import lycanitestweaks.capability.IEntityStoreCreatureCapability;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
 import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
+import lycanitestweaks.entity.item.EntityBossSummonCrystal;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.LycanitesTweaksRegistry;
 import net.minecraft.block.Block;
@@ -58,11 +61,26 @@ public class ItemSoulgazerMoreInteractionsHandler {
     }
 
     @SubscribeEvent
-    public static void soulgazePlayer(PlayerInteractEvent.EntityInteractSpecific event){
-        if(event.getEntityPlayer() == null || !(event.getTarget() instanceof EntityPlayer) || event.getWorld().isRemote) return;
+    public static void soulgazeEntity(PlayerInteractEvent.EntityInteractSpecific event){
+        if(event.getWorld().isRemote || event.getEntityPlayer() == null || !(event.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemSoulgazer)) return;
 
-        if(event.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemSoulgazer && event.getWorld().rand.nextFloat() < 0.05){
+        if(event.getTarget() instanceof EntityPlayer && event.getWorld().rand.nextFloat() < 0.05){
             event.getWorld().playSound(null, event.getPos(), LycanitesTweaksRegistry.SOULGAZER_PLAYER, SoundCategory.PLAYERS, 1F, 1F);
+        }
+        else{
+            IPlayerMobLevelCapability pml = event.getEntityPlayer().getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
+            if (pml != null) {
+                if(event.getTarget() instanceof EntityBossSummonCrystal) {
+                    IEntityStoreCreatureCapability storeCreature = event.getTarget().getCapability(EntityStoreCreatureCapabilityHandler.ENTITY_STORE_CREATURE, null);
+                    if(storeCreature != null) {
+                        int levels = Math.max(storeCreature.getStoredCreatureEntity().getLevel(), pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlBossCrystalDegree));
+                        String message = LanguageManager.translate("soulgazer.playermoblevels.bosscrystal");
+                        message = message.replace("%levels%", "" + levels);
+                        message = message.replace("%name%", storeCreature.getStoredCreatureEntity().getDisplayName());
+                        event.getEntityPlayer().sendMessage(new TextComponentString(message));
+                    }
+                }
+            }
         }
     }
 }

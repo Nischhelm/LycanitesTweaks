@@ -18,7 +18,14 @@
 		"shadow",
 		"voiding"
 	],
-	"behaviours": [],
+	"behaviours": [
+		{
+			"type": "placeBlocks",
+			"block": "lycanitesmobs:shadowfire",
+			"radius": 2,
+			"height": 1
+		}
+	],
 	"waterproof": true,
 	"lavaproof": true,
 	"cutGrass": false,

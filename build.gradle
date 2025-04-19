@@ -58,6 +58,7 @@ dependencies {
     implementation fg.deobf("curse.maven:fermiumbooter-${fermiumbooter_version}")
 
     implementation fg.deobf("curse.maven:lycanitesmobs-${lycanitesmobs_version}")
+    implementation fg.deobf("curse.maven:potioncore-${potioncore_version}")
     implementation fg.deobf("curse.maven:reachfix-${reachfix_version}")
     implementation fg.deobf("curse.maven:rlcombat-${rlcombat_version}")
 }

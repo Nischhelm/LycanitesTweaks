@@ -35,11 +35,13 @@ public abstract class TameableCreatureEntityTameHealingFoodMixin extends Ageable
     )
     public boolean lycanitesTweaks_lycanitesMobsTameableCreatureEntity_getInteractCommandsTameWithHealingFood(boolean original, @Local(argsOnly = true) EntityPlayer player, @Local(argsOnly = true) ItemStack itemStack){
         if(!original) {
-            if (Helpers.isPracticallyFlying(this) && ForgeConfigHandler.server.tameWithFoodNoFlying) {
-                player.sendStatusMessage(new TextComponentString(LanguageManager.translate("tame.fail.healingnofly")), true);
-                return false;
+            if(this.isHealingItem(itemStack)) {
+                if (Helpers.isPracticallyFlying(this) && ForgeConfigHandler.server.tameWithFoodNoFlying) {
+                    player.sendStatusMessage(new TextComponentString(LanguageManager.translate("tame.fail.healingnofly")), true);
+                    return false;
+                }
+                return true;
             }
-            if (this.isHealingItem(itemStack)) return true;
         }
         return original;
     }

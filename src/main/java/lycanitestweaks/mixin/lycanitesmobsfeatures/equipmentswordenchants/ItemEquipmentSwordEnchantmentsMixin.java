@@ -46,7 +46,9 @@ public abstract class ItemEquipmentSwordEnchantmentsMixin extends ItemBase {
     @Unique
     public boolean canApplyAtEnchantingTable(@Nonnull ItemStack stack, @Nonnull Enchantment enchantment){
         if(lycanitesTweaks$getLowestLevel(stack) < ForgeConfigHandler.server.equipmentMinLevelEnchantable) return false;
-        if(enchantment != Enchantments.SWEEPING && (enchantment.type == EnumEnchantmentType.WEAPON)){
+        if(enchantment != Enchantments.SWEEPING &&
+                ((enchantment.type == EnumEnchantmentType.WEAPON) ||
+                (enchantment == Enchantments.EFFICIENCY))){
             return true;
         }
         else{

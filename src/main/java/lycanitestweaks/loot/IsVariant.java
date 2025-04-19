@@ -33,7 +33,7 @@ public class IsVariant implements LootCondition {
     private boolean mustBeUncommon = false;
     private boolean mustBeRare = false;
     private boolean spawnedAsBoss = false;
-    private int subspecies = 0;
+    private int subspecies = -1;
 
     public IsVariant(int subspecies, boolean mustBeUncommon, boolean mustBeRare, boolean spawnedAsBoss){
         this.subspecies = subspecies;
@@ -47,7 +47,7 @@ public class IsVariant implements LootCondition {
         if(context.getLootedEntity() instanceof BaseCreatureEntity){
             BaseCreatureEntity creature = (BaseCreatureEntity)context.getLootedEntity();
 
-            if(creature.getSubspeciesIndex() != this.subspecies) return false;
+            if(this.subspecies != -1 && creature.getSubspeciesIndex() != this.subspecies) return false;
             if(this.mustBeRare && !creature.isRareVariant()) return false;
             else if(this.mustBeUncommon && creature.getVariantIndex() == 0) return false;
             if(this.spawnedAsBoss && !creature.spawnedAsBoss) return false;

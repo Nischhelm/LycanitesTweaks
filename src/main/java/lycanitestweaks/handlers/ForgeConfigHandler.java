@@ -74,37 +74,36 @@ public class ForgeConfigHandler {
 		@Config.Name("Lycanites Tweaks Imperfect Summoning")
 		public final ImperfectSummoningConfig imperfectSummoningConfig = new ImperfectSummoningConfig();
 
+		@Config.Name("Lycanites Tweaks Entity Can Store Creature")
+		public final  EntityStoreCreatureConfig escConfig = new EntityStoreCreatureConfig();
+
 		@Config.Name("Lycanites Tweaks Player Mob Levels")
 		public final PlayerMobLevelsConfig pmlConfig = new PlayerMobLevelsConfig();
 
 		@Config.Name("Lycanites Tweaks Creature Stats")
 		public final StatsConfig statsConfig = new StatsConfig();
 
-		@Config.Comment("Do an instance check for BlockFire with Mixin 'Lycanites Fire Extinguish (Vanilla)'")
-		@Config.Name("Only Check Lycanites Fire Punchable")
-		public boolean onlyCheckLycanitesFire = false;
-
-		@Config.Comment("Distance between entities to trigger auto pickup drop")
+		@Config.Comment("Distance between entities to trigger auto pickup drop, Default Lycanites is 32. Requires Mixin 'Pickup Checks Distances'")
 		@Config.Name("Pick Up Distance")
 		@Config.RangeDouble(min = 0)
 		public double pickUpDistance = 8.0D;
 
-		@Config.Comment("Perch Angle In Radians")
+		@Config.Comment("Pet Perch Angle In Radians, Default Lycanites is 90. Requires Mixin 'Perch Position Modifiable'")
 		@Config.Name("Perch Angle Radians")
 		@Config.RangeDouble(min = -360, max = 360)
 		public double perchAngle = 90.0D;
 
-		@Config.Comment("Perch Distance Scale, based on ridden entity, Default Lycanites is 0.7")
+		@Config.Comment("Pet Perch Distance Scale, based on ridden entity, Default Lycanites is 0.7. Requires Mixin 'Perch Position Modifiable'")
 		@Config.Name("Perch Distance")
 		@Config.RangeDouble(min = 0)
 		public double perchDistance = 1.0D;
 
-		@Config.Comment("Max degree for size change food based on lycanitesmobs config range")
+		@Config.Comment("Max size change amount based on lycanitesmobs config range. Requires Mixin 'Size Change Foods'")
 		@Config.Name("Tamed Size Change Degree")
 		@Config.RangeDouble(min = 0.0)
 		public double sizeChangeDegree = 0.1D;
 
-		@Config.Comment("Chance for a successful attempt to tame with healing food")
+		@Config.Comment("Chance for a successful attempt to tame with healing food. Requires Mixin 'Tame Creatures with their healing food'")
 		@Config.Name("Tamed With Healing Food Chance")
 		@Config.RangeDouble(min = 0.0, max = 1.0)
 		public float tameWithFoodChance = 0.3F;
@@ -113,7 +112,7 @@ public class ForgeConfigHandler {
 		@Config.Name("Tame With Food No Flying")
 		public boolean tameWithFoodNoFlying = true;
 
-		@Config.Comment("In order to use a vanilla saddle, the mount most be at least this level")
+		@Config.Comment("In order to use a vanilla saddle, the mount most be at least this level. Requires Mixin 'Mounts can use Vanilla saddles with limitations'")
 		@Config.Name("Vanilla Saddle Creature Level Requirement")
 		public int vanillaSaddleLevelRequirement = 16;
 
@@ -121,11 +120,11 @@ public class ForgeConfigHandler {
 		@Config.Name("Vanilla Saddle No Flying")
 		public boolean vanillaSaddleNoFlying = true;
 
-		@Config.Comment("Minimum level all parts of equipment must be in order to apply Sword Enchantments")
+		@Config.Comment("Minimum level all parts of equipment must be in order to apply Sword Enchantments. Requires Mixin 'Crafted Equipment Sword Enchantments'")
 		@Config.Name("Equipment Minimum Level for to sword Enchantments")
-		public int equipmentMinLevelEnchantable = 0;
+		public int equipmentMinLevelEnchantable = 3;
 
-		@Config.Comment("List of potion resource locations cleansed will cure")
+		@Config.Comment("List of potion resource locations cleansed will cure. Requires Mixin 'Customizable Curing Item Effects List'")
 		@Config.Name("Cleansed Effects To Cure")
 		public String[] cleansedEffectsToCure = {
 				"minecraft:wither",
@@ -135,7 +134,7 @@ public class ForgeConfigHandler {
 				"lycanitesmobs:decay"
 		};
 
-		@Config.Comment("List of potion resource locations immunization will cure")
+		@Config.Comment("List of potion resource locations immunization will cure. Requires Mixin 'Customizable Curing Item Effects List'")
 		@Config.Name("Immunization Effects To Cure")
 		public String[] immunizationEffectsToCure = {
 				"minecraft:poison",
@@ -145,13 +144,21 @@ public class ForgeConfigHandler {
 				"lycanitesmobs:paralysis"
 		};
 
-		@Config.Comment("List of biome resource locations where custom name Arisaurs will spawn in")
+		@Config.Comment("List of biome resource locations where custom name Arisaurs will spawn in. Requires Mixin 'Flowersaurs Naturally Spawn'")
 		@Config.Name("Biomes Flowersaurs Spawn In")
 		public String[] flowersaurSpawningBiomes = {
 				"minecraft:mutated_forest",
 				"biomesoplenty:mystic_grove",
 				"twilightforest:enchanted_forest"
 		};
+
+		@Config.Comment("Apply Mixin 'Lycanites Fire Extinguish (Vanilla)' to all modded fires")
+		@Config.Name("Mod Compatibility: Fix all Modded Fire Extinguish")
+		public boolean fixAllModdedFireExtinguish = true;
+
+		@Config.Comment("Apply Mixin 'Potion Core Jump Fix (PotionCore)' to all mobs")
+		@Config.Name("Mod Compatibility: Fix all Mobs PotionCore Jump")
+		public boolean fixAllMobsPotionCoreJump = true;
 
 		public static class BossAmalgalichConfig {
 
@@ -568,6 +575,11 @@ public class ForgeConfigHandler {
 			@Config.RangeDouble(min = 0.0)
 			public double pmlBossDegree = 0.2D;
 
+			@Config.Comment("Ratio of Player Mob Level used to set for summon creatures from Boss Crystals")
+			@Config.Name("Player Mob Level Degree Boss Crystal")
+			@Config.RangeDouble(min = 0.0)
+			public double pmlBossCrystalDegree = 0.2D;
+
 			@Config.Comment("Ratio of Player Mob Level used to set for Lycanites Spawners")
 			@Config.Name("Player Mob Level Degree Spawner")
 			@Config.RangeDouble(min = 0.0)
@@ -620,6 +632,11 @@ public class ForgeConfigHandler {
 			@Config.RequiresMcRestart
 			public boolean registerBossWithLevelsLootTables = true;
 
+			@Config.Comment("Register Loot Tables for Dungeon Bosses that are scaled to Mob Levels")
+			@Config.Name("Register Dungeon Boss With Levels Loot Tables")
+			@Config.RequiresMcRestart
+			public boolean registerDungeonBossWithLevelsLootTables = true;
+
 			@Config.Comment("Register Has Mob Levels Loot Condition")
 			@Config.Name("Register HasMobLevels Loot Condition")
 			@Config.RequiresMcRestart
@@ -629,6 +646,26 @@ public class ForgeConfigHandler {
 			@Config.Name("Register ScaleWithMobLevels Loot Function")
 			@Config.RequiresMcRestart
 			public boolean registerPMLLootFunction = true;
+		}
+
+		public static class EntityStoreCreatureConfig{
+
+			@Config.Comment("Boss Crystals check if Player Mob Levels is higher than stored Entity's levels")
+			@Config.Name("Boss Crystal Player Mob Levels")
+			public boolean bossCrystalPML = true;
+
+			@Config.Comment("Enable logic to automatically release stored Entity")
+			@Config.Name("Boss Crystal Tick Checks")
+			public boolean bossCrystalTickChecks = true;
+
+			@Config.Comment("Distance a player must be in order for a Boss Crystal to target")
+			@Config.Name("Boss Crystal Tick Distance Check")
+			public float bossCrystalTickDistance = 16.0F;
+
+			@Config.Comment("Enable Capability to replicate LycanitesMobs PetEntry for any owner")
+			@Config.Name("Entity Store Creature Capability")
+			@Config.RequiresMcRestart
+			public boolean entityStoreCreatureCapability = true;
 		}
 
 		public static class StatsConfig{
@@ -673,6 +710,12 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		@MixinConfig.EarlyMixin(name = "mixins.lycanitestweaks.vanillairongolemtargettamed.json")
 		public boolean ironGolemsTamedTarget = true;
+
+		@Config.Comment("Fix Withers attacking Tremors")
+		@Config.Name("Fix Withers Attacking Tremors (Vanilla)")
+		@Config.RequiresMcRestart
+		@MixinConfig.EarlyMixin(name = "mixins.lycanitestweaks.vanillawithertargettremor.json")
+		public boolean witherTargetTremor = true;
 
 		@Config.Comment("Add Modded Fires to the specific Blocks.FIRE check made by the World")
 		@Config.Name("Lycanites Fire Extinguish (Vanilla)")
@@ -758,7 +801,7 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.equipmentrmbneedssneak.json")
 		public boolean craftedEquipmentOffhandRMBSneak = true;
 
-		@Config.Comment("Allows Crafted Equipment to use Sword Enchantments")
+		@Config.Comment("Allows Crafted Equipment to use Sword Enchantments (And Efficiency)")
 		@Config.Name("Crafted Equipment Sword Enchantments")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureequipmentswordenchantments.json")
@@ -769,6 +812,12 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurescustomcureitemlist.json")
 		public boolean customItemCureEffectList = true;
+
+		@Config.Comment("Store Dungeon Bosses in a Summon Crystal Entity to interact with Player Mob Levels")
+		@Config.Name("Dungeon Boss Spawn Summon Crystal (Requires Capability)")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuredungeonbosscrystal.json")
+		public boolean dungeonBossSpawnCrystal = true;
 
 		@Config.Comment("When reading familiars from URL, Set Spawning Active to false")
 		@Config.Name("Familiars Inactive On Join")
@@ -914,6 +963,13 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurecreaturevanillaloottables.json")
 		public boolean vanillaBaseCreatureLootTable = true;
 
+		@Config.Comment("Fix Potion Core forcibly overwriting BaseCreatureEntity motionY ")
+		@Config.Name("Mod Compatibility: Potion Core Jump Fix (PotionCore)")
+		@Config.RequiresMcRestart
+		@MixinConfig.CompatHandling(modid = "potioncore")
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.potioncorejumpfix.json")
+		public boolean potionCoreJumpFix = true;
+
 		/*
 		*
 		* Temporary Mod Compatibility Mixins, things I should really make a PR for
@@ -921,14 +977,16 @@ public class ForgeConfigHandler {
 		 */
 
 		@Config.Comment("Makes Crafted Equipment reach stat influence ReachFix attack range")
-		@Config.Name("Crafted Equipment ReachFix (ReachFix)")
+		@Config.Name("Mod Compatibility: Crafted Equipment ReachFix (ReachFix)")
 		@Config.RequiresMcRestart
+		@MixinConfig.CompatHandling(modid = "reachfix")
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.equipmentreachfix.json")
 		public boolean craftedEquipmentReachFix = false;
 
 		@Config.Comment("Cancels Crafted Sweep and rehandle with RLCombat Sweep")
-		@Config.Name("Crafted Equipment RLCombat Sweep (RLCombat)")
+		@Config.Name("Mod Compatibility: Crafted Equipment RLCombat Sweep (RLCombat)")
 		@Config.RequiresMcRestart
+		@MixinConfig.CompatHandling(modid = "rlcombat")
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.equipmentrlcombatsweep.json")
 		public boolean craftedEquipmentRLCombatSweep = false;
 	}

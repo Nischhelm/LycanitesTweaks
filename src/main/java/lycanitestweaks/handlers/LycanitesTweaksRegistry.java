@@ -1,5 +1,6 @@
 package lycanitestweaks.handlers;
 
+import lycanitestweaks.entity.item.EntityBossSummonCrystal;
 import lycanitestweaks.loot.EnchantWithMobLevels;
 import lycanitestweaks.loot.HasMobLevels;
 import lycanitestweaks.loot.IsVariant;
@@ -15,6 +16,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.potion.PotionConsumed;
 import lycanitestweaks.potion.PotionVoided;
+import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 
 @Mod.EventBusSubscriber(modid = LycanitesTweaks.MODID)
 public class LycanitesTweaksRegistry {
@@ -35,6 +38,20 @@ public class LycanitesTweaksRegistry {
 
                 SOULGAZER_CRAFTINGTABLE = new SoundEvent(new ResourceLocation(LycanitesTweaks.MODID, "soulgazer_craftingtable")).setRegistryName("soulgazer_craftingtable");
                 SOULGAZER_PLAYER = new SoundEvent(new ResourceLocation(LycanitesTweaks.MODID, "soulgazer_player")).setRegistryName("soulgazer_player");
+        }
+
+        @SubscribeEvent
+        public static void registerEntities(RegistryEvent.Register<EntityEntry> event){
+                int id = 1;
+
+                event.getRegistry().register(
+                        EntityEntryBuilder.create()
+                        .entity(EntityBossSummonCrystal.class)
+                        .id(new ResourceLocation(LycanitesTweaks.MODID, "bosscrystal"), id++)
+                        .name("bosscrystal")
+                        .tracker(64, 1, false)
+                        .build()
+                );
         }
 
         @SubscribeEvent

@@ -44,7 +44,7 @@ public abstract class WorldExtinguishLycanitesFire implements IBlockAccess {
             remap = true
     )
     public boolean lycanitesTweaks_vanillaWorld_extinguishFireInstanceBlockFire(boolean original, @Local(argsOnly = true) EntityPlayer player, @Local(argsOnly = true) BlockPos pos){
-        if(!ForgeConfigHandler.server.onlyCheckLycanitesFire && this.getBlockState(pos).getBlock() instanceof BlockFire){
+        if(ForgeConfigHandler.server.fixAllModdedFireExtinguish && this.getBlockState(pos).getBlock() instanceof BlockFire){
             this.playEvent(player, 1009, pos, 0);
             this.setBlockToAir(pos);
             return true;

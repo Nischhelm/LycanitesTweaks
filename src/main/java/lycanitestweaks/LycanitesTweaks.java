@@ -1,9 +1,10 @@
 package lycanitestweaks;
 
+import lycanitestweaks.capability.EntityStoreCreatureCapabilityHandler;
 import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.features.boss.DamageLimitCalcHandler;
-import lycanitestweaks.handlers.features.boss.RemoveDefaultBossWithLevelsLootHandler;
+import lycanitestweaks.handlers.features.boss.DefaultBossLootHandler;
 import lycanitestweaks.handlers.features.effect.ConsumedHandler;
 import lycanitestweaks.handlers.features.effect.ItemCuringEffectsHandler;
 import lycanitestweaks.handlers.features.effect.VoidedHandler;
@@ -13,6 +14,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,6 +39,11 @@ public class LycanitesTweaks {
         LycanitesTweaksRegistry.init();
         LycanitesTweaks.PROXY.preInit();
 
+        if(ForgeConfigHandler.server.escConfig.entityStoreCreatureCapability){
+            EntityStoreCreatureCapabilityHandler.registerCapability();
+            MinecraftForge.EVENT_BUS.register(EntityStoreCreatureCapabilityHandler.AttachCapabilityHandler.class);
+            MinecraftForge.EVENT_BUS.register(EntityStoreCreatureCapabilityHandler.class);
+        }
         if(ForgeConfigHandler.server.pmlConfig.playerMobLevelCapability){
             PlayerMobLevelCapabilityHandler.registerCapability();
             MinecraftForge.EVENT_BUS.register(PlayerMobLevelCapabilityHandler.AttachCapabilityHandler.class);
@@ -45,10 +52,16 @@ public class LycanitesTweaks {
         }
         if(ForgeConfigHandler.server.effectsConfig.registerConsumed) MinecraftForge.EVENT_BUS.register(ConsumedHandler.class);
         if(ForgeConfigHandler.server.effectsConfig.registerVoided) MinecraftForge.EVENT_BUS.register(VoidedHandler.class);
-        if(!ForgeConfigHandler.server.pmlConfig.registerBossWithLevelsLootTables) MinecraftForge.EVENT_BUS.register(RemoveDefaultBossWithLevelsLootHandler.class);
+
+        MinecraftForge.EVENT_BUS.register(DefaultBossLootHandler.class);
 
         if(ForgeConfigHandler.featuresMixinConfig.bossDPSLimitRecalc) MinecraftForge.EVENT_BUS.register(DamageLimitCalcHandler.class);
         if(ForgeConfigHandler.featuresMixinConfig.customItemCureEffectList) MinecraftForge.EVENT_BUS.register(ItemCuringEffectsHandler.class);
         if(ForgeConfigHandler.featuresMixinConfig.craftedEquipmentRLCombatSweep) MinecraftForge.EVENT_BUS.register(ItemEquipmentRLCombatSweepHandler.class);
+    }
+
+    @Mod.EventHandler
+    public void init(FMLInitializationEvent event){
+        LycanitesTweaks.PROXY.init();
     }
 }
