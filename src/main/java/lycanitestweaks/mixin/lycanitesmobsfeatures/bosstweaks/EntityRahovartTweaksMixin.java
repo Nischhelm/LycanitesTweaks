@@ -12,8 +12,10 @@ import lycanitestweaks.entity.goals.actions.abilities.SummonLeveledMinionsGoal;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -232,6 +234,13 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
     )
     public boolean lycanitesTweaks_lycanitesMobsEntityRahovart_onLivingUpdate(boolean original, @Local BlockPos arenaPos){
         return original || this.world.getBlockState(arenaPos).getBlock().isPassable(this.world, arenaPos);
+    }
+
+    @Unique
+    @Override
+    public boolean canEntityBeSeen(Entity target) {
+        if(ForgeConfigHandler.server.rahovartConfig.playerXrayTarget && target instanceof EntityPlayer) return true;
+        return super.canEntityBeSeen(target);
     }
 
     // Thanks Iqury

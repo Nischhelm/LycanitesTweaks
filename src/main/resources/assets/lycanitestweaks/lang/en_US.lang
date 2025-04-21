@@ -14,7 +14,7 @@ soulbound.limited.levels=Your bound creature has limited power here, it is level
 soulgazer.description.pmlboss=Soulgaze a Soulcube to see the power inside
 soulgazer.description.pmlspawner=Soulgaze your Bed to see what powers are around you
 soulgazer.playermoblevels.boss=The Soulgazer foresees... Level: %levels% if you keep hold of the gazer
-soulgazer.playermoblevels.bosscrystal=The Crystal contains, Level: %levels% - %name%
+soulgazer.playermoblevels.bosscrystal=The Crystal contains, Level: %minimum% - %name%, hold the gazer to summon as Level: %levels%
 soulgazer.playermoblevels.spawner=The Soulgazer forecasts... Level: %levels% creatures may appear around you
 
 summonstaff.description.pmlsummon=Your summons will spawn equal to your power

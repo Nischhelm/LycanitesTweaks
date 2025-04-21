@@ -13,12 +13,10 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
@@ -29,8 +27,6 @@ public abstract class SectorInstanceBossSummonCrystalMixin {
 
     @Shadow(remap = false)
     public SectorConnector parentConnector;
-    @Shadow(remap = false)
-    protected Vec3i roomSize;
 
     @Redirect(
             method = "build",
@@ -38,11 +34,6 @@ public abstract class SectorInstanceBossSummonCrystalMixin {
             remap = false
     )
     public void lycanitesTweaks_lycanitesMobsSectorInstance_buildSpawnCrystal(SectorInstance instance, World world, ChunkPos chunkPos, BlockPos blockPos, MobSpawn mobSpawn, Random random){
-        lycanitesTweaks$spawnCrystal(world, chunkPos, blockPos, mobSpawn);
-    }
-
-    @Unique
-    public void lycanitesTweaks$spawnCrystal(World world, ChunkPos chunkPos, BlockPos blockPos, MobSpawn mobSpawn) {
         // Restrict To Chunk Position:
         int chunkOffset = 8;
         if(blockPos.getX() < chunkPos.getXStart() + chunkOffset || blockPos.getX() > chunkPos.getXEnd() + chunkOffset) {
@@ -63,13 +54,13 @@ public abstract class SectorInstanceBossSummonCrystalMixin {
 
         EntityBossSummonCrystal crystal = new EntityBossSummonCrystal(world);
         world.setBlockState(blockPos, Blocks.OBSIDIAN.getDefaultState());
-        crystal.setPosition(blockPos.getX() + 0.5F, blockPos.getY() + 1, blockPos.getZ() + 0.5F); // Allign ontop of Obsidian
+        crystal.setPosition(blockPos.getX() + 0.5F, blockPos.getY() + 1, blockPos.getZ() + 0.5F); // Align ontop of Obsidian
         IEntityStoreCreatureCapability storeCreature = crystal.getCapability(EntityStoreCreatureCapabilityHandler.ENTITY_STORE_CREATURE, null);
 
         if(storeCreature != null) {
             if (entityLiving instanceof BaseCreatureEntity) {
                 BaseCreatureEntity creature = (BaseCreatureEntity) entityLiving;
-                storeCreature.setStoredCreatureEntity(StoredCreatureEntity.createFromEntity(crystal, (BaseCreatureEntity) entityLiving)
+                storeCreature.setStoredCreatureEntity(StoredCreatureEntity.createFromEntity(crystal, creature)
                         .setPersistant(creature.isPersistant())
                         .setFixate(creature.hasFixateTarget())
                         .setHome(creature.getHomeDistanceMax())

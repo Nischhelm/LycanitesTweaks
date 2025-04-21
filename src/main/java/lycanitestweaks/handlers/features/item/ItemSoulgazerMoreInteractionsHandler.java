@@ -75,8 +75,9 @@ public class ItemSoulgazerMoreInteractionsHandler {
                     if(storeCreature != null) {
                         int levels = Math.max(storeCreature.getStoredCreatureEntity().getLevel(), pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlBossCrystalDegree));
                         String message = LanguageManager.translate("soulgazer.playermoblevels.bosscrystal");
-                        message = message.replace("%levels%", "" + levels);
+                        message = message.replace("%minimum%", "" + storeCreature.getStoredCreatureEntity().getLevel());
                         message = message.replace("%name%", storeCreature.getStoredCreatureEntity().getDisplayName());
+                        message = message.replace("%levels%", "" + levels);
                         event.getEntityPlayer().sendMessage(new TextComponentString(message));
                     }
                 }

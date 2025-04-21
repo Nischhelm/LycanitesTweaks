@@ -6,7 +6,6 @@ import com.lycanitesmobs.core.item.equipment.features.EffectEquipmentFeature;
 import com.lycanitesmobs.core.item.equipment.features.EquipmentFeature;
 import com.lycanitesmobs.core.item.equipment.features.ProjectileEquipmentFeature;
 import com.lycanitesmobs.core.item.equipment.features.SummonEquipmentFeature;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -71,10 +70,5 @@ public class Helpers {
             if(!effect.getPotion().isBadEffect()) toRemove.add(effect.getPotion());
 
         for(Potion potion : toRemove) entity.removePotionEffect(potion);
-    }
-
-    public static void setRLTweakerBossRange(Entity entity, int range){
-//        LycanitesHandler.setLycanitesBoss(entity, true);
-//        LycanitesHandler.setLycanitesBossRange(entity, range);
     }
 }

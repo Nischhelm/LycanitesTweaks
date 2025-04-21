@@ -1,14 +1,17 @@
 package lycanitestweaks.storedcreatureentity;
 
 import com.lycanitesmobs.ExtendedWorld;
-import com.lycanitesmobs.core.entity.*;
+import com.lycanitesmobs.core.entity.AgeableCreatureEntity;
+import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.info.*;
+import com.lycanitesmobs.core.item.special.ItemSoulgazer;
 import com.lycanitesmobs.core.pets.PetEntry;
 import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
 import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
+import lycanitestweaks.compat.ModLoadedUtil;
+import lycanitestweaks.compat.RLTweakerHandler;
 import lycanitestweaks.handlers.ForgeConfigHandler;
-import lycanitestweaks.util.Helpers;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
@@ -208,8 +211,8 @@ public class StoredCreatureEntity {
     public StoredCreatureEntity setBlockProtection(int blockProtection){
         this.blockProtection = blockProtection;
 
-        if(this.blockProtection > 0) {
-            Helpers.setRLTweakerBossRange(this.host, this.blockProtection);
+        if(ModLoadedUtil.isRLTweakerLoaded() && this.blockProtection > 0){
+            RLTweakerHandler.setRLTweakerBossRange(host, this.blockProtection);
         }
 
         return this;
@@ -292,7 +295,8 @@ public class StoredCreatureEntity {
 
         // calc PML after NBT Levels are loaded
         IPlayerMobLevelCapability pml = target.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
-        if(pml != null && ForgeConfigHandler.server.escConfig.bossCrystalPML) {
+        if(pml != null && ForgeConfigHandler.server.escConfig.bossCrystalPML &&
+                (!ForgeConfigHandler.server.escConfig.bossCrystalSoulgazerHold || target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer)) {
             this.setLevel(Math.max(this.getLevel(), pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlBossCrystalDegree)));
         }
 

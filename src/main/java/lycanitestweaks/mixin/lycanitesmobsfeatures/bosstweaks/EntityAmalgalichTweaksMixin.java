@@ -18,6 +18,7 @@ import net.minecraft.block.BlockFire;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -251,6 +252,13 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
     )
     public boolean lycanitesTweaks_lycanitesMobsEntityAmalgalich_onLivingUpdate(boolean original, @Local BlockPos arenaPos) {
         return original || this.world.getBlockState(arenaPos).getBlock().isPassable(this.world, arenaPos);
+    }
+
+    @Unique
+    @Override
+    public boolean canEntityBeSeen(Entity target) {
+        if(ForgeConfigHandler.server.amalgalichConfig.playerXrayTarget && target instanceof EntityPlayer) return true;
+        return super.canEntityBeSeen(target);
     }
 
     // Thanks Iqury

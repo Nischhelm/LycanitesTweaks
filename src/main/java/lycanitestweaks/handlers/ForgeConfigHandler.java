@@ -71,6 +71,7 @@ public class ForgeConfigHandler {
 		@Config.Name("Lycanites Tweaks Potion Effects")
 		public final PotionEffectsConfig effectsConfig = new PotionEffectsConfig();
 
+		@Config.Comment("Requires 'Summon Progression Rework' Mixin enabled")
 		@Config.Name("Lycanites Tweaks Imperfect Summoning")
 		public final ImperfectSummoningConfig imperfectSummoningConfig = new ImperfectSummoningConfig();
 
@@ -80,6 +81,7 @@ public class ForgeConfigHandler {
 		@Config.Name("Lycanites Tweaks Player Mob Levels")
 		public final PlayerMobLevelsConfig pmlConfig = new PlayerMobLevelsConfig();
 
+		@Config.Comment("Requires 'Cap Specific Creature Stats' or 'Boss Lower Health Scale' Mixin enabled")
 		@Config.Name("Lycanites Tweaks Creature Stats")
 		public final StatsConfig statsConfig = new StatsConfig();
 
@@ -234,6 +236,10 @@ public class ForgeConfigHandler {
 			@Config.RequiresMcRestart
 			public boolean replaceLobDarkling = true;
 
+			@Config.Comment("Should Amalgalich attempt attacks hiding in arena walls")
+			@Config.Name("Player Xray Target")
+			public boolean playerXrayTarget = true;
+
 			@Config.Comment("Epion Summons one Crimson variant instead of 3 normal")
 			@Config.Name("Spawns Crimson Epion")
 			@Config.RequiresMcRestart
@@ -263,7 +269,7 @@ public class ForgeConfigHandler {
 			@Config.RequiresMcRestart
 			public String additionalProjectile = "demonicchaosorb";
 
-			@Config.Comment("Fixes double damage and has better player Xray")
+			@Config.Comment("Fixes double damage and hitscan damage ignoring walls with xRay on")
 			@Config.Name("Disable Ranged Hitscan")
 			public boolean disableRangedHitscan = true;
 
@@ -433,6 +439,10 @@ public class ForgeConfigHandler {
 			@Config.Name("Hellfire Barrier Cleanup Refund")
 			@Config.RangeInt(min = 0, max = 100)
 			public int hellfireBarrierCleanupRefund = 50;
+
+			@Config.Comment("Should Rahovart attempt attacks hiding in arena walls")
+			@Config.Name("Player Xray Target")
+			public boolean playerXrayTarget = true;
 
 			@Config.Comment("Archvile Summons one Royal variant instead of 3 normal")
 			@Config.Name("Spawns Royal Archvile")
@@ -637,6 +647,11 @@ public class ForgeConfigHandler {
 			@Config.RequiresMcRestart
 			public boolean registerDungeonBossWithLevelsLootTables = true;
 
+			@Config.Comment("Register Loot Tables for Level 25+ creatures dropping 0-4 charges of their element per 10 levels")
+			@Config.Name("Register Random Charges Loot Tables")
+			@Config.RequiresMcRestart
+			public boolean registerRandomChargesLootTable = true;
+
 			@Config.Comment("Register Has Mob Levels Loot Condition")
 			@Config.Name("Register HasMobLevels Loot Condition")
 			@Config.RequiresMcRestart
@@ -653,6 +668,10 @@ public class ForgeConfigHandler {
 			@Config.Comment("Boss Crystals check if Player Mob Levels is higher than stored Entity's levels")
 			@Config.Name("Boss Crystal Player Mob Levels")
 			public boolean bossCrystalPML = true;
+
+			@Config.Comment("Require a mainhand Soulgazer in order to scale to Player Mob Levels")
+			@Config.Name("Boss Crystal Soulgazer Hold")
+			public boolean bossCrystalSoulgazerHold = true;
 
 			@Config.Comment("Enable logic to automatically release stored Entity")
 			@Config.Name("Boss Crystal Tick Checks")
@@ -740,6 +759,12 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureinjectdefaultjsonloading.json")
 		public boolean addLycanitesTweaksDefaultJSON = true;
+
+		@Config.Comment("Store Altar Mini Bosses in a Summon Crystal Entity to interact with Player Mob Levels")
+		@Config.Name("Altar Mini Boss Spawn Summon Crystal (Requires Capability)")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurealtarminibosscrystal.json")
+		public boolean altarMiniBossSpawnCrystal = true;
 
 		@Config.Comment("Giving an Enchanted Golden Apple to a tamed creature will turn it into a baby")
 		@Config.Name("Baby Age Gapple")

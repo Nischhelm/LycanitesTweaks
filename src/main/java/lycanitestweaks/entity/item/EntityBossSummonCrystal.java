@@ -5,18 +5,27 @@ import lycanitestweaks.capability.EntityStoreCreatureCapabilityHandler;
 import lycanitestweaks.capability.IEntityStoreCreatureCapability;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.storedcreatureentity.StoredCreatureEntity;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProviderEnd;
+import net.minecraftforge.event.ForgeEventFactory;
 
 public class EntityBossSummonCrystal extends EntityEnderCrystal {
 
@@ -32,9 +41,17 @@ public class EntityBossSummonCrystal extends EntityEnderCrystal {
     // Lost and reset upon entity reload
     private float searchDistance = ForgeConfigHandler.server.escConfig.bossCrystalTickDistance;
 
+    private static final DataParameter<Boolean> DESTROY_BLOCKS = EntityDataManager.createKey(EntityBossSummonCrystal.class, DataSerializers.BOOLEAN);
+
     public EntityBossSummonCrystal(World worldIn) {
         super(worldIn);
         this.setShowBottom(false); // Manually set this to represent a stored entity
+    }
+
+    @Override
+    public void entityInit(){
+        super.entityInit();
+        this.getDataManager().register(DESTROY_BLOCKS, false);
     }
 
     @Override
@@ -63,6 +80,29 @@ public class EntityBossSummonCrystal extends EntityEnderCrystal {
         }
     }
 
+    @Override
+    protected void writeEntityToNBT(NBTTagCompound compound){
+        compound.setBoolean("DestroyBlocks", this.shouldShowBottom());
+        super.writeEntityToNBT(compound);
+    }
+
+    @Override
+    protected void readEntityFromNBT(NBTTagCompound compound){
+        if (compound.hasKey("DestroyBlocks", 1)){
+            this.setDestroyBlocks(compound.getBoolean("DestroyBlocks"));
+        }
+        super.readEntityFromNBT(compound);
+    }
+
+    public void setDestroyBlocks(boolean destroyBlocks){
+        this.getDataManager().set(DESTROY_BLOCKS, destroyBlocks);
+    }
+
+    public boolean shouldDestroyBlocks(){
+        return this.getDataManager().get(DESTROY_BLOCKS);
+    }
+
+
     // Main method to link a player to entity summoning
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount){
@@ -71,13 +111,37 @@ public class EntityBossSummonCrystal extends EntityEnderCrystal {
                 this.setDead();
 
                 if (!this.world.isRemote){
-                    if (!source.isExplosion()){
-                        this.world.createExplosion(source.getTrueSource(), this.posX, this.posY, this.posZ, 6.0F, false);
-                    }
+                    this.world.createExplosion(source.getTrueSource(), this.posX, this.posY, this.posZ, 6.0F, this.shouldDestroyBlocks());
 
                     IEntityStoreCreatureCapability storeCreature = this.getCapability(EntityStoreCreatureCapabilityHandler.ENTITY_STORE_CREATURE, null);
                     if(storeCreature != null){
                         storeCreature.getStoredCreatureEntity().spawnEntity((EntityLivingBase)source.getTrueSource());
+
+                        // Combination of Wither and original Altar handling
+                        if(this.shouldDestroyBlocks() && !storeCreature.getStoredCreatureEntity().creatureTypeName.isEmpty() && ForgeEventFactory.getMobGriefingEvent(this.world, this)) {
+                            this.world.playBroadcastSound(1023, new BlockPos(this), 0);
+                            int y = MathHelper.floor(this.posY);
+                            int x = MathHelper.floor(this.posX);
+                            int z = MathHelper.floor(this.posZ);
+                            boolean flag = false;
+
+                            int size = 4;
+                            for(int xTarget = x - size; xTarget <= x + size; ++xTarget) {
+                                for(int zTarget = z - size; zTarget <= z + size; ++zTarget) {
+                                    for(int yTarget = y; yTarget <= y + size; ++yTarget) {
+                                        BlockPos clearPos = new BlockPos(xTarget, yTarget, zTarget);
+                                        IBlockState iblockstate = this.world.getBlockState(clearPos);
+                                        Block block = iblockstate.getBlock();
+                                        if (!block.isAir(iblockstate, this.world, clearPos) && EntityWither.canDestroyBlock(block) && world.getTileEntity(clearPos) == null) {
+                                            flag = this.world.setBlockToAir(clearPos) || flag;
+                                        }
+                                    }
+                                }
+                            }
+                            if (flag) {
+                                this.world.playEvent(null, 1022, new BlockPos(this), 0);
+                            }
+                        }
                     }
 
                     this.onKillCommand();
@@ -137,4 +201,22 @@ public class EntityBossSummonCrystal extends EntityEnderCrystal {
         return false;
     }
 
+    public static EntityBossSummonCrystal storeAltarBoss(World world, BaseCreatureEntity entity, BlockPos blockPos){
+        EntityBossSummonCrystal crystal = new EntityBossSummonCrystal(world);
+        world.setBlockState(new BlockPos(blockPos.getX(), blockPos.getY() - 1, blockPos.getZ()), Blocks.OBSIDIAN.getDefaultState());
+        crystal.setPosition(blockPos.getX() + 0.5F, blockPos.getY(), blockPos.getZ() + 0.5F); // Align ontop of Obsidian
+        IEntityStoreCreatureCapability storeCreature = crystal.getCapability(EntityStoreCreatureCapabilityHandler.ENTITY_STORE_CREATURE, null);
+
+        if(storeCreature != null) {
+            entity.getRandomSize(); // Update boss size
+            storeCreature.setStoredCreatureEntity(StoredCreatureEntity.createFromEntity(crystal, entity)
+                    .setPersistant(true)
+                    .setFixate(true)
+                    .setSpawnAsBoss(true)
+            );
+            crystal.setShowBottom(true);
+            crystal.setDestroyBlocks(true);
+        }
+        return crystal;
+    }
 }

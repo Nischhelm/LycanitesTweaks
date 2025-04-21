@@ -33,7 +33,7 @@ public class ItemEquipmentRLCombatSweepHandler {
 
             if (!event.getEntityPlayer().isSneaking() && !attackOnCooldown){
                 doLycanitesSweepAttack(event);
-//                event.setDoSweep(false); // commit some crimes
+                event.setDoSweep(false);
             }
         }
     }
@@ -43,19 +43,18 @@ public class ItemEquipmentRLCombatSweepHandler {
         EntityPlayer player = event.getEntityPlayer();
         Entity targetEntity = event.getTargetEntity();
 
-        float cooledStr = event.getCooledStrength();
         double reach = ReachFixUtil.getEntityReach(player, event.getOffhand() ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND);
 
         ItemEquipment lycanitesEquipment = (ItemEquipment)event.getItemStack().getItem();
         double sweepAngle = lycanitesEquipment.getDamageSweep(event.getItemStack()) / (double)2.0F;
         if (sweepAngle > 0.0D) {
-            float sweepingDamage = 1.0F + event.getBaseDamage();
+            float sweepingDamage = 1.0F + event.getBaseDamage() * Math.max(1F, event.getSweepModifier());
             event.setSweepingAABB(event.getSweepingAABB().grow(lycanitesEquipment.getDamageRange(event.getItemStack())));
             AxisAlignedBB sweepingAABB = event.getSweepingAABB();
             DamageSource sweepingDamageSource = event.getSweepingDamageSource();
 
             for(EntityLivingBase living : player.world.getEntitiesWithinAABB(EntityLivingBase.class, sweepingAABB)) {
-                EnchantCompatHandler.attackEntityFromCooledStrength = cooledStr;
+                EnchantCompatHandler.attackEntityFromCooledStrength = event.getCooledStrength();
                 if (living != player && living != targetEntity && !player.isOnSameTeam(living) && player.getDistanceSq(living) < reach * reach) {
 
                     double targetXDist = living.posX - player.posX;
