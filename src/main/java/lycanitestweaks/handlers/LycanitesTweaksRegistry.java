@@ -5,6 +5,7 @@ import lycanitestweaks.loot.EnchantWithMobLevels;
 import lycanitestweaks.loot.HasMobLevels;
 import lycanitestweaks.loot.IsVariant;
 import lycanitestweaks.loot.ScaleWithMobLevels;
+import lycanitestweaks.potion.PotionCripplingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -62,7 +63,13 @@ public class LycanitesTweaksRegistry {
 
         @SubscribeEvent
         public static void registerPotionEvent(RegistryEvent.Register<Potion> event) {
-                if(ForgeConfigHandler.server.effectsConfig.registerConsumed) event.getRegistry().register(PotionConsumed.INSTANCE);
-                if(ForgeConfigHandler.server.effectsConfig.registerVoided) event.getRegistry().register(PotionVoided.INSTANCE);
+                if(ForgeConfigHandler.server.effectsConfig.registerConsumed) {
+                        event.getRegistry().register(PotionConsumed.INSTANCE);
+                        PotionCripplingBase.addInstance(PotionConsumed.INSTANCE);
+                }
+                if(ForgeConfigHandler.server.effectsConfig.registerVoided) {
+                        event.getRegistry().register(PotionVoided.INSTANCE);
+                        PotionCripplingBase.addInstance(PotionVoided.INSTANCE);
+                }
         }
 }

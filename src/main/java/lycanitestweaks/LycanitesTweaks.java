@@ -5,9 +5,8 @@ import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.features.boss.DamageLimitCalcHandler;
 import lycanitestweaks.handlers.features.boss.DefaultBossLootHandler;
-import lycanitestweaks.handlers.features.effect.ConsumedHandler;
+import lycanitestweaks.handlers.features.effect.CripplingEffectsHandler;
 import lycanitestweaks.handlers.features.effect.ItemCuringEffectsHandler;
-import lycanitestweaks.handlers.features.effect.VoidedHandler;
 import lycanitestweaks.handlers.features.item.ItemEquipmentRLCombatSweepHandler;
 import lycanitestweaks.handlers.features.item.ItemSoulgazerMoreInteractionsHandler;
 import net.minecraftforge.common.MinecraftForge;
@@ -50,8 +49,9 @@ public class LycanitesTweaks {
             MinecraftForge.EVENT_BUS.register(PlayerMobLevelCapabilityHandler.class);
             MinecraftForge.EVENT_BUS.register(ItemSoulgazerMoreInteractionsHandler.class);
         }
-        if(ForgeConfigHandler.server.effectsConfig.registerConsumed) MinecraftForge.EVENT_BUS.register(ConsumedHandler.class);
-        if(ForgeConfigHandler.server.effectsConfig.registerVoided) MinecraftForge.EVENT_BUS.register(VoidedHandler.class);
+
+        if(ForgeConfigHandler.server.effectsConfig.registerConsumed || ForgeConfigHandler.server.effectsConfig.registerVoided)
+            MinecraftForge.EVENT_BUS.register(CripplingEffectsHandler.class);
 
         MinecraftForge.EVENT_BUS.register(DefaultBossLootHandler.class);
 
