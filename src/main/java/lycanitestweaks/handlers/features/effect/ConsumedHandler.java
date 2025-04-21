@@ -27,8 +27,9 @@ public class ConsumedHandler {
         if (entity.getEntityWorld().isRemote) return;
 
         if(event.getPotionEffect().getPotion() == PotionConsumed.INSTANCE &&
-                entity instanceof EntityPlayer &&
+                (!entity.isNonBoss() || entity instanceof EntityPlayer &&
                 (((EntityPlayer) entity).isCreative() || ((EntityPlayer) entity).isSpectator()))
+            )
             event.setResult(Event.Result.DENY);
 
         if (ForgeConfigHandler.server.effectsConfig.consumedDeniesBuffs && entity.isPotionActive(PotionConsumed.INSTANCE))

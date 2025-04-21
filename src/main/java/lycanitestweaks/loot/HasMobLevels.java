@@ -49,6 +49,8 @@ public class HasMobLevels implements LootCondition {
     public boolean testCondition(Random rand, LootContext context) {
         if(context.getLootedEntity() instanceof BaseCreatureEntity){
             BaseCreatureEntity creature = (BaseCreatureEntity)context.getLootedEntity();
+
+            if(creature.isMinion()) return false;
             if(this.range.getMin() > 0 && creature.getLevel() < this.range.getMin()) return false;
             if(this.range.getMin() != this.range.getMax() && this.range.getMax() > 0 && creature.getLevel() > this.range.getMax()) return false;
             return true;

@@ -47,6 +47,7 @@ public class IsVariant implements LootCondition {
         if(context.getLootedEntity() instanceof BaseCreatureEntity){
             BaseCreatureEntity creature = (BaseCreatureEntity)context.getLootedEntity();
 
+            if(creature.isMinion()) return false;
             if(this.subspecies != -1 && creature.getSubspeciesIndex() != this.subspecies) return false;
             if(this.mustBeRare && !creature.isRareVariant()) return false;
             else if(this.mustBeUncommon && creature.getVariantIndex() == 0) return false;
