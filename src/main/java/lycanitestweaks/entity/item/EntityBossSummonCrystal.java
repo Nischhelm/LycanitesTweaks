@@ -46,6 +46,7 @@ public class EntityBossSummonCrystal extends EntityEnderCrystal {
     public EntityBossSummonCrystal(World worldIn) {
         super(worldIn);
         this.setShowBottom(false); // Manually set this to represent a stored entity
+        this.setDestroyBlocks(false); // Manually set this if you want Wither Style block break on spawn
     }
 
     @Override
@@ -82,7 +83,7 @@ public class EntityBossSummonCrystal extends EntityEnderCrystal {
 
     @Override
     protected void writeEntityToNBT(NBTTagCompound compound){
-        compound.setBoolean("DestroyBlocks", this.shouldShowBottom());
+        compound.setBoolean("DestroyBlocks", this.shouldDestroyBlocks());
         super.writeEntityToNBT(compound);
     }
 

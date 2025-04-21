@@ -72,6 +72,16 @@ public class DefaultBossLootHandler {
                                         LycanitesTweaks.MODID + ":enchant_with_mob_levels_book")},
                         new LootCondition[]{new IsVariant(-1, false, false, true)},
                         new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_boss_book");
+                LootPool treasureBookTable = new LootPool(
+                        new LootEntry[]{
+                                new LootEntryItem(Items.BOOK, 1, 0,
+                                        new LootFunction[]{new EnchantWithMobLevels(new LootCondition[0], new RandomValueRange(100), true, 0.75F)},
+                                        new LootCondition[0],
+                                        LycanitesTweaks.MODID + ":enchant_with_mob_levels_book_treasure")},
+                        new LootCondition[]{
+                                new IsVariant(-1, false, false, true),
+                                new HasMobLevels(new RandomValueRange(100))},
+                        new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_boss_book_treasure");
                 LootPool xpTable = new LootPool(
                         new LootEntry[]{
                                 new LootEntryItem(Items.EXPERIENCE_BOTTLE, 1, 0,
@@ -81,6 +91,7 @@ public class DefaultBossLootHandler {
                         new LootCondition[]{new IsVariant(-1, false, false, true)},
                         new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_boss_xp");
                 event.getTable().addPool(bookTable);
+                event.getTable().addPool(treasureBookTable);
                 event.getTable().addPool(xpTable);
             }
         }
