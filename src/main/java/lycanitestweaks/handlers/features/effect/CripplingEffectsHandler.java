@@ -23,16 +23,19 @@ public class CripplingEffectsHandler {
     public static void cripplingBuffPurge(PotionEvent.PotionApplicableEvent event) {
         if (event.isCanceled()) return;
         EntityLivingBase entity = event.getEntityLiving();
-        if (entity == null) return;
-        if (entity.getEntityWorld().isRemote) return;
+        if (entity == null || entity.getEntityWorld().isRemote) return;
 
         // bruh why does Rahovart alone keep failing these checks
+        // it is denied here but he still has it
         if(event.getPotionEffect().getPotion() instanceof PotionCripplingBase){
             if(entity instanceof EntityPlayer
                 && (((EntityPlayer) entity).isCreative() || ((EntityPlayer) entity).isSpectator()))
                 event.setResult(Event.Result.DENY);
             else if((entity instanceof BaseCreatureEntity && ((BaseCreatureEntity) entity).isBoss()))
                 event.setResult(Event.Result.DENY);
+//            else if(ForgeConfigHandler.client.debugLoggerTrigger)
+//                if(entity instanceof BaseCreatureEntity) LycanitesTweaks.LOGGER.log(Level.INFO, "Applying cripple effect to Creature {}", ((BaseCreatureEntity)entity).creatureInfo.getEntityClass());
+//                else LycanitesTweaks.LOGGER.log(Level.INFO, "Applying cripple effect to Entity {}", entity.getClass());
         }
         for(PotionCripplingBase potion : PotionCripplingBase.instanceSet){
             if(entity.isPotionActive(potion) && potion.shouldDenyBuffs())
