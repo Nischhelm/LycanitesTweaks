@@ -2,12 +2,13 @@ package lycanitestweaks;
 
 import lycanitestweaks.capability.EntityStoreCreatureCapabilityHandler;
 import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
+import lycanitestweaks.compat.ModLoadedUtil;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.features.boss.DamageLimitCalcHandler;
 import lycanitestweaks.handlers.features.boss.DefaultBossLootHandler;
 import lycanitestweaks.handlers.features.effect.CripplingEffectsHandler;
 import lycanitestweaks.handlers.features.effect.ItemCuringEffectsHandler;
-import lycanitestweaks.handlers.features.item.ItemEquipmentRLCombatSweepHandler;
+import lycanitestweaks.compat.RLCombatHandler;
 import lycanitestweaks.handlers.features.item.ItemSoulgazerMoreInteractionsHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -57,7 +58,8 @@ public class LycanitesTweaks {
 
         if(ForgeConfigHandler.featuresMixinConfig.bossDPSLimitRecalc) MinecraftForge.EVENT_BUS.register(DamageLimitCalcHandler.class);
         if(ForgeConfigHandler.featuresMixinConfig.customItemCureEffectList) MinecraftForge.EVENT_BUS.register(ItemCuringEffectsHandler.class);
-        if(ForgeConfigHandler.featuresMixinConfig.craftedEquipmentRLCombatSweep) MinecraftForge.EVENT_BUS.register(ItemEquipmentRLCombatSweepHandler.class);
+        if(ForgeConfigHandler.featuresMixinConfig.craftedEquipmentRLCombatSweep && ModLoadedUtil.isRLCombatLoaded())
+            MinecraftForge.EVENT_BUS.register(RLCombatHandler.class);
     }
 
     @Mod.EventHandler

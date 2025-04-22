@@ -22,6 +22,7 @@ import net.minecraft.world.storage.loot.functions.LootFunction;
 import net.minecraft.world.storage.loot.functions.LootingEnchantBonus;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -148,6 +149,7 @@ public class DefaultBossLootHandler {
                     }
                 }
             });
+            if(ForgeConfigHandler.client.debugLoggerAutomatic) LycanitesTweaks.LOGGER.log(Level.INFO, "chargeElementsMap: {}", DefaultBossLootHandler.chargeElementsMap);
         }
         return DefaultBossLootHandler.chargeElementsMap;
     }

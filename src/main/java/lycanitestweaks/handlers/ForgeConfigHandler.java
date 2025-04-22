@@ -41,9 +41,13 @@ public class ForgeConfigHandler {
 
 	public static class ClientConfig {
 
-		@Config.Comment("Enable Debug logging")
+		@Config.Comment("Enable Debug logging for manually triggered information")
 		@Config.Name("Enables debug logging")
-		public boolean debugLogger = false;
+		public boolean debugLoggerTrigger = false;
+
+		@Config.Comment("Enable Debug logging for constant information dumping")
+		@Config.Name("Enables debug logging automatic")
+		public boolean debugLoggerAutomatic = false;
 
 		@Config.Comment("Example client side config option")
 		@Config.Name("Example Client Option")
