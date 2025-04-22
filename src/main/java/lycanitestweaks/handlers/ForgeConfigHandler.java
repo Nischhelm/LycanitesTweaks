@@ -682,12 +682,12 @@ public class ForgeConfigHandler {
 			public int randomChargeMinimumMobLevel = 25;
 
 			@Config.Comment("Minimum count per loot entry")
-			@Config.Name("Random Charge Loot Maximum Count")
+			@Config.Name("Random Charge Loot Minimum Count")
 			@Config.RequiresMcRestart
 			public int randomChargeScaledCountMinimum = 0;
 
 			@Config.Comment("Maximum count per loot entry")
-			@Config.Name("Random Charge Loot Minimum Count")
+			@Config.Name("Random Charge Loot Maximum Count")
 			@Config.RequiresMcRestart
 			public int randomChargeScaledCountMaximum = 4;
 
