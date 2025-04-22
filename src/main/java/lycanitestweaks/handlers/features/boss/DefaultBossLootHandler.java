@@ -39,7 +39,7 @@ public class DefaultBossLootHandler {
     // JSON examples
     @SubscribeEvent
     public static void removeDefaultBossLoot(LootTableLoadEvent event){
-        if(!ForgeConfigHandler.server.pmlConfig.registerBossWithLevelsLootTables) {
+        if(!ForgeConfigHandler.server.lootConfig.registerBossWithLevelsLootTables) {
             if (LycanitesMobs.modid.equals(event.getName().getNamespace())) {
                 switch (event.getName().getPath()) {
                     case "amalgalich":
@@ -62,7 +62,7 @@ public class DefaultBossLootHandler {
     // LootTableLoadEvent examples
     @SubscribeEvent
     public static void addDefaultBossLoot(LootTableLoadEvent event){
-        if(ForgeConfigHandler.server.pmlConfig.registerDungeonBossWithLevelsLootTables) {
+        if(ForgeConfigHandler.server.lootConfig.registerSpawnedAsBossWithLevelsLootTables) {
             if (LycanitesMobs.modid.equals(event.getName().getNamespace())) {
                 LootPool bookTable = new LootPool(
                         new LootEntry[]{
@@ -95,13 +95,13 @@ public class DefaultBossLootHandler {
                 event.getTable().addPool(xpTable);
             }
         }
-        if(ForgeConfigHandler.server.pmlConfig.registerRandomChargesLootTable){
+        if(ForgeConfigHandler.server.lootConfig.registerRandomChargesLootTable){
             if (LycanitesMobs.modid.equals(event.getName().getNamespace())) {
                 CreatureInfo creatureInfo = CreatureManager.getInstance().getCreature(event.getName().getPath());
                 if(creatureInfo != null){
                     LootPool chargeTable = new LootPool(
                             new LootEntry[0],
-                            new LootCondition[]{new HasMobLevels(new RandomValueRange(25))},
+                            new LootCondition[]{new HasMobLevels(new RandomValueRange(ForgeConfigHandler.server.lootConfig.randomChargeMinimumMobLevel))},
                             new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_random_charges");
                     for(ElementInfo elementInfo : creatureInfo.elements){
                         if(DefaultBossLootHandler.getChargeElementsMap().containsKey(elementInfo.name)) {
@@ -111,8 +111,14 @@ public class DefaultBossLootHandler {
                                     chargeTable.addEntry(
                                             new LootEntryItem(ObjectManager.getItem(charge), 1, 0,
                                                     new LootFunction[]{
-                                                            new ScaleWithMobLevels(new LootCondition[0], new RandomValueRange(0, 4), 0.1F, 0),
-                                                            new LootingEnchantBonus(new LootCondition[0], new RandomValueRange(0, 1), 0)},
+                                                            new ScaleWithMobLevels(new LootCondition[0],
+                                                                new RandomValueRange(
+                                                                    ForgeConfigHandler.server.lootConfig.randomChargeScaledCountMinimum,
+                                                                    ForgeConfigHandler.server.lootConfig.randomChargeScaledCountMaximum),
+                                                                ForgeConfigHandler.server.lootConfig.randomChargeLevelScale,
+                                                                ForgeConfigHandler.server.lootConfig.randomChargeDropLimit),
+                                                            new LootingEnchantBonus(new LootCondition[0], new RandomValueRange(0,
+                                                                    ForgeConfigHandler.server.lootConfig.randomChargeLootingBonus), 0)},
                                                     new LootCondition[0],
                                                     entryName)
                                     );

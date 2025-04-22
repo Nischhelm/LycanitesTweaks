@@ -36,7 +36,7 @@ public abstract class MobEventBossesPlayerMobLevelsMixin {
                 if (CHANNEL_BOSS.equals(this.channel)) {
                     String message = LanguageManager.translate("event.boss.playermoblevels");
                     player.sendStatusMessage(new TextComponentString(message), true);
-                    return level + pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlBossDegree);
+                    return level + pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlBossMainDegree);
                 }
             }
         }

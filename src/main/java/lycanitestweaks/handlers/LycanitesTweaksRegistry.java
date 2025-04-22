@@ -28,11 +28,11 @@ public class LycanitesTweaksRegistry {
 
         // wasted an hour wondering why it couldn't be like RLMixins
         public static void init() {
-                if(ForgeConfigHandler.server.pmlConfig.registerPMLLootCondition) {
+                if(ForgeConfigHandler.server.lootConfig.registerPMLLootCondition) {
                         LootConditionManager.registerCondition(new HasMobLevels.Serializer());
                         LootConditionManager.registerCondition(new IsVariant.Serializer());
                 }
-                if(ForgeConfigHandler.server.pmlConfig.registerPMLLootFunction) {
+                if(ForgeConfigHandler.server.lootConfig.registerPMLLootFunction) {
                         LootFunctionManager.registerFunction(new EnchantWithMobLevels.Serializer());
                         LootFunctionManager.registerFunction(new ScaleWithMobLevels.Serializer());
                 }

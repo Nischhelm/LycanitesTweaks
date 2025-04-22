@@ -41,6 +41,10 @@ public class ForgeConfigHandler {
 
 	public static class ClientConfig {
 
+		@Config.Comment("Enable Debug logging")
+		@Config.Name("Enables debug logging")
+		public boolean debugLogger = false;
+
 		@Config.Comment("Example client side config option")
 		@Config.Name("Example Client Option")
 		public boolean exampleClientOption = true;
@@ -57,32 +61,35 @@ public class ForgeConfigHandler {
 	public static class ServerConfig {
 
 		@Config.Comment("Requires 'Boss Tweaks Amalgalich' Mixin enabled")
-		@Config.Name("Lycanites Tweaks Amalgalich")
+		@Config.Name("Enhanced Amalgalich")
 		public final BossAmalgalichConfig amalgalichConfig = new BossAmalgalichConfig();
 
 		@Config.Comment("Requires 'Boss Tweaks Asmodeus' Mixin enabled")
-		@Config.Name("Lycanites Tweaks Asmodeus")
+		@Config.Name("Enhanced Asmodeus")
 		public final BossAsmodeusConfig asmodeusConfig = new BossAsmodeusConfig();
 
 		@Config.Comment("Requires 'Boss Tweaks Rahovart' Mixin enabled")
-		@Config.Name("Lycanites Tweaks Rahovart")
+		@Config.Name("Enhanced Rahovart")
 		public final BossRahovartConfig rahovartConfig = new BossRahovartConfig();
 
-		@Config.Name("Lycanites Tweaks Potion Effects")
+		@Config.Name("Potion Effects")
 		public final PotionEffectsConfig effectsConfig = new PotionEffectsConfig();
 
 		@Config.Comment("Requires 'Summon Progression Rework' Mixin enabled")
-		@Config.Name("Lycanites Tweaks Imperfect Summoning")
+		@Config.Name("Imperfect Summoning")
 		public final ImperfectSummoningConfig imperfectSummoningConfig = new ImperfectSummoningConfig();
 
-		@Config.Name("Lycanites Tweaks Entity Can Store Creature")
-		public final  EntityStoreCreatureConfig escConfig = new EntityStoreCreatureConfig();
-
-		@Config.Name("Lycanites Tweaks Player Mob Levels")
+		@Config.Name("Player Mob Levels")
 		public final PlayerMobLevelsConfig pmlConfig = new PlayerMobLevelsConfig();
 
+		@Config.Name("Entity Can Store Creature")
+		public final EntityStoreCreatureConfig escConfig = new EntityStoreCreatureConfig();
+
+		@Config.Name("Level Scaled Loot")
+		public final LootConfig lootConfig = new LootConfig();
+
 		@Config.Comment("Requires 'Cap Specific Creature Stats' or 'Boss Lower Health Scale' Mixin enabled")
-		@Config.Name("Lycanites Tweaks Creature Stats")
+		@Config.Name("Creature Stats")
 		public final StatsConfig statsConfig = new StatsConfig();
 
 		@Config.Comment("Distance between entities to trigger auto pickup drop, Default Lycanites is 32. Requires Mixin 'Pickup Checks Distances'")
@@ -122,8 +129,8 @@ public class ForgeConfigHandler {
 		@Config.Name("Vanilla Saddle No Flying")
 		public boolean vanillaSaddleNoFlying = true;
 
-		@Config.Comment("Minimum level all parts of equipment must be in order to apply Sword Enchantments. Requires Mixin 'Crafted Equipment Sword Enchantments'")
-		@Config.Name("Equipment Minimum Level for to sword Enchantments")
+		@Config.Comment("Minimum level all parts of equipment must be in order to apply enchantments. Requires Mixin 'Crafted Equipment Enchantments'")
+		@Config.Name("Equipment Minimum Level to Apply Enchantments")
 		public int equipmentMinLevelEnchantable = 3;
 
 		@Config.Comment("List of potion resource locations cleansed will cure. Requires Mixin 'Customizable Curing Item Effects List'")
@@ -143,7 +150,8 @@ public class ForgeConfigHandler {
 				"minecraft:hunger",
 				"minecraft:weakness",
 				"minecraft:nausea",
-				"lycanitesmobs:paralysis"
+				"lycanitesmobs:paralysis",
+				"lycanitesmobs:bleed"
 		};
 
 		@Config.Comment("List of biome resource locations where custom name Arisaurs will spawn in. Requires Mixin 'Flowersaurs Naturally Spawn'")
@@ -179,7 +187,7 @@ public class ForgeConfigHandler {
 			@Config.RequiresMcRestart
 			public boolean targetedAttack = true;
 
-			@Config.Comment("Projectile to used for targeted attack")
+			@Config.Comment("Projectile to use for targeted attack")
 			@Config.Name("Targeted Projectile Name")
 			public String targetedProjectile = "lichshadowfire";
 
@@ -200,7 +208,7 @@ public class ForgeConfigHandler {
 			@Config.RequiresMcRestart
 			public boolean consumptionAllPhases = true;
 
-			@Config.Comment("Consumption Cooldown Duration Ticks")
+			@Config.Comment("Consumption Cooldown Duration Ticks (Lycanites uses 400)")
 			@Config.Name("Consumption Cooldown Duration Ticks")
 			@Config.RangeInt(min = 0)
 			@Config.RequiresMcRestart
@@ -227,7 +235,7 @@ public class ForgeConfigHandler {
 			@Config.Name("Consumption Kill Epion Extinguish")
 			public float consumptionKillEpionChance = 0.8F;
 
-			@Config.Comment("Custom value to shadow fire extinguish width on death")
+			@Config.Comment("Custom value for shadow fire extinguish width on death (Lycanites uses 10)")
 			@Config.Name("Custom Epion Extinguish Width")
 			public int customEpionExtinguishWidth = 10;
 
@@ -236,7 +244,7 @@ public class ForgeConfigHandler {
 			@Config.RequiresMcRestart
 			public boolean replaceLobDarkling = true;
 
-			@Config.Comment("Should Amalgalich attempt attacks hiding in arena walls")
+			@Config.Comment("Should Amalgalich try attacking players hiding in arena walls")
 			@Config.Name("Player Xray Target")
 			public boolean playerXrayTarget = true;
 
@@ -269,7 +277,7 @@ public class ForgeConfigHandler {
 			@Config.RequiresMcRestart
 			public String additionalProjectile = "demonicchaosorb";
 
-			@Config.Comment("Fixes double damage and hitscan damage ignoring walls with xRay on")
+			@Config.Comment("Fixes double damage and stop hitscan damage ignoring walls with xRay on")
 			@Config.Name("Disable Ranged Hitscan")
 			public boolean disableRangedHitscan = true;
 
@@ -286,7 +294,7 @@ public class ForgeConfigHandler {
 			@Config.RequiresMcRestart
 			public String devilstarProjectile = "demonicshockspark";
 
-			@Config.Comment("Devilstar Stream projectile firing active ticks")
+			@Config.Comment("Devilstar Stream projectile firing active ticks (Lycanites uses 100)")
 			@Config.Name("Devilstar Stream UpTime")
 			@Config.RangeInt(min = 0)
 			public int devilstarStreamUpTime = 100;
@@ -308,32 +316,32 @@ public class ForgeConfigHandler {
 			@Config.Name("Astaroths Boss Damage Limit")
 			public boolean astarothsUseBossDamageLimit = true;
 
-			@Config.Comment("Astaroth respawn time in seconds (2 per Player Max 2 Alive)")
+			@Config.Comment("Astaroth respawn time in seconds (2 per Player Max 2 Alive, Lycanites uses 30)")
 			@Config.Name("Astaroths Phase 2 Respawn Time")
 			@Config.RangeInt(min = 0)
 			public int astarothsRespawnTimePhase2 = 30;
 
-			@Config.Comment("Astaroth respawn time in seconds (1 per Player Max 4 Alive per Player)")
+			@Config.Comment("Astaroth respawn time in seconds (1 per Player Max 4 Alive per Player, Lycanites uses 40)")
 			@Config.Name("Astaroths Phase 3 Respawn Time")
 			@Config.RangeInt(min = 0)
 			public int astarothsRespawnTimePhase3 = 30;
 
-			@Config.Comment("Hell Shield Exponent for base ATTACK_DAMAGE to damage shield with")
+			@Config.Comment("Hell Shield Damage Received when hit is pow(ATTACK_DAMAGE, power)")
 			@Config.Name("Hell Shield Damage Power")
 			@Config.RangeInt(min = 1)
 			public int hellShieldDamagePower = 3;
 
-			@Config.Comment("Hell Shield Health for 100% Damage Reduction")
+			@Config.Comment("Hell Shield Health for 100% Damage Reduction, reduction is linear up to this point")
 			@Config.Name("Hell Shield Maximum Health")
 			@Config.RangeInt(min = 1)
-			public int hellShieldHealthMax = 10000;
+			public int hellShieldHealthMax = 20000;
 
 			@Config.Comment("Hell Shield Overheal to extend full power shield")
 			@Config.Name("Hell Shield Overheal Ratio")
 			@Config.RangeDouble(min = 1D)
 			public double hellShieldOverhealRatio = 2.0D;
 
-			@Config.Comment("Hell Shield Max Health Regenerated by Astaroths")
+			@Config.Comment("Hell Shield Max Health Regenerated by alive Astaroths every second")
 			@Config.Name("Hell Shield Astaroth Regeneration")
 			@Config.RangeDouble(min = 0D)
 			public double hellShieldAstarothRegen = 0.1D;
@@ -370,22 +378,22 @@ public class ForgeConfigHandler {
 			@Config.RangeInt(min = 0)
 			public int minionTemporaryDuration = 1200;
 
-			@Config.Comment("Minimum spawn range for only Belphs and Behemoths")
+			@Config.Comment("Minimum spawn range for only Belphs and Behemoths (Lycanites uses 5)")
 			@Config.Name("Minion Spawn Range Minimum")
 			@Config.RangeInt(min = 0, max = 35)
 			public int minionSpawnRangeMin = 15;
 
-			@Config.Comment("Maximum spawn range for only Belphs and Behemoths")
+			@Config.Comment("Maximum spawn range for only Belphs and Behemoths (Lycanites uses 5)")
 			@Config.Name("Minion Spawn Range Maximum")
 			@Config.RangeInt(min = 0, max = 35)
 			public int minionSpawnRangeMax = 35;
 
-			@Config.Comment("How much Hellfire energy is gained from a Belph in Phase 1")
+			@Config.Comment("How much Hellfire energy is gained from a Belph in Phase 1 (Lycanites uses 20 with 0 passive energy)")
 			@Config.Name("Hellfire Energy Belph")
 			@Config.RangeInt(min = 0, max = 100)
 			public int hellfireEnergyBelph = 20;
 
-			@Config.Comment("How much Hellfire energy is gained from a Behemoth in Phase 2")
+			@Config.Comment("How much Hellfire energy is gained from a Behemoth in Phase 2 (Lycanites uses 20 with 0 passive energy)")
 			@Config.Name("Hellfire Energy Behemoth")
 			@Config.RangeInt(min = 0, max = 100)
 			public int hellfireEnergyBehemoth = 20;
@@ -400,17 +408,17 @@ public class ForgeConfigHandler {
 			@Config.RangeInt(min = 0, max = 100)
 			public int hellfireEnergySelfP2 = 5;
 
-			@Config.Comment("Hellfire energy passively gained per second in Phase 3")
+			@Config.Comment("Hellfire energy passively gained per second in Phase 3 (Lycanites uses 5)")
 			@Config.Name("Hellfire Energy Self Phase 3")
 			@Config.RangeInt(min = 0, max = 100)
 			public int hellfireEnergySelfP3 = 10;
 
-			@Config.Comment("Specifies Hellfire Walls to clear away from Rahovart")
+			@Config.Comment("Specifies Hellfire Walls to clear away from Rahovart, inner walls snap to outer walls")
 			@Config.Name("Hellfire Wall Displacement")
 			@Config.RangeInt(min = 0, max = 4)
 			public int hellfireWallDisplacement = 2;
 
-			@Config.Comment("Specifies Tick Duration of Hellfire Walls (Every 200 lines up with E/W Axis)")
+			@Config.Comment("Specifies Tick Duration of Hellfire Walls (Every 200 lines up with E/W Axis, Lycanites ues 400)")
 			@Config.Name("Hellfire Wall Duration")
 			@Config.RangeInt(min = 0)
 			public int hellfireWallTimeMax = 800;
@@ -420,7 +428,7 @@ public class ForgeConfigHandler {
 			@Config.RangeInt(min = 0, max = 100)
 			public int hellfireWallCleanupRefund = 50;
 
-			@Config.Comment("Specifies Hellfire Barriers to clear away from Rahovart")
+			@Config.Comment("Specifies Hellfire Barriers to clear away from Rahovart, inner barriers snap to outer barriers")
 			@Config.Name("Hellfire Barrier Displacement")
 			@Config.RangeInt(min = 0, max = 4)
 			public int hellfireBarrierDisplacement = 3;
@@ -440,7 +448,7 @@ public class ForgeConfigHandler {
 			@Config.RangeInt(min = 0, max = 100)
 			public int hellfireBarrierCleanupRefund = 50;
 
-			@Config.Comment("Should Rahovart attempt attacks hiding in arena walls")
+			@Config.Comment("Should Rahovart try attacking players hiding in arena walls")
 			@Config.Name("Player Xray Target")
 			public boolean playerXrayTarget = true;
 
@@ -524,11 +532,11 @@ public class ForgeConfigHandler {
 
 		public static class ImperfectSummoningConfig{
 
-			@Config.Comment("Nerfs minions who are summoned without variant summoning knowledge")
+			@Config.Comment("Nerfs minions who are summoned without variant summoning knowledge, toggles the entire feature")
 			@Config.Name("Imperfect Summoning")
 			public boolean imperfectSummoning = true;
 
-			@Config.Comment("Knowledge Rank to summon normal minions")
+			@Config.Comment("Knowledge Rank to summon normal minions, updates client visuals except for lang files")
 			@Config.Name("Imperfect Normal Summon Rank")
 			@Config.RangeInt(min = 0)
 			public int normalSummonRank = 1;
@@ -570,27 +578,27 @@ public class ForgeConfigHandler {
 			@Config.Name("Player Mob Level Boss Requires Soulgazer")
 			public boolean pmlBossRequiresSoulgazer = true;
 
-			@Config.Comment("Ratio of Player Mob Level used to set for summon staff minions")
+			@Config.Comment("Ratio of Player Mob Levels used for summon staff minions")
 			@Config.Name("Player Mob Level Degree Summon")
 			@Config.RangeDouble(min = 0.0)
 			public double pmlSummonDegree = 0.2D;
 
-			@Config.Comment("Ratio of Player Mob Level used to set for soulbounds in limited dimensions")
+			@Config.Comment("Ratio of Player Mob Levels used for soulbounds in limited dimensions")
 			@Config.Name("Player Mob Level Degree Soulbound")
 			@Config.RangeDouble(min = 0.0)
 			public double pmlSoulboundDegree = 0.2D;
 
-			@Config.Comment("Ratio of Player Mob Level used to set for summon hostile bosses")
-			@Config.Name("Player Mob Level Degree Boss")
+			@Config.Comment("Ratio of Player Mob Levels used when the main bosses finish spawning")
+			@Config.Name("Player Mob Level Degree Main Boss")
 			@Config.RangeDouble(min = 0.0)
-			public double pmlBossDegree = 0.2D;
+			public double pmlBossMainDegree = 0.2D;
 
-			@Config.Comment("Ratio of Player Mob Level used to set for summon creatures from Boss Crystals")
+			@Config.Comment("Ratio of Player Mob Levels used for Boss Crystals when they spawn something")
 			@Config.Name("Player Mob Level Degree Boss Crystal")
 			@Config.RangeDouble(min = 0.0)
 			public double pmlBossCrystalDegree = 0.2D;
 
-			@Config.Comment("Ratio of Player Mob Level used to set for Lycanites Spawners")
+			@Config.Comment("Ratio of Player Mob Levels used for Lycanites Spawners")
 			@Config.Name("Player Mob Level Degree Spawner")
 			@Config.RangeDouble(min = 0.0)
 			public double pmlSpawnerDegree = 0.2D;
@@ -636,31 +644,6 @@ public class ForgeConfigHandler {
 			@Config.Comment("PML Spawner Names is a blacklist instead of whitelist")
 			@Config.Name("PML Spawner Names Blacklist")
 			public boolean pmlSpawnerNameStringsIsBlacklist = false;
-
-			@Config.Comment("Register Loot Tables for Amalgalich, Asmodeus, and Rahovart that are scaled to Mob Levels")
-			@Config.Name("Register Boss With Levels Loot Tables")
-			@Config.RequiresMcRestart
-			public boolean registerBossWithLevelsLootTables = true;
-
-			@Config.Comment("Register Loot Tables for Dungeon Bosses that are scaled to Mob Levels")
-			@Config.Name("Register Dungeon Boss With Levels Loot Tables")
-			@Config.RequiresMcRestart
-			public boolean registerDungeonBossWithLevelsLootTables = true;
-
-			@Config.Comment("Register Loot Tables for Level 25+ creatures dropping 0-4 charges of their element per 10 levels")
-			@Config.Name("Register Random Charges Loot Tables")
-			@Config.RequiresMcRestart
-			public boolean registerRandomChargesLootTable = true;
-
-			@Config.Comment("Register Has Mob Levels Loot Condition")
-			@Config.Name("Register HasMobLevels Loot Condition")
-			@Config.RequiresMcRestart
-			public boolean registerPMLLootCondition = true;
-
-			@Config.Comment("Register Scale With Mob Levels Loot Function")
-			@Config.Name("Register ScaleWithMobLevels Loot Function")
-			@Config.RequiresMcRestart
-			public boolean registerPMLLootFunction = true;
 		}
 
 		public static class EntityStoreCreatureConfig{
@@ -669,11 +652,11 @@ public class ForgeConfigHandler {
 			@Config.Name("Boss Crystal Player Mob Levels")
 			public boolean bossCrystalPML = true;
 
-			@Config.Comment("Require a mainhand Soulgazer in order to scale to Player Mob Levels")
-			@Config.Name("Boss Crystal Soulgazer Hold")
+			@Config.Comment("Require a held main hand Soulgazer in order to scale to Player Mob Levels")
+			@Config.Name("Boss Crystal Player Mob Levels Requires Soulgazer")
 			public boolean bossCrystalSoulgazerHold = true;
 
-			@Config.Comment("Enable logic to automatically release stored Entity")
+			@Config.Comment("Enable logic to automatically release stored Entity (Checks every second)")
 			@Config.Name("Boss Crystal Tick Checks")
 			public boolean bossCrystalTickChecks = true;
 
@@ -687,29 +670,87 @@ public class ForgeConfigHandler {
 			public boolean entityStoreCreatureCapability = true;
 		}
 
+		public static class LootConfig {
+
+			@Config.Comment("Minimum Level the creature must be to drop Random Charges")
+			@Config.Name("Random Charge Loot Minimum Mob Level")
+			@Config.RequiresMcRestart
+			public int randomChargeMinimumMobLevel = 25;
+
+			@Config.Comment("Minimum count per loot entry")
+			@Config.Name("Random Charge Loot Maximum Count")
+			@Config.RequiresMcRestart
+			public int randomChargeScaledCountMinimum = 0;
+
+			@Config.Comment("Maximum count per loot entry")
+			@Config.Name("Random Charge Loot Minimum Count")
+			@Config.RequiresMcRestart
+			public int randomChargeScaledCountMaximum = 4;
+
+			@Config.Comment("How many rolls per level, default is 0.1 so one roll for every 10 levels")
+			@Config.Name("Random Charge Level Scale")
+			@Config.RequiresMcRestart
+			public float randomChargeLevelScale = 0.1F;
+
+			@Config.Comment("Limit the number of items to drop, set to 0 to disable")
+			@Config.Name("Random Charge Loot Drop Limit")
+			@Config.RequiresMcRestart
+			public int randomChargeDropLimit = 0;
+
+			@Config.Comment("Set to 1 to use the standard vanilla looting bonus, set to 0 to disable")
+			@Config.Name("Random Charge Looting Bonus")
+			@Config.RequiresMcRestart
+			public int randomChargeLootingBonus = 1;
+
+			@Config.Comment("Register Loot Tables for Amalgalich, Asmodeus, and Rahovart that are scaled to Mob Levels")
+			@Config.Name("Register Boss With Levels Loot Tables")
+			@Config.RequiresMcRestart
+			public boolean registerBossWithLevelsLootTables = true;
+
+			@Config.Comment("Register Loot Tables for creatures dropping random charges of their element (This LootTable is dynamic)")
+			@Config.Name("Register Random Charges Loot Tables")
+			@Config.RequiresMcRestart
+			public boolean registerRandomChargesLootTable = true;
+
+			@Config.Comment("Register Loot Tables for any creature defined as SpawnedAsBoss (ex Dungeon/Altar)")
+			@Config.Name("Register SpawnedAsBoss With Levels Loot Tables")
+			@Config.RequiresMcRestart
+			public boolean registerSpawnedAsBossWithLevelsLootTables = true;
+
+			@Config.Comment("Register Has Mob Levels Loot Condition")
+			@Config.Name("Register HasMobLevels Loot Condition")
+			@Config.RequiresMcRestart
+			public boolean registerPMLLootCondition = true;
+
+			@Config.Comment("Register Scale With Mob Levels Loot Function")
+			@Config.Name("Register ScaleWithMobLevels Loot Function")
+			@Config.RequiresMcRestart
+			public boolean registerPMLLootFunction = true;
+		}
+
 		public static class StatsConfig{
 
-			@Config.Comment("Ratio of lycanites bonus Health bosses will receive")
+			@Config.Comment("Ratio of lycanites bonus Health bosses will receive, requires Mixin 'Boss Lower Health Scale'")
 			@Config.Name("Boss Health Bonus Ratio")
 			@Config.RangeDouble(min = 0)
 			public double bossHealthBonusRatio = 0.1D;
 
-			@Config.Comment("Ratio of max lycanites bonus movement defense, variants get more, set to 0 to disable")
+			@Config.Comment("Ratio of max lycanites bonus movement defense, variants get more, set to 0 to disable the cap")
 			@Config.Name("Cap Defense Ratio")
 			@Config.RangeDouble(min = 0)
 			public double capDefenseRatio = 4.0D;
 
-			@Config.Comment("Ratio of max lycanites bonus movement speed, variants get more, set to 0 to disable")
+			@Config.Comment("Ratio of max lycanites bonus movement speed, variants get more, set to 0 to disable the cap")
 			@Config.Name("Cap Speed Ratio")
 			@Config.RangeDouble(min = 0)
 			public double capSpeedRatio = 3.0D;
 
-			@Config.Comment("Ratio of max lycanites bonus effect duration, variants get more, set to 0 to disable")
+			@Config.Comment("Ratio of max lycanites bonus effect duration, variants get more, set to 0 to disable the cap")
 			@Config.Name("Cap Effect Duration Ratio")
 			@Config.RangeDouble(min = 0)
 			public double capEffectDurationRatio = 5.0D;
 
-			@Config.Comment("Ratio of max lycanites bonus pierce, variants get more, set to 0 to disable")
+			@Config.Comment("Ratio of max lycanites bonus pierce, variants get more, set to 0 to disable the cap")
 			@Config.Name("Cap Pierce Ratio")
 			@Config.RangeDouble(min = 0)
 			public double capPierceRatio = 3.0D;
@@ -724,7 +765,7 @@ public class ForgeConfigHandler {
 		*
 		 */
 
-		@Config.Comment("Fix Golems attacking tamed mobs")
+		@Config.Comment("Fix Iron Golems attacking tamed mobs")
 		@Config.Name("Fix Golems Attacking Tamed Mobs (Vanilla)")
 		@Config.RequiresMcRestart
 		@MixinConfig.EarlyMixin(name = "mixins.lycanitestweaks.vanillairongolemtargettamed.json")
@@ -784,7 +825,7 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossdamagelimitdpsrecalc.json")
 		public boolean bossDPSLimitRecalc = true;
 
-		@Config.Comment("Invert bonus Health/Damage level scale for Bosses")
+		@Config.Comment("Invert bonus Health/Damage level scale for the Boss Group")
 		@Config.Name("Boss Invert Health and Damage Scale")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureinvertbossdamagehealthscale.json")
@@ -826,11 +867,11 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.equipmentrmbneedssneak.json")
 		public boolean craftedEquipmentOffhandRMBSneak = true;
 
-		@Config.Comment("Allows Crafted Equipment to use Sword Enchantments (And Efficiency)")
-		@Config.Name("Crafted Equipment Sword Enchantments")
+		@Config.Comment("Allows Sword Enchantments and Efficiency, provides config option for requiring leveled parts")
+		@Config.Name("Crafted Equipment Enchantments")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureequipmentswordenchantments.json")
-		public boolean craftedEquipmentSwordEnchantments = true;
+		public boolean craftedEquipmentEnchantments = true;
 
 		@Config.Comment("Enable customizable effect list and handling for the cleansed/immunization effect")
 		@Config.Name("Customizable Curing Item Effects List")
@@ -868,7 +909,7 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebasecreatureminionhostlevelmatch.json")
 		public boolean levelMatchMinionsHostMethod = true;
 
-		@Config.Comment("Set noBreakCollision, pair with early Mixin 'Lycanites Fire Extinguish (Vanilla)")
+		@Config.Comment("Fix explosion damage being reduced to 1, pair with early Mixin 'Lycanites Fire Extinguish (Vanilla)")
 		@Config.Name("Lycanites Fire No Break Collision")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurelycanitesfirepassable.json")
@@ -898,7 +939,7 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureperchposition.json")
 		public boolean perchPositionModifiable = true;
 
-		@Config.Comment("Add distance checks to pickup mobs teleporting vicitims")
+		@Config.Comment("Add distance checks to pickup mobs teleporting victims")
 		@Config.Name("Pickup Checks Distances")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureentitypickupfix.json")
@@ -958,11 +999,11 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuretameabletreatpersistence.json")
 		public boolean treatSetsPersistence = true;
 
-		@Config.Comment("Use Player Mob Level to affect Soul Key Bosses")
+		@Config.Comment("Use Player Mob Level to affect the main Bosses")
 		@Config.Name("Player Mob Level Bosses (Requires Capability)")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossesplayermoblevels.json")
-		public boolean playerMobLevelBosses = true;
+		public boolean playerMobLevelMainBosses = true;
 
 		@Config.Comment("Use Player Mob Level to affect JSON Spawners by whitelist")
 		@Config.Name("Player Mob Level JSON Spawner (Requires Capability)")
@@ -1006,14 +1047,14 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		@MixinConfig.CompatHandling(modid = "reachfix")
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.equipmentreachfix.json")
-		public boolean craftedEquipmentReachFix = false;
+		public boolean craftedEquipmentReachFix = true;
 
-		@Config.Comment("Cancels Crafted Sweep and rehandle with RLCombat Sweep")
+		@Config.Comment("Cancels Custom Sweep and rehandle with RLCombat Sweep")
 		@Config.Name("Mod Compatibility: Crafted Equipment RLCombat Sweep (RLCombat)")
 		@Config.RequiresMcRestart
 		@MixinConfig.CompatHandling(modid = "rlcombat")
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.equipmentrlcombatsweep.json")
-		public boolean craftedEquipmentRLCombatSweep = false;
+		public boolean craftedEquipmentRLCombatSweep = true;
 	}
 
 	public static class PatchConfig {

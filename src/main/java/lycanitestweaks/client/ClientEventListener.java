@@ -11,10 +11,11 @@ public class ClientEventListener {
 
     @SubscribeEvent
     public static void onItemTooltip(ItemTooltipEvent event) {
+        if(!ForgeConfigHandler.server.pmlConfig.playerMobLevelCapability) return;
         if (event.getItemStack().getItem() instanceof ItemSoulgazer) {
             if(ForgeConfigHandler.featuresMixinConfig.playerMobLevelJSONSpawner)
                 event.getToolTip().add(LanguageManager.translate("soulgazer.description.pmlspawner"));
-            if(ForgeConfigHandler.featuresMixinConfig.playerMobLevelBosses)
+            if(ForgeConfigHandler.featuresMixinConfig.playerMobLevelMainBosses)
                 event.getToolTip().add(LanguageManager.translate("soulgazer.description.pmlboss"));
         }
         else if(event.getItemStack().getItem() instanceof ItemStaffSummoning) {

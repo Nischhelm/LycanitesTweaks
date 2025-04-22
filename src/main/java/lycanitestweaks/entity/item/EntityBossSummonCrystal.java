@@ -7,6 +7,7 @@ import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.storedcreatureentity.StoredCreatureEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityWither;
@@ -118,8 +119,10 @@ public class EntityBossSummonCrystal extends EntityEnderCrystal {
                     if(storeCreature != null){
                         storeCreature.getStoredCreatureEntity().spawnEntity((EntityLivingBase)source.getTrueSource());
 
+                        Entity spawnedEntity = storeCreature.getStoredCreatureEntity().entity;
+
                         // Combination of Wither and original Altar handling
-                        if(this.shouldDestroyBlocks() && !storeCreature.getStoredCreatureEntity().creatureTypeName.isEmpty() && ForgeEventFactory.getMobGriefingEvent(this.world, this)) {
+                        if(this.shouldDestroyBlocks() && spawnedEntity instanceof EntityLivingBase && ForgeEventFactory.getMobGriefingEvent(this.world, spawnedEntity)) {
                             this.world.playBroadcastSound(1023, new BlockPos(this), 0);
                             int y = MathHelper.floor(this.posY);
                             int x = MathHelper.floor(this.posX);
@@ -133,7 +136,7 @@ public class EntityBossSummonCrystal extends EntityEnderCrystal {
                                         BlockPos clearPos = new BlockPos(xTarget, yTarget, zTarget);
                                         IBlockState iblockstate = this.world.getBlockState(clearPos);
                                         Block block = iblockstate.getBlock();
-                                        if (!block.isAir(iblockstate, this.world, clearPos) && EntityWither.canDestroyBlock(block) && world.getTileEntity(clearPos) == null) {
+                                        if (!block.isAir(iblockstate, this.world, clearPos) && EntityWither.canDestroyBlock(block) && world.getTileEntity(clearPos) == null && ForgeEventFactory.onEntityDestroyBlock((EntityLivingBase)spawnedEntity, clearPos, iblockstate)) {
                                             flag = this.world.setBlockToAir(clearPos) || flag;
                                         }
                                     }
