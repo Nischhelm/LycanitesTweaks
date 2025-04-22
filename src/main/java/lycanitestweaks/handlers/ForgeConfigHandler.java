@@ -1052,7 +1052,7 @@ public class ForgeConfigHandler {
 		@Config.Comment("Cancels Custom Sweep and rehandle with RLCombat Sweep")
 		@Config.Name("Mod Compatibility: Crafted Equipment RLCombat Sweep (RLCombat)")
 		@Config.RequiresMcRestart
-		@MixinConfig.CompatHandling(modid = "rlcombat")
+		@MixinConfig.CompatHandling(modid = "bettercombatmod")
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.equipmentrlcombatsweep.json")
 		public boolean craftedEquipmentRLCombatSweep = true;
 	}
