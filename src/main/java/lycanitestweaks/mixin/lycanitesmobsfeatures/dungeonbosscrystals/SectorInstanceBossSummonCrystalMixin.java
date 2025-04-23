@@ -13,6 +13,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,6 +28,8 @@ public abstract class SectorInstanceBossSummonCrystalMixin {
 
     @Shadow(remap = false)
     public SectorConnector parentConnector;
+    @Shadow(remap = false)
+    protected Vec3i roomSize;
 
     @Redirect(
             method = "build",
@@ -73,6 +76,8 @@ public abstract class SectorInstanceBossSummonCrystalMixin {
             else
                 storeCreature.setStoredCreatureEntity(StoredCreatureEntity.createFromEntity(crystal, entityLiving));
             crystal.setShowBottom(true);
+            crystal.setSearchDistance((float)Math.max(3, Math.max(this.roomSize.getX(), this.roomSize.getZ())));
+            crystal.setVariantType(2);
         }
 
         world.spawnEntity(crystal);

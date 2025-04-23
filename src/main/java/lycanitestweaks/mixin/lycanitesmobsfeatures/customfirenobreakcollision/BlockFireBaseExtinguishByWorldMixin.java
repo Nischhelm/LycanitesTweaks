@@ -3,14 +3,23 @@ package lycanitestweaks.mixin.lycanitesmobsfeatures.customfirenobreakcollision;
 import com.lycanitesmobs.core.block.BlockBase;
 import com.lycanitesmobs.core.block.BlockFireBase;
 import com.lycanitesmobs.core.info.ModInfo;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(BlockFireBase.class)
 public abstract class BlockFireBaseExtinguishByWorldMixin extends BlockBase {
+
+    @Shadow(remap = false)
+    protected abstract boolean canNeighborCatchFire(World worldIn, BlockPos pos);
 
     public BlockFireBaseExtinguishByWorldMixin(Material material, ModInfo group, String name) {
         super(material, group, name);
@@ -26,5 +35,17 @@ public abstract class BlockFireBaseExtinguishByWorldMixin extends BlockBase {
     )
     public void lycanitesTweaks_lycanitesMobsBlockFireBase_init(Material material, ModInfo group, String name, CallbackInfo ci){
         this.noBreakCollision = true;
+    }
+
+    // Restore this so bushes can be broken to clear fire
+    @Inject(
+            method = "neighborChanged",
+            at = @At("HEAD"),
+            remap = true
+    )
+    public void lycanitesTweaks_lycanitesMobsBlockFireBase_neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos triggerPos, CallbackInfo ci){
+        if (!world.getBlockState(pos.down()).isSideSolid(world, pos, EnumFacing.UP) && !this.canNeighborCatchFire(world, pos)) {
+            world.setBlockToAir(pos);
+        }
     }
 }

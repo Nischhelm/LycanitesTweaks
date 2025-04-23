@@ -39,10 +39,13 @@ public class EntityBossSummonCrystal extends EntityEnderCrystal {
 
     // Player target can become null
     private EntityPlayer target;
-    // Lost and reset upon entity reload
-    private float searchDistance = ForgeConfigHandler.server.escConfig.bossCrystalTickDistance;
+    private float searchDistance = -1F;
+    protected float explosionStrength = 6.0F;
 
     private static final DataParameter<Boolean> DESTROY_BLOCKS = EntityDataManager.createKey(EntityBossSummonCrystal.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Float> SEARCH_DISTANCE = EntityDataManager.createKey(EntityBossSummonCrystal.class, DataSerializers.FLOAT);
+    // -1 = Encounter, 0 = Standard, 1 = Diamond, 2 = Emerald
+    private static final DataParameter<Integer> VARIANT_TYPE = EntityDataManager.createKey(EntityBossSummonCrystal.class, DataSerializers.VARINT);
 
     public EntityBossSummonCrystal(World worldIn) {
         super(worldIn);
@@ -54,6 +57,8 @@ public class EntityBossSummonCrystal extends EntityEnderCrystal {
     public void entityInit(){
         super.entityInit();
         this.getDataManager().register(DESTROY_BLOCKS, false);
+        this.getDataManager().register(SEARCH_DISTANCE, -1F);
+        this.getDataManager().register(VARIANT_TYPE, 0);
     }
 
     @Override
@@ -63,18 +68,21 @@ public class EntityBossSummonCrystal extends EntityEnderCrystal {
             BlockPos blockpos = new BlockPos(this);
 
             if (!(this.world.provider instanceof WorldProviderEnd) && this.world.getBlockState(blockpos).getBlock() != Blocks.FIRE){
-                this.world.setBlockState(blockpos, Blocks.FIRE.getDefaultState());
+                if(this.world.isAirBlock(blockpos)) this.world.setBlockState(blockpos, Blocks.FIRE.getDefaultState());
             }
-            if(this.ticksExisted % 20 == 0 && ForgeConfigHandler.server.escConfig.bossCrystalTickChecks) {
+            if(this.ticksExisted % 20 == 0 && this.searchDistance > -1F && ForgeConfigHandler.server.escConfig.bossCrystalTickChecks) {
+                // Find a player
                 if(this.target == null){
                     EntityPlayer candidate = this.world.getNearestPlayerNotCreative(this, this.searchDistance);
                     if (candidate != null && candidate.canEntityBeSeen(this)) this.target = candidate;
                 }
-                else if(this.searchDistance < 0 || this.getDistance(this.target) > this.searchDistance) {
+                // Trigger condition
+                else if(this.searchDistance == 0 || this.getDistance(this.target) > this.searchDistance) {
                     this.attackEntityFrom(DamageSource.causePlayerDamage(this.target), 0);
                 }
+                // Lower Distance or let player stand next to
                 else if (this.getDistance(this.target) > this.searchDistance / 4) {
-                    this.searchDistance--;
+                    this.searchDistance = Math.max(0, this.searchDistance - 1F);
                 }
             }
             if(this.target != null) this.setBeamTarget(this.target.getPosition());
@@ -85,25 +93,33 @@ public class EntityBossSummonCrystal extends EntityEnderCrystal {
     @Override
     protected void writeEntityToNBT(NBTTagCompound compound){
         compound.setBoolean("DestroyBlocks", this.shouldDestroyBlocks());
+        compound.setFloat("SearchDistance", this.getSearchDistance());
+        compound.setInteger("VariantType", this.getVariantType());
         super.writeEntityToNBT(compound);
     }
 
     @Override
     protected void readEntityFromNBT(NBTTagCompound compound){
-        if (compound.hasKey("DestroyBlocks", 1)){
-            this.setDestroyBlocks(compound.getBoolean("DestroyBlocks"));
-        }
+        if(compound.hasKey("DestroyBlocks", 1)) this.setDestroyBlocks(compound.getBoolean("DestroyBlocks"));
+        if(compound.hasKey("SearchDistance", 5)) this.setSearchDistance(compound.getFloat("SearchDistance"));
+        if(compound.hasKey("VariantType", 3)) this.setVariantType(compound.getInteger("VariantType"));
         super.readEntityFromNBT(compound);
     }
 
-    public void setDestroyBlocks(boolean destroyBlocks){
-        this.getDataManager().set(DESTROY_BLOCKS, destroyBlocks);
+    public void setDestroyBlocks(boolean destroyBlocks){ this.getDataManager().set(DESTROY_BLOCKS, destroyBlocks); }
+
+    public void setSearchDistance(float searchDistance){
+        this.searchDistance = searchDistance;
+        this.getDataManager().set(SEARCH_DISTANCE, searchDistance);
     }
 
-    public boolean shouldDestroyBlocks(){
-        return this.getDataManager().get(DESTROY_BLOCKS);
-    }
+    public void setVariantType(int variantType){ this.getDataManager().set(VARIANT_TYPE, variantType); }
 
+    public boolean shouldDestroyBlocks(){ return this.getDataManager().get(DESTROY_BLOCKS); }
+
+    public float getSearchDistance(){ return this.getDataManager().get(SEARCH_DISTANCE); }
+
+    public int getVariantType(){ return this.getDataManager().get(VARIANT_TYPE); }
 
     // Main method to link a player to entity summoning
     @Override
@@ -113,7 +129,7 @@ public class EntityBossSummonCrystal extends EntityEnderCrystal {
                 this.setDead();
 
                 if (!this.world.isRemote){
-                    this.world.createExplosion(source.getTrueSource(), this.posX, this.posY, this.posZ, 6.0F, this.shouldDestroyBlocks());
+                    this.world.createExplosion(source.getTrueSource(), this.posX, this.posY, this.posZ, this.explosionStrength, this.shouldDestroyBlocks());
 
                     IEntityStoreCreatureCapability storeCreature = this.getCapability(EntityStoreCreatureCapabilityHandler.ENTITY_STORE_CREATURE, null);
                     if(storeCreature != null){
@@ -220,6 +236,7 @@ public class EntityBossSummonCrystal extends EntityEnderCrystal {
             );
             crystal.setShowBottom(true);
             crystal.setDestroyBlocks(true);
+            crystal.setVariantType(1);
         }
         return crystal;
     }

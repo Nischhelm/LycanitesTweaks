@@ -1,6 +1,7 @@
 package lycanitestweaks.client.renderer.entity;
 
 import lycanitestweaks.LycanitesTweaks;
+import lycanitestweaks.entity.item.EntityBossSummonCrystal;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelEnderCrystal;
 import net.minecraft.client.renderer.GlStateManager;
@@ -13,6 +14,10 @@ import net.minecraft.util.math.MathHelper;
 public class RenderBossSummonCrystal extends RenderEnderCrystal {
 
     private static final ResourceLocation BOSS_SUMMON_CRYSTAL_TEXTURES = new ResourceLocation(LycanitesTweaks.MODID,"textures/entity/dungeonbosscrystal/dungeonbosscrystal.png");
+    private static final ResourceLocation BOSS_SUMMON_CRYSTAL_TEXTURES_DIAMOND = new ResourceLocation(LycanitesTweaks.MODID,"textures/entity/dungeonbosscrystal/dungeonbosscrystal_diamond.png");
+    private static final ResourceLocation BOSS_SUMMON_CRYSTAL_TEXTURES_EMERALD = new ResourceLocation(LycanitesTweaks.MODID,"textures/entity/dungeonbosscrystal/dungeonbosscrystal_emerald.png");
+    private static final ResourceLocation BOSS_SUMMON_CRYSTAL_TEXTURES_ENCOUNTER = new ResourceLocation(LycanitesTweaks.MODID,"textures/entity/dungeonbosscrystal/dungeonbosscrystal_encounter.png");
+
     private final ModelBase modelBossSummonCrystal = new ModelEnderCrystal(0.0F, true);
     private final ModelBase modelBossSummonCrystalNoBase = new ModelEnderCrystal(0.0F, false);
 
@@ -26,7 +31,7 @@ public class RenderBossSummonCrystal extends RenderEnderCrystal {
         float f = (float)entity.innerRotation + partialTicks;
         GlStateManager.pushMatrix();
         GlStateManager.translate((float)x, (float)y, (float)z);
-        this.bindTexture(BOSS_SUMMON_CRYSTAL_TEXTURES);
+        this.bindTexture(this.getEntityTexture(entity));
         float f1 = MathHelper.sin(f * 0.2F) / 2.0F + 0.5F;
         f1 = f1 * f1 + f1;
 
@@ -52,6 +57,14 @@ public class RenderBossSummonCrystal extends RenderEnderCrystal {
 
     @Override
     public ResourceLocation getEntityTexture(EntityEnderCrystal entity){
+        if(entity instanceof EntityBossSummonCrystal){
+            switch (((EntityBossSummonCrystal) entity).getVariantType()){
+                case -1: return BOSS_SUMMON_CRYSTAL_TEXTURES_ENCOUNTER;
+                case 1: return BOSS_SUMMON_CRYSTAL_TEXTURES_DIAMOND;
+                case 2: return BOSS_SUMMON_CRYSTAL_TEXTURES_EMERALD;
+                default: return BOSS_SUMMON_CRYSTAL_TEXTURES;
+            }
+        }
         return BOSS_SUMMON_CRYSTAL_TEXTURES;
     }
 }

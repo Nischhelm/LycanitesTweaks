@@ -2,12 +2,14 @@ package lycanitestweaks.handlers.features.item;
 
 import com.lycanitesmobs.client.localisation.LanguageManager;
 import com.lycanitesmobs.core.block.BlockSoulcube;
+import com.lycanitesmobs.core.info.CreatureManager;
 import com.lycanitesmobs.core.item.special.ItemSoulgazer;
 import lycanitestweaks.capability.EntityStoreCreatureCapabilityHandler;
 import lycanitestweaks.capability.IEntityStoreCreatureCapability;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
 import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
 import lycanitestweaks.entity.item.EntityBossSummonCrystal;
+import lycanitestweaks.entity.item.EntityEncounterSummonCrystal;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.LycanitesTweaksRegistry;
 import net.minecraft.block.Block;
@@ -75,6 +77,13 @@ public class ItemSoulgazerMoreInteractionsHandler {
                     if(storeCreature != null) {
                         int levels = Math.max(storeCreature.getStoredCreatureEntity().getLevel(), pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlBossCrystalDegree));
                         String message = LanguageManager.translate("soulgazer.playermoblevels.bosscrystal");
+
+                        if((!ForgeConfigHandler.server.escConfig.encounterCrystalSoulgazerHold && event.getTarget() instanceof EntityEncounterSummonCrystal)
+                            || !ForgeConfigHandler.server.escConfig.bossCrystalSoulgazerHold)
+                            message = LanguageManager.translate("soulgazer.playermoblevels.bosscrystal.nogazer");
+                        if(CreatureManager.getInstance().getCreature(storeCreature.getStoredCreatureEntity().creatureTypeName) == null)
+                            message = LanguageManager.translate("soulgazer.playermoblevels.bosscrystal.vanilla");
+
                         message = message.replace("%minimum%", "" + storeCreature.getStoredCreatureEntity().getLevel());
                         message = message.replace("%name%", storeCreature.getStoredCreatureEntity().getDisplayName());
                         message = message.replace("%levels%", "" + levels);

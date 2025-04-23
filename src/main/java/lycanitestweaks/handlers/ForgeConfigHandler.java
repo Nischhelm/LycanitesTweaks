@@ -664,9 +664,24 @@ public class ForgeConfigHandler {
 			@Config.Name("Boss Crystal Tick Checks")
 			public boolean bossCrystalTickChecks = true;
 
-			@Config.Comment("Distance a player must be in order for a Boss Crystal to target")
-			@Config.Name("Boss Crystal Tick Distance Check")
-			public float bossCrystalTickDistance = 16.0F;
+			@Config.Comment("1/n Chance to despawn per second, set to 0 to disable random despawning (Forced Despawning happens when further than 128 blocks)")
+			@Config.Name("Encounter Crystal Despawn Chance")
+			@Config.RangeInt(min = 0)
+			public int encounterCrystalDespawnChance = 0;
+
+			@Config.Comment("Require a held main hand Soulgazer in order to scale to Player Mob Levels")
+			@Config.Name("Encounter Crystal Player Mob Levels Requires Soulgazer")
+			public boolean encounterCrystalSoulgazerHold = false;
+
+			@Config.Comment("1/n chance to spawn, creature must have been idle for 600 ticks first, Requires Mixin 'Encounter Natural Spawn Summon Crystal'")
+			@Config.Name("Encounter Crystal Spawn Chance")
+			@Config.RangeInt(min = 1)
+			public int encounterCrystalSpawnChance = 800;
+
+			@Config.Comment("Tick Rate to attempt forcing a vanilla like despawn and store the creature, Requires Mixin 'Encounter Natural Spawn Summon Crystal'")
+			@Config.Name("Encounter Crystal Spawn Tick Rate")
+			@Config.RangeInt(min = 1)
+			public int encounterCrystalSpawnTickRate = 20;
 
 			@Config.Comment("Enable Capability to replicate LycanitesMobs PetEntry for any owner")
 			@Config.Name("Entity Store Creature Capability")
@@ -888,6 +903,12 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuredungeonbosscrystal.json")
 		public boolean dungeonBossSpawnCrystal = true;
+
+		@Config.Comment("Attempt a vanilla like despawn and store the creature in a Crystal Entity to interact with Player Mob Levels")
+		@Config.Name("Encounter Natural Spawn Summon Crystal (Requires Capability)")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurenaturalencountercrystal.json")
+		public boolean encounterNaturalSpawnCrystal = true;
 
 		@Config.Comment("When reading familiars from URL, Set Spawning Active to false")
 		@Config.Name("Familiars Inactive On Join")

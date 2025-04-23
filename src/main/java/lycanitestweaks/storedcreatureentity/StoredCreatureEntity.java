@@ -11,6 +11,7 @@ import lycanitestweaks.capability.IPlayerMobLevelCapability;
 import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
 import lycanitestweaks.compat.ModLoadedUtil;
 import lycanitestweaks.compat.RLTweakerHandler;
+import lycanitestweaks.entity.item.EntityEncounterSummonCrystal;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -18,9 +19,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 
@@ -295,8 +294,16 @@ public class StoredCreatureEntity {
 
         // calc PML after NBT Levels are loaded
         IPlayerMobLevelCapability pml = target.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
-        if(pml != null && ForgeConfigHandler.server.escConfig.bossCrystalPML &&
-                (!ForgeConfigHandler.server.escConfig.bossCrystalSoulgazerHold || target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer)) {
+//        if(pml != null && ForgeConfigHandler.server.escConfig.bossCrystalPML &&
+//                (!ForgeConfigHandler.server.escConfig.bossCrystalSoulgazerHold || target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer)) {
+//            this.setLevel(Math.max(this.getLevel(), pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlBossCrystalDegree)));
+//        }
+
+        if(pml != null && (
+            target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer
+            || (this.host instanceof EntityEncounterSummonCrystal && !ForgeConfigHandler.server.escConfig.encounterCrystalSoulgazerHold)
+            || (!ForgeConfigHandler.server.escConfig.bossCrystalSoulgazerHold)
+        )){
             this.setLevel(Math.max(this.getLevel(), pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlBossCrystalDegree)));
         }
 
@@ -315,19 +322,20 @@ public class StoredCreatureEntity {
             BaseCreatureEntity entityCreature = (BaseCreatureEntity)this.entity;
 
             // Better Spawn Location and Angle:
-            float randomAngle = 45F + (45F * this.host.getEntityWorld().rand.nextFloat());
-            if (this.host.getEntityWorld().rand.nextBoolean())
-                randomAngle = -randomAngle;
-            BlockPos spawnPos = entityCreature.getFacingPosition(this.host, -1, randomAngle);
-            if (!this.entity.getEntityWorld().isSideSolid(spawnPos, EnumFacing.UP))
-                this.entity.setLocationAndAngles(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), this.host.rotationYaw, 0.0F);
-            else {
-                spawnPos = entityCreature.getFacingPosition(this.host, -1, -randomAngle);
-                if (this.entity.getEntityWorld().isSideSolid(spawnPos, EnumFacing.UP))
-                    this.entity.setLocationAndAngles(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), this.host.rotationYaw, 0.0F);
-            }
+//            float randomAngle = 45F + (45F * this.host.getEntityWorld().rand.nextFloat());
+//            if (this.host.getEntityWorld().rand.nextBoolean())
+//                randomAngle = -randomAngle;
+//            BlockPos spawnPos = entityCreature.getFacingPosition(this.host, -1, randomAngle);
+//            if (!this.entity.getEntityWorld().isSideSolid(spawnPos, EnumFacing.UP))
+//                this.entity.setLocationAndAngles(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), this.host.rotationYaw, 0.0F);
+//            else {
+//                spawnPos = entityCreature.getFacingPosition(this.host, -1, -randomAngle);
+//                if (this.entity.getEntityWorld().isSideSolid(spawnPos, EnumFacing.UP))
+//                    this.entity.setLocationAndAngles(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), this.host.rotationYaw, 0.0F);
+//            }
 
-            if(this.fixate && target != null) entityCreature.setFixateTarget(target);
+            entityCreature.setRevengeTarget(target);
+            if(this.fixate) entityCreature.setFixateTarget(target);
             if(this.home >= 0) entityCreature.setHome((int)entityCreature.posX, (int)entityCreature.posY, (int)entityCreature.posZ, (float)this.home);
             if(this.temporary > 0) entityCreature.setTemporary(this.temporary);
             if(!this.mobDrops.isEmpty()) {

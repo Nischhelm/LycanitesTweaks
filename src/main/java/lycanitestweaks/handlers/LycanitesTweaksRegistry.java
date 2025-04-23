@@ -1,6 +1,7 @@
 package lycanitestweaks.handlers;
 
 import lycanitestweaks.entity.item.EntityBossSummonCrystal;
+import lycanitestweaks.entity.item.EntityEncounterSummonCrystal;
 import lycanitestweaks.loot.EnchantWithMobLevels;
 import lycanitestweaks.loot.HasMobLevels;
 import lycanitestweaks.loot.IsVariant;
@@ -50,6 +51,14 @@ public class LycanitesTweaksRegistry {
                         .entity(EntityBossSummonCrystal.class)
                         .id(new ResourceLocation(LycanitesTweaks.MODID, "bosscrystal"), id++)
                         .name("bosscrystal")
+                        .tracker(64, 1, false)
+                        .build()
+                );
+                event.getRegistry().register(
+                        EntityEntryBuilder.create()
+                        .entity(EntityEncounterSummonCrystal.class)
+                        .id(new ResourceLocation(LycanitesTweaks.MODID, "encountercrystal"), id++)
+                        .name("encountercrystal")
                         .tracker(64, 1, false)
                         .build()
                 );
