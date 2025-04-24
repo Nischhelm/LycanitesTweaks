@@ -669,6 +669,14 @@ public class ForgeConfigHandler {
 			@Config.Comment("PML Spawner Names is a blacklist instead of whitelist")
 			@Config.Name("PML Spawner Names Blacklist")
 			public boolean pmlSpawnerNameStringsIsBlacklist = false;
+
+//			@Config.Comment("Use PML highest pet entry ")
+//			@Config.Name("PML Taming Over Leveled Penalty")
+//			public boolean pmlTamedOverLevelPenalty = true;
+
+			@Config.Comment("Creature level to compare to PML highest pet entry level")
+			@Config.Name("PML Taming Over Leveled Start")
+			public int pmlTamedOverLevelStartLevel = 20;
 		}
 
 		public static class EntityStoreCreatureConfig{
