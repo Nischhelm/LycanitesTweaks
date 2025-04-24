@@ -1,16 +1,11 @@
 package lycanitestweaks.mixin.lycanitesmobsfeatures.bosstweaks;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.injector.ModifyReceiver;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.lycanitesmobs.core.block.BlockFireBase;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.creature.EntityRahovart;
 import com.lycanitesmobs.core.entity.goals.actions.abilities.SummonMinionsGoal;
-import com.lycanitesmobs.core.entity.projectile.EntityHellfireBarrier;
-import com.lycanitesmobs.core.entity.projectile.EntityHellfireWall;
-import com.lycanitesmobs.core.entity.projectile.EntityHellfireWave;
 import lycanitestweaks.entity.goals.ExtendedGoalConditions;
 import lycanitestweaks.entity.goals.actions.abilities.HealPortionWhenNoPlayersGoal;
 import lycanitestweaks.entity.goals.actions.abilities.SummonLeveledMinionsGoal;
@@ -21,7 +16,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;

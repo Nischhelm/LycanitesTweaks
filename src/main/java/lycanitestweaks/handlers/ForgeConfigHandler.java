@@ -96,6 +96,11 @@ public class ForgeConfigHandler {
 		@Config.Name("Creature Stats")
 		public final StatsConfig statsConfig = new StatsConfig();
 
+		@Config.Comment("Should Lycanites Block Protection protect against any Living Entity")
+		@Config.Name("Block Protection Living Event")
+		@Config.RequiresMcRestart
+		public boolean blockProtectionLivingEvent = true;
+
 		@Config.Comment("Distance between entities to trigger auto pickup drop, Default Lycanites is 32. Requires Mixin 'Pickup Checks Distances'")
 		@Config.Name("Pick Up Distance")
 		@Config.RangeDouble(min = 0)

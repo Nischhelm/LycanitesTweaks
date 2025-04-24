@@ -6,6 +6,7 @@ import lycanitestweaks.compat.ModLoadedUtil;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.features.boss.DamageLimitCalcHandler;
 import lycanitestweaks.handlers.features.boss.DefaultBossLootHandler;
+import lycanitestweaks.handlers.features.boss.MoreBlockProtectionHandler;
 import lycanitestweaks.handlers.features.effect.CripplingEffectsHandler;
 import lycanitestweaks.handlers.features.effect.ItemCuringEffectsHandler;
 import lycanitestweaks.compat.RLCombatHandler;
@@ -50,6 +51,8 @@ public class LycanitesTweaks {
             MinecraftForge.EVENT_BUS.register(PlayerMobLevelCapabilityHandler.class);
             MinecraftForge.EVENT_BUS.register(ItemSoulgazerMoreInteractionsHandler.class);
         }
+
+        if(ForgeConfigHandler.server.blockProtectionLivingEvent) MinecraftForge.EVENT_BUS.register(MoreBlockProtectionHandler.class);
 
         if(ForgeConfigHandler.server.effectsConfig.registerConsumed || ForgeConfigHandler.server.effectsConfig.registerVoided)
             MinecraftForge.EVENT_BUS.register(CripplingEffectsHandler.class);
