@@ -44,8 +44,10 @@ public class ItemSoulgazerMoreInteractionsHandler {
                     message = message.replace("%levels%", "" + levels);
                     player.sendMessage(new TextComponentString(message));
                 }
-                else if (player.isCreative())
+                else if (player.isCreative()) {
                     player.sendMessage(new TextComponentString("Unmodified Levels:" + pml.getTotalLevels()));
+                    player.sendMessage(new TextComponentString("Highest Level Pet:" + pml.getHighestLevelPet()));
+                }
             }
         }
     }

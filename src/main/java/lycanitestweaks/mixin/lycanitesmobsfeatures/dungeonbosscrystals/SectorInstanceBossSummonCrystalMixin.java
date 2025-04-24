@@ -76,7 +76,7 @@ public abstract class SectorInstanceBossSummonCrystalMixin {
             else
                 storeCreature.setStoredCreatureEntity(StoredCreatureEntity.createFromEntity(crystal, entityLiving));
             crystal.setShowBottom(true);
-            crystal.setSearchDistance((float)Math.max(3, Math.max(this.roomSize.getX(), this.roomSize.getZ())));
+            crystal.setSearchDistance(Math.max(3F, Math.max(this.roomSize.getX(), this.roomSize.getZ()) / 2F));
             crystal.setVariantType(2);
         }
 

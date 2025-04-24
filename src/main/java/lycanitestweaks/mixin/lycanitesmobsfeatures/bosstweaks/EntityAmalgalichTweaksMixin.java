@@ -267,7 +267,7 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
     public void onDeath(DamageSource damageSource) {
         super.onDeath(damageSource);
         if (!this.getEntityWorld().isRemote) {
-            int extinguishWidth = 3;
+            int extinguishWidth = 8;
             int extinguishHeight = 2;
             for(int x = (int)this.posX - extinguishWidth; x <= (int)this.posX + extinguishWidth; ++x) {
                 for(int y = (int)this.posY - extinguishHeight; y <= (int)this.posY + 2; ++y) {

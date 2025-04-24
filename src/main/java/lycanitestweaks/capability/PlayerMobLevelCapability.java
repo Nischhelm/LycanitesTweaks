@@ -1,9 +1,13 @@
 package lycanitestweaks.capability;
 
+import com.lycanitesmobs.core.pets.PetEntry;
+import lycanitestweaks.LycanitesTweaks;
+import lycanitestweaks.handlers.ForgeConfigHandler;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
+import org.apache.logging.log4j.Level;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -14,6 +18,8 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
     private final int[] nonMainLevels = new int[5];
     private final Queue<Integer> mainHandLevels = new LinkedList<>();
     private final int MAINHAND_CHECK_SIZE = 8;
+    public Map<Integer, Integer> petEntryLevels = new HashMap<>();
+    Object[] petEntryLevelsCopy = null;
 
     PlayerMobLevelCapability(){}
 
@@ -51,6 +57,7 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
 
     @Override
     public int getTotalLevels(){
+        if(ForgeConfigHandler.server.pmlConfig.playerMobLevelCapabilityNoCalc) return 0;
         int total = 0;
 
         for(int lvl : nonMainLevels){
@@ -84,6 +91,18 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
     }
 
     @Override
+    public int getHighestLevelPet() {
+        if(!ForgeConfigHandler.server.pmlConfig.pmlCalcHighestLevelPet) return 1;
+        if(this.petEntryLevelsCopy == null) {
+            this.petEntryLevelsCopy = petEntryLevels.keySet().toArray(new Integer[0]);
+            Arrays.sort(petEntryLevelsCopy, Comparator.comparingInt(a -> (int) a).reversed());
+        }
+        if(ForgeConfigHandler.client.debugLoggerTrigger)
+            LycanitesTweaks.LOGGER.log(Level.INFO, "Highest: {} Level Map: {}", this.petEntryLevelsCopy[0], this.petEntryLevels);
+        return (int)this.petEntryLevelsCopy[0];
+    }
+
+    @Override
     public void setNonMainLevels(ItemStack itemStack, int slotIndex) {
         nonMainLevels[slotIndex-1] = getItemStackLevels(itemStack);
     }
@@ -92,5 +111,35 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
     public void setMainHandLevels(ItemStack itemStack){
         mainHandLevels.add(getItemStackLevels(itemStack));
         while(mainHandLevels.size() > MAINHAND_CHECK_SIZE) mainHandLevels.poll();
+    }
+
+    // Adding with PetManager captures the level 1 state
+    @Override
+    public void addPetEntryLevels(PetEntry entry) {
+        this.petEntryLevelsCopy = null;
+        if(this.petEntryLevels.containsKey(entry.getLevel())){
+            this.petEntryLevels.put(entry.getLevel(), this.petEntryLevels.get(entry.getLevel()) + 1);
+        }
+        else{
+            this.petEntryLevels.put(entry.getLevel(), 1);
+            this.petEntryLevelsCopy = null;
+        }
+    }
+
+    // Removal from PetManager is accurate
+    @Override
+    public void removePetEntryLevels(PetEntry entry) {
+        this.petEntryLevelsCopy = null;
+        if(this.petEntryLevels.containsKey(entry.getLevel())){
+            if(this.petEntryLevels.get(entry.getLevel()) > 1)
+                this.petEntryLevels.put(entry.getLevel(), this.petEntryLevels.get(entry.getLevel()) - 1);
+            else{
+                this.petEntryLevels.remove(entry.getLevel());
+                this.petEntryLevelsCopy = null;
+            }
+        }
+        else{
+            if(ForgeConfigHandler.client.debugLoggerTrigger) LycanitesTweaks.LOGGER.log(Level.INFO, "Warning, petEntryLevels did not have key: {}", entry.getLevel());
+        }
     }
 }

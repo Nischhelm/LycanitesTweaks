@@ -392,6 +392,16 @@ public class ForgeConfigHandler {
 			@Config.RangeInt(min = 0, max = 35)
 			public int minionSpawnRangeMax = 35;
 
+			// Actually need to think more if flame wall armor busts are reasonable
+//			@Config.Comment("If all three of Rahovart Flame Wall attacks have a damage cap based on his pierce stat")
+//			@Config.Name("Hellfire Energy Attacks Limited Scaled")
+//			public boolean hellfireAttackLimitedScaled = true;
+//
+//			@Config.Comment("Ratio of Pierce Damage that the armor reduced/durability damage will deal at max")
+//			@Config.Name("Hellfire Energy Attacks Limited Scale Value")
+//			@Config.RangeInt(min = 0)
+//			public float hellfireAttackLimitedScaleValue = 4.0F;
+
 			@Config.Comment("How much Hellfire energy is gained from a Belph in Phase 1 (Lycanites uses 20 with 0 passive energy)")
 			@Config.Name("Hellfire Energy Belph")
 			@Config.RangeInt(min = 0, max = 100)
@@ -573,6 +583,10 @@ public class ForgeConfigHandler {
 
 		public static class PlayerMobLevelsConfig{
 
+			@Config.Comment("Alternative to fully disabling, forge caps exist (non null) but always returns 0")
+			@Config.Name("Mod Compatibility: No Calculate")
+			public boolean playerMobLevelCapabilityNoCalc = false;
+
 			@Config.Comment("Enable Capability to calculate a Mob Level associated to a player")
 			@Config.Name("Player Mob Level Capability")
 			@Config.RequiresMcRestart
@@ -601,6 +615,10 @@ public class ForgeConfigHandler {
 			@Config.Name("Player Mob Level Degree Boss Crystal")
 			@Config.RangeDouble(min = 0.0)
 			public double pmlBossCrystalDegree = 0.2D;
+
+			@Config.Comment("If Highest Level Pet Entry should try to be calculated, unsorted levels are still stored, false always returns 1")
+			@Config.Name("Player Mob Level Calculate Highest Level Pet Entry")
+			public boolean pmlCalcHighestLevelPet = true;
 
 			@Config.Comment("Ratio of Player Mob Levels used for Lycanites Spawners")
 			@Config.Name("Player Mob Level Degree Spawner")
@@ -639,10 +657,8 @@ public class ForgeConfigHandler {
 			public String[] pmlSpawnerNameStrings = {
 					"chaos",
 					"darkness",
-					"death",
 					"disruption",
-					"sleep",
-					"undeath"
+					"sleep"
 			};
 
 			@Config.Comment("PML Spawner Names is a blacklist instead of whitelist")
@@ -957,6 +973,12 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurelimitedvanillasaddle.json")
 		public boolean mountVanillaSaddleLimited = true;
+
+		@Config.Comment("Lycanites Pet Manager updates Player Mob Level Capability with pet entry information")
+		@Config.Name("Pet Manager Tracks Pet Levels (Requires Capability)")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurepetmanagerpmltrackspetlevels.json")
+		public boolean petManagerTracksHighestLevelPet = true;
 
 		@Config.Comment("Allow the pet perch position to be modifiable via config")
 		@Config.Name("Perch Position Modifiable")
