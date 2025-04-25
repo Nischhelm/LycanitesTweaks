@@ -12,12 +12,13 @@ public interface IPlayerMobLevelCapability {
     int getTotalLevelsWithDegree(double modifier);
     int getTotalLevels();
 
+    int getHighestLevelPet();
     int getHighestMainHandLevels();
     int getItemStackLevels(ItemStack itemStack);
-    int getHighestLevelPet();
 
-    void setNonMainLevels(ItemStack itemStack, int slotIndex);
-    void setMainHandLevels(ItemStack itemStack);
+    void addNewPetLevels(int levels);
     void addPetEntryLevels(PetEntry entry);
     void removePetEntryLevels(PetEntry entry);
+    void setNonMainLevels(ItemStack itemStack, int slotIndex);
+    void setMainHandLevels(ItemStack itemStack);
 }

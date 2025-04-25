@@ -69,6 +69,18 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
     }
 
     @Override
+    public int getHighestLevelPet() {
+        if(!ForgeConfigHandler.server.pmlConfig.pmlCalcHighestLevelPet || this.petEntryLevels.isEmpty()) return 0;
+        if(this.petEntryLevelsCopy == null) {
+            this.petEntryLevelsCopy = petEntryLevels.keySet().toArray(new Integer[0]);
+            Arrays.sort(petEntryLevelsCopy, Comparator.comparingInt(a -> (int) a).reversed());
+        }
+        if(ForgeConfigHandler.client.debugLoggerAutomatic)
+            LycanitesTweaks.LOGGER.log(Level.INFO, "Highest: {} Level Map: {}", this.petEntryLevelsCopy[0], this.petEntryLevels);
+        return (int)this.petEntryLevelsCopy[0];
+    }
+
+    @Override
     public int getHighestMainHandLevels(){
         Object[] mainHandLevelsCopy = mainHandLevels.toArray();
         Arrays.sort(mainHandLevelsCopy, Comparator.comparingInt(a -> (int)a).reversed());
@@ -90,16 +102,39 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
         return levels;
     }
 
+    // Used by PetManager and when a new PetEntry instance is made with an existing mob
     @Override
-    public int getHighestLevelPet() {
-        if(!ForgeConfigHandler.server.pmlConfig.pmlCalcHighestLevelPet) return 1;
-        if(this.petEntryLevelsCopy == null) {
-            this.petEntryLevelsCopy = petEntryLevels.keySet().toArray(new Integer[0]);
-            Arrays.sort(petEntryLevelsCopy, Comparator.comparingInt(a -> (int) a).reversed());
+    public void addNewPetLevels(int levels) {
+        if(this.petEntryLevels.containsKey(levels)){
+            this.petEntryLevels.put(levels, this.petEntryLevels.get(levels) + 1);
         }
-        if(ForgeConfigHandler.client.debugLoggerTrigger)
-            LycanitesTweaks.LOGGER.log(Level.INFO, "Highest: {} Level Map: {}", this.petEntryLevelsCopy[0], this.petEntryLevels);
-        return (int)this.petEntryLevelsCopy[0];
+        else{
+            this.petEntryLevels.put(levels, 1);
+            this.petEntryLevelsCopy = null;
+        }
+    }
+
+    // For adding from PetManager NBT
+    @Override
+    public void addPetEntryLevels(PetEntry entry) {
+        this.addNewPetLevels(entry.getLevel());
+    }
+
+    // Removal from PetManager is accurate
+    @Override
+    public void removePetEntryLevels(PetEntry entry) {
+        int level = entry.getLevel();
+        if(this.petEntryLevels.containsKey(level)){
+            if(this.petEntryLevels.get(level) > 1)
+                this.petEntryLevels.put(level, this.petEntryLevels.get(level) - 1);
+            else{
+                this.petEntryLevels.remove(level);
+                this.petEntryLevelsCopy = null;
+            }
+        }
+        else{
+            if(ForgeConfigHandler.client.debugLoggerTrigger) LycanitesTweaks.LOGGER.log(Level.INFO, "Warning tried to remove when petEntryLevels did not have key: {}", level);
+        }
     }
 
     @Override
@@ -111,35 +146,5 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
     public void setMainHandLevels(ItemStack itemStack){
         mainHandLevels.add(getItemStackLevels(itemStack));
         while(mainHandLevels.size() > MAINHAND_CHECK_SIZE) mainHandLevels.poll();
-    }
-
-    // Adding with PetManager captures the level 1 state
-    @Override
-    public void addPetEntryLevels(PetEntry entry) {
-        this.petEntryLevelsCopy = null;
-        if(this.petEntryLevels.containsKey(entry.getLevel())){
-            this.petEntryLevels.put(entry.getLevel(), this.petEntryLevels.get(entry.getLevel()) + 1);
-        }
-        else{
-            this.petEntryLevels.put(entry.getLevel(), 1);
-            this.petEntryLevelsCopy = null;
-        }
-    }
-
-    // Removal from PetManager is accurate
-    @Override
-    public void removePetEntryLevels(PetEntry entry) {
-        this.petEntryLevelsCopy = null;
-        if(this.petEntryLevels.containsKey(entry.getLevel())){
-            if(this.petEntryLevels.get(entry.getLevel()) > 1)
-                this.petEntryLevels.put(entry.getLevel(), this.petEntryLevels.get(entry.getLevel()) - 1);
-            else{
-                this.petEntryLevels.remove(entry.getLevel());
-                this.petEntryLevelsCopy = null;
-            }
-        }
-        else{
-            if(ForgeConfigHandler.client.debugLoggerTrigger) LycanitesTweaks.LOGGER.log(Level.INFO, "Warning, petEntryLevels did not have key: {}", entry.getLevel());
-        }
     }
 }

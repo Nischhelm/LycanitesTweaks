@@ -343,7 +343,7 @@ public class ForgeConfigHandler {
 			@Config.Comment("Hell Shield Health for 100% Damage Reduction, reduction is linear up to this point")
 			@Config.Name("Hell Shield Maximum Health")
 			@Config.RangeInt(min = 1)
-			public int hellShieldHealthMax = 20000;
+			public int hellShieldHealthMax = 50000;
 
 			@Config.Comment("Hell Shield Overheal to extend full power shield")
 			@Config.Name("Hell Shield Overheal Ratio")
@@ -621,7 +621,7 @@ public class ForgeConfigHandler {
 			@Config.RangeDouble(min = 0.0)
 			public double pmlBossCrystalDegree = 0.2D;
 
-			@Config.Comment("If Highest Level Pet Entry should try to be calculated, unsorted levels are still stored, false always returns 1")
+			@Config.Comment("If Highest Level Pet Entry should try to be calculated, unsorted levels are still stored, false always returns 0")
 			@Config.Name("Player Mob Level Calculate Highest Level Pet Entry")
 			public boolean pmlCalcHighestLevelPet = true;
 
@@ -674,7 +674,7 @@ public class ForgeConfigHandler {
 //			@Config.Name("PML Taming Over Leveled Penalty")
 //			public boolean pmlTamedOverLevelPenalty = true;
 
-			@Config.Comment("Creature level to compare to PML highest pet entry level")
+			@Config.Comment("Creature level to compare to PML highest pet entry level, Requires Mixin 'Tamed Invert Over Leveled Penalty'")
 			@Config.Name("PML Taming Over Leveled Start")
 			public int pmlTamedOverLevelStartLevel = 20;
 		}
@@ -802,6 +802,14 @@ public class ForgeConfigHandler {
 			@Config.Name("Cap Pierce Ratio")
 			@Config.RangeDouble(min = 0)
 			public double capPierceRatio = 3.0D;
+
+			@Config.Comment("Apply 'Boss Health Bonus Ratio' to variants/dungeon bosses instead of just the main Bosses")
+			@Config.Name("Spawned As Boss Health Bonus Ratio")
+			public boolean spawnedAsBossHealthBonusRatio = false;
+
+			@Config.Comment("Apply Mixin 'Boss Invert Health and Damage Scale' to variants/dungeon bosses instead of just the main Bosses")
+			@Config.Name("Spawned As Boss Invert Health and Damage Scale")
+			public boolean spawnedAsBossInvert = true;
 		}
 	}
 
@@ -1035,23 +1043,29 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresummonrework.json")
 		public boolean summonProgressionRework = true;
 
-		@Config.Comment("Allow creatures to be tamed/studied with their healing foods (has configs)")
-		@Config.Name("Tame Creatures with their healing food")
-		@Config.RequiresMcRestart
-		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuretamewithhealingfood.json")
-		public boolean tameWithHealingFood = true;
-
 		@Config.Comment("Invert bonus Health/Damage level scale for Tamed Creatures")
 		@Config.Name("Tamed Invert Health and Damage Scale")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureinverttameddamagehealthscale.json")
 		public boolean tamedInvertHealthDamageScale = true;
 
+		@Config.Comment("Remove treat pacifying and lower reputation gain when taming high leveled creatures (has configs) ")
+		@Config.Name("Tamed Invert Over Leveled Penalty")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuretameoverlevelpenalty.json")
+		public boolean tamedOverLeveledPenalty = true;
+
 		@Config.Comment("Enable whether all tamed (tamed/summoned/soulbound) variants get stats bonuses")
 		@Config.Name("Tamed Variant Stat Bonuses")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurealltamedvariantstats.json")
 		public boolean tamedVariantStats = true;
+
+		@Config.Comment("Allow creatures to be tamed/studied with their healing foods (has configs)")
+		@Config.Name("Tame Creatures with their healing food")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuretamewithhealingfood.json")
+		public boolean tameWithHealingFood = true;
 
 		@Config.Comment("Feeding Treats will prevent natural and forced despawning")
 		@Config.Name("Treat Sets Persistence")

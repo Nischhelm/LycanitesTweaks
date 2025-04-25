@@ -22,15 +22,15 @@ public abstract class TemptGoalOverLevelPenaltyMixin {
     @ModifyReturnValue(
             method = "isTemptStack",
             at = @At(value = "RETURN", ordinal = 1),
-            remap = true
+            remap = false
     )
-    public boolean www(boolean original){
+    public boolean lycanitesTweaks_lycanitesMobsTemptGoal_isTemptStackLevelPenalty(boolean original){
         if(original){
             IPlayerMobLevelCapability pml = this.player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
             if(ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel > 0){
                 if(pml != null){
-                    if(this.host.getLevel() >
-                        Math.max(0, ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel - pml.getHighestLevelPet())) return false;
+                    if(Math.max(0, this.host.getLevel() - pml.getHighestLevelPet()) > ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel)
+                        return false;
                 }
                 else{
                     if(this.host.getLevel() > ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel) return false;

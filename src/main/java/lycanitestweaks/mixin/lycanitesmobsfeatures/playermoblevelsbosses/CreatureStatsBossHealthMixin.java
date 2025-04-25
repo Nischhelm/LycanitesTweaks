@@ -22,7 +22,8 @@ public abstract class CreatureStatsBossHealthMixin {
             remap = false
     )
     private double lycanitesTweaks_lycanitesCreatureStats_getHealthBossBase(double original){
-        return CreatureManager.getInstance().creatureGroups.get("boss").hasEntity(this.entity) ?
+        return (CreatureManager.getInstance().creatureGroups.get("boss").hasEntity(this.entity)
+                || (ForgeConfigHandler.server.statsConfig.spawnedAsBossHealthBonusRatio && this.entity.isBoss())) ?
                 original * ForgeConfigHandler.server.statsConfig.bossHealthBonusRatio :
                 original;
     }
@@ -33,7 +34,8 @@ public abstract class CreatureStatsBossHealthMixin {
             remap = false
     )
     private double lycanitesTweaks_lycanitesCreatureStats_getHealthBossReturn(double original){
-        return CreatureManager.getInstance().creatureGroups.get("boss").hasEntity(this.entity) ?
+        return (CreatureManager.getInstance().creatureGroups.get("boss").hasEntity(this.entity)
+                || (ForgeConfigHandler.server.statsConfig.spawnedAsBossHealthBonusRatio && this.entity.isBoss())) ?
                 original + this.entity.creatureInfo.health * (1F - ForgeConfigHandler.server.statsConfig.bossHealthBonusRatio) :
                 original;
     }

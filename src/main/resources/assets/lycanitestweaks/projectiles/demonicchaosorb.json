@@ -16,7 +16,8 @@
   "elements": [
     "chaos",
     "nether",
-    "void"
+    "void",
+    "voiding"
   ],
   "behaviours": [],
   "waterproof": true,

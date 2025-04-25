@@ -14,7 +14,7 @@ soulbound.limited.levels=Your bound creature has limited power here, it is level
 soulgazer.description.pmlboss=Soulgaze a Soulcube to see the power inside
 soulgazer.description.pmlspawner=Soulgaze your Bed to see what powers are around you
 soulgazer.playermoblevels.boss=Hold the Soulgazer until the boss spawns and it will be Level: %levels%
-soulgazer.playermoblevels.bosscrystal=The Crystal contains, Level: %minimum% - %name%, hold the Soulgazer to challenge Level: %levels%
+soulgazer.playermoblevels.bosscrystal=The Crystal contains, Level: %minimum% - %name%, break with the Soulgazer to challenge Level: %levels%
 soulgazer.playermoblevels.bosscrystal.nogazer=The Crystal contains, Level: %levels% - %name%
 soulgazer.playermoblevels.bosscrystal.vanilla=The Crystal contains, %name%
 soulgazer.playermoblevels.spawner=Level: %levels% creatures may appear around you
@@ -26,3 +26,4 @@ summon.imperfect.attack=Your lack of knowledge has manifested a weak creature!
 summon.imperfect.health=Your lack of knowledge has manifested a fragile creature!
 
 tame.fail.healingnofly=This creature flies and only wants treats
+tame.overlevel.penalty=This creature is more troublesome to tame without a Soulbound with high enough levels

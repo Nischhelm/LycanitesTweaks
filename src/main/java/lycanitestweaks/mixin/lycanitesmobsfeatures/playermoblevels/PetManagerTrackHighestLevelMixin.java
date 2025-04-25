@@ -35,7 +35,7 @@ public abstract class PetManagerTrackHighestLevelMixin {
             at = @At(value = "INVOKE", target = "Ljava/util/Map;remove(Ljava/lang/Object;)Ljava/lang/Object;"),
             remap = false
     )
-    public void aaa(PetEntry petEntry, CallbackInfo ci){
+    public void lycanitesTweaks_lycanitesMobsPetManager_removeEntryPML(PetEntry petEntry, CallbackInfo ci){
         IPlayerMobLevelCapability pml = this.host.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
         if(pml != null) pml.removePetEntryLevels(petEntry);
     }
@@ -44,20 +44,9 @@ public abstract class PetManagerTrackHighestLevelMixin {
     @Inject(
             method = "onUpdate",
             at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/core/pets/PetManager;addEntry(Lcom/lycanitesmobs/core/pets/PetEntry;)V"),
-            remap = true
+            remap = false
     )
-    public void yyy(World world, CallbackInfo ci, @Local PetEntry petEntry){
-        IPlayerMobLevelCapability pml = this.host.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
-        if(pml != null) pml.addPetEntryLevels(petEntry);
-    }
-
-    // Accurately load new levels
-    @Inject(
-            method = "onUpdate",
-            at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/core/entity/ExtendedPlayer;sendPetEntryToPlayer(Lcom/lycanitesmobs/core/pets/PetEntry;)V"),
-            remap = true
-    )
-    public void eee(World world, CallbackInfo ci, @Local PetEntry petEntry){
+    public void lycanitesTweaks_lycanitesMobsPetManager_onUpdatePML(World world, CallbackInfo ci, @Local PetEntry petEntry){
         IPlayerMobLevelCapability pml = this.host.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
         if(pml != null) pml.addPetEntryLevels(petEntry);
     }
