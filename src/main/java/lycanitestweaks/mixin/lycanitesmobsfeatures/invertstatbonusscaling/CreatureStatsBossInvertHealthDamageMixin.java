@@ -2,7 +2,6 @@ package lycanitestweaks.mixin.lycanitesmobsfeatures.invertstatbonusscaling;
 
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.CreatureStats;
-import com.lycanitesmobs.core.info.CreatureManager;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -27,8 +26,7 @@ public abstract class CreatureStatsBossInvertHealthDamageMixin {
             remap = false
     )
     private String lycanitesTweaks_lycanitesCreatureStats_getHealthBossInvert(String stat){
-        if(CreatureManager.getInstance().creatureGroups.get("boss").hasEntity(this.entity)
-                || (ForgeConfigHandler.server.statsConfig.spawnedAsBossInvert && this.entity.isBoss()))
+        if(this.entity.isBossAlways() || (ForgeConfigHandler.server.statsConfig.spawnedAsBossInvert && this.entity.isBoss()))
             return DAMAGE;
         return stat;
     }
@@ -39,8 +37,7 @@ public abstract class CreatureStatsBossInvertHealthDamageMixin {
             remap = false
     )
     private String lycanitesTweaks_lycanitesCreatureStats_getDamageBossInvert(String stat){
-        if(CreatureManager.getInstance().creatureGroups.get("boss").hasEntity(this.entity)
-                || (ForgeConfigHandler.server.statsConfig.spawnedAsBossInvert && this.entity.isBoss()))
+        if(this.entity.isBossAlways() || (ForgeConfigHandler.server.statsConfig.spawnedAsBossInvert && this.entity.isBoss()))
             return HEALTH;
         return stat;
     }

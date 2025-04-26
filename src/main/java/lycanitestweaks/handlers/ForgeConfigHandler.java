@@ -327,7 +327,7 @@ public class ForgeConfigHandler {
 			@Config.Comment("Ratio of lycanites bonus Health main bosses will receive, requires Mixin 'Boss Lower Health Scale'")
 			@Config.Name("Boss Health Bonus Ratio")
 			@Config.RangeDouble(min = 0)
-			public double bossHealthBonusRatio = 0.1D;
+			public double bossHealthBonusRatio = 0.25D;
 
 			@Config.Comment("Ratio of max lycanites bonus movement defense, variants get more, set to 0 to disable the cap")
 			@Config.Name("Cap Defense Ratio")
