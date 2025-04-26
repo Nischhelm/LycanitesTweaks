@@ -91,7 +91,7 @@ public class ForgeConfigHandler {
 		@Config.Name("Player Mob Levels")
 		public final PlayerMobLevelsConfig pmlConfig = new PlayerMobLevelsConfig();
 
-		@Config.Name("Entity Can Store Creature")
+		@Config.Name("Entity Store Creature")
 		public final EntityStoreCreatureConfig escConfig = new EntityStoreCreatureConfig();
 
 		@Config.Name("Level Scaled Loot")
@@ -121,7 +121,7 @@ public class ForgeConfigHandler {
 		@Config.RangeDouble(min = 0)
 		public double perchDistance = 1.0D;
 
-		@Config.Comment("Max size change amount based on lycanitesmobs config range. Requires Mixin 'Size Change Foods'")
+		@Config.Comment("Max size change amount based on lycanitesmobs config range, default is 0.1, or 10% of config range. Requires Mixin 'Size Change Foods'")
 		@Config.Name("Tamed Size Change Degree")
 		@Config.RangeDouble(min = 0.0)
 		public double sizeChangeDegree = 0.1D;
@@ -131,17 +131,17 @@ public class ForgeConfigHandler {
 		@Config.RangeDouble(min = 0.0, max = 1.0)
 		public float tameWithFoodChance = 0.3F;
 
-		@Config.Comment("Do not allow flying creatures to be tamed with healing food")
-		@Config.Name("Tame With Food No Flying")
-		public boolean tameWithFoodNoFlying = true;
+		@Config.Comment("Allow flying creatures to be tamed with healing food")
+		@Config.Name("Tame With Food Allow Flying")
+		public boolean tamedWithFoodAllowFlying = false;
 
-		@Config.Comment("In order to use a vanilla saddle, the mount most be at least this level. Requires Mixin 'Mounts can use Vanilla saddles with limitations'")
+		@Config.Comment("In order to use a vanilla saddle, the mount must be at least this level. Requires Mixin 'Mounts can use Vanilla saddles with limitations'")
 		@Config.Name("Vanilla Saddle Creature Level Requirement")
 		public int vanillaSaddleLevelRequirement = 16;
 
-		@Config.Comment("Do not allow flying creatures use the vanilla saddle")
-		@Config.Name("Vanilla Saddle No Flying")
-		public boolean vanillaSaddleNoFlying = true;
+		@Config.Comment("Allow flying creatures use the vanilla saddle")
+		@Config.Name("Vanilla Saddle Allow Flying")
+		public boolean vanillaSaddleAllowFlying = false;
 
 		@Config.Comment("Minimum level all parts of equipment must be in order to apply enchantments. Requires Mixin 'Crafted Equipment Enchantments'")
 		@Config.Name("Equipment Minimum Level to Apply Enchantments")
@@ -273,7 +273,7 @@ public class ForgeConfigHandler {
 			@Config.RequiresMcRestart
 			public float randomChargeLevelScale = 0.1F;
 
-			@Config.Comment("Limit the number of items to drop, set to 0 to disable")
+			@Config.Comment("Limit the number of items to drop, set to 0 to have no limit")
 			@Config.Name("Random Charge Loot Drop Limit")
 			@Config.RequiresMcRestart
 			public int randomChargeDropLimit = 0;
@@ -318,7 +318,7 @@ public class ForgeConfigHandler {
 				3. Rare Variants (Natural Boss)
 
 				Provided Boss configs only cover 1 and 2, and assumes 3 will never be level scaled
-				Lower Health Bonus Options exists so BOSS_DAMAGE_LIMIT does create mobs with insane time to kill
+				Lower Health Bonus Options exists so BOSS_DAMAGE_LIMIT does not create mobs with insane time to kill
 
 				A natural rare variant can have different stat modifiers from a SpawnedAsBoss version,
 				LycanitesTweaks turns all altar bosses in SpawnedAsBoss mobs for example
@@ -329,7 +329,7 @@ public class ForgeConfigHandler {
 			@Config.RangeDouble(min = 0)
 			public double bossHealthBonusRatio = 0.25D;
 
-			@Config.Comment("Ratio of max lycanites bonus movement defense, variants get more, set to 0 to disable the cap")
+			@Config.Comment("Ratio of max lycanites bonus defense, variants get more, set to 0 to disable the cap")
 			@Config.Name("Cap Defense Ratio")
 			@Config.RangeDouble(min = 0)
 			public double capDefenseRatio = 4.0D;
@@ -353,10 +353,6 @@ public class ForgeConfigHandler {
 			@Config.Name("Spawned As Boss Health Bonus Ratio")
 			@Config.RangeDouble(min = 0)
 			public double spawnedAsBossHealthBonusRatio = 0.5D;
-
-//			@Config.Comment("Apply 'Boss Health Bonus Ratio' to variants/dungeon bosses instead of just the main Bosses")
-//			@Config.Name("Spawned As Boss Health Bonus Ratio")
-//			public boolean spawnedAsBossHealthBonusRatio = false;
 
 			@Config.Comment("Apply Mixin 'Boss Invert Health and Damage Scale' to variants/dungeon bosses instead of just the main Bosses")
 			@Config.Name("Spawned As Boss Invert Health and Damage Scale")

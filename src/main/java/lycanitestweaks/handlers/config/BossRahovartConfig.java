@@ -19,7 +19,7 @@ public class BossRahovartConfig {
     @Config.RequiresMcRestart
     public boolean healPortionNoPlayers = true;
 
-    @Config.Comment("Tick Maximum Lifespan for Belphs and Behemoths. Set to 0 to disable")
+    @Config.Comment("Tick Maximum Lifespan for Belphs and Behemoths. Set to 0 to not use a temporary timer")
     @Config.Name("Minion Temporary Duration")
     @Config.RangeInt(min = 0)
     public int minionTemporaryDuration = 1200;
@@ -33,16 +33,6 @@ public class BossRahovartConfig {
     @Config.Name("Minion Spawn Range Maximum")
     @Config.RangeInt(min = 0, max = 35)
     public int minionSpawnRangeMax = 35;
-
-    // Actually need to think more if flame wall armor busts are reasonable
-//			@Config.Comment("If all three of Rahovart Flame Wall attacks have a damage cap based on his pierce stat")
-//			@Config.Name("Hellfire Energy Attacks Limited Scaled")
-//			public boolean hellfireAttackLimitedScaled = true;
-//
-//			@Config.Comment("Ratio of Pierce Damage that the armor reduced/durability damage will deal at max")
-//			@Config.Name("Hellfire Energy Attacks Limited Scale Value")
-//			@Config.RangeInt(min = 0)
-//			public float hellfireAttackLimitedScaleValue = 4.0F;
 
     @Config.Comment("Base Damage of Hellfire Energy Attacks")
     @Config.Name("Hellfire Energy Attacks Base Damage")
@@ -105,12 +95,12 @@ public class BossRahovartConfig {
     @Config.RangeInt(min = 0, max = 4)
     public int hellfireBarrierDisplacement = 3;
 
-    @Config.Comment("Specifies Hellfire Barriers degration per Belph kill (Lycanites uses 50/100)")
+    @Config.Comment("Specifies Hellfire Barriers degradation per Belph kill (Lycanites uses 50/100)")
     @Config.Name("Hellfire Barrier Belph Degrade")
     @Config.RangeInt(min = 0, max = 100)
     public int hellfireBarrierBelphDegrade = 25;
 
-    @Config.Comment("Specifies Hellfire Barriers degration per Behemoth kill (Lycanites uses 100/100)")
+    @Config.Comment("Specifies Hellfire Barriers degradation per Behemoth kill (Lycanites uses 100/100)")
     @Config.Name("Hellfire Barrier Behemoth Degrade")
     @Config.RangeInt(min = 0, max = 100)
     public int hellfireBarrierBehemothDegrade = 75;

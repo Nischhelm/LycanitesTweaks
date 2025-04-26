@@ -91,10 +91,6 @@ public class PlayerMobLevelsConfig {
     @Config.Name("PML Spawner Names Blacklist")
     public boolean pmlSpawnerNameStringsIsBlacklist = false;
 
-//			@Config.Comment("Use PML highest pet entry ")
-//			@Config.Name("PML Taming Over Leveled Penalty")
-//			public boolean pmlTamedOverLevelPenalty = true;
-
     @Config.Comment("Creature level to compare to PML highest pet entry level, Requires Mixin 'Tamed Invert Over Leveled Penalty', set to 0 to disable")
     @Config.Name("PML Taming Over Leveled Start")
     public int pmlTamedOverLevelStartLevel = 20;
