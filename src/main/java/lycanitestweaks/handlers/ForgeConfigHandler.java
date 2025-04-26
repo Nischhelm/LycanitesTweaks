@@ -61,6 +61,10 @@ public class ForgeConfigHandler {
 		@Config.Comment("Test Double")
 		@Config.Name("Test Double")
 		public double testDouble = 1.0D;
+
+		@Config.Comment("Test Float")
+		@Config.Name("Test Float")
+		public float testFloat = 1.0F;
 	}
 
 	public static class ServerConfig {

@@ -7,7 +7,8 @@
   "minVersion": "0.8",
   "mixins": [
     "bosstweaks.EntityRahovartTweaksMixin",
-    "bosstweaks.EntityHellfireBarrierTweaksMixin"
+    "bosstweaks.EntityHellfireBarrierTweaksMixin",
+    "bosstweaks.EntityHellfireWallTweaksMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

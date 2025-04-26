@@ -44,6 +44,22 @@ public class BossRahovartConfig {
 //			@Config.RangeInt(min = 0)
 //			public float hellfireAttackLimitedScaleValue = 4.0F;
 
+    @Config.Comment("Base Damage of Hellfire Energy Attacks")
+    @Config.Name("Hellfire Energy Attacks Base Damage")
+    public int hellfireAttacksBaseDamage = 10;
+
+    @Config.Comment("If all three of Rahovart Flame Wall attacks have their damage always match level 1 Rahovart")
+    @Config.Name("Hellfire Energy Attacks Fixed Damage")
+    public boolean hellfireAttackFixedDamage = true;
+
+    @Config.Comment("Should on hit purge remove more than Lycanites defined list?")
+    @Config.Name("Hellfire Energy Attacks Purge Any Buff")
+    public boolean hellfireAttackPurgeAnyBuff = true;
+
+    @Config.Comment("Duration of Voided Debuff in seconds, set to 0 to disable")
+    @Config.Name("Hellfire Energy Attacks Voided Time")
+    public int hellfireAttackVoidedTime = 3;
+
     @Config.Comment("How much Hellfire energy is gained from a Belph in Phase 1 (Lycanites uses 20 with 0 passive energy)")
     @Config.Name("Hellfire Energy Belph")
     @Config.RangeInt(min = 0, max = 100)
@@ -82,7 +98,7 @@ public class BossRahovartConfig {
     @Config.Comment("How much Hellfire energy is refunded upon a p2->p3 transition per active wall")
     @Config.Name("Hellfire Wall Cleanup Refund")
     @Config.RangeInt(min = 0, max = 100)
-    public int hellfireWallCleanupRefund = 0;
+    public int hellfireWallCleanupRefund = 50;
 
     @Config.Comment("Specifies Hellfire Barriers to clear away from Rahovart, inner barriers snap to outer barriers")
     @Config.Name("Hellfire Barrier Displacement")
