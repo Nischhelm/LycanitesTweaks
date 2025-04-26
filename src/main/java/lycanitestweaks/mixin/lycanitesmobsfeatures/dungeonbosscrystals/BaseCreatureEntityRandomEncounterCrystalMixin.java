@@ -20,6 +20,8 @@ public abstract class BaseCreatureEntityRandomEncounterCrystalMixin extends Enti
     public long updateTick;
     @Shadow(remap = false)
     protected abstract boolean canDespawn();
+    @Shadow(remap = false)
+    public abstract boolean isMinion();
 
     public BaseCreatureEntityRandomEncounterCrystalMixin(World worldIn) {
         super(worldIn);
@@ -32,9 +34,10 @@ public abstract class BaseCreatureEntityRandomEncounterCrystalMixin extends Enti
     )
     public void lycanitesTweaks_lycanitesMobs_onUpdateSpawnEncounterCrystal(CallbackInfo ci){
         if(this.updateTick % ForgeConfigHandler.server.escConfig.encounterCrystalSpawnTickRate == 0L
-                && this.idleTime > 600
+                && this.idleTime > ForgeConfigHandler.server.escConfig.encounterCrystalIdleTime
                 && this.rand.nextInt(ForgeConfigHandler.server.escConfig.encounterCrystalSpawnChance) == 0
-                && this.canDespawn()){
+                && this.canDespawn()
+                && !this.isMinion()){
             if(CreatureManager.getInstance().creatureGroups.get("animal").hasEntity(this)) return;
 
             Entity entity = this.world.getClosestPlayerToEntity(this, -1.0D);

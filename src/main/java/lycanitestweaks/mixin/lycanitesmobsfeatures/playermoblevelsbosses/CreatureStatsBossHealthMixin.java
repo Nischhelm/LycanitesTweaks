@@ -4,7 +4,6 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.CreatureStats;
-import com.lycanitesmobs.core.info.CreatureManager;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -22,10 +21,13 @@ public abstract class CreatureStatsBossHealthMixin {
             remap = false
     )
     private double lycanitesTweaks_lycanitesCreatureStats_getHealthBossBase(double original){
-        return (CreatureManager.getInstance().creatureGroups.get("boss").hasEntity(this.entity)
-                || (ForgeConfigHandler.server.statsConfig.spawnedAsBossHealthBonusRatio && this.entity.isBoss())) ?
-                original * ForgeConfigHandler.server.statsConfig.bossHealthBonusRatio :
-                original;
+        if(this.entity.isBossAlways()){
+            return original * ForgeConfigHandler.server.statsConfig.bossHealthBonusRatio;
+        }
+        else if(this.entity.isBoss()){
+            return original * ForgeConfigHandler.server.statsConfig.spawnedAsBossHealthBonusRatio;
+        }
+        return original;
     }
 
     @ModifyReturnValue(
@@ -34,9 +36,12 @@ public abstract class CreatureStatsBossHealthMixin {
             remap = false
     )
     private double lycanitesTweaks_lycanitesCreatureStats_getHealthBossReturn(double original){
-        return (CreatureManager.getInstance().creatureGroups.get("boss").hasEntity(this.entity)
-                || (ForgeConfigHandler.server.statsConfig.spawnedAsBossHealthBonusRatio && this.entity.isBoss())) ?
-                original + this.entity.creatureInfo.health * (1F - ForgeConfigHandler.server.statsConfig.bossHealthBonusRatio) :
-                original;
+        if(this.entity.isBossAlways()){
+            return original + this.entity.creatureInfo.health * (1F - ForgeConfigHandler.server.statsConfig.bossHealthBonusRatio);
+        }
+        else if(this.entity.isBoss()){
+            return original + this.entity.creatureInfo.health * (1F - ForgeConfigHandler.server.statsConfig.spawnedAsBossHealthBonusRatio);
+        }
+        return original;
     }
 }

@@ -32,13 +32,13 @@ public abstract class TameableCreatureEntityOverLevelPenaltyMixin extends Ageabl
             if(pml != null){
                 if(Math.max(0, this.getLevel() - pml.getHighestLevelPet()) > ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel) {
                     player.sendStatusMessage(new TextComponentString(LanguageManager.translate("tame.overlevel.penalty")), true);
-                    return (int) Math.max(1, amount * (float) (pml.getHighestLevelPet()) / this.getLevel());
+                    return (int) Math.max(1, amount * (float) (pml.getHighestLevelPet()) / (2 * this.getLevel()));
                 }
             }
             else{
                 if(this.getLevel() > ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel) {
                     player.sendStatusMessage(new TextComponentString(LanguageManager.translate("tame.overlevel.penalty")), true);
-                    return (int) Math.max(1, amount * (float) ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel / this.getLevel());
+                    return (int) Math.max(1, amount * (float) ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel / (2 * this.getLevel()));
                 }
             }
         }

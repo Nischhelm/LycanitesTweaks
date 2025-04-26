@@ -1,6 +1,7 @@
 package lycanitestweaks.handlers;
 
 import fermiumbooter.annotations.MixinConfig;
+import lycanitestweaks.handlers.config.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
@@ -179,309 +180,6 @@ public class ForgeConfigHandler {
 		@Config.Name("Mod Compatibility: Fix all Mobs PotionCore Jump")
 		public boolean fixAllMobsPotionCoreJump = true;
 
-		public static class BossAmalgalichConfig {
-
-			@Config.Comment("Projectile to replace main 'spectralbolt' auto attack (targeted/all)")
-			@Config.Name("Main Projectile Name")
-			@Config.RequiresMcRestart
-			public String mainProjectile = "lichspectralbolt";
-
-			@Config.Comment("Replace the 50hp/sec heal with a 2% Max HP/sec heal")
-			@Config.Name("Heal Portion When No Players")
-			@Config.RequiresMcRestart
-			public boolean healPortionNoPlayers = true;
-
-			@Config.Comment("Add AI task for targeted attack to use alongside auto attacks")
-			@Config.Name("Targeted Projectile Attack")
-			@Config.RequiresMcRestart
-			public boolean targetedAttack = true;
-
-			@Config.Comment("Projectile to use for targeted attack")
-			@Config.Name("Targeted Projectile Name")
-			public String targetedProjectile = "lichshadowfire";
-
-			@Config.Comment("Targeted Projectile Cooldown Ticks")
-			@Config.Name("Targeted Projectile Cooldown Ticks")
-			@Config.RangeInt(min = 0)
-			@Config.RequiresMcRestart
-			public int targetedProjectileGoalCooldown = 360;
-
-			@Config.Comment("Targeted Projectile Stamina Drain (Uptime = Cooldown/DrainRate)")
-			@Config.Name("Targeted Projectile Stamina Drain Rate")
-			@Config.RangeInt(min = 0)
-			@Config.RequiresMcRestart
-			public int targetedProjectileStaminaDrainRate = 6;
-
-			@Config.Comment("Consumption in any phases, goal/animation shared across the fight")
-			@Config.Name("Consumption All Phases")
-			@Config.RequiresMcRestart
-			public boolean consumptionAllPhases = true;
-
-			@Config.Comment("Consumption Cooldown Duration Ticks (Lycanites uses 400)")
-			@Config.Name("Consumption Cooldown Duration Ticks")
-			@Config.RangeInt(min = 0)
-			@Config.RequiresMcRestart
-			public int consumptionGoalCooldown = 400;
-
-			@Config.Comment("If consumption should use LycanitesTweaks Consumption debuff")
-			@Config.Name("Consumption Debuff effect")
-			@Config.RequiresMcRestart
-			public boolean consumptionEffect = true;
-
-			@Config.Comment("If consumption should deal damage based on victim's max hp")
-			@Config.Name("Consumption Damage Max HP")
-			public boolean consumptionDamageMaxHP = true;
-
-			@Config.Comment("Make Consumption more immersive by relying on Consumption debuff to reduce max hp.")
-			@Config.Name("Consumption Damages Players")
-			public boolean consumptionDamagesPlayers = false;
-
-			@Config.Comment("Portion of HP healed on minion kill, set to 0 to use original 25.0 healing")
-			@Config.Name("Consumption Kill Heal")
-			public float consumptionKillHeal = 0.005F;
-
-			@Config.Comment("Chance that Amalgalich killing an Epion will Extinguish Shadow Fire")
-			@Config.Name("Consumption Kill Epion Extinguish")
-			public float consumptionKillEpionChance = 0.8F;
-
-			@Config.Comment("Custom value for shadow fire extinguish width on death (Lycanites uses 10)")
-			@Config.Name("Custom Epion Extinguish Width")
-			public int customEpionExtinguishWidth = 10;
-
-			@Config.Comment("Replace Lob Darkling with Summon Goal, as a high level Amalgalich spams too much")
-			@Config.Name("Lob Darklings Replace")
-			@Config.RequiresMcRestart
-			public boolean replaceLobDarkling = true;
-
-			@Config.Comment("Should Amalgalich try attacking players hiding in arena walls")
-			@Config.Name("Player Xray Target")
-			public boolean playerXrayTarget = true;
-
-			@Config.Comment("Epion Summons one Crimson variant instead of 3 normal")
-			@Config.Name("Spawns Crimson Epion")
-			@Config.RequiresMcRestart
-			public boolean crimsonEpion = true;
-
-			@Config.Comment("Should Phase 3 Summon a Lunar Grue")
-			@Config.Name("Spawns Lunar Grue")
-			@Config.RequiresMcRestart
-			public boolean grueSummon = true;
-
-		}
-
-		public static class BossAsmodeusConfig {
-
-			@Config.Comment("Replace the 50hp/sec heal with a 2% Max HP/sec heal")
-			@Config.Name("Heal Portion When No Players")
-			@Config.RequiresMcRestart
-			public boolean healPortionNoPlayers = true;
-
-			@Config.Comment("Add AI Ranged auto attacking (targeted/all) for an additional projectile")
-			@Config.Name("Additional Projectile Register")
-			@Config.RequiresMcRestart
-			public boolean additionalProjectileAdd = true;
-
-			@Config.Comment("Projectile to use for auto attacking")
-			@Config.Name("Additional Projectile Name")
-			@Config.RequiresMcRestart
-			public String additionalProjectile = "demonicchaosorb";
-
-			@Config.Comment("Fixes double damage and stop hitscan damage ignoring walls with xRay on")
-			@Config.Name("Disable Ranged Hitscan")
-			public boolean disableRangedHitscan = true;
-
-			@Config.Comment("Should on hit purge remove more than Lycanites defined list?")
-			@Config.Name("Devil Gatling Purge Any Buff")
-			public boolean devilGatlingPurgeAnyBuff = true;
-
-			@Config.Comment("Duration of Voided Debuff in seconds, set to 0 to disable")
-			@Config.Name("Devil Gatling Voided Time")
-			public int devilGatlingVoidedTime = 1;
-
-			@Config.Comment("Projectile to replace Devilstar Stream attack")
-			@Config.Name("Devilstar Projectile Name")
-			@Config.RequiresMcRestart
-			public String devilstarProjectile = "demonicshockspark";
-
-			@Config.Comment("Devilstar Stream projectile firing active ticks (Lycanites uses 100)")
-			@Config.Name("Devilstar Stream UpTime")
-			@Config.RangeInt(min = 0)
-			public int devilstarStreamUpTime = 100;
-
-			@Config.Comment("Devilstar Stream cooldown ticks (Lycanites uses 400, Gatling is 200)")
-			@Config.Name("Devilstar Stream Cooldown")
-			@Config.RangeInt(min = 0)
-			public int devilstarCooldown = 360;
-
-			@Config.Comment("Whether Devilstar Stream can be used outside Phase 1")
-			@Config.Name("Devilstar Stream All Phases")
-			public boolean devilstarStreamAllPhases = true;
-
-			@Config.Comment("Whether Astaroth Minions are teleported away on spawn")
-			@Config.Name("Astaroths Teleport Adjacent Node")
-			public boolean astarothsTeleportAdjacent = true;
-
-			@Config.Comment("Whether Astaroth Minions use Rare/Boss Damage Limit")
-			@Config.Name("Astaroths Boss Damage Limit")
-			public boolean astarothsUseBossDamageLimit = true;
-
-			@Config.Comment("Astaroth respawn time in seconds (2 per Player Max 2 Alive, Lycanites uses 30)")
-			@Config.Name("Astaroths Phase 2 Respawn Time")
-			@Config.RangeInt(min = 0)
-			public int astarothsRespawnTimePhase2 = 30;
-
-			@Config.Comment("Astaroth respawn time in seconds (1 per Player Max 4 Alive per Player, Lycanites uses 40)")
-			@Config.Name("Astaroths Phase 3 Respawn Time")
-			@Config.RangeInt(min = 0)
-			public int astarothsRespawnTimePhase3 = 30;
-
-			@Config.Comment("Hell Shield Damage Received when hit is pow(ATTACK_DAMAGE, power)")
-			@Config.Name("Hell Shield Damage Power")
-			@Config.RangeInt(min = 1)
-			public int hellShieldDamagePower = 3;
-
-			@Config.Comment("Hell Shield Health for 100% Damage Reduction, reduction is linear up to this point")
-			@Config.Name("Hell Shield Maximum Health")
-			@Config.RangeInt(min = 1)
-			public int hellShieldHealthMax = 50000;
-
-			@Config.Comment("Hell Shield Overheal to extend full power shield")
-			@Config.Name("Hell Shield Overheal Ratio")
-			@Config.RangeDouble(min = 1D)
-			public double hellShieldOverhealRatio = 2.0D;
-
-			@Config.Comment("Hell Shield Max Health Regenerated by alive Astaroths every second")
-			@Config.Name("Hell Shield Astaroth Regeneration")
-			@Config.RangeDouble(min = 0D)
-			public double hellShieldAstarothRegen = 0.1D;
-
-			@Config.Comment("Should Asmodeus attempt attacks on players behind arena pillars")
-			@Config.Name("Player Xray Target")
-			public boolean playerXrayTarget = true;
-
-			@Config.Comment("Should Phase 3 Summon a Phosphorescent Chupacabra")
-			@Config.Name("Spawns Phosphorescent Chupacabra")
-			@Config.RequiresMcRestart
-			public boolean chupacabraSummon = true;
-		}
-
-		public static class BossRahovartConfig {
-
-			@Config.Comment("Projectile to replace targeted 'hellfireball' auto attack")
-			@Config.Name("Main Targeted Projectile Name")
-			@Config.RequiresMcRestart
-			public String mainProjectileTarget = "sigilwraithskull";
-
-			@Config.Comment("Projectile to replace all players 'hellfireball' auto attack")
-			@Config.Name("Main All Players Projectile Name")
-			@Config.RequiresMcRestart
-			public String mainProjectileAll = "sigilhellfireball";
-
-			@Config.Comment("Replace the 50hp/sec heal with a 2% Max HP/sec heal")
-			@Config.Name("Heal Portion When No Players")
-			@Config.RequiresMcRestart
-			public boolean healPortionNoPlayers = true;
-
-			@Config.Comment("Tick Maximum Lifespan for Belphs and Behemoths. Set to 0 to disable")
-			@Config.Name("Minion Temporary Duration")
-			@Config.RangeInt(min = 0)
-			public int minionTemporaryDuration = 1200;
-
-			@Config.Comment("Minimum spawn range for only Belphs and Behemoths (Lycanites uses 5)")
-			@Config.Name("Minion Spawn Range Minimum")
-			@Config.RangeInt(min = 0, max = 35)
-			public int minionSpawnRangeMin = 15;
-
-			@Config.Comment("Maximum spawn range for only Belphs and Behemoths (Lycanites uses 5)")
-			@Config.Name("Minion Spawn Range Maximum")
-			@Config.RangeInt(min = 0, max = 35)
-			public int minionSpawnRangeMax = 35;
-
-			// Actually need to think more if flame wall armor busts are reasonable
-//			@Config.Comment("If all three of Rahovart Flame Wall attacks have a damage cap based on his pierce stat")
-//			@Config.Name("Hellfire Energy Attacks Limited Scaled")
-//			public boolean hellfireAttackLimitedScaled = true;
-//
-//			@Config.Comment("Ratio of Pierce Damage that the armor reduced/durability damage will deal at max")
-//			@Config.Name("Hellfire Energy Attacks Limited Scale Value")
-//			@Config.RangeInt(min = 0)
-//			public float hellfireAttackLimitedScaleValue = 4.0F;
-
-			@Config.Comment("How much Hellfire energy is gained from a Belph in Phase 1 (Lycanites uses 20 with 0 passive energy)")
-			@Config.Name("Hellfire Energy Belph")
-			@Config.RangeInt(min = 0, max = 100)
-			public int hellfireEnergyBelph = 20;
-
-			@Config.Comment("How much Hellfire energy is gained from a Behemoth in Phase 2 (Lycanites uses 20 with 0 passive energy)")
-			@Config.Name("Hellfire Energy Behemoth")
-			@Config.RangeInt(min = 0, max = 100)
-			public int hellfireEnergyBehemoth = 20;
-
-			@Config.Comment("Hellfire energy passively gained per second in Phase 1 (Belph required to fire Wave)")
-			@Config.Name("Hellfire Energy Self Phase 1")
-			@Config.RangeInt(min = 0, max = 100)
-			public int hellfireEnergySelfP1 = 5;
-
-			@Config.Comment("Hellfire energy passively gained per second in Phase 2 (Behemoth required for wall)")
-			@Config.Name("Hellfire Energy Self Phase 2")
-			@Config.RangeInt(min = 0, max = 100)
-			public int hellfireEnergySelfP2 = 5;
-
-			@Config.Comment("Hellfire energy passively gained per second in Phase 3 (Lycanites uses 5)")
-			@Config.Name("Hellfire Energy Self Phase 3")
-			@Config.RangeInt(min = 0, max = 100)
-			public int hellfireEnergySelfP3 = 10;
-
-			@Config.Comment("Specifies Hellfire Walls to clear away from Rahovart, inner walls snap to outer walls")
-			@Config.Name("Hellfire Wall Displacement")
-			@Config.RangeInt(min = 0, max = 4)
-			public int hellfireWallDisplacement = 2;
-
-			@Config.Comment("Specifies Tick Duration of Hellfire Walls (Every 200 lines up with E/W Axis, Lycanites ues 400)")
-			@Config.Name("Hellfire Wall Duration")
-			@Config.RangeInt(min = 0)
-			public int hellfireWallTimeMax = 800;
-
-			@Config.Comment("How much Hellfire energy is refunded upon a p2->p3 transition per active wall")
-			@Config.Name("Hellfire Wall Cleanup Refund")
-			@Config.RangeInt(min = 0, max = 100)
-			public int hellfireWallCleanupRefund = 50;
-
-			@Config.Comment("Specifies Hellfire Barriers to clear away from Rahovart, inner barriers snap to outer barriers")
-			@Config.Name("Hellfire Barrier Displacement")
-			@Config.RangeInt(min = 0, max = 4)
-			public int hellfireBarrierDisplacement = 3;
-
-			@Config.Comment("Specifies Hellfire Barriers degration per Belph kill (Lycanites uses 50/100)")
-			@Config.Name("Hellfire Barrier Belph Degrade")
-			@Config.RangeInt(min = 0, max = 100)
-			public int hellfireBarrierBelphDegrade = 25;
-
-			@Config.Comment("Specifies Hellfire Barriers degration per Behemoth kill (Lycanites uses 100/100)")
-			@Config.Name("Hellfire Barrier Behemoth Degrade")
-			@Config.RangeInt(min = 0, max = 100)
-			public int hellfireBarrierBehemothDegrade = 75;
-
-			@Config.Comment("How much Hellfire energy is refunded upon a p3->p2 transition per active barrier")
-			@Config.Name("Hellfire Barrier Cleanup Refund")
-			@Config.RangeInt(min = 0, max = 100)
-			public int hellfireBarrierCleanupRefund = 50;
-
-			@Config.Comment("Should Rahovart try attacking players hiding in arena walls")
-			@Config.Name("Player Xray Target")
-			public boolean playerXrayTarget = true;
-
-			@Config.Comment("Archvile Summons one Royal variant instead of 3 normal")
-			@Config.Name("Spawns Royal Archvile")
-			@Config.RequiresMcRestart
-			public boolean royalArchvile = true;
-
-			@Config.Comment("Should Phase 3 Summon an Ebon Cacodemon")
-			@Config.Name("Spawns Ebon Cacodemon")
-			@Config.RequiresMcRestart
-			public boolean cacodemonSummon = true;
-		}
-
 		public static class PotionEffectsConfig {
 
 			@Config.Comment("Register Consumed Potion Effect")
@@ -549,175 +247,6 @@ public class ForgeConfigHandler {
 			public boolean voidedPiecingEnvironment = true;
 		}
 
-		public static class ImperfectSummoningConfig{
-
-			@Config.Comment("Nerfs minions who are summoned without variant summoning knowledge, toggles the entire feature")
-			@Config.Name("Imperfect Summoning")
-			public boolean imperfectSummoning = true;
-
-			@Config.Comment("Knowledge Rank to summon normal minions, updates client visuals except for lang files")
-			@Config.Name("Imperfect Normal Summon Rank")
-			@Config.RangeInt(min = 0)
-			public int normalSummonRank = 1;
-
-			@Config.Comment("Knowledge Rank to summon variant minions")
-			@Config.Name("Imperfect Variant Summon Rank")
-			@Config.RangeInt(min = 0)
-			public int variantSummonRank = 2;
-
-			@Config.Comment("Chance for imperfect minion to spawn with reduced defenses or offenses")
-			@Config.Name("Imperfect Reduced Stat Summon Base Chance")
-			@Config.RangeDouble(min = 0.0, max = 1.0)
-			public double imperfectStatsBaseChance = 1.0D;
-
-			@Config.Comment("Chance Reduction per point of creature knowledge")
-			@Config.Name("Imperfect Reduced Stat Summon Chance Modifier")
-			@Config.RangeDouble(min = 0.0)
-			public double imperfectStatsChanceModifier = 0.001D;
-
-			@Config.Comment("Chance for an imperfect minion to be hostile to the host")
-			@Config.Name("Imperfect Hostile Summon Base Chance")
-			@Config.RangeDouble(min = 0.0, max = 1.0)
-			public double imperfectHostileBaseChance = 0.1D;
-
-			@Config.Comment("Chance Reduction per point of creature knowledge")
-			@Config.Name("Imperfect Hostile Summon Chance Modifier")
-			@Config.RangeDouble(min = 0.0)
-			public double imperfectHostileChanceModifier = 0.0D;
-		}
-
-		public static class PlayerMobLevelsConfig{
-
-			@Config.Comment("Alternative to fully disabling, forge caps exist (non null) but always returns 0")
-			@Config.Name("Mod Compatibility: No Calculate")
-			public boolean playerMobLevelCapabilityNoCalc = false;
-
-			@Config.Comment("Enable Capability to calculate a Mob Level associated to a player")
-			@Config.Name("Player Mob Level Capability")
-			@Config.RequiresMcRestart
-			public boolean playerMobLevelCapability = true;
-
-			@Config.Comment("Require a held main hand Soulgazer in order to summon a boss with additional levels")
-			@Config.Name("Player Mob Level Boss Requires Soulgazer")
-			public boolean pmlBossRequiresSoulgazer = true;
-
-			@Config.Comment("Ratio of Player Mob Levels used for summon staff minions")
-			@Config.Name("Player Mob Level Degree Summon")
-			@Config.RangeDouble(min = 0.0)
-			public double pmlSummonDegree = 0.2D;
-
-			@Config.Comment("Ratio of Player Mob Levels used for soulbounds in limited dimensions")
-			@Config.Name("Player Mob Level Degree Soulbound")
-			@Config.RangeDouble(min = 0.0)
-			public double pmlSoulboundDegree = 0.2D;
-
-			@Config.Comment("Ratio of Player Mob Levels used when the main bosses finish spawning")
-			@Config.Name("Player Mob Level Degree Main Boss")
-			@Config.RangeDouble(min = 0.0)
-			public double pmlBossMainDegree = 0.2D;
-
-			@Config.Comment("Ratio of Player Mob Levels used for Boss Crystals when they spawn something")
-			@Config.Name("Player Mob Level Degree Boss Crystal")
-			@Config.RangeDouble(min = 0.0)
-			public double pmlBossCrystalDegree = 0.2D;
-
-			@Config.Comment("If Highest Level Pet Entry should try to be calculated, unsorted levels are still stored, false always returns 0")
-			@Config.Name("Player Mob Level Calculate Highest Level Pet Entry")
-			public boolean pmlCalcHighestLevelPet = true;
-
-			@Config.Comment("Ratio of Player Mob Levels used for Lycanites Spawners")
-			@Config.Name("Player Mob Level Degree Spawner")
-			@Config.RangeDouble(min = 0.0)
-			public double pmlSpawnerDegree = 0.2D;
-
-			@Config.Comment("Dimension IDs where soulbounds are level capped to Player Mob Level")
-			@Config.Name("Player Mob Level Dimensions")
-			public int[] pmlMinionLimitDimIds = {
-					111,
-					3
-			};
-
-			@Config.Comment("Player Mob Level Dimensions is Whitelist")
-			@Config.Name("Player Mob Level Dimensions is Whitelist")
-			public boolean pmlMinionLimitDimIdsWhitelist = true;
-
-			@Config.Comment("Whether limited soulbounds can spawn in dimensions blacklisted by vanilla Lycanites")
-			@Config.Name("Player Mob Level Dimensions Overrules Blacklist")
-			public boolean pmlMinionLimitDimOverruleBlacklist = true;
-
-			@Config.Comment("Whether limited soulbound inventories can not have items put inside")
-			@Config.Name("Player Mob Level Dimensions no inventory")
-			public boolean pmlMinionLimitDimNoInventory = true;
-
-			@Config.Comment("Whether limited soulbounds can be mounted")
-			@Config.Name("Player Mob Level Dimensions not mountable")
-			public boolean pmlMinionLimitDimNoMount = true;
-
-			@Config.Comment("Whether limited dimensions prevent soulbound spirit recharge")
-			@Config.Name("Player Mob Level Dimensions no spirit recharge")
-			public boolean pmlMinionLimitDimNoSpiritRecharge = true;
-
-			@Config.Comment("List of Lycanites Spawner Names to attempt to apply Player Mob Levels (ex World triggers don't have players)")
-			@Config.Name("PML Spawner Names")
-			public String[] pmlSpawnerNameStrings = {
-					"chaos",
-					"darkness",
-					"disruption",
-					"sleep"
-			};
-
-			@Config.Comment("PML Spawner Names is a blacklist instead of whitelist")
-			@Config.Name("PML Spawner Names Blacklist")
-			public boolean pmlSpawnerNameStringsIsBlacklist = false;
-
-//			@Config.Comment("Use PML highest pet entry ")
-//			@Config.Name("PML Taming Over Leveled Penalty")
-//			public boolean pmlTamedOverLevelPenalty = true;
-
-			@Config.Comment("Creature level to compare to PML highest pet entry level, Requires Mixin 'Tamed Invert Over Leveled Penalty'")
-			@Config.Name("PML Taming Over Leveled Start")
-			public int pmlTamedOverLevelStartLevel = 20;
-		}
-
-		public static class EntityStoreCreatureConfig{
-
-			@Config.Comment("Boss Crystals check if Player Mob Levels is higher than stored Entity's levels")
-			@Config.Name("Boss Crystal Player Mob Levels")
-			public boolean bossCrystalPML = true;
-
-			@Config.Comment("Require a held main hand Soulgazer in order to scale to Player Mob Levels")
-			@Config.Name("Boss Crystal Player Mob Levels Requires Soulgazer")
-			public boolean bossCrystalSoulgazerHold = true;
-
-			@Config.Comment("Enable logic to automatically release stored Entity (Checks every second)")
-			@Config.Name("Boss Crystal Tick Checks")
-			public boolean bossCrystalTickChecks = true;
-
-			@Config.Comment("1/n Chance to despawn per second, set to 0 to disable random despawning (Forced Despawning happens when further than 128 blocks)")
-			@Config.Name("Encounter Crystal Despawn Chance")
-			@Config.RangeInt(min = 0)
-			public int encounterCrystalDespawnChance = 0;
-
-			@Config.Comment("Require a held main hand Soulgazer in order to scale to Player Mob Levels")
-			@Config.Name("Encounter Crystal Player Mob Levels Requires Soulgazer")
-			public boolean encounterCrystalSoulgazerHold = false;
-
-			@Config.Comment("1/n chance to spawn, creature must have been idle for 600 ticks first, Requires Mixin 'Encounter Natural Spawn Summon Crystal'")
-			@Config.Name("Encounter Crystal Spawn Chance")
-			@Config.RangeInt(min = 1)
-			public int encounterCrystalSpawnChance = 800;
-
-			@Config.Comment("Tick Rate to attempt forcing a vanilla like despawn and store the creature, Requires Mixin 'Encounter Natural Spawn Summon Crystal'")
-			@Config.Name("Encounter Crystal Spawn Tick Rate")
-			@Config.RangeInt(min = 1)
-			public int encounterCrystalSpawnTickRate = 20;
-
-			@Config.Comment("Enable Capability to replicate LycanitesMobs PetEntry for any owner")
-			@Config.Name("Entity Store Creature Capability")
-			@Config.RequiresMcRestart
-			public boolean entityStoreCreatureCapability = true;
-		}
-
 		public static class LootConfig {
 
 			@Config.Comment("Minimum Level the creature must be to drop Random Charges")
@@ -778,7 +307,20 @@ public class ForgeConfigHandler {
 
 		public static class StatsConfig{
 
-			@Config.Comment("Ratio of lycanites bonus Health bosses will receive, requires Mixin 'Boss Lower Health Scale'")
+			/*
+				There are three categories that may overlap but all use the BOSS_DAMAGE_LIMIT mechanic
+				1. Always Bosses (Boss Group)
+				2. Spawned As Bosses (NBT Boss)
+				3. Rare Variants (Natural Boss)
+
+				Provided Boss configs only cover 1 and 2, and assumes 3 will never be level scaled
+				Lower Health Bonus Options exists so BOSS_DAMAGE_LIMIT does create mobs with insane time to kill
+
+				A natural rare variant can have different stat modifiers from a SpawnedAsBoss version,
+				LycanitesTweaks turns all altar bosses in SpawnedAsBoss mobs for example
+			 */
+
+			@Config.Comment("Ratio of lycanites bonus Health main bosses will receive, requires Mixin 'Boss Lower Health Scale'")
 			@Config.Name("Boss Health Bonus Ratio")
 			@Config.RangeDouble(min = 0)
 			public double bossHealthBonusRatio = 0.1D;
@@ -803,9 +345,14 @@ public class ForgeConfigHandler {
 			@Config.RangeDouble(min = 0)
 			public double capPierceRatio = 3.0D;
 
-			@Config.Comment("Apply 'Boss Health Bonus Ratio' to variants/dungeon bosses instead of just the main Bosses")
+			@Config.Comment("Ratio of lycanites bonus Health bosses will receive, requires Mixin 'Boss Lower Health Scale'")
 			@Config.Name("Spawned As Boss Health Bonus Ratio")
-			public boolean spawnedAsBossHealthBonusRatio = false;
+			@Config.RangeDouble(min = 0)
+			public double spawnedAsBossHealthBonusRatio = 0.5D;
+
+//			@Config.Comment("Apply 'Boss Health Bonus Ratio' to variants/dungeon bosses instead of just the main Bosses")
+//			@Config.Name("Spawned As Boss Health Bonus Ratio")
+//			public boolean spawnedAsBossHealthBonusRatio = false;
 
 			@Config.Comment("Apply Mixin 'Boss Invert Health and Damage Scale' to variants/dungeon bosses instead of just the main Bosses")
 			@Config.Name("Spawned As Boss Invert Health and Damage Scale")
@@ -875,6 +422,12 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebleedpierces.json")
 		public boolean bleedPierces = true;
 
+		@Config.Comment("If BaseCreatureEntity isBoss and dies, kill minions and projectiles")
+		@Config.Name("Boss Death Kills Minions and Projectiles")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossdeathminionprojectiles.json")
+		public boolean bossDeathKillMinionProjectile = true;
+
 		@Config.Comment("Move the Damage Limit DPS calc to LivingHurtEvent LOWEST from attackEntityFrom")
 		@Config.Name("Boss DPS Limit Recalc")
 		@Config.RequiresMcRestart
@@ -887,7 +440,7 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureinvertbossdamagehealthscale.json")
 		public boolean bossInvertHealthDamageScale = true;
 
-		@Config.Comment("Main Boss HP level bonus scaled down via config")
+		@Config.Comment("SpawnedAsBoss and Main Boss HP level bonus scaled down via config")
 		@Config.Name("Boss Lower Health Scale")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossbonushealthmodifier.json")

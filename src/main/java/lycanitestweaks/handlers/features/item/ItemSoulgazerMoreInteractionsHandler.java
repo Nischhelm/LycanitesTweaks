@@ -39,7 +39,7 @@ public class ItemSoulgazerMoreInteractionsHandler {
                     player.sendMessage(new TextComponentString(message));
                 }
                 else if (ForgeConfigHandler.featuresMixinConfig.playerMobLevelMainBosses && block instanceof BlockSoulcube) {
-                    int levels = Math.max(1, pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlSoulboundDegree));
+                    int levels = Math.max(1, pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlBossMainDegree));
                     String message = LanguageManager.translate("soulgazer.playermoblevels.boss");
                     message = message.replace("%levels%", "" + levels);
                     player.sendMessage(new TextComponentString(message));

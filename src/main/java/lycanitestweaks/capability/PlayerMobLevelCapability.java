@@ -96,7 +96,27 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
             Enchantment ench = Enchantment.getEnchantmentByID(enchantments.getCompoundTagAt(i).getShort("id"));
             if(ench != null) {
                 int enchLvl = enchantments.getCompoundTagAt(i).getShort("lvl");
-                levels += (int)((ench.getMinEnchantability(ench.getMinLevel())) * ((float)enchLvl / ench.getMaxLevel()));
+                int enchantabilityLevels = (int)((ench.getMinEnchantability(ench.getMinLevel())) * ((float)enchLvl / ench.getMaxLevel()));
+
+                switch (ench.getRarity()){
+                    case COMMON:
+                        enchantabilityLevels /= ForgeConfigHandler.server.pmlConfig.enchRarityDivisors[0];
+                        break;
+                    case UNCOMMON:
+                        enchantabilityLevels /= ForgeConfigHandler.server.pmlConfig.enchRarityDivisors[1];
+                        break;
+                    case RARE:
+                        enchantabilityLevels /= ForgeConfigHandler.server.pmlConfig.enchRarityDivisors[2];
+                        break;
+                    case VERY_RARE:
+                        enchantabilityLevels /= ForgeConfigHandler.server.pmlConfig.enchRarityDivisors[3];
+                        break;
+                }
+
+                levels += enchantabilityLevels;
+
+                if(ForgeConfigHandler.client.debugLoggerTrigger)
+                    LycanitesTweaks.LOGGER.log(Level.INFO, "ENCH: {}, LEVELS: {}", ench.getName(), enchantabilityLevels);
             }
         }
         return levels;
