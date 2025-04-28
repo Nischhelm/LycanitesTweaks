@@ -101,6 +101,10 @@ public class ForgeConfigHandler {
 		@Config.Name("Creature Stats")
 		public final StatsConfig statsConfig = new StatsConfig();
 
+		@Config.Comment("If Mixin 'Boss DPS Limit Recalc' should also set damage amount on LivingDamageEvent LOWEST, this is assumed to fix one-shot death desyncs")
+		@Config.Name("Boss Damage Limit Reduces Amount")
+		public boolean bossDamageLimitReducesAmount = true;
+
 		@Config.Comment("Should Lycanites Block Protection protect against any Living Entity")
 		@Config.Name("Block Protection Living Event")
 		@Config.RequiresMcRestart
@@ -691,6 +695,18 @@ public class ForgeConfigHandler {
 		 * Temporary Mixin Patches, intended to become PR in LycanitesMobs
 		 *
 		 */
+
+		@Config.Comment("Altars post LivingDestroyBlockEvent for every call to setBlockToAir")
+		@Config.Name("Altar Posts Forge Event")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesaltarforgeevent.json")
+		public boolean altarPostsForgeEvent = true;
+
+		@Config.Comment("PlaceBlockGoal post LivingDestroyBlockEvent for every call to canPlaceBlock")
+		@Config.Name("Can Place Block Goal Forge Event")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesplaceblockgoalforgeevent.json")
+		public boolean canPlaceBlockGoalForgeEvent = true;
 
 		@Config.Comment("Disables Soul Bounds using portals, which would kill them and set respawn cooldown")
 		@Config.Name("Disable Soul Bounds Using Portals")

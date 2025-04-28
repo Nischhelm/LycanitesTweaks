@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "package": "lycanitestweaks.mixin.lycanitesmobspatches",
+  "refmap": "mixins.lycanitestweaks.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "core.AltarInfoCelestialGeonachCrystalForgeEventMixin",
+    "core.AltarInfoCrimsonEpionCrystalForgeEventMixin",
+    "core.AltarInfoEbonCacodemonCrystalForgeEventMixin",
+    "core.AltarInfoLunarGrueCrystalForgeEventMixin",
+    "core.AltarInfoMottleAbaiaCrystalForgeEventMixin",
+    "core.AltarInfoPhosphorescentChupacabraCrystalForgeEventMixin",
+    "core.AltarInfoRoyalArchvileCrystalForgeEventMixin",
+    "core.AltarInfoUmberLobberCrystalForgeEventMixin"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}
