@@ -94,6 +94,9 @@ public class ForgeConfigHandler {
 		@Config.Name("Entity Store Creature")
 		public final EntityStoreCreatureConfig escConfig = new EntityStoreCreatureConfig();
 
+		@Config.Name("Items")
+		public final ItemConfig itemConfig = new ItemConfig();
+
 		@Config.Name("Level Scaled Loot")
 		public final LootConfig lootConfig = new LootConfig();
 
@@ -253,6 +256,25 @@ public class ForgeConfigHandler {
 			@Config.Comment("Voided makes environmental damage piercing")
 			@Config.Name("Voided Piercing Environment")
 			public boolean voidedPiecingEnvironment = true;
+		}
+
+		public static class ItemConfig {
+
+			@Config.Comment("WWW")
+			@Config.Name("Enchanted Soulkey Base Levelup Experience")
+			public int enchantedSoulkeyBaseLevelupExperience = 500;
+
+			@Config.Comment("WWW")
+			@Config.Name("Enchanted Soulkey Next Level Final Scale")
+			public int enchantedSoulkeyNextLevelFinalScale = 16;
+
+			@Config.Comment("Maximum Level Creature Enchanted Soulkeys can spawn")
+			@Config.Name("Enchanted Soulkey Max Level")
+			public int enchantedSoulkeyMaxLevel = 1000;
+
+			@Config.Comment("Maximum Stored Mana Netherstars and Gem Power Diamond/Emerald Blocks")
+			@Config.Name("Enchanted Soulkey Max Usages")
+			public int enchantedSoulkeyMaxUsages = 1000;
 		}
 
 		public static class LootConfig {
@@ -497,6 +519,18 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuredungeonbosscrystal.json")
 		public boolean dungeonBossSpawnCrystal = true;
+
+		@Config.Comment("WWW")
+		@Config.Name("Enchanted Soulkey Altar Main Bosses")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureenchantedsoulkeymainboss.json")
+		public boolean enchantedSoulkeyAltarMainBoss = true;
+
+		@Config.Comment("WWW")
+		@Config.Name("Enchanted Soulkey Equipment Tiles Entities")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureenchantedsoulkeyequipmenttiles.json")
+		public boolean enchantedSoulkeyEquipmentTiles = true;
 
 		@Config.Comment("Attempt a vanilla like despawn and store the creature in a Crystal Entity to interact with Player Mob Levels")
 		@Config.Name("Encounter Natural Spawn Summon Crystal (Requires Capability)")

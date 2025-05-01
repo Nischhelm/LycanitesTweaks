@@ -4,6 +4,7 @@ import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import lycanitestweaks.capability.EntityStoreCreatureCapabilityHandler;
 import lycanitestweaks.capability.IEntityStoreCreatureCapability;
 import lycanitestweaks.handlers.ForgeConfigHandler;
+import lycanitestweaks.item.ItemEnchantedSoulkey;
 import lycanitestweaks.storedcreatureentity.StoredCreatureEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -15,6 +16,7 @@ import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -27,6 +29,8 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProviderEnd;
 import net.minecraftforge.event.ForgeEventFactory;
+
+import javax.annotation.Nullable;
 
 public class EntityBossSummonCrystal extends EntityEnderCrystal {
 
@@ -221,15 +225,19 @@ public class EntityBossSummonCrystal extends EntityEnderCrystal {
         return false;
     }
 
-    public static EntityBossSummonCrystal storeAltarBoss(World world, BaseCreatureEntity entity, BlockPos blockPos){
+    public static EntityBossSummonCrystal storeAltarBoss(@Nullable Entity entity, World world, BaseCreatureEntity creature, BlockPos blockPos){
         EntityBossSummonCrystal crystal = new EntityBossSummonCrystal(world);
         world.setBlockState(new BlockPos(blockPos.getX(), blockPos.getY() - 1, blockPos.getZ()), Blocks.OBSIDIAN.getDefaultState());
         crystal.setPosition(blockPos.getX() + 0.5F, blockPos.getY(), blockPos.getZ() + 0.5F); // Align ontop of Obsidian
         IEntityStoreCreatureCapability storeCreature = crystal.getCapability(EntityStoreCreatureCapabilityHandler.ENTITY_STORE_CREATURE, null);
 
         if(storeCreature != null) {
-            entity.getRandomSize(); // Update boss size
-            storeCreature.setStoredCreatureEntity(StoredCreatureEntity.createFromEntity(crystal, entity)
+            if(entity instanceof EntityPlayer && ((EntityPlayer)entity).getHeldItemMainhand().getItem() instanceof ItemEnchantedSoulkey){
+                ItemStack itemStack = ((EntityPlayer)entity).getHeldItemMainhand();
+                creature.setLevel(creature.getLevel() + ((ItemEnchantedSoulkey)itemStack.getItem()).getLevel(itemStack));
+            }
+            creature.getRandomSize(); // Update boss size
+            storeCreature.setStoredCreatureEntity(StoredCreatureEntity.createFromEntity(crystal, creature)
                     .setPersistant(true)
                     .setFixate(true)
                     .setSpawnAsBoss(true)
@@ -237,6 +245,7 @@ public class EntityBossSummonCrystal extends EntityEnderCrystal {
             crystal.setShowBottom(true);
             crystal.setDestroyBlocks(true);
             crystal.setVariantType(1);
+            crystal.setSearchDistance(16);
         }
         return crystal;
     }
