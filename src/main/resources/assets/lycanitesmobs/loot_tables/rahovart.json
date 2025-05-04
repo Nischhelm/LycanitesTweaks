@@ -59,6 +59,38 @@
 					"range": 50
 				}
             ]
-        }
+        },
+      {
+        "name": "rahovart_thousand_soulkey",
+        "rolls": 1,
+        "entries": [
+          {
+            "type": "item",
+            "name": "lycanitestweaks:enchantedsoulkey",
+            "weight": 1,
+            "functions": [
+              {
+                "function": "minecraft:set_nbt",
+                "tag": "{soulkeyLevel:100,soulkeyMaxLevel:1000}"
+              }
+            ]
+          }
+        ],
+        "conditions": [
+          {
+            "condition": "killed_by_player"
+          },
+          {
+            "condition": "random_chance","chance": 1.000
+          },
+          {
+            "condition": "lycanitesTweaks:has_mob_levels",
+            "range": {
+              "min": 100,
+              "max": 115
+            }
+          }
+        ]
+      }
     ]
 }

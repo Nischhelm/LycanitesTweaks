@@ -53,7 +53,7 @@ public abstract class RLCombatHandler {
         ItemEquipment lycanitesEquipment = (ItemEquipment)event.getItemStack().getItem();
         double sweepAngle = lycanitesEquipment.getDamageSweep(event.getItemStack()) / (double)2.0F;
         if (sweepAngle > 0.0D) {
-            float sweepingDamage = 1.0F + event.getBaseDamage() * Math.max(1F, event.getSweepModifier());
+            float sweepingDamage = event.getBaseDamage() * Math.max(1F, event.getSweepModifier());
             event.setSweepingAABB(event.getSweepingAABB().grow(lycanitesEquipment.getDamageRange(event.getItemStack())));
             AxisAlignedBB sweepingAABB = event.getSweepingAABB();
             DamageSource sweepingDamageSource = event.getSweepingDamageSource();
@@ -89,13 +89,13 @@ public abstract class RLCombatHandler {
                     }
 
                     if (!(targetAngle > sweepAngle)) {
-                        Helpers.doEquipmentHitEffect(event.getItemStack(), living, player);
                         living.knockBack(player, 0.4F, (double) MathHelper.sin(player.rotationYaw * ((float)Math.PI / 180F)), (double)(-MathHelper.cos(player.rotationYaw * ((float)Math.PI / 180F))));
                         if (event.getOffhand()) {
                             execNullable(living.getCapability(EventHandlers.OFFHAND_HURTRESISTANCE, (EnumFacing)null), (sht) -> sht.attackEntityFromOffhand(living, sweepingDamageSource, sweepingDamage));
                         } else {
                             living.attackEntityFrom(sweepingDamageSource, sweepingDamage);
                         }
+                        Helpers.doEquipmentHitEffect(event.getItemStack(), living, player);
                     }
                 }
 

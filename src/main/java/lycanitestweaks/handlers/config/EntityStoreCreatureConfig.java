@@ -6,7 +6,7 @@ public class EntityStoreCreatureConfig {
 
     @Config.Comment("Boss Crystals check if Player Mob Levels is higher than stored Entity's levels")
     @Config.Name("Boss Crystal Player Mob Levels")
-    public boolean bossCrystalPML = true;
+    public boolean bossCrystalPML = false;
 
     @Config.Comment("Require a held main hand Soulgazer in order to scale to Player Mob Levels")
     @Config.Name("Boss Crystal Player Mob Levels Requires Soulgazer")

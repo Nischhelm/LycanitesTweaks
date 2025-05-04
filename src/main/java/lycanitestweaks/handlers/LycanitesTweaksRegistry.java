@@ -8,12 +8,15 @@ import lycanitestweaks.loot.HasMobLevels;
 import lycanitestweaks.loot.IsVariant;
 import lycanitestweaks.loot.ScaleWithMobLevels;
 import lycanitestweaks.potion.PotionCripplingBase;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.storage.loot.conditions.LootConditionManager;
 import net.minecraft.world.storage.loot.functions.LootFunctionManager;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -23,6 +26,8 @@ import lycanitestweaks.potion.PotionVoided;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @Mod.EventBusSubscriber(modid = LycanitesTweaks.MODID)
 public class LycanitesTweaksRegistry {
@@ -55,6 +60,14 @@ public class LycanitesTweaksRegistry {
         @SubscribeEvent
         public static void registerItemEvent(RegistryEvent.Register<Item> event){
                 event.getRegistry().registerAll(enchantedSoulkey, enchantedSoulkeyDiamond, enchantedSoulkeyEmerald);
+        }
+
+        @SubscribeEvent
+        @SideOnly(Side.CLIENT)
+        public static void registerModelEvent(ModelRegistryEvent event) {
+                ModelLoader.setCustomModelResourceLocation(enchantedSoulkey, 0, new ModelResourceLocation(enchantedSoulkey.getRegistryName(), "inventory"));
+                ModelLoader.setCustomModelResourceLocation(enchantedSoulkeyDiamond, 0, new ModelResourceLocation(enchantedSoulkeyDiamond.getRegistryName(), "inventory"));
+                ModelLoader.setCustomModelResourceLocation(enchantedSoulkeyEmerald, 0, new ModelResourceLocation(enchantedSoulkeyEmerald.getRegistryName(), "inventory"));
         }
 
         @SubscribeEvent

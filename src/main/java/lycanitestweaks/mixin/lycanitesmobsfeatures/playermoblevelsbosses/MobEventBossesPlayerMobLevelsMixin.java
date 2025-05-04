@@ -1,14 +1,13 @@
 package lycanitestweaks.mixin.lycanitesmobsfeatures.playermoblevelsbosses;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import com.lycanitesmobs.client.localisation.LanguageManager;
 import com.lycanitesmobs.core.item.special.ItemSoulgazer;
 import com.lycanitesmobs.core.mobevent.MobEvent;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
 import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -34,8 +33,7 @@ public abstract class MobEventBossesPlayerMobLevelsMixin {
             IPlayerMobLevelCapability pml = player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
             if (pml != null) {
                 if (CHANNEL_BOSS.equals(this.channel)) {
-                    String message = LanguageManager.translate("event.boss.playermoblevels");
-                    player.sendStatusMessage(new TextComponentString(message), true);
+                    player.sendStatusMessage(new TextComponentTranslation("event.boss.playermoblevels"), true);
                     return level + pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlBossMainDegree);
                 }
             }

@@ -58,6 +58,23 @@ public class DefaultBossLootHandler {
                 }
             }
         }
+        if(!ForgeConfigHandler.server.lootConfig.registerBossSoulkeyLootTables){
+            if(LycanitesMobs.modid.equals(event.getName().toString())){
+                if (LycanitesMobs.modid.equals(event.getName().getNamespace())) {
+                    switch (event.getName().getPath()) {
+                        case "amalgalich":
+                            event.getTable().removePool("amalgalich_thousand_soulkey");
+                            break;
+                        case "asmodeus":
+                            event.getTable().removePool("asmodeus_thousand_soulkey");
+                            break;
+                        case "rahovart":
+                            event.getTable().removePool("rahovart_thousand_soulkey");
+                            break;
+                    }
+                }
+            }
+        }
     }
 
     // LootTableLoadEvent examples

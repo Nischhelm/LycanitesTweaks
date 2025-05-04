@@ -3,14 +3,13 @@ package lycanitestweaks.mixin.lycanitesmobsfeatures.moretamingoptions;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.lycanitesmobs.client.localisation.LanguageManager;
 import com.lycanitesmobs.core.entity.AgeableCreatureEntity;
 import com.lycanitesmobs.core.entity.TameableCreatureEntity;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.util.Helpers;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -37,7 +36,7 @@ public abstract class TameableCreatureEntityTameHealingFoodMixin extends Ageable
         if(!original) {
             if(this.isHealingItem(itemStack)) {
                 if (Helpers.isPracticallyFlying(this) && !ForgeConfigHandler.server.tamedWithFoodAllowFlying) {
-                    player.sendStatusMessage(new TextComponentString(LanguageManager.translate("tame.fail.healingnofly")), true);
+                    player.sendStatusMessage(new TextComponentTranslation("tame.fail.healingnofly"), true);
                     return false;
                 }
                 return true;

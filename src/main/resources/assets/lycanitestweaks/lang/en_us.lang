@@ -1,0 +1,49 @@
+effects.lycanitestweaks.consumed=Consumed
+effects.lycanitestweaks.voided=Voided
+
+element.consuming.name=Consuming
+element.voiding.name=Voiding
+
+enchantedkey.use.nocharge=This Soulkey lacks power and must be recharged
+enchantedkey.message.active=The Soulkey activates the Altar! The boss is empowered with %s levels!
+
+event.boss.playermoblevels=The Soulgazer has unleashed a reflection of your soul!
+
+item.summoningstaff.description.mixin=The Equipment Infuser can infuse a charge to this staff and allow leveling associated elements.
+item.summoningstaff.description.mixin.chargeitem=(Charge: %s)
+item.summoningstaff.description.mixin.element=[Element: %s]
+item.summoningstaff.description.mixin.level=||[Level: %s][Experience: %s/%s]
+
+item.lycanitestweaks.enchantedsoulkey.name=Enchanted Soulkey
+item.lycanitestweaks.enchantedsoulkeydiamond.name=Enchanted Diamond Soulkey
+item.lycanitestweaks.enchantedsoulkeyemerald.name=Enchanted Emerald Soulkey
+item.lycanitestweaks.enchantedsoulkey.thousand.name=Key to One Thousand Hells
+item.lycanitestweaks.enchantedsoulkeydiamond.thousand.name=Key to One Thousand Ends
+item.lycanitestweaks.enchantedsoulkeyemerald.thousand.name=Key to One Thousand Nightmares
+item.lycanitestweaks.enchantedsoulkey.description=A Soul Key that can be used multiple times as long as it has power. It can also increase the level of the summoned boss when used from the mainhand
+item.lycanitestweaks.enchantedsoulkey.description.mixin=The Equipment Infuser can level up the key to spawn more powerful bosses. The Equipment Station can recharge the Key with Gem Blocks and Nether Stars.
+item.lycanitestweaks.enchantedsoulkey.description.level=[Level: %s/%s][Experience: %s/%s]
+item.lycanitestweaks.enchantedsoulkey.description.power=[Gem Power: %s/%s]
+item.lycanitestweaks.enchantedsoulkey.description.mana=[Nether Star: %s/%s]
+
+mount.fail.noflying=This mount flies, it can not be ridden with a basic saddle
+mount.fail.saddlelevel=Your mount must be level: %s, in order to be ridden with a basic saddle
+
+soulbound.limited.levels=Your bound creature has limited power here, it is level: %s!
+
+soulgazer.description.pmlboss=Soulgaze a Soulcube to see the power inside
+soulgazer.description.pmlspawner=Soulgaze your Bed to see what powers are around you
+soulgazer.playermoblevels.boss=Hold the Soulgazer until the boss spawns and it will be Level: %s
+soulgazer.playermoblevels.bosscrystal=The Crystal contains, Level: %s - %s, break with the Soulgazer to challenge Level: %s
+soulgazer.playermoblevels.bosscrystal.nogazer=The Crystal contains, Level: %s - %s
+soulgazer.playermoblevels.bosscrystal.vanilla=The Crystal contains, %s
+soulgazer.playermoblevels.spawner=Level: %s creatures may appear around you
+
+summonstaff.description.pmlsummon=Your summons will spawn equal to your power
+
+summon.imperfect.hostile=Your lack of knowledge has manifested a hostile creature!
+summon.imperfect.attack=Your lack of knowledge has manifested a weak creature!
+summon.imperfect.health=Your lack of knowledge has manifested a fragile creature!
+
+tame.fail.healingnofly=This creature flies and only wants treats
+tame.overlevel.penalty=This creature is more troublesome to tame without a Soulbound with high enough levels

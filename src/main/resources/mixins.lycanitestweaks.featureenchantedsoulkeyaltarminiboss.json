@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "package": "lycanitestweaks.mixin.lycanitesmobsfeatures",
+  "refmap": "mixins.lycanitestweaks.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "enchantedsoulkey.AltarInfoCrimsonEpionEnchantedSoulkeyMixin",
+    "enchantedsoulkey.AltarInfoCrimsonEpionEnchantedSoulkeyMixin",
+    "enchantedsoulkey.AltarInfoEbonCacodemonEnchantedSoulkeyMixin",
+    "enchantedsoulkey.AltarInfoLunarGrueEnchantedSoulkeyMixin",
+    "enchantedsoulkey.AltarInfoMottleAbaiaEnchantedSoulkeyMixin",
+    "enchantedsoulkey.AltarInfoPhosphorescentChupacabraEnchantedSoulkeylMixin",
+    "enchantedsoulkey.AltarInfoRoyalArchvileEnchantedSoulkeyMixin",
+    "enchantedsoulkey.AltarInfoUmberLobberEnchantedSoulkeyMixin"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}

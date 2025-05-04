@@ -65,6 +65,10 @@ public class ForgeConfigHandler {
 		@Config.Comment("Test Float")
 		@Config.Name("Test Float")
 		public float testFloat = 1.0F;
+
+		@Config.Comment("Translate Client Text from data that is normally stored in English (such as NBT) instead of displaying the raw string")
+		@Config.Name("Translate Text When Possible")
+		public boolean translateWhenPossible = true;
 	}
 
 	public static class ServerConfig {
@@ -260,21 +264,29 @@ public class ForgeConfigHandler {
 
 		public static class ItemConfig {
 
-			@Config.Comment("WWW")
+			@Config.Comment("Base EXP Required to level up, scales with level, Lycanites Charge EXP is 50")
 			@Config.Name("Enchanted Soulkey Base Levelup Experience")
 			public int enchantedSoulkeyBaseLevelupExperience = 500;
 
-			@Config.Comment("WWW")
+			@Config.Comment("At this level the required exp stops increasing, otherwise scales as much as Lycanites does")
 			@Config.Name("Enchanted Soulkey Next Level Final Scale")
 			public int enchantedSoulkeyNextLevelFinalScale = 16;
 
-			@Config.Comment("Maximum Level Creature Enchanted Soulkeys can spawn")
+			@Config.Comment("Default Maximum Level Creature Enchanted Soulkeys can spawn, can be overriden with NBT")
 			@Config.Name("Enchanted Soulkey Max Level")
-			public int enchantedSoulkeyMaxLevel = 1000;
+			public int enchantedSoulkeyDefaultMaxLevel = 100;
 
-			@Config.Comment("Maximum Stored Mana Netherstars and Gem Power Diamond/Emerald Blocks")
+			@Config.Comment("Maximum Stored Nether Star Power and Gem Power (Diamond/Emerald Blocks)")
 			@Config.Name("Enchanted Soulkey Max Usages")
 			public int enchantedSoulkeyMaxUsages = 1000;
+
+			@Config.Comment("Base EXP Required to level up, scales with level, Lycanites Charge EXP is 50")
+			@Config.Name("Summoning Staff Base Levelup Experience")
+			public int summonStaffBaseLevelupExperience = 500;
+
+			@Config.Comment("The first infused Charge is bound to the summon staff and limits the possible elements to use")
+			@Config.Name("Summoning Staff Elements Limited By Charge")
+			public boolean summonStaffElementsByCharge = true;
 		}
 
 		public static class LootConfig {
@@ -282,7 +294,7 @@ public class ForgeConfigHandler {
 			@Config.Comment("Minimum Level the creature must be to drop Random Charges")
 			@Config.Name("Random Charge Loot Minimum Mob Level")
 			@Config.RequiresMcRestart
-			public int randomChargeMinimumMobLevel = 25;
+			public int randomChargeMinimumMobLevel = 5;
 
 			@Config.Comment("Minimum count per loot entry")
 			@Config.Name("Random Charge Loot Minimum Count")
@@ -294,7 +306,7 @@ public class ForgeConfigHandler {
 			@Config.RequiresMcRestart
 			public int randomChargeScaledCountMaximum = 4;
 
-			@Config.Comment("How many rolls per level, default is 0.1 so one roll for every 10 levels")
+			@Config.Comment("How many rolls per level, default is 0.1 so average one roll for every 10 levels")
 			@Config.Name("Random Charge Level Scale")
 			@Config.RequiresMcRestart
 			public float randomChargeLevelScale = 0.1F;
@@ -313,6 +325,11 @@ public class ForgeConfigHandler {
 			@Config.Name("Register Boss With Levels Loot Tables")
 			@Config.RequiresMcRestart
 			public boolean registerBossWithLevelsLootTables = true;
+
+			@Config.Comment("Register Level 100-115 Amalgalich, Asmodeus, and Rahovart special Enchanted Soulkey drop")
+			@Config.Name("Register Boss Soulkey Loot Tables")
+			@Config.RequiresMcRestart
+			public boolean registerBossSoulkeyLootTables = true;
 
 			@Config.Comment("Register Loot Tables for creatures dropping random charges of their element (This LootTable is dynamic)")
 			@Config.Name("Register Random Charges Loot Tables")
@@ -520,13 +537,19 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuredungeonbosscrystal.json")
 		public boolean dungeonBossSpawnCrystal = true;
 
-		@Config.Comment("WWW")
+		@Config.Comment("Mainhand Enchanted Soulkeys Add Levels to Altar Boss")
+		@Config.Name("Enchanted Soulkey Altar Mini Bosses")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureenchantedsoulkeyaltarminiboss.json")
+		public boolean enchantedSoulkeyAltarMiniBoss = true;
+
+		@Config.Comment("Mainhand Enchanted Soulkeys Add Levels to Altar Boss")
 		@Config.Name("Enchanted Soulkey Altar Main Bosses")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureenchantedsoulkeymainboss.json")
 		public boolean enchantedSoulkeyAltarMainBoss = true;
 
-		@Config.Comment("WWW")
+		@Config.Comment("Enchanted Soulkeys can be put inside Equipment Infuser and Station to recharge")
 		@Config.Name("Enchanted Soulkey Equipment Tiles Entities")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureenchantedsoulkeyequipmenttiles.json")
@@ -536,7 +559,7 @@ public class ForgeConfigHandler {
 		@Config.Name("Encounter Natural Spawn Summon Crystal (Requires Capability)")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurenaturalencountercrystal.json")
-		public boolean encounterNaturalSpawnCrystal = true;
+		public boolean encounterNaturalSpawnCrystal = false;
 
 		@Config.Comment("When reading familiars from URL, Set Spawning Active to false")
 		@Config.Name("Familiars Inactive On Join")
@@ -634,6 +657,18 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresummonrework.json")
 		public boolean summonProgressionRework = true;
 
+		@Config.Comment("Save and use NBT stored Element Level Map to spawn higher level minions")
+		@Config.Name("Summon Staff Level Map")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresummonstafflevelmap.json")
+		public boolean summonStaffLevelMap = true;
+
+		@Config.Comment("Summon Staffs can use the Equipment Infuser in order to gain experience")
+		@Config.Name("Summon Staff Level Map Equipment Tiles")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresummonstaffequipmenttiles.json")
+		public boolean summonStaffLevelMapEquipmentTiles = true;
+
 		@Config.Comment("Invert bonus Health/Damage level scale for Tamed Creatures")
 		@Config.Name("Tamed Invert Health and Damage Scale")
 		@Config.RequiresMcRestart
@@ -644,7 +679,7 @@ public class ForgeConfigHandler {
 		@Config.Name("Tamed Invert Over Leveled Penalty")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuretameoverlevelpenalty.json")
-		public boolean tamedOverLeveledPenalty = true;
+		public boolean tamedOverLeveledPenalty = false;
 
 		@Config.Comment("Enable whether all tamed (tamed/summoned/soulbound) variants get stats bonuses")
 		@Config.Name("Tamed Variant Stat Bonuses")
@@ -668,7 +703,7 @@ public class ForgeConfigHandler {
 		@Config.Name("Player Mob Level Bosses (Requires Capability)")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossesplayermoblevels.json")
-		public boolean playerMobLevelMainBosses = true;
+		public boolean playerMobLevelMainBosses = false;
 
 		@Config.Comment("Use Player Mob Level to affect JSON Spawners by whitelist")
 		@Config.Name("Player Mob Level JSON Spawner (Requires Capability)")
@@ -686,7 +721,7 @@ public class ForgeConfigHandler {
 		@Config.Name("Player Mob Level Summon Staff (Requires Capability)")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresummonstaffplayermoblevel.json")
-		public boolean playerMobLevelSummonStaff = true;
+		public boolean playerMobLevelSummonStaff = false;
 
 		@Config.Comment("Lycanites Creatures can use JSON loot tables alongside LycanitesMobs drop list")
 		@Config.Name("Vanilla BaseCreatureEntity Loot Table")

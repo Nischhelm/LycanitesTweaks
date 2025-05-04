@@ -30,7 +30,7 @@ public abstract class AltarInfoEbonCacodemonCrystalMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z", remap = true),
             remap = false
     )
-    public boolean lycanitesTweaks_lycanitesMobsAltarInfoEbonCacodemon_activateSpawnCrystal(World instance, Entity entity, @Local(argsOnly = true) Entity entityActivator, @Local(argsOnly = true) World world, @Local(argsOnly = true) BlockPos blockPos){
-        return world.spawnEntity(EntityBossSummonCrystal.storeAltarBoss(entityActivator, instance, (BaseCreatureEntity)entity, blockPos));
+    public boolean lycanitesTweaks_lycanitesMobsAltarInfoEbonCacodemon_activateSpawnCrystal(World instance, Entity entity, @Local(argsOnly = true) World world, @Local(argsOnly = true) BlockPos blockPos){
+        return world.spawnEntity(EntityBossSummonCrystal.storeAltarBoss(instance, (BaseCreatureEntity)entity, blockPos));
     }
 }

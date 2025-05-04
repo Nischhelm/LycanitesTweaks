@@ -14,8 +14,6 @@ import lycanitestweaks.entity.goals.actions.abilities.HealPortionWhenNoPlayersGo
 import lycanitestweaks.entity.goals.actions.abilities.SummonLeveledMinionsGoal;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
@@ -43,15 +41,6 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
 
         IDEAS
      */
-
-    @Unique
-    public double lycanitesTweaks$hellShieldHealth = 0D;
-    @Unique
-    private final int lycanitesTweaks$hellShieldHealthMax = ForgeConfigHandler.server.asmodeusConfig.hellShieldHealthMax;
-    @Unique
-    public double lycanitesTweaks$hellShieldOverHeal = ForgeConfigHandler.server.asmodeusConfig.hellShieldOverhealRatio;
-    @Unique
-    public double lycanitesTweaks$hellShieldRegen = ForgeConfigHandler.server.asmodeusConfig.hellShieldAstarothRegen;
 
     @Shadow(remap = false)
     public List<EntityAstaroth> astarothMinions;
@@ -163,7 +152,6 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             BlockPos randomPos = this.currentArenaNode.getRandomAdjacentNode().pos;
             minion.setPosition(randomPos.getX(), randomPos.getY(), randomPos.getZ());
         }
-        lycanitesTweaks$regenerateShield(0.5);
     }
 
     // Asakku
@@ -185,7 +173,6 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             BlockPos randomPos = this.currentArenaNode.getRandomAdjacentNode().pos;
             minion.setPosition(randomPos.getX(), randomPos.getY(), randomPos.getZ());
         }
-        lycanitesTweaks$regenerateShield(0.25);
     }
 
     @ModifyConstant(
@@ -239,19 +226,6 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
         return original;
     }
 
-    @Inject(
-            method = "updatePhases",
-            at = @At("HEAD"),
-            remap = false
-    )
-    public void lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesHellShieldRegen(CallbackInfo ci){
-        if (!this.astarothMinions.isEmpty() && this.updateTick % 20L == 0L) {
-            for(EntityAstaroth minion : astarothMinions){
-                if(minion.isEntityAlive()) this.lycanitesTweaks$regenerateShield(lycanitesTweaks$hellShieldRegen);
-            }
-        }
-    }
-
     @ModifyExpressionValue(
             method = "isBlocking",
             at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/core/entity/creature/EntityAsmodeus;getBattlePhase()I"),
@@ -259,6 +233,21 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
     )
     public int lycanitesTweaks_lycanitesMobsEntityAsmodeus_isBlockingAnyPhase(int original){
         return 1;
+    }
+
+    @ModifyExpressionValue(
+            method = "isBlocking",
+            at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z"),
+            remap = false
+    )
+    public boolean lycanitesTweaks_lycanitesMobsEntityAsmodeus_isBlockingMinionAlive(boolean original){
+        // compared value is inverted due to !
+        if (!this.astarothMinions.isEmpty()) {
+            for(EntityAstaroth minion : this.astarothMinions){
+                if(minion.isEntityAlive()) return false;
+            }
+        }
+        return true;
     }
 
     @ModifyExpressionValue(
@@ -289,29 +278,10 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
 
     @Unique
     @Override
-    public void onDamage(DamageSource damageSrc, float damage) {
-        if(this.lycanitesTweaks$hellShieldHealth >= 0 && damageSrc.getTrueSource() instanceof EntityLivingBase){
-            double shieldDamage = ((EntityLivingBase) damageSrc.getTrueSource()).getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
-            shieldDamage = Math.pow(shieldDamage, ForgeConfigHandler.server.asmodeusConfig.hellShieldDamagePower);
-
-            lycanitesTweaks$hellShieldHealth -= shieldDamage;
-            lycanitesTweaks$hellShieldHealth = Math.max(0, lycanitesTweaks$hellShieldHealth);
-        }
-        super.onDamage(damageSrc, damage);
-    }
-
-    @Unique
-    @Override
     public float getDamageModifier(DamageSource damageSrc) {
         if(this.isBlocking()) {
-            return Math.max(0.01F, 1 - (float)(this.lycanitesTweaks$hellShieldHealth / this.lycanitesTweaks$hellShieldHealthMax));
+            return 0F;
         }
         return super.getDamageModifier(damageSrc);
-    }
-
-    @Unique
-    public void lycanitesTweaks$regenerateShield(double modifier){
-        lycanitesTweaks$hellShieldHealth += Math.min(lycanitesTweaks$hellShieldHealthMax * lycanitesTweaks$hellShieldOverHeal - lycanitesTweaks$hellShieldHealth,
-                lycanitesTweaks$hellShieldHealthMax * modifier);
     }
 }

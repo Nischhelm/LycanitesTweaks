@@ -11,6 +11,7 @@ import lycanitestweaks.handlers.features.effect.CripplingEffectsHandler;
 import lycanitestweaks.handlers.features.effect.ItemCuringEffectsHandler;
 import lycanitestweaks.compat.RLCombatHandler;
 import lycanitestweaks.handlers.features.item.ItemSoulgazerMoreInteractionsHandler;
+import lycanitestweaks.handlers.features.item.ItemStaffSummingLevelMapHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -50,6 +51,10 @@ public class LycanitesTweaks {
             MinecraftForge.EVENT_BUS.register(PlayerMobLevelCapabilityHandler.AttachCapabilityHandler.class);
             MinecraftForge.EVENT_BUS.register(PlayerMobLevelCapabilityHandler.class);
             MinecraftForge.EVENT_BUS.register(ItemSoulgazerMoreInteractionsHandler.class);
+        }
+
+        if(ForgeConfigHandler.featuresMixinConfig.summonStaffLevelMap){
+            MinecraftForge.EVENT_BUS.register(ItemStaffSummingLevelMapHandler.class);
         }
 
         if(ForgeConfigHandler.server.blockProtectionLivingEvent) MinecraftForge.EVENT_BUS.register(MoreBlockProtectionHandler.class);

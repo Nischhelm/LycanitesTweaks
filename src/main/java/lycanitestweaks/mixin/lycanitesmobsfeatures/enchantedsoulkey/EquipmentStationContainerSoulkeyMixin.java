@@ -27,17 +27,17 @@ public abstract class EquipmentStationContainerSoulkeyMixin {
     )
     public void lycanitesTweaks_lycanitesMobsEquipmentStationContainer_attemptRepairSoulkey(CallbackInfo ci){
         if (!this.equipmentSlot.getStack().isEmpty() && this.equipmentSlot.getStack().getItem() instanceof ItemEnchantedSoulkey) {
-            int sharpness = ItemEnchantedSoulkey.getSoulkeySharpnessRepair(this.repairSlot.getStack());
-            int mana = ItemEnchantedSoulkey.getSoulkeyManaRepair(this.repairSlot.getStack());
+            int sharpness = ItemEnchantedSoulkey.getSoulkeyGemPowerRepair(this.repairSlot.getStack());
+            int mana = ItemEnchantedSoulkey.getSoulkeyStarPowerRepair(this.repairSlot.getStack());
             if (sharpness > 0 || mana > 0) {
                 ItemEnchantedSoulkey equipment = (ItemEnchantedSoulkey)this.equipmentSlot.getStack().getItem();
                 boolean repaired = false;
                 if (sharpness > 0) {
-                    repaired = equipment.addSharpness(this.equipmentSlot.getStack(), sharpness);
+                    repaired = equipment.addGemPower(this.equipmentSlot.getStack(), sharpness);
                 }
 
                 if (mana > 0) {
-                    repaired = equipment.addMana(this.equipmentSlot.getStack(), mana) || repaired;
+                    repaired = equipment.addStarPower(this.equipmentSlot.getStack(), mana) || repaired;
                 }
 
                 if (repaired) {

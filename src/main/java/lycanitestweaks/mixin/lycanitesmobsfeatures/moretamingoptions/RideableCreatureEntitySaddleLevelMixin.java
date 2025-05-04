@@ -3,7 +3,6 @@ package lycanitestweaks.mixin.lycanitesmobsfeatures.moretamingoptions;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.lycanitesmobs.client.localisation.LanguageManager;
 import com.lycanitesmobs.core.entity.AgeableCreatureEntity;
 import com.lycanitesmobs.core.entity.RideableCreatureEntity;
 import lycanitestweaks.handlers.ForgeConfigHandler;
@@ -11,7 +10,7 @@ import lycanitestweaks.util.Helpers;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -47,15 +46,12 @@ public abstract class RideableCreatureEntitySaddleLevelMixin extends AgeableCrea
             if (!this.inventory.getEquipmentStack("saddle").isEmpty() &&
                     this.inventory.getEquipmentStack("saddle").getItem() == Items.SADDLE) {
                 if (Helpers.isPracticallyFlying(this) && !ForgeConfigHandler.server.vanillaSaddleAllowFlying) {
-                    String message = LanguageManager.translate("mount.fail.noflying");
-                    player.sendStatusMessage(new TextComponentString(message), true);
+                    player.sendStatusMessage(new TextComponentTranslation("mount.fail.noflying"), true);
                     return true;
                 } else if (this.getLevel() >= ForgeConfigHandler.server.vanillaSaddleLevelRequirement) {
                     return false;
                 } else if (player instanceof EntityPlayer) {
-                    String message = LanguageManager.translate("mount.fail.saddlelevel");
-                    message = message.replace("%levels%", "" + ForgeConfigHandler.server.vanillaSaddleLevelRequirement);
-                    player.sendStatusMessage(new TextComponentString(message), true);
+                    player.sendStatusMessage(new TextComponentTranslation("mount.fail.saddlelevel", ForgeConfigHandler.server.vanillaSaddleLevelRequirement), true);
                     return true;
                 }
             }

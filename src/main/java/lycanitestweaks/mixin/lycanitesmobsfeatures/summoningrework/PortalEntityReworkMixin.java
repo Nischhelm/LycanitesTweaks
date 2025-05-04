@@ -2,7 +2,6 @@ package lycanitestweaks.mixin.lycanitesmobsfeatures.summoningrework;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.lycanitesmobs.client.localisation.LanguageManager;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.ExtendedPlayer;
 import com.lycanitesmobs.core.entity.PortalEntity;
@@ -10,7 +9,7 @@ import com.lycanitesmobs.core.entity.TameableCreatureEntity;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -45,8 +44,7 @@ public abstract class PortalEntityReworkMixin {
             lycanitesTweaks$isHostileToPlayer = player.getEntityWorld().rand.nextDouble() < hostileChance;
             if(lycanitesTweaks$isHostileToPlayer) {
                 instance.setRevengeTarget(player);
-                String message = LanguageManager.translate("summon.imperfect.hostile");
-                player.sendStatusMessage(new TextComponentString(message), true);
+                player.sendStatusMessage(new TextComponentTranslation("summon.imperfect.hostile"), true);
             }
             return !lycanitesTweaks$isHostileToPlayer;
         }
@@ -72,13 +70,11 @@ public abstract class PortalEntityReworkMixin {
                 lowerStatsChance = Math.max(0.1D, 1.0F - lowerStatsChance);
                 if(this.shootingEntity.getEntityWorld().rand.nextBoolean()){
                     entityCreature.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(entityCreature.getMaxHealth() * lowerStatsChance);
-                    String message = LanguageManager.translate("summon.imperfect.health");
-                    this.shootingEntity.sendStatusMessage(new TextComponentString(message), true);
+                    this.shootingEntity.sendStatusMessage(new TextComponentTranslation("summon.imperfect.health"), true);
                 }
                 else{
                     entityCreature.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(entityCreature.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() * lowerStatsChance);
-                    String message = LanguageManager.translate("summon.imperfect.attack");
-                    this.shootingEntity.sendStatusMessage(new TextComponentString(message), true);
+                    this.shootingEntity.sendStatusMessage(new TextComponentTranslation("summon.imperfect.attack"), true);
                 }
             }
         }

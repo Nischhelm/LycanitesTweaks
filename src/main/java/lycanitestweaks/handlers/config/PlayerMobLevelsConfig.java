@@ -82,7 +82,6 @@ public class PlayerMobLevelsConfig {
     @Config.Name("PML Spawner Names")
     public String[] pmlSpawnerNameStrings = {
             "chaos",
-            "darkness",
             "disruption",
             "sleep"
     };
