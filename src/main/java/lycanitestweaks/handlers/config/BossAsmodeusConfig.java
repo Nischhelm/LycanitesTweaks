@@ -68,6 +68,24 @@ public class BossAsmodeusConfig {
     @Config.RangeInt(min = 0)
     public int astarothsRespawnTimePhase3 = 30;
 
+    @Config.Comment("Hellshield is active whenever an Astaroth is alive instead of only phase 2")
+    @Config.Name("Hellshield All Phases")
+    public boolean hellshieldAllPhases = true;
+
+    @Config.Comment("Amount of Damage Reduction Hellshield provides")
+    @Config.Name("Hellshield Damage Reduction")
+    @Config.RangeDouble(min = 0, max = 1)
+    public float hellshieldDamageReduction = 0.5F;
+
+    @Config.Comment("Repair is active whenever an Astaroth is alive instead of only phase 3")
+    @Config.Name("Repair All Phases")
+    public boolean repairAllPhases = false;
+
+    @Config.Comment("Amount of Healing Each Repairing Astaroth provides, set to 0 to use original flat 2.0 Healing")
+    @Config.Name("Repair Healing Portion")
+    @Config.RangeDouble(min = 0, max = 1)
+    public float repairHealingPortion = 0.005F;
+
     @Config.Comment("Should Asmodeus attempt attacks on players behind arena pillars")
     @Config.Name("Player Xray Target")
     public boolean playerXrayTarget = true;

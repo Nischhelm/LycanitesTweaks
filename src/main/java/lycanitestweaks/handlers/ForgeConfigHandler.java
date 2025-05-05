@@ -268,7 +268,7 @@ public class ForgeConfigHandler {
 			@Config.Name("Enchanted Soulkey Base Levelup Experience")
 			public int enchantedSoulkeyBaseLevelupExperience = 500;
 
-			@Config.Comment("At this level the required exp stops increasing, otherwise scales as much as Lycanites does")
+			@Config.Comment("At this level the required exp stops increasing, otherwise scales +25% per level")
 			@Config.Name("Enchanted Soulkey Next Level Final Scale")
 			public int enchantedSoulkeyNextLevelFinalScale = 16;
 
@@ -824,6 +824,12 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patcheshealgoalcheck.json")
 		public boolean fixHealGoalCheck = true;
+
+		@Config.Comment("Fix Mounting when trying to Heal a tamed creature with food")
+		@Config.Name("Fix Mounting With Heal Food")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesnomountwithfood.json")
+		public boolean fixMountingWithHealFood = true;
 
 		@Config.Comment("Fix Serpix Blizzard projectile spawning in the ground")
 		@Config.Name("Fix Serpix Blizzard Offset")

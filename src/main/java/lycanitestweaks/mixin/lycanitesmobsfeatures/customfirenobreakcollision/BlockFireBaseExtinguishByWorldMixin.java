@@ -3,6 +3,7 @@ package lycanitestweaks.mixin.lycanitesmobsfeatures.customfirenobreakcollision;
 import com.lycanitesmobs.core.block.BlockBase;
 import com.lycanitesmobs.core.block.BlockFireBase;
 import com.lycanitesmobs.core.info.ModInfo;
+import lycanitestweaks.LycanitesTweaks;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -44,8 +45,16 @@ public abstract class BlockFireBaseExtinguishByWorldMixin extends BlockBase {
             remap = true
     )
     public void lycanitesTweaks_lycanitesMobsBlockFireBase_neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos triggerPos, CallbackInfo ci){
-        if (!world.getBlockState(pos.down()).isSideSolid(world, pos, EnumFacing.UP) && !this.canNeighborCatchFire(world, pos)) {
-            world.setBlockToAir(pos);
+        if(!world.isRemote) return;
+        try {
+            if (!world.getBlockState(pos.down()).isSideSolid(world, pos, EnumFacing.UP) && !this.canNeighborCatchFire(world, pos)) {
+                world.setBlockToAir(pos);
+            }
+        }
+        // I Assume this error is why Lycanites commented this exact code out
+        // Fix Attempt 1: Don't run on client
+        catch (NoClassDefFoundError error){
+            LycanitesTweaks.LOGGER.error("Caught Exception with Lycanites BlockFireBase on LycanitesTweaks Mixin neighborChanged: {}", error.toString());
         }
     }
 }

@@ -222,8 +222,37 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             remap = false
     )
     public int lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesAnyPhaseDevilstar(int original){
-        if(ForgeConfigHandler.server.asmodeusConfig.devilstarStreamAllPhases && this.updateTick % 20L != 0L) return 0;
+        if(this.updateTick % 20L != 0L && ForgeConfigHandler.server.asmodeusConfig.devilstarStreamAllPhases) return 0;
         return original;
+    }
+
+    @Inject(
+            method = "updatePhases",
+            at = @At("TAIL"),
+            remap = false
+    )
+    public void lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesAnyPhaseRepair(CallbackInfo ci){
+        if(this.updateTick % 20 == 0L && ForgeConfigHandler.server.asmodeusConfig.repairAllPhases){
+            // Heal:
+            if(!this.astarothMinions.isEmpty()) {
+                float healAmount = this.astarothMinions.size();
+                if (((this.getHealth() + healAmount) / this.getMaxHealth()) > 0.2D) {
+                    float healValue = 2F;
+                    if(ForgeConfigHandler.server.asmodeusConfig.repairHealingPortion > 0) healValue = ForgeConfigHandler.server.asmodeusConfig.repairHealingPortion * this.getMaxHealth();
+                    this.heal(healAmount * healValue);
+                }
+            }
+        }
+    }
+
+    @ModifyConstant(
+            method = "updatePhases",
+            constant = @Constant(floatValue = 2F),
+            remap = false
+    )
+    public float lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesRepairAmount(float constant){
+        if(ForgeConfigHandler.server.asmodeusConfig.repairHealingPortion > 0) return ForgeConfigHandler.server.asmodeusConfig.repairHealingPortion * this.getMaxHealth();
+        return constant;
     }
 
     @ModifyExpressionValue(
@@ -232,7 +261,9 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             remap = false
     )
     public int lycanitesTweaks_lycanitesMobsEntityAsmodeus_isBlockingAnyPhase(int original){
-        return 1;
+        if(ForgeConfigHandler.server.asmodeusConfig.hellshieldAllPhases)
+            return 1;
+        return original;
     }
 
     @ModifyExpressionValue(
@@ -280,7 +311,7 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
     @Override
     public float getDamageModifier(DamageSource damageSrc) {
         if(this.isBlocking()) {
-            return 0F;
+            return 1F - ForgeConfigHandler.server.asmodeusConfig.hellshieldDamageReduction;
         }
         return super.getDamageModifier(damageSrc);
     }
