@@ -9,10 +9,10 @@ enchantedkey.message.active=The Soulkey activates the Altar! The boss is empower
 
 event.boss.playermoblevels=The Soulgazer has unleashed a reflection of your soul!
 
-item.summoningstaff.description.mixin=The Equipment Infuser can infuse a charge to this staff and allow leveling associated elements.
-item.summoningstaff.description.mixin.chargeitem=(Charge: %s)
-item.summoningstaff.description.mixin.element=[Element: %s]
-item.summoningstaff.description.mixin.level=||[Level: %s][Experience: %s/%s]
+item.summoningstaff.description.mixin=§rThe §5§lEquipment Infuser§r can infuse a §lcharge§r to this staff and allow leveling §lassociated elements§r.
+item.summoningstaff.description.mixin.chargeitem=§r(§lCharge§r: §d%s§r)
+item.summoningstaff.description.mixin.element=§r[§lElement§r: §b%s§r]
+item.summoningstaff.description.mixin.level=||§r[§lLevel§r: §a%s§r][§lExperience§r: §a%s§r/%s]
 
 item.lycanitestweaks.enchantedsoulkey.name=Enchanted Soulkey
 item.lycanitestweaks.enchantedsoulkeydiamond.name=Enchanted Diamond Soulkey
@@ -21,10 +21,10 @@ item.lycanitestweaks.enchantedsoulkey.thousand.name=Key to One Thousand Hells
 item.lycanitestweaks.enchantedsoulkeydiamond.thousand.name=Key to One Thousand Ends
 item.lycanitestweaks.enchantedsoulkeyemerald.thousand.name=Key to One Thousand Nightmares
 item.lycanitestweaks.enchantedsoulkey.description=A Soul Key that can be used multiple times as long as it has power. It can also increase the level of the summoned boss when used from the mainhand
-item.lycanitestweaks.enchantedsoulkey.description.mixin=The Equipment Infuser can level up the key to spawn more powerful bosses. The Equipment Station can recharge the Key with Gem Blocks and Nether Stars.
-item.lycanitestweaks.enchantedsoulkey.description.level=[Level: %s/%s][Experience: %s/%s]
-item.lycanitestweaks.enchantedsoulkey.description.power=[Gem Power: %s/%s]
-item.lycanitestweaks.enchantedsoulkey.description.mana=[Nether Star: %s/%s]
+item.lycanitestweaks.enchantedsoulkey.description.mixin=§rThe §5§lEquipment Infuser§r can level up the key to spawn more powerful bosses. The §3§lEquipment Station§r can recharge the Key with §lGem Blocks§r and §lNether Stars§r.
+item.lycanitestweaks.enchantedsoulkey.description.level=§r[§lLevel§r: §a%s§r/%s][§lExperience§r: §a%s§r/%s]
+item.lycanitestweaks.enchantedsoulkey.description.power=§r[§lGem Power§r: §b%s§r/%s]
+item.lycanitestweaks.enchantedsoulkey.description.mana=§r[§lNether Star§r: §d%s§r/%s]
 
 mount.fail.noflying=This mount flies, it can not be ridden with a basic saddle
 mount.fail.saddlelevel=Your mount must be level: %s, in order to be ridden with a basic saddle

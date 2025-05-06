@@ -247,7 +247,9 @@ public class ItemEnchantedSoulkey extends Item {
     /** Returns the Gem Power for the provided ItemStack. **/
     public int getGemPower(ItemStack itemStack) {
         NBTTagCompound nbt = this.getTagCompound(itemStack);
-        int sharpness = 0;
+
+        int charges = (this.variant == 0) ? 1 : 2;
+        int sharpness = ForgeConfigHandler.server.itemConfig.enchantedSoulkeyOnCraftUsages * charges;
         if(nbt.hasKey("soulkeySharpness")) {
             sharpness = nbt.getInteger("soulkeySharpness");
         }
@@ -284,7 +286,7 @@ public class ItemEnchantedSoulkey extends Item {
     /** Returns the Nether Star Power for the provided ItemStack. **/
     public int getStarPower(ItemStack itemStack) {
         NBTTagCompound nbt = this.getTagCompound(itemStack);
-        int mana = 0;
+        int mana = ForgeConfigHandler.server.itemConfig.enchantedSoulkeyOnCraftUsages;
         if(nbt.hasKey("soulkeyMana")) {
             mana = nbt.getInteger("soulkeyMana");
         }

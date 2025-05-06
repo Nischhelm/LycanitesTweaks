@@ -276,6 +276,10 @@ public class ForgeConfigHandler {
 			@Config.Name("Enchanted Soulkey Max Level")
 			public int enchantedSoulkeyDefaultMaxLevel = 100;
 
+			@Config.Comment("Default Usages when NBT is blank, recommended to match crafting recipe materials")
+			@Config.Name("Enchanted Soulkey On Craft Usages")
+			public int enchantedSoulkeyOnCraftUsages = 8;
+
 			@Config.Comment("Maximum Stored Nether Star Power and Gem Power (Diamond/Emerald Blocks)")
 			@Config.Name("Enchanted Soulkey Max Usages")
 			public int enchantedSoulkeyMaxUsages = 1000;
