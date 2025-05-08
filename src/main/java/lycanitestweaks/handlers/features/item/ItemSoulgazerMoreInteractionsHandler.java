@@ -1,6 +1,5 @@
 package lycanitestweaks.handlers.features.item;
 
-import com.lycanitesmobs.core.block.BlockSoulcube;
 import com.lycanitesmobs.core.info.CreatureManager;
 import com.lycanitesmobs.core.item.special.ItemSoulgazer;
 import lycanitestweaks.capability.EntityStoreCreatureCapabilityHandler;
@@ -11,11 +10,9 @@ import lycanitestweaks.entity.item.EntityBossSummonCrystal;
 import lycanitestweaks.entity.item.EntityEncounterSummonCrystal;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.LycanitesTweaksRegistry;
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -23,29 +20,20 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ItemSoulgazerMoreInteractionsHandler {
 
-    // TODO Swap out server messages for client ones since syncing PML to client now
+    // Used to send client messages, now only for debugging server side pml
     @SubscribeEvent
     public static void soulgazeBlockRightClick(PlayerInteractEvent.RightClickBlock event){
         if(event.getEntityPlayer() == null || event.getWorld().isRemote) return;
         if(!ForgeConfigHandler.server.pmlConfig.playerMobLevelCapability) return;
         EntityPlayer player = event.getEntityPlayer();
-        Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
 
-        if(player.getHeldItemMainhand().getItem() instanceof ItemSoulgazer){
+        if(player.isCreative() && player.getHeldItemMainhand().getItem() instanceof ItemSoulgazer){
             IPlayerMobLevelCapability pml = player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
             if (pml != null) {
-                if (ForgeConfigHandler.featuresMixinConfig.playerMobLevelJSONSpawner && block == Blocks.BED) {
-                    int levels = Math.max(1, pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlSpawnerDegree));
-                    player.sendMessage(new TextComponentTranslation("soulgazer.playermoblevels.spawner", levels));
-                }
-                else if (ForgeConfigHandler.featuresMixinConfig.playerMobLevelMainBosses && block instanceof BlockSoulcube) {
-                    int levels = Math.max(1, pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlBossMainDegree));
-                    player.sendMessage(new TextComponentTranslation("soulgazer.playermoblevels.boss", levels));
-                }
-                else if (player.isCreative()) {
-                    player.sendMessage(new TextComponentString("Unmodified Levels:" + pml.getTotalLevels()));
-                    player.sendMessage(new TextComponentString("Highest Level Pet:" + pml.getHighestLevelPet()));
-                }
+                player.sendMessage(new TextComponentTranslation("soulgazer.interact.pmlcreative",
+                        pml.getTotalLevels(),
+                        pml.getHighestLevelPet()
+                ));
             }
         }
     }
