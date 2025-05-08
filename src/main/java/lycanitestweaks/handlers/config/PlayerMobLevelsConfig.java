@@ -49,7 +49,7 @@ public class PlayerMobLevelsConfig {
     @Config.Comment("Ratio of Player Mob Levels used for summon staff minions")
     @Config.Name("Player Mob Level Degree Summon")
     @Config.RangeDouble(min = 0.0)
-    public double pmlSummonDegree = 1.0D;
+    public double pmlSummonDegree = 0.5D;
 
     @Config.Comment("Dimension IDs where soulbounds are level capped to Player Mob Level")
     @Config.Name("Player Mob Level Dimensions")
@@ -93,4 +93,12 @@ public class PlayerMobLevelsConfig {
     @Config.Comment("Creature level to compare to PML highest pet entry level, Requires Mixin 'Tamed Invert Over Leveled Penalty', set to 0 to disable")
     @Config.Name("PML Taming Over Leveled Start")
     public int pmlTamedOverLevelStartLevel = 20;
+
+    @Config.Comment("If treat reputation will be penalized if creature is over leveled. Requires Mixin 'Tamed Invert Over Leveled Penalty', set to 0 to disable")
+    @Config.Name("PML Taming Over Leveled Treat Point Penalty")
+    public boolean pmlTamedOverLevelTreatPointPenalty = false;
+
+    @Config.Comment("If creature could be tempted, will it remain able to be tempted if over leveled, Requires Mixin 'Tamed Invert Over Leveled Penalty', set to 0 to disable")
+    @Config.Name("PML Taming Over Leveled Treat Tempt")
+    public boolean pmlTamedOverLevelTreatTempt = false;
 }

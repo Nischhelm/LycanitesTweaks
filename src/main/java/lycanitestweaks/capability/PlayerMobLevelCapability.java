@@ -3,8 +3,11 @@ package lycanitestweaks.capability;
 import com.lycanitesmobs.core.pets.PetEntry;
 import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.handlers.ForgeConfigHandler;
+import lycanitestweaks.network.PacketHandler;
+import lycanitestweaks.network.PacketPlayerMobLevelsStats;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import org.apache.logging.log4j.Level;
@@ -15,11 +18,11 @@ import java.util.*;
 public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
 
     private EntityPlayer player;
-    private final int[] nonMainLevels = new int[5];
-    private final Queue<Integer> mainHandLevels = new LinkedList<>();
-    private final int MAINHAND_CHECK_SIZE = 8;
+    public int[] nonMainLevels = new int[5];
+    public Queue<Integer> mainHandLevels = new LinkedList<>();
+    public static final int MAINHAND_CHECK_SIZE = 8;
     public Map<Integer, Integer> petEntryLevels = new HashMap<>();
-    Object[] petEntryLevelsCopy = null;
+    private Object[] petEntryLevelsCopy = null;
 
     PlayerMobLevelCapability(){}
 
@@ -48,6 +51,15 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
     @Override
     public void setPlayer(EntityPlayer player) {
         this.player = player;
+    }
+
+    @Override
+    public void sync() {
+        PacketPlayerMobLevelsStats packet = new PacketPlayerMobLevelsStats(this);
+        if(!this.player.world.isRemote) {
+            EntityPlayerMP playerMP = (EntityPlayerMP) this.player;
+            PacketHandler.instance.sendTo(packet, playerMP);
+        }
     }
 
     @Override
@@ -132,6 +144,7 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
             this.petEntryLevels.put(levels, 1);
             this.petEntryLevelsCopy = null;
         }
+        this.sync();
     }
 
     // For adding from PetManager NBT
@@ -151,6 +164,7 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
                 this.petEntryLevels.remove(level);
                 this.petEntryLevelsCopy = null;
             }
+            this.sync();
         }
         else{
             if(ForgeConfigHandler.client.debugLoggerTrigger) LycanitesTweaks.LOGGER.log(Level.INFO, "Warning tried to remove when petEntryLevels did not have key: {}", level);
@@ -159,12 +173,14 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
 
     @Override
     public void setNonMainLevels(ItemStack itemStack, int slotIndex) {
-        nonMainLevels[slotIndex-1] = getItemStackLevels(itemStack);
+        this.nonMainLevels[slotIndex-1] = getItemStackLevels(itemStack);
+        this.sync();
     }
 
     @Override
     public void setMainHandLevels(ItemStack itemStack){
-        mainHandLevels.add(getItemStackLevels(itemStack));
-        while(mainHandLevels.size() > MAINHAND_CHECK_SIZE) mainHandLevels.poll();
+        this.mainHandLevels.add(getItemStackLevels(itemStack));
+        while(this.mainHandLevels.size() > PlayerMobLevelCapability.MAINHAND_CHECK_SIZE) this.mainHandLevels.poll();
+        this.sync();
     }
 }

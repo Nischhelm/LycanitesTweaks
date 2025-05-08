@@ -293,20 +293,22 @@ public class StoredCreatureEntity {
         this.loadEntityNBT();
 
         // calc PML after NBT Levels are loaded
-        IPlayerMobLevelCapability pml = target.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
+//        IPlayerMobLevelCapability pml = target.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
 //        if(pml != null && ForgeConfigHandler.server.escConfig.bossCrystalPML &&
 //                (!ForgeConfigHandler.server.escConfig.bossCrystalSoulgazerHold || target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer)) {
 //            this.setLevel(Math.max(this.getLevel(), pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlBossCrystalDegree)));
 //        }
 
-        if(pml != null)
-            if(ForgeConfigHandler.server.escConfig.bossCrystalPML && (
-                target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer
-                || (this.host instanceof EntityEncounterSummonCrystal && !ForgeConfigHandler.server.escConfig.encounterCrystalSoulgazerHold)
-                || (!ForgeConfigHandler.server.escConfig.bossCrystalSoulgazerHold)
-            )){
+        if(ForgeConfigHandler.server.escConfig.bossCrystalPML) {
+            IPlayerMobLevelCapability pml = target.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
+            if (pml != null && (
+                    target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer
+                            || (this.host instanceof EntityEncounterSummonCrystal && !ForgeConfigHandler.server.escConfig.encounterCrystalSoulgazerHold)
+                            || (!ForgeConfigHandler.server.escConfig.bossCrystalSoulgazerHold)
+            )) {
                 this.setLevel(Math.max(this.getLevel(), pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlBossCrystalDegree)));
             }
+        }
 
         // Spawn Location:
         this.entity.setLocationAndAngles(this.host.posX, this.host.posY, this.host.posZ, this.host.rotationYaw, 0.0F);

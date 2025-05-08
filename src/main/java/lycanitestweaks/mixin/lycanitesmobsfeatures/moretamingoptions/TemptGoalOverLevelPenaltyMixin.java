@@ -25,12 +25,14 @@ public abstract class TemptGoalOverLevelPenaltyMixin {
             remap = false
     )
     public boolean lycanitesTweaks_lycanitesMobsTemptGoal_isTemptStackLevelPenalty(boolean original){
-        if(original){
-            IPlayerMobLevelCapability pml = this.player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
+        if(original && !ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelTreatTempt){
             if(ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel > 0){
-                if(pml != null){
-                    if(Math.max(0, this.host.getLevel() - pml.getHighestLevelPet()) > ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel)
-                        return false;
+                if(ForgeConfigHandler.server.pmlConfig.playerMobLevelCapability){
+                    IPlayerMobLevelCapability pml = this.player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
+                    if(pml != null){
+                        if (Math.max(0, this.host.getLevel() - pml.getHighestLevelPet()) > ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel)
+                            return false;
+                    }
                 }
                 else{
                     if(this.host.getLevel() > ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel) return false;

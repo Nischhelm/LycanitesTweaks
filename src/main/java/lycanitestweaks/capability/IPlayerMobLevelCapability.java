@@ -9,6 +9,8 @@ public interface IPlayerMobLevelCapability {
     EntityPlayer getPlayer();
     void setPlayer(EntityPlayer player);
 
+    void sync();
+
     int getTotalLevelsWithDegree(double modifier);
     int getTotalLevels();
 

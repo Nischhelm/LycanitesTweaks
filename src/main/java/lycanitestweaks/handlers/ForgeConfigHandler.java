@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import lycanitestweaks.LycanitesTweaks;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 
 
@@ -21,6 +22,9 @@ public class ForgeConfigHandler {
 	private static HashSet<ResourceLocation> flowersaurBiomes = null;
 	private static HashSet<ResourceLocation> immunizationCureEffects = null;
 	private static HashSet<String> pmlSpawnerNames = null;
+	private static HashMap<String, Integer> effectsApplyScaleLevelLimited = null;
+//	private static HashMap<String, Integer> elementsLevelLimitedBuffs = null;
+	private static HashMap<String, Integer> elementsLevelLimitedDebuffs = null;
 
 	@Config.Comment("Client-Side Options")
 	@Config.Name("Client Options")
@@ -404,6 +408,48 @@ public class ForgeConfigHandler {
 			@Config.Comment("Apply Mixin 'Boss Invert Health and Damage Scale' to variants/dungeon bosses instead of just the main Bosses")
 			@Config.Name("Spawned As Boss Invert Health and Damage Scale")
 			public boolean spawnedAsBossInvert = true;
+
+
+			/*
+			 * 	EffectAuraGoal - Amalgalich Auto Decay, Archvile Demon Buffs
+			 * 	barghest - Leap weight
+			 * 	cockatrice - Mount Ability paralysis, aphagia
+			 *  eechetik - Auto plauge
+			 * 	quetzodracl - Pickup Drop weight
+			 * 	raiko - Pickup Drop weight
+			 * 	shade - Auto fear
+			 * 	strider - Pickup water breathing, penetration
+			 * 	warg - Auto paralysis
+			 */
+			@Config.Comment("List of various Lycanites that apply effects and toggle-able level scaling cap. Format:[thing,maxScaleLevel,enable]. Note: 'thing's must be from the defaults.")
+			@Config.Name("Effects Level Limited")
+			public String[] effectsLevelLimited = {
+					"barghest,15,false",
+					"cockatrice,15,true",
+					"eechetik,15,false",
+					"quetzodracl,15,false",
+					"raiko,15,false",
+					"shade,15,true",
+					"strider,15,false",
+					"warg,15,true",
+					"EffectAuraGoal,15,true"
+			};
+
+			// If you think Wisp glowing is OP
+//			@Config.Comment("List of loaded elements whose buffs that will have capped level scaling. Format:[elementName,maxscaledlevel]")
+//			@Config.Name("Elements Level Limited Buffs")
+//			public String[] elementsLevelLimitedBuffs = {
+//
+//			};
+
+			@Config.Comment("List of loaded elements whose Debuffs that will have capped level scaling. Format:[elementName,maxscaledlevel]")
+			@Config.Name("Elements Level Limited Debuffs")
+			public String[] elementsLevelLimitedDebuffs = {
+					"arcane,15",
+					"chaos,15",
+					"lightning,15",
+					"phase,15"
+			};
 		}
 	}
 
@@ -683,7 +729,7 @@ public class ForgeConfigHandler {
 		@Config.Name("Tamed Invert Over Leveled Penalty")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuretameoverlevelpenalty.json")
-		public boolean tamedOverLeveledPenalty = false;
+		public boolean tamedOverLeveledPenalty = true;
 
 		@Config.Comment("Enable whether all tamed (tamed/summoned/soulbound) variants get stats bonuses")
 		@Config.Name("Tamed Variant Stat Bonuses")
@@ -707,7 +753,7 @@ public class ForgeConfigHandler {
 		@Config.Name("Player Mob Level Bosses (Requires Capability)")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossesplayermoblevels.json")
-		public boolean playerMobLevelMainBosses = false;
+		public boolean playerMobLevelMainBosses = true;
 
 		@Config.Comment("Use Player Mob Level to affect JSON Spawners by whitelist")
 		@Config.Name("Player Mob Level JSON Spawner (Requires Capability)")
@@ -725,7 +771,7 @@ public class ForgeConfigHandler {
 		@Config.Name("Player Mob Level Summon Staff (Requires Capability)")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresummonstaffplayermoblevel.json")
-		public boolean playerMobLevelSummonStaff = false;
+		public boolean playerMobLevelSummonStaff = true;
 
 		@Config.Comment("Lycanites Creatures can use JSON loot tables alongside LycanitesMobs drop list")
 		@Config.Name("Vanilla BaseCreatureEntity Loot Table")
@@ -875,6 +921,65 @@ public class ForgeConfigHandler {
 		return ForgeConfigHandler.immunizationCureEffects;
 	}
 
+	public static HashMap<String, Integer> getLevelLimitedEffects(){
+		if(ForgeConfigHandler.effectsApplyScaleLevelLimited == null){
+			HashMap<String, Integer> map = new HashMap<>();
+			for(String string : ForgeConfigHandler.server.statsConfig.effectsLevelLimited){
+				String[] line = string.split(",");
+				try {
+					if(line[2].equals("true"))
+						map.put(line[0], Integer.valueOf(line[1]));
+				}
+				catch (Exception exception){
+					LycanitesTweaks.LOGGER.error("Failed to parse {} in effectsLevelLimited", string);
+				}
+			}
+			ForgeConfigHandler.effectsApplyScaleLevelLimited = map;
+		}
+		return ForgeConfigHandler.effectsApplyScaleLevelLimited;
+	}
+
+//	public static HashMap<String, Integer> getElementsLevelLimitedBuffs(){
+//		if(ForgeConfigHandler.elementsLevelLimitedBuffs == null){
+//			HashMap<String, Integer> map = new HashMap<>();
+//			for(String string : ForgeConfigHandler.server.statsConfig.elementsLevelLimitedBuffs){
+//				String[] line = string.split(",");
+//				try {
+//					map.put(line[0], Integer.valueOf(line[1]));
+//				}
+//				catch (Exception exception){
+//					LycanitesTweaks.LOGGER.error("Failed to parse {} in elementsLevelLimitedBuffs", string);
+//				}
+//			}
+//			ForgeConfigHandler.elementsLevelLimitedBuffs = map;
+//		}
+//		return ForgeConfigHandler.elementsLevelLimitedBuffs;
+//	}
+
+	public static HashMap<String, Integer> getElementsLevelLimitedDebuffs(){
+		if(ForgeConfigHandler.elementsLevelLimitedDebuffs == null){
+			HashMap<String, Integer> map = new HashMap<>();
+			for(String string : ForgeConfigHandler.server.statsConfig.elementsLevelLimitedDebuffs){
+				String[] line = string.split(",");
+				try {
+					map.put(line[0], Integer.valueOf(line[1]));
+				}
+				catch (Exception exception){
+					LycanitesTweaks.LOGGER.error("Failed to parse {} in elementsLevelLimitedDebuffs", string);
+				}
+			}
+			ForgeConfigHandler.elementsLevelLimitedDebuffs = map;
+		}
+		return ForgeConfigHandler.elementsLevelLimitedDebuffs;
+	}
+
+	public static HashSet<String> getPMLSpawnerNames(){
+		if(ForgeConfigHandler.pmlSpawnerNames == null){
+			ForgeConfigHandler.pmlSpawnerNames = new HashSet<>(Arrays.asList(ForgeConfigHandler.server.pmlConfig.pmlSpawnerNameStrings));
+		}
+		return ForgeConfigHandler.pmlSpawnerNames;
+	}
+
 	public static boolean isDimensionLimitedMinion(int dim){
 		boolean found = false;
 		for(int id : ForgeConfigHandler.server.pmlConfig.pmlMinionLimitDimIds){
@@ -886,13 +991,6 @@ public class ForgeConfigHandler {
 		return ForgeConfigHandler.server.pmlConfig.pmlMinionLimitDimIdsWhitelist == found;
 	}
 
-	public static HashSet<String> getPMLSpawnerNames(){
-		if(ForgeConfigHandler.pmlSpawnerNames == null){
-			ForgeConfigHandler.pmlSpawnerNames = new HashSet<>(Arrays.asList(ForgeConfigHandler.server.pmlConfig.pmlSpawnerNameStrings));
-		}
-		return ForgeConfigHandler.pmlSpawnerNames;
-	}
-
 	@Mod.EventBusSubscriber(modid = LycanitesTweaks.MODID)
 	private static class EventHandler{
 
@@ -901,7 +999,11 @@ public class ForgeConfigHandler {
 			if(event.getModID().equals(LycanitesTweaks.MODID)) {
 				ForgeConfigHandler.cleansedCureEffects = null;
 				ForgeConfigHandler.flowersaurBiomes = null;
+				ForgeConfigHandler.immunizationCureEffects = null;
 				ForgeConfigHandler.pmlSpawnerNames = null;
+				ForgeConfigHandler.effectsApplyScaleLevelLimited = null;
+//				ForgeConfigHandler.elementsLevelLimitedBuffs = null;
+				ForgeConfigHandler.elementsLevelLimitedDebuffs = null;
 				ConfigManager.sync(LycanitesTweaks.MODID, Config.Type.INSTANCE);
 			}
 		}

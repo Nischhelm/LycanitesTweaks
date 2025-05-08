@@ -23,9 +23,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ItemSoulgazerMoreInteractionsHandler {
 
+    // TODO Swap out server messages for client ones since syncing PML to client now
     @SubscribeEvent
     public static void soulgazeBlockRightClick(PlayerInteractEvent.RightClickBlock event){
         if(event.getEntityPlayer() == null || event.getWorld().isRemote) return;
+        if(!ForgeConfigHandler.server.pmlConfig.playerMobLevelCapability) return;
         EntityPlayer player = event.getEntityPlayer();
         Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
 
@@ -67,7 +69,7 @@ public class ItemSoulgazerMoreInteractionsHandler {
         if(event.getTarget() instanceof EntityPlayer && event.getWorld().rand.nextFloat() < 0.05){
             event.getWorld().playSound(null, event.getPos(), LycanitesTweaksRegistry.SOULGAZER_PLAYER, SoundCategory.PLAYERS, 1F, 1F);
         }
-        else{
+        else if(ForgeConfigHandler.server.pmlConfig.playerMobLevelCapability){
             IPlayerMobLevelCapability pml = event.getEntityPlayer().getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
             if (pml != null) {
                 if(event.getTarget() instanceof EntityBossSummonCrystal) {

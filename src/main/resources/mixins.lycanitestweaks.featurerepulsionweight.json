@@ -6,8 +6,6 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "repulsionweight.EntityQuetzodraclRepulsionWeightMixin",
-    "repulsionweight.EntityRaikoRepulsionWeightMixin",
     "repulsionweight.EntityRoaRepulsionWeightMixin",
     "repulsionweight.EntitySpectreRepulsionWeightMixin",
     "repulsionweight.EntityThresherRepulsionWeightMixin",

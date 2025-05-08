@@ -26,12 +26,14 @@ public abstract class TameableCreatureEntityOverLevelPenaltyMixin extends Ageabl
             remap = false
     )
     public int lycanitesTweaks_lycanitesMobsTameableCreatureEntity_tameLevelPenalty(int amount, @Local(argsOnly = true) EntityPlayer player){
-        IPlayerMobLevelCapability pml = player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
-        if(ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel > 0){
-            if(pml != null){
-                if(Math.max(0, this.getLevel() - pml.getHighestLevelPet()) > ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel) {
-                    player.sendStatusMessage(new TextComponentTranslation("tame.overlevel.penalty"), false);
-                    return (int) Math.max(1, amount * (float) (pml.getHighestLevelPet()) / (2 * this.getLevel()));
+        if(ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelTreatPointPenalty && ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel > 0){
+            if(ForgeConfigHandler.server.pmlConfig.playerMobLevelCapability) {
+                IPlayerMobLevelCapability pml = player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
+                if (pml != null){
+                    if (Math.max(0, this.getLevel() - pml.getHighestLevelPet()) > ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel) {
+                        player.sendStatusMessage(new TextComponentTranslation("tame.overlevel.penalty"), false);
+                        return (int) Math.max(1, amount * (float) (pml.getHighestLevelPet()) / (2 * this.getLevel()));
+                    }
                 }
             }
             else{

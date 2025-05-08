@@ -6,7 +6,17 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "capbonusstats.CreatureStatsCapMixin"
+    "capbonusstats.BaseCreatureEntityEffectsCapMixin",
+    "capbonusstats.CreatureStatsCapMixin",
+    "capbonusstats.otherscaledeffects.EffectAuraGoalEffectsCapMixin",
+    "capbonusstats.otherscaledeffects.EntityBarghestEffectsCapMixin",
+    "capbonusstats.otherscaledeffects.EntityCockatriceEffectsCapMixin",
+    "capbonusstats.otherscaledeffects.EntityEechetikEffectsCapMixin",
+    "capbonusstats.otherscaledeffects.EntityQuetzodraclEffectsCapMixin",
+    "capbonusstats.otherscaledeffects.EntityRaikoEffectsCapMixin",
+    "capbonusstats.otherscaledeffects.EntityShadeEffectsCapMixin",
+    "capbonusstats.otherscaledeffects.EntityStriderEffectsCapMixin",
+    "capbonusstats.otherscaledeffects.EntityWargEffectsCapMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

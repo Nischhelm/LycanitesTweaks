@@ -39,7 +39,7 @@ soulgazer.playermoblevels.bosscrystal.nogazer=The Crystal contains, Level: %s - 
 soulgazer.playermoblevels.bosscrystal.vanilla=The Crystal contains, %s
 soulgazer.playermoblevels.spawner=Level: %s creatures may appear around you
 
-summonstaff.description.pmlsummon=Your summons will spawn equal to your power
+summonstaff.description.pmlsummon=Gear set enchantment Summon Level Bonus: +§a%s
 
 summon.imperfect.hostile=Your lack of knowledge has manifested a hostile creature!
 summon.imperfect.attack=Your lack of knowledge has manifested a weak creature!
