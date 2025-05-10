@@ -71,6 +71,14 @@ public class PacketPlayerMobLevelsStats implements IMessage {
     }
 
 
+    public static class ServerHandler implements IMessageHandler<PacketPlayerMobLevelsStats, IMessage> {
+
+        @Override
+        public IMessage onMessage(PacketPlayerMobLevelsStats message, MessageContext ctx) {
+            return null;
+        }
+    }
+
     @SideOnly(Side.CLIENT)
     public static class ClientHandler implements IMessageHandler<PacketPlayerMobLevelsStats, IMessage> {
 

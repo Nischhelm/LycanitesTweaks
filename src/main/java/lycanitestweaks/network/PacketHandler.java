@@ -15,7 +15,7 @@ public class PacketHandler {
     }
 
     public static void registerMessages() {
-
+        instance.registerMessage(PacketPlayerMobLevelsStats.ServerHandler.class, PacketPlayerMobLevelsStats.class, 1, Side.SERVER);
     }
 
     @SideOnly(Side.CLIENT)
