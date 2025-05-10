@@ -421,7 +421,11 @@ public class ForgeConfigHandler {
 			 * 	strider - Pickup water breathing, penetration
 			 * 	warg - Auto paralysis
 			 */
-			@Config.Comment("List of various Lycanites that apply effects and toggle-able level scaling cap. Format:[thing,maxScaleLevel,enable]. Note: 'thing's must be from the defaults.")
+			@Config.Comment("List of various Lycanites that apply effects and toggle-able level scaling cap.\n" +
+					"Format:[thing,maxScaleLevel,enable]\n" +
+						"\tthing - Do not change from defaults\n" +
+						"\tmaxScaleLevel - Final Level before duration and amplifier stop increasing\n" +
+						"\tenable - 'true' Will use the level limit")
 			@Config.Name("Effects Level Limited")
 			public String[] effectsLevelLimited = {
 					"barghest,15,false",
@@ -442,7 +446,10 @@ public class ForgeConfigHandler {
 //
 //			};
 
-			@Config.Comment("List of loaded elements whose Debuffs that will have capped level scaling. Format:[elementName,maxscaledlevel]")
+			@Config.Comment("List of loaded elements whose Debuffs that will have capped level scaling.\n" +
+					"Format:[elementName,maxscaledlevel]\n" +
+						"\telementName - Name of the element to limit, must be all lowercase\n" +
+						"\tmaxscaledlevel - Final Level before duration and amplifier stop increasing")
 			@Config.Name("Elements Level Limited Debuffs")
 			public String[] elementsLevelLimitedDebuffs = {
 					"arcane,15",

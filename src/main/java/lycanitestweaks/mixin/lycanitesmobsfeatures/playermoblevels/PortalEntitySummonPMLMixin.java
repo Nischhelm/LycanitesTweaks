@@ -6,6 +6,7 @@ import com.lycanitesmobs.core.entity.PortalEntity;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
 import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
 import lycanitestweaks.handlers.ForgeConfigHandler;
+import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
 import net.minecraft.entity.player.EntityPlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -15,6 +16,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PortalEntity.class)
 public abstract class PortalEntitySummonPMLMixin {
+
+    // TODO Consider moving to summon staffs
 
     @Shadow(remap = false)
     public EntityPlayer shootingEntity;
@@ -29,7 +32,7 @@ public abstract class PortalEntitySummonPMLMixin {
         if(ForgeConfigHandler.featuresMixinConfig.playerMobLevelSummonStaff){
             IPlayerMobLevelCapability pml = this.shootingEntity.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
             if(pml != null){
-                entityCreature.setLevel(pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlSummonDegree));
+                entityCreature.addLevel(pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.SummonMinion, entityCreature));
             }
         }
     }

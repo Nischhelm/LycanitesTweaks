@@ -11,8 +11,9 @@ import lycanitestweaks.capability.IPlayerMobLevelCapability;
 import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
 import lycanitestweaks.compat.ModLoadedUtil;
 import lycanitestweaks.compat.RLTweakerHandler;
-import lycanitestweaks.entity.item.EntityEncounterSummonCrystal;
+import lycanitestweaks.entity.item.EntityBossSummonCrystal;
 import lycanitestweaks.handlers.ForgeConfigHandler;
+import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
@@ -293,20 +294,30 @@ public class StoredCreatureEntity {
         this.loadEntityNBT();
 
         // calc PML after NBT Levels are loaded
-//        IPlayerMobLevelCapability pml = target.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
-//        if(pml != null && ForgeConfigHandler.server.escConfig.bossCrystalPML &&
-//                (!ForgeConfigHandler.server.escConfig.bossCrystalSoulgazerHold || target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer)) {
-//            this.setLevel(Math.max(this.getLevel(), pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlBossCrystalDegree)));
-//        }
-
-        if(ForgeConfigHandler.server.escConfig.bossCrystalPML) {
+        if(ForgeConfigHandler.server.pmlConfig.playerMobLevelCapability){
             IPlayerMobLevelCapability pml = target.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
-            if (pml != null && (
-                    target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer
-                            || (this.host instanceof EntityEncounterSummonCrystal && !ForgeConfigHandler.server.escConfig.encounterCrystalSoulgazerHold)
-                            || (!ForgeConfigHandler.server.escConfig.bossCrystalSoulgazerHold)
-            )) {
-                this.setLevel(Math.max(this.getLevel(), pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlBossCrystalDegree)));
+            if(pml != null && this.host instanceof EntityBossSummonCrystal && this.entity instanceof BaseCreatureEntity){
+                switch (((EntityBossSummonCrystal) this.host).getVariantType()){
+                    case 1:
+                        if(ForgeConfigHandler.server.escConfig.altarBossCrystalPML){
+                            if(!ForgeConfigHandler.server.escConfig.altarBossCrystalSoulgazerHold || target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer)
+                                this.setLevel(Math.max(this.getLevel(), pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.AltarBossMini, (BaseCreatureEntity)this.entity)));
+                        }
+                        break;
+                    case 2:
+                        if(ForgeConfigHandler.server.escConfig.dungeonBossCrystalPML){
+                            if(!ForgeConfigHandler.server.escConfig.dungeonBossCrystalSoulgazerHold || target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer)
+                                this.setLevel(Math.max(this.getLevel(), pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.DungeonBoss, (BaseCreatureEntity)this.entity)));
+                        }
+                        break;
+                    case -1:
+                        if(ForgeConfigHandler.server.escConfig.encounterCrystalPML){
+                            if(!ForgeConfigHandler.server.escConfig.encounterCrystalSoulgazerHold || target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer)
+                                this.setLevel(Math.max(this.getLevel(), pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.SpawnerNatural, (BaseCreatureEntity)this.entity)));
+                        }
+                        break;
+                    default:
+                }
             }
         }
 

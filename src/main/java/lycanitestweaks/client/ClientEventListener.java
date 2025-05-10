@@ -5,6 +5,7 @@ import com.lycanitesmobs.core.item.temp.ItemStaffSummoning;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
 import lycanitestweaks.capability.PlayerMobLevelCapability;
 import lycanitestweaks.handlers.ForgeConfigHandler;
+import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -19,20 +20,24 @@ public class ClientEventListener {
                 if (event.getItemStack().getItem() instanceof ItemSoulgazer) {
                     if (ForgeConfigHandler.featuresMixinConfig.playerMobLevelJSONSpawner)
                         event.getToolTip().add(I18n.format("soulgazer.description.pmlspawner",
-                            pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlSpawnerDegree)));
+                            pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.SpawnerTrigger)
+                        ));
                     if (ForgeConfigHandler.featuresMixinConfig.playerMobLevelMainBosses)
                         event.getToolTip().add(I18n.format("soulgazer.description.pmlboss",
-                            pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlBossMainDegree)));
+                            pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.AltarBossMain)
+                        ));
                     if(event.getEntityPlayer().isCreative()){
                         event.getToolTip().add(I18n.format("soulgazer.description.pmlcreative",
-                                pml.getTotalLevels(),
-                                pml.getHighestLevelPet()));
+                                pml.getTotalEnchantmentLevels(),
+                                pml.getHighestLevelPetSoulbound()
+                        ));
                     }
 
                 } else if (event.getItemStack().getItem() instanceof ItemStaffSummoning) {
                     if (ForgeConfigHandler.featuresMixinConfig.playerMobLevelSummonStaff) {
                         event.getToolTip().add(I18n.format("summonstaff.description.pmlsummon",
-                            pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlSummonDegree)));
+                            pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.SummonMinion)
+                        ));
                     }
                 }
             }

@@ -8,6 +8,7 @@ import com.lycanitesmobs.core.spawner.Spawner;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
 import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
 import lycanitestweaks.handlers.ForgeConfigHandler;
+import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -36,7 +37,7 @@ public abstract class SpawnerByNamePMLMixin {
 
                 isInList = ForgeConfigHandler.server.pmlConfig.pmlSpawnerNameStringsIsBlacklist != isInList;
 
-                if (isInList) entityCreature.applyLevel(entityCreature.getLevel() + pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlSpawnerDegree));
+                if (isInList) entityCreature.addLevel(pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.SpawnerTrigger, entityCreature));
             }
         }
     }

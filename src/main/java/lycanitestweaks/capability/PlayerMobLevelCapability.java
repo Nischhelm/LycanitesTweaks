@@ -1,8 +1,10 @@
 package lycanitestweaks.capability;
 
+import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.pets.PetEntry;
 import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.handlers.ForgeConfigHandler;
+import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
 import lycanitestweaks.network.PacketHandler;
 import lycanitestweaks.network.PacketPlayerMobLevelsStats;
 import net.minecraft.enchantment.Enchantment;
@@ -13,6 +15,7 @@ import net.minecraft.nbt.NBTTagList;
 import org.apache.logging.log4j.Level;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.*;
 
 public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
@@ -63,13 +66,52 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
     }
 
     @Override
-    public int getTotalLevelsWithDegree(double modifier){
-        return (int)(getTotalLevels() * modifier);
+    public int getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory category) {
+        return getTotalLevelsForCategory(category, null);
     }
 
     @Override
-    public int getTotalLevels(){
+    public int getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory category, @Nullable BaseCreatureEntity creature) {
+        double totalLevels = 0;
         if(ForgeConfigHandler.server.pmlConfig.playerMobLevelCapabilityNoCalc) return 0;
+
+        if(PlayerMobLevelsConfig.getPmlBonusCateogories().containsKey(category)){
+            for(PlayerMobLevelsConfig.Bonus bonus : PlayerMobLevelsConfig.Bonus.values()) {
+                double modifier = 0.0D;
+                switch (PlayerMobLevelsConfig.getPmlBonusCateogories().get(category).getLeft()) {
+                    case WILD:
+                        if(PlayerMobLevelsConfig.getPmlBonusUsagesWild().containsKey(bonus))
+                            modifier = PlayerMobLevelsConfig.getPmlBonusUsagesWild().get(bonus);
+                        break;
+                    case TAMED:
+                        if(PlayerMobLevelsConfig.getPmlBonusUsagesTamed().containsKey(bonus))
+                            modifier = PlayerMobLevelsConfig.getPmlBonusUsagesTamed().get(bonus);
+                }
+                if(modifier == 0.0D && PlayerMobLevelsConfig.getPmlBonusUsagesAll().containsKey(bonus)){
+                    modifier = PlayerMobLevelsConfig.getPmlBonusUsagesAll().get(bonus);
+                }
+
+                switch (bonus){
+                    case ActivePet:
+                        totalLevels += this.getHighestLevelPetActive() * modifier;
+                        break;
+                    case Bestiary:
+                        totalLevels += this.getCurrentLevelBestiary(creature) * modifier;
+                        break;
+                    case Enchantments:
+                        totalLevels += this.getTotalEnchantmentLevels() * modifier;
+                        break;
+                    default:
+                }
+            }
+            totalLevels *= PlayerMobLevelsConfig.getPmlBonusCateogories().get(category).getRight();
+        }
+
+        return (int)Math.round(totalLevels);
+    }
+
+    @Override
+    public int getTotalEnchantmentLevels(){
         int total = 0;
 
         for(int lvl : nonMainLevels){
@@ -81,7 +123,20 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
     }
 
     @Override
-    public int getHighestLevelPet() {
+    public int getCurrentLevelBestiary(BaseCreatureEntity creature) {
+        if(creature == null) return 0;
+        return 0;
+    }
+
+    @Override
+    public int getHighestLevelPetActive() {
+
+
+        return 0;
+    }
+
+    @Override
+    public int getHighestLevelPetSoulbound() {
         if(!ForgeConfigHandler.server.pmlConfig.pmlCalcHighestLevelPet || this.petEntryLevels.isEmpty()) return 0;
         if(this.petEntryLevelsCopy == null) {
             this.petEntryLevelsCopy = petEntryLevels.keySet().toArray(new Integer[0]);

@@ -1,6 +1,8 @@
 package lycanitestweaks.capability;
 
+import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.pets.PetEntry;
+import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -11,10 +13,14 @@ public interface IPlayerMobLevelCapability {
 
     void sync();
 
-    int getTotalLevelsWithDegree(double modifier);
-    int getTotalLevels();
+    int getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory category);
+    int getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory category, BaseCreatureEntity creature);
 
-    int getHighestLevelPet();
+    int getTotalEnchantmentLevels();
+
+    int getCurrentLevelBestiary(BaseCreatureEntity creature);
+    int getHighestLevelPetActive();
+    int getHighestLevelPetSoulbound();
     int getHighestMainHandLevels();
     int getItemStackLevels(ItemStack itemStack);
 

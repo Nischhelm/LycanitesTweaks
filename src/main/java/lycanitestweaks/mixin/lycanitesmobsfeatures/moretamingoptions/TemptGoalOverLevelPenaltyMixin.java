@@ -30,7 +30,7 @@ public abstract class TemptGoalOverLevelPenaltyMixin {
                 if(ForgeConfigHandler.server.pmlConfig.playerMobLevelCapability){
                     IPlayerMobLevelCapability pml = this.player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
                     if(pml != null){
-                        if (Math.max(0, this.host.getLevel() - pml.getHighestLevelPet()) > ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel)
+                        if (Math.max(0, this.host.getLevel() - pml.getHighestLevelPetSoulbound()) > ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel)
                             return false;
                     }
                 }

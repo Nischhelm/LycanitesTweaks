@@ -6,6 +6,7 @@ import com.lycanitesmobs.core.entity.CreatureStats;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
 import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
 import lycanitestweaks.handlers.ForgeConfigHandler;
+import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentTranslation;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,7 +29,8 @@ public abstract class CreatureStatsBoundDimLimitedMixin {
         if(ForgeConfigHandler.isDimensionLimitedMinion(this.entity.dimension) && this.entity.isBoundPet()){
             IPlayerMobLevelCapability pml = this.entity.getPetEntry().host.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
             if(pml != null){
-                int levels = Math.min(original, pml.getTotalLevelsWithDegree(ForgeConfigHandler.server.pmlConfig.pmlSoulboundDegree));
+                int levels = Math.min(original,
+                        pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.SoulboundTame, this.entity));
                 if(this.entity.ticksExisted == 0) {
                     ((EntityPlayer) this.entity.getPetEntry().host).sendStatusMessage(new TextComponentTranslation("soulbound.limited.levels", levels), true);
                 }
