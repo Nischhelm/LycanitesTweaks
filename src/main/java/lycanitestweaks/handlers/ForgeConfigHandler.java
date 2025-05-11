@@ -440,8 +440,6 @@ public class ForgeConfigHandler {
 			};
 
 			// If you think Wisp glowing is OP
-//			@Config.Comment("List of loaded elements whose buffs that will have capped level scaling. Format:[elementName,maxscaledlevel]")
-//			@Config.Name("Elements Level Limited Buffs")
 //			public String[] elementsLevelLimitedBuffs = {
 //
 //			};

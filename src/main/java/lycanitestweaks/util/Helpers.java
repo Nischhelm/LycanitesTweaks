@@ -77,7 +77,26 @@ public class Helpers {
         for(Potion potion : toRemove) entity.removePotionEffect(potion);
     }
 
-    /** Attempt to get a level limited stat. Suffers from **/
+    // Extracted from com.lycanitesmobs.core.entity.BaseCreatureEntity
+    /** Returns the default starting level to use. **/
+    public static int getStartingLevel(EntityLivingBase entity) {
+        int startingLevelMin = Math.max(1, CreatureManager.getInstance().config.startingLevelMin);
+        if(CreatureManager.getInstance().config.startingLevelMax > startingLevelMin) {
+            return startingLevelMin + entity.getRNG().nextInt(CreatureManager.getInstance().config.startingLevelMax - startingLevelMin);
+        }
+        if(CreatureManager.getInstance().config.levelPerDay > 0 && CreatureManager.getInstance().config.levelPerDayMax > 0) {
+            int day = (int)Math.floor(entity.getEntityWorld().getTotalWorldTime() / 23999D);
+            double levelGain = Math.min(CreatureManager.getInstance().config.levelPerDay * day, CreatureManager.getInstance().config.levelPerDayMax);
+            startingLevelMin += (int)Math.floor(levelGain);
+        }
+        if(CreatureManager.getInstance().config.levelPerLocalDifficulty > 0) {
+            double levelGain = entity.getEntityWorld().getDifficultyForLocation(entity.getPosition()).getAdditionalDifficulty();
+            startingLevelMin += Math.max(0, (int)Math.floor(levelGain - 1.5D));
+        }
+        return startingLevelMin;
+    }
+
+    /** Attempt to get a level limited stat. **/
     public static int getEffectDurationLevelLimited(BaseCreatureEntity creature, int duration, int levelCap) {
         String statName = "EFFECT";
         double statValue = creature.creatureInfo.effectDuration;

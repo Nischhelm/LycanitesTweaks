@@ -34,15 +34,26 @@ public class PlayerMobLevelsConfig {
             "SummonMinion,TAMED,1.0"
     };
 
+    @Config.Comment("Specifies multipliers on specific bonus sources. Fall back list for when Tamed/Wild values are not found.\n" +
+            "Format: [bonusName,multiplier]\n" +
+            "\tbonusName - The Source of the bonus, do not change from the defaults\n" +
+            "\tmultiplier - Multiplier to use on the total bonus before it is used")
+    @Config.Name("Bonus Source Multipliers - ALL")
+    public String[] pmlBonusAll = {
+            "ActivePet,1.0",
+            "Bestiary,1.0",
+            "Enchantments,1.0"
+    };
+
     @Config.Comment("Specifies multipliers on specific bonus sources. Used on Bonus Categories that are marked as 'TAMED'\n" +
             "Format: [bonusName,multiplier]\n" +
                 "\tbonusName - The Source of the bonus, do not change from the defaults\n" +
                 "\tmultiplier - Multiplier to use on the total bonus before it is used")
     @Config.Name("Bonus Source Multipliers - TAMED")
     public String[] pmlBonusTamed = {
-            "ActivePet,1.0",
-            "Bestiary,1.0",
-            "Enchantments,1.0"
+            "ActivePet,0.25",
+            "Bestiary,2.0",
+            "Enchantments,0.5"
     };
 
     @Config.Comment("Specifies multipliers on specific bonus sources. Used on Bonus Categories that are marked as 'WILD'\n" +
@@ -51,17 +62,6 @@ public class PlayerMobLevelsConfig {
                 "\tmultiplier - Multiplier to use on the total bonus before it is used")
     @Config.Name("Bonus Source Multipliers - WILD")
     public String[] pmlBonusWild = {
-            "ActivePet,1.0",
-            "Bestiary,1.0",
-            "Enchantments,1.0"
-    };
-
-    @Config.Comment("Specifies multipliers on specific bonus sources. Fall back list for when Tamed/Wild values are not found.\n" +
-            "Format: [bonusName,multiplier]\n" +
-                "\tbonusName - The Source of the bonus, do not change from the defaults\n" +
-                "\tmultiplier - Multiplier to use on the total bonus before it is used")
-    @Config.Name("Bonus Source Multipliers - ALL")
-    public String[] pmlBonusAll = {
             "ActivePet,1.0",
             "Bestiary,1.0",
             "Enchantments,1.0"

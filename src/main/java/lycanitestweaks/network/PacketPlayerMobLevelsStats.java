@@ -92,6 +92,7 @@ public class PacketPlayerMobLevelsStats implements IMessage {
                     ((PlayerMobLevelCapability) pml).nonMainLevels = message.nonMainLevels;
                     ((PlayerMobLevelCapability) pml).mainHandLevels = message.mainHandLevels;
                     ((PlayerMobLevelCapability) pml).petEntryLevels = message.petEntryLevels;
+                    pml.clearHighestLevelPetActive();
                 }
             });
             return null;

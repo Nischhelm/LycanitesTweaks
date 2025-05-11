@@ -26,6 +26,7 @@ public interface IPlayerMobLevelCapability {
 
     void addNewPetLevels(int levels);
     void addPetEntryLevels(PetEntry entry);
+    void clearHighestLevelPetActive();
     void removePetEntryLevels(PetEntry entry);
     void setNonMainLevels(ItemStack itemStack, int slotIndex);
     void setMainHandLevels(ItemStack itemStack);

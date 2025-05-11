@@ -40,7 +40,7 @@ public abstract class ItemStaffSummoningLevelMapItemMixin extends ItemScepter im
             remap = false
     )
     public void lycanitesTweaks_lycanitesMobsItemStaffSummoning_applyMinionEffectsLevelMap(BaseCreatureEntity minion, CallbackInfo ci){
-        minion.addLevel(this.lycanitesTweaks$getHighestLevel(minion.getElements()));
+        minion.addLevel(this.lycanitesTweaks$getHighestLevel(minion.getElements()) - 1);
     }
 
     @Unique

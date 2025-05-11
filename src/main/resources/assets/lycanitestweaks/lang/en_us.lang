@@ -39,7 +39,7 @@ soulgazer.playermoblevels.bosscrystal=The Crystal contains, Level: %s - %s, brea
 soulgazer.playermoblevels.bosscrystal.nogazer=The Crystal contains, Level: %s - %s
 soulgazer.playermoblevels.bosscrystal.vanilla=The Crystal contains, %s
 
-summonstaff.description.pmlsummon=Current Enchantments Summon Level Bonus: +§a%s
+summonstaff.description.pmlsummon=Automatic Player Level Bonus: +§a%s
 
 summon.imperfect.hostile=Your lack of knowledge has manifested a hostile creature!
 summon.imperfect.attack=Your lack of knowledge has manifested a weak creature!

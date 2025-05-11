@@ -1,12 +1,15 @@
 package lycanitestweaks.capability;
 
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
+import com.lycanitesmobs.core.entity.ExtendedPlayer;
+import com.lycanitesmobs.core.info.CreatureKnowledge;
 import com.lycanitesmobs.core.pets.PetEntry;
 import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
 import lycanitestweaks.network.PacketHandler;
 import lycanitestweaks.network.PacketPlayerMobLevelsStats;
+import lycanitestweaks.util.Helpers;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -21,11 +24,14 @@ import java.util.*;
 public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
 
     private EntityPlayer player;
+    public static final int MAINHAND_CHECK_SIZE = 8;
+
     public int[] nonMainLevels = new int[5];
     public Queue<Integer> mainHandLevels = new LinkedList<>();
-    public static final int MAINHAND_CHECK_SIZE = 8;
     public Map<Integer, Integer> petEntryLevels = new HashMap<>();
     private Object[] petEntryLevelsCopy = null;
+    public int highestActivePetLevels = 0; // cache value, only used with mixin enabled, clearHighestLevelPetActive flags dirty
+    private boolean highestActivePetDirty = true;
 
     PlayerMobLevelCapability(){}
 
@@ -124,15 +130,42 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
 
     @Override
     public int getCurrentLevelBestiary(BaseCreatureEntity creature) {
-        if(creature == null) return 0;
+        if(creature != null) {
+            ExtendedPlayer extendedPlayer = ExtendedPlayer.getForPlayer(this.player);
+            if (extendedPlayer != null) {
+                CreatureKnowledge knowledge = extendedPlayer.getBeastiary().getCreatureKnowledge(creature.creatureInfo.getName());
+                float experience;
+                if(knowledge.rank >= 2){
+                    experience = 1F;
+                }
+                else {
+                    experience = knowledge.experience / 1000F;
+                }
+                return Math.round(experience * Helpers.getStartingLevel(creature));
+            }
+        }
         return 0;
     }
 
     @Override
     public int getHighestLevelPetActive() {
+        int total = 0;
+        if(!this.highestActivePetDirty) return this.highestActivePetLevels;
 
-
-        return 0;
+        ExtendedPlayer extendedPlayer = ExtendedPlayer.getForPlayer(this.player);
+        if (extendedPlayer != null) {
+            for(PetEntry petEntry : extendedPlayer.petManager.entries.values()){
+                if(ForgeConfigHandler.client.debugLoggerTrigger) LycanitesTweaks.LOGGER.log(Level.INFO, "Total:{} PetEntry:{} Cache:{}", total, petEntry.getLevel(), this.highestActivePetLevels);
+                if(petEntry.spawningActive){
+                    total = Math.max(total, petEntry.getLevel());
+                    if(ForgeConfigHandler.featuresMixinConfig.petManagerTracksHighestLevelPet) {
+                        this.highestActivePetLevels = total;
+                    }
+                }
+            }
+        }
+        this.highestActivePetDirty = false;
+        return total;
     }
 
     @Override
@@ -206,6 +239,13 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
     @Override
     public void addPetEntryLevels(PetEntry entry) {
         this.addNewPetLevels(entry.getLevel());
+    }
+
+    @Override
+    public void clearHighestLevelPetActive() {
+        this.highestActivePetLevels = 0;
+        this.highestActivePetDirty = true;
+        this.sync();
     }
 
     // Removal from PetManager is accurate
