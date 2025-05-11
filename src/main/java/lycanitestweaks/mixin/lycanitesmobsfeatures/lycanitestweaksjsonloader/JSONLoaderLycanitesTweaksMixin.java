@@ -28,7 +28,7 @@ public abstract class JSONLoaderLycanitesTweaksMixin {
             remap = false
     )
     public void lycanitesTweaks_lycanitesMobsJSONLoader_loadJsonObjects(ModInfo groupInfo, String name, String assetPath, String mapKey, boolean loadCustom, CallbackInfo ci, @Local Gson gson, @Local(ordinal = 1) Map<String, JsonObject> defaultJsons){
-        if("projectiles".equals(assetPath) || "elements".equals(assetPath)) {
+        if("projectiles".equals(assetPath) || "elements".equals(assetPath) || "creatures".equals(assetPath)) {
             Path path = Utilities.getAssetPath(LycanitesTweaks.class, LycanitesTweaks.MODID, assetPath);
             this.loadJsonObjects(gson, path, defaultJsons, mapKey, null);
         }
