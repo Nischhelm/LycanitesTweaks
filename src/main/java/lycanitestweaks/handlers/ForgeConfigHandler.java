@@ -112,11 +112,11 @@ public class ForgeConfigHandler {
 		@Config.Name("Creature Stats")
 		public final StatsConfig statsConfig = new StatsConfig();
 
-		@Config.Comment("If Mixin 'Boss DPS Limit Recalc' should also set damage amount on LivingDamageEvent LOWEST, this is assumed to fix one-shot death desyncs")
+		@Config.Comment("Whether Mixin 'Boss DPS Limit Recalc' should also set damage amount on LivingDamageEvent LOWEST, this is assumed to fix one-shot death desyncs")
 		@Config.Name("Boss Damage Limit Reduces Amount")
 		public boolean bossDamageLimitReducesAmount = true;
 
-		@Config.Comment("Should Lycanites Block Protection protect against any Living Entity")
+		@Config.Comment("Whether Lycanites Block Protection protect against any Living Entity")
 		@Config.Name("Block Protection Living Event")
 		@Config.RequiresMcRestart
 		public boolean blockProtectionLivingEvent = true;
@@ -198,6 +198,10 @@ public class ForgeConfigHandler {
 		@Config.Comment("Apply Mixin 'Potion Core Jump Fix (PotionCore)' to all mobs")
 		@Config.Name("Mod Compatibility: Fix all Mobs PotionCore Jump")
 		public boolean fixAllMobsPotionCoreJump = true;
+
+		@Config.Comment("Whether Mixin 'Love Arrow Fix (Switch-Bow)' only affects animals, else includes all creatures who can breed")
+		@Config.Name("Mod Compatibility: Love Arrow Breeds Animals Only (Switch-Bow)")
+		public boolean loveArrowBreedAnimalsOnly = true;
 
 		public static class PotionEffectsConfig {
 
@@ -520,7 +524,7 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebleedpierces.json")
 		public boolean bleedPierces = true;
 
-		@Config.Comment("If BaseCreatureEntity isBoss and dies, kill minions and projectiles")
+		@Config.Comment("Whether BaseCreatureEntity isBoss and dies, kill minions and projectiles")
 		@Config.Name("Boss Death Kills Minions and Projectiles")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossdeathminionprojectiles.json")
@@ -783,6 +787,12 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurecreaturevanillaloottables.json")
 		public boolean vanillaBaseCreatureLootTable = true;
+
+		@Config.Comment("Allows love arrows to make Lycanites animals breed")
+		@Config.Name("Mod Compatibility: Love Arrow Fix (Switch-Bow)")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.switchboxlovearrowfix.json")
+		public boolean switchbowLoveArrowFix = true;
 
 		@Config.Comment("Fix Potion Core forcibly overwriting BaseCreatureEntity motionY ")
 		@Config.Name("Mod Compatibility: Potion Core Jump Fix (PotionCore)")

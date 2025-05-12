@@ -5,13 +5,13 @@ import com.lycanitesmobs.ObjectManager;
 import com.lycanitesmobs.core.info.CreatureInfo;
 import com.lycanitesmobs.core.info.CreatureManager;
 import com.lycanitesmobs.core.info.ElementInfo;
-import com.lycanitesmobs.core.item.ChargeItem;
 import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.loot.EnchantWithMobLevels;
 import lycanitestweaks.loot.HasMobLevels;
 import lycanitestweaks.loot.IsVariant;
 import lycanitestweaks.loot.ScaleWithMobLevels;
+import lycanitestweaks.util.Helpers;
 import net.minecraft.init.Items;
 import net.minecraft.world.storage.loot.LootEntry;
 import net.minecraft.world.storage.loot.LootEntryItem;
@@ -22,10 +22,6 @@ import net.minecraft.world.storage.loot.functions.LootFunction;
 import net.minecraft.world.storage.loot.functions.LootingEnchantBonus;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.apache.logging.log4j.Level;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class DefaultBossLootHandler {
 
@@ -34,8 +30,6 @@ public class DefaultBossLootHandler {
 //            "asmodeus_emerald_with_mob_levels", "asmodeus_book_with_mob_levels",
 //            "rahovart_emerald_with_mob_levels", "rahovart_book_with_mob_levels"
 //    };
-
-    public static HashMap<String, ArrayList<String>> chargeElementsMap = null;
 
     // JSON examples
     @SubscribeEvent
@@ -122,8 +116,8 @@ public class DefaultBossLootHandler {
                             new LootCondition[]{new HasMobLevels(new RandomValueRange(ForgeConfigHandler.server.lootConfig.randomChargeMinimumMobLevel))},
                             new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_random_charges");
                     for(ElementInfo elementInfo : creatureInfo.elements){
-                        if(DefaultBossLootHandler.getChargeElementsMap().containsKey(elementInfo.name)) {
-                            for (String charge : DefaultBossLootHandler.getChargeElementsMap().get(elementInfo.name)) {
+                        if(Helpers.getChargeElementsMap().containsKey(elementInfo.name)) {
+                            for (String charge : Helpers.getChargeElementsMap().get(elementInfo.name)) {
                                 String entryName = LycanitesTweaks.MODID + ":_random_charge_" + charge;
                                 if(chargeTable.getEntry(entryName) == null)
                                     chargeTable.addEntry(
@@ -149,25 +143,4 @@ public class DefaultBossLootHandler {
         }
     }
 
-    public static HashMap<String, ArrayList<String>> getChargeElementsMap(){
-        if(DefaultBossLootHandler.chargeElementsMap == null){
-            DefaultBossLootHandler.chargeElementsMap = new HashMap<>();
-            ObjectManager.items.forEach((name, item) -> {
-                if(item instanceof ChargeItem){
-                    for(String element : ((ChargeItem) item).getElementNames().split(",")){
-                        String elementString = element.trim().toLowerCase();
-                        String chargeString = ((ChargeItem) item).itemName.trim();
-                        ArrayList<String> projectiles;
-
-                        if(!DefaultBossLootHandler.chargeElementsMap.containsKey(elementString)) projectiles = new ArrayList<>();
-                        else projectiles = DefaultBossLootHandler.chargeElementsMap.get(elementString);
-                        projectiles.add(chargeString);
-                        DefaultBossLootHandler.chargeElementsMap.put(elementString, projectiles);
-                    }
-                }
-            });
-            if(ForgeConfigHandler.client.debugLoggerAutomatic) LycanitesTweaks.LOGGER.log(Level.INFO, "chargeElementsMap: {}", DefaultBossLootHandler.chargeElementsMap);
-        }
-        return DefaultBossLootHandler.chargeElementsMap;
-    }
 }

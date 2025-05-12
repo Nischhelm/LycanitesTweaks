@@ -1,13 +1,17 @@
 package lycanitestweaks.util;
 
+import com.lycanitesmobs.ObjectManager;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.info.CreatureManager;
+import com.lycanitesmobs.core.info.ElementInfo;
 import com.lycanitesmobs.core.info.Variant;
+import com.lycanitesmobs.core.item.ChargeItem;
 import com.lycanitesmobs.core.item.equipment.ItemEquipment;
 import com.lycanitesmobs.core.item.equipment.features.EffectEquipmentFeature;
 import com.lycanitesmobs.core.item.equipment.features.EquipmentFeature;
 import com.lycanitesmobs.core.item.equipment.features.ProjectileEquipmentFeature;
 import com.lycanitesmobs.core.item.equipment.features.SummonEquipmentFeature;
+import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -16,13 +20,14 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.Level;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class Helpers {
+
+    public static HashMap<String, ArrayList<String>> chargeElementsMap = null;
+    public static HashMap<String, ArrayList<String>> creatureElementsMap = null;
 
     // mfw Lycanites config for no flying mount doesn't catch mobs whose flight check considers landed state
     public static boolean isPracticallyFlying(BaseCreatureEntity entity){
@@ -75,6 +80,46 @@ public class Helpers {
             if(!effect.getPotion().isBadEffect()) toRemove.add(effect.getPotion());
 
         for(Potion potion : toRemove) entity.removePotionEffect(potion);
+    }
+
+    public static HashMap<String, ArrayList<String>> getChargeElementsMap(){
+        if(Helpers.chargeElementsMap == null){
+            Helpers.chargeElementsMap = new HashMap<>();
+            ObjectManager.items.forEach((name, item) -> {
+                if(item instanceof ChargeItem){
+                    for(String element : ((ChargeItem) item).getElementNames().split(",")){
+                        String elementString = element.trim().toLowerCase();
+                        String chargeString = ((ChargeItem) item).itemName.trim();
+                        ArrayList<String> projectiles;
+
+                        if(!Helpers.chargeElementsMap.containsKey(elementString)) projectiles = new ArrayList<>();
+                        else projectiles = Helpers.chargeElementsMap.get(elementString);
+                        projectiles.add(chargeString);
+                        Helpers.chargeElementsMap.put(elementString, projectiles);
+                    }
+                }
+            });
+            if(ForgeConfigHandler.client.debugLoggerAutomatic) LycanitesTweaks.LOGGER.log(Level.INFO, "chargeElementsMap: {}", Helpers.chargeElementsMap);
+        }
+        return Helpers.chargeElementsMap;
+    }
+
+    public static HashMap<String, ArrayList<String>> getCreatureElementsMap(){
+        if(Helpers.creatureElementsMap == null){
+            Helpers.creatureElementsMap = new HashMap<>();
+            CreatureManager.getInstance().creatures.forEach((creatureName, creatureInfo) -> {;
+                for(ElementInfo elementInfo : creatureInfo.elements){
+                    ArrayList<String> creatures;
+
+                    if(!Helpers.creatureElementsMap.containsKey(elementInfo.name)) creatures = new ArrayList<>();
+                    else creatures = Helpers.creatureElementsMap.get(elementInfo.name);
+                    creatures.add(creatureName);
+                    Helpers.creatureElementsMap.put(elementInfo.name, creatures);
+                }
+            });
+            if(ForgeConfigHandler.client.debugLoggerAutomatic) LycanitesTweaks.LOGGER.log(Level.INFO, "creatureElementsMap: {}", Helpers.creatureElementsMap);
+        }
+        return Helpers.creatureElementsMap;
     }
 
     // Extracted from com.lycanitesmobs.core.entity.BaseCreatureEntity

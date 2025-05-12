@@ -3,6 +3,7 @@ package lycanitestweaks.capability;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.ExtendedPlayer;
 import com.lycanitesmobs.core.info.CreatureKnowledge;
+import com.lycanitesmobs.core.info.ElementInfo;
 import com.lycanitesmobs.core.pets.PetEntry;
 import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.handlers.ForgeConfigHandler;
@@ -25,6 +26,7 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
 
     private EntityPlayer player;
     public static final int MAINHAND_CHECK_SIZE = 8;
+    private int deathCooldown = 0;
 
     public int[] nonMainLevels = new int[5];
     public Queue<Integer> mainHandLevels = new LinkedList<>();
@@ -63,6 +65,11 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
     }
 
     @Override
+    public void updateTick() {
+        if(this.deathCooldown > 0) this.deathCooldown--;
+    }
+
+    @Override
     public void sync() {
         PacketPlayerMobLevelsStats packet = new PacketPlayerMobLevelsStats(this);
         if(!this.player.world.isRemote) {
@@ -79,6 +86,7 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
     @Override
     public int getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory category, @Nullable BaseCreatureEntity creature) {
         double totalLevels = 0;
+        double deathModifier = 0;
         if(ForgeConfigHandler.server.pmlConfig.playerMobLevelCapabilityNoCalc) return 0;
 
         if(PlayerMobLevelsConfig.getPmlBonusCateogories().containsKey(category)){
@@ -93,7 +101,7 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
                         if(PlayerMobLevelsConfig.getPmlBonusUsagesTamed().containsKey(bonus))
                             modifier = PlayerMobLevelsConfig.getPmlBonusUsagesTamed().get(bonus);
                 }
-                if(modifier == 0.0D && PlayerMobLevelsConfig.getPmlBonusUsagesAll().containsKey(bonus)){
+                if(modifier == 0.0D && bonus != PlayerMobLevelsConfig.Bonus.PlayerDeath && PlayerMobLevelsConfig.getPmlBonusUsagesAll().containsKey(bonus)){
                     modifier = PlayerMobLevelsConfig.getPmlBonusUsagesAll().get(bonus);
                 }
 
@@ -101,18 +109,26 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
                     case ActivePet:
                         totalLevels += this.getHighestLevelPetActive() * modifier;
                         break;
-                    case Bestiary:
+                    case BestiaryCreature:
                         totalLevels += this.getCurrentLevelBestiary(creature) * modifier;
+                        break;
+                    case BestiaryElement:
+                        if(creature != null) totalLevels += this.getCurrentLevelBestiary(creature.getElements()) * modifier;
                         break;
                     case Enchantments:
                         totalLevels += this.getTotalEnchantmentLevels() * modifier;
                         break;
+                    case PlayerDeath:
+                        deathModifier = modifier;
                     default:
                 }
             }
             totalLevels *= PlayerMobLevelsConfig.getPmlBonusCateogories().get(category).getRight();
         }
 
+        if(this.getDeathCooldown() > 0) {
+            totalLevels *= (1D + deathModifier);
+        }
         return (int)Math.round(totalLevels);
     }
 
@@ -145,6 +161,26 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
             }
         }
         return 0;
+    }
+
+    @Override
+    public int getCurrentLevelBestiary(List<ElementInfo> elements) {
+        int total = 0;
+        ExtendedPlayer extendedPlayer = ExtendedPlayer.getForPlayer(this.player);
+        if (extendedPlayer != null) {
+            for(ElementInfo elementInfo : elements){
+                for(String creatureName : Helpers.getCreatureElementsMap().get(elementInfo.name)){
+                    CreatureKnowledge knowledge = extendedPlayer.getBeastiary().getCreatureKnowledge(creatureName);
+                    if(knowledge.rank >= 2) total++;
+                }
+            }
+        }
+        return total;
+    }
+
+    @Override
+    public int getDeathCooldown() {
+        return this.deathCooldown;
     }
 
     @Override
@@ -264,6 +300,11 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
         else{
             if(ForgeConfigHandler.client.debugLoggerTrigger) LycanitesTweaks.LOGGER.log(Level.INFO, "Warning tried to remove when petEntryLevels did not have key: {}", level);
         }
+    }
+
+    @Override
+    public void setDeathCooldown(int cooldownTicks) {
+        this.deathCooldown = cooldownTicks;
     }
 
     @Override

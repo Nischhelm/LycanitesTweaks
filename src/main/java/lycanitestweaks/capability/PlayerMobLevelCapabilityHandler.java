@@ -13,8 +13,11 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -95,5 +98,33 @@ public class PlayerMobLevelCapabilityHandler {
         else {
             pml.setMainHandLevels(event.getTo());
         }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        if (event.phase == TickEvent.Phase.END) {
+            EntityPlayer player = event.player;
+            IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(player);
+            pml.updateTick();
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingDeathEvent(LivingDeathEvent event) {
+        if (!(event.getEntity() instanceof EntityPlayer))
+            return;
+
+        EntityPlayer player = (EntityPlayer) event.getEntity();
+        IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(player);
+        pml.setDeathCooldown(6000);
+    }
+
+    // Relog can bypass death cooldown, but death cooldown is intended as beneficial handicap
+    @SubscribeEvent
+    public static void onPlayerClone(PlayerEvent.Clone event) {
+        IPlayerMobLevelCapability original = PlayerMobLevelCapability.getForPlayer(event.getOriginal());
+        IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(event.getEntityPlayer());
+
+        pml.setDeathCooldown(original.getDeathCooldown());
     }
 }

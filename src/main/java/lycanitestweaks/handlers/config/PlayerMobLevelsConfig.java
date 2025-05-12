@@ -41,8 +41,10 @@ public class PlayerMobLevelsConfig {
     @Config.Name("Bonus Source Multipliers - ALL")
     public String[] pmlBonusAll = {
             "ActivePet,1.0",
-            "Bestiary,1.0",
-            "Enchantments,1.0"
+            "BestiaryCreature,1.0",
+            "BestiaryElement,1.0",
+            "Enchantments,1.0",
+            "PlayerDeath,-1.0"
     };
 
     @Config.Comment("Specifies multipliers on specific bonus sources. Used on Bonus Categories that are marked as 'TAMED'\n" +
@@ -52,8 +54,10 @@ public class PlayerMobLevelsConfig {
     @Config.Name("Bonus Source Multipliers - TAMED")
     public String[] pmlBonusTamed = {
             "ActivePet,0.25",
-            "Bestiary,2.0",
-            "Enchantments,0.5"
+            "BestiaryCreature,2.0",
+            "BestiaryElement,2.0",
+            "Enchantments,0.5",
+            "PlayerDeath,0.0"
     };
 
     @Config.Comment("Specifies multipliers on specific bonus sources. Used on Bonus Categories that are marked as 'WILD'\n" +
@@ -63,8 +67,10 @@ public class PlayerMobLevelsConfig {
     @Config.Name("Bonus Source Multipliers - WILD")
     public String[] pmlBonusWild = {
             "ActivePet,1.0",
-            "Bestiary,1.0",
-            "Enchantments,1.0"
+            "BestiaryCreature,1.0",
+            "BestiaryElement,0.0",
+            "Enchantments,1.0",
+            "PlayerDeath,-1.0"
     };
 
     @Config.Comment("Used to lower bloated Minimum Enchantibility values via Rarity {COMMON, UNCOMMON, RARE, VERY_RARE}")
@@ -220,8 +226,10 @@ public class PlayerMobLevelsConfig {
     public enum Bonus {
 
         ActivePet("ActivePet"),
-        Bestiary("Bestiary"),
+        BestiaryCreature("BestiaryCreature"),
+        BestiaryElement("BestiaryElement"),
         Enchantments("Enchantments"),
+        PlayerDeath("PlayerDeath"),
         Dummy("");
 
         private final String name;

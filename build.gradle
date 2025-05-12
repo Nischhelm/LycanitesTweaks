@@ -62,6 +62,7 @@ dependencies {
     implementation fg.deobf("curse.maven:reachfix-${reachfix_version}")
     implementation fg.deobf("curse.maven:rlcombat-${rlcombat_version}")
     implementation fg.deobf("curse.maven:rltweaker2-${rltweaker_version}")
+    implementation fg.deobf("curse.maven:switch-bow-${switchbow_version}")
 }
 
 mixin {
