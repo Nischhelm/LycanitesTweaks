@@ -2,8 +2,10 @@ package lycanitestweaks.item;
 
 import com.lycanitesmobs.core.info.AltarInfo;
 import com.lycanitesmobs.core.item.ChargeItem;
+import com.lycanitesmobs.core.item.ItemBase;
 import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.handlers.ForgeConfigHandler;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -112,21 +114,25 @@ public class ItemEnchantedSoulkey extends Item {
     public void addInformation(@Nonnull ItemStack itemStack, World world, @Nonnull List<String> tooltip, @Nonnull ITooltipFlag tooltipFlag) {
         super.addInformation(itemStack, world, tooltip, tooltipFlag);
 
-        tooltip.add(I18n.format("item.lycanitestweaks.enchantedsoulkey.description"));
+        StringBuilder rawStrings = new StringBuilder();
+        rawStrings.append(I18n.format("item.lycanitestweaks.enchantedsoulkey.description"));
         if(ForgeConfigHandler.featuresMixinConfig.enchantedSoulkeyEquipmentTiles)
-            tooltip.add(I18n.format("item.lycanitestweaks.enchantedsoulkey.description.mixin"));
-        tooltip.add(I18n.format("item.lycanitestweaks.enchantedsoulkey.description.level",
+            rawStrings.append("\n").append(I18n.format("item.lycanitestweaks.enchantedsoulkey.description.mixin"));
+        rawStrings.append("\n").append(I18n.format("item.lycanitestweaks.enchantedsoulkey.description.level",
                 this.getLevel(itemStack),
                 this.getMaxLevel(itemStack),
                 this.getExperience(itemStack),
                 this.getExperienceForNextLevel(itemStack))
         );
-        tooltip.add(I18n.format("item.lycanitestweaks.enchantedsoulkey.description.power",
+        rawStrings.append("\n").append(I18n.format("item.lycanitestweaks.enchantedsoulkey.description.power",
                 this.getGemPower(itemStack),
                 ForgeConfigHandler.server.itemConfig.enchantedSoulkeyMaxUsages));
-        tooltip.add(I18n.format("item.lycanitestweaks.enchantedsoulkey.description.mana",
+        rawStrings.append("\n").append(I18n.format("item.lycanitestweaks.enchantedsoulkey.description.mana",
                 this.getStarPower(itemStack),
                 ForgeConfigHandler.server.itemConfig.enchantedSoulkeyMaxUsages));
+
+        List<String> formattedDescriptionList = Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(rawStrings.toString(), ItemBase.DESCRIPTION_WIDTH);
+        tooltip.addAll(formattedDescriptionList);
     }
 
     /** Returns the level for the provided ItemStack. **/

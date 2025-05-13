@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.PortalEntity;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
-import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
+import lycanitestweaks.capability.PlayerMobLevelCapability;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,21 +30,10 @@ public abstract class PortalEntitySummonPMLMixin {
     )
     public void lycanitesTweaks_lycanitesPortalEntity_summonCreatures(CallbackInfoReturnable<Integer> cir, @Local BaseCreatureEntity entityCreature) {
         if(ForgeConfigHandler.featuresMixinConfig.playerMobLevelSummonStaff){
-            IPlayerMobLevelCapability pml = this.shootingEntity.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
+            IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(this.shootingEntity);
             if(pml != null){
                 entityCreature.addLevel(pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.SummonMinion, entityCreature));
             }
         }
     }
-
-    // Actually undoes reworked summon weakened stats
-//    // Attempt to fix creature state check desyncs and client desyncs
-//    @Inject(
-//            method = "summonCreatures",
-//            at = @At(value = "FIELD", target = "Lcom/lycanitesmobs/core/entity/PortalEntity;shootingEntity:Lnet/minecraft/entity/player/EntityPlayer;", ordinal = 3),
-//            remap = false
-//    )
-//    public void lycanitesTweaks_lycanitesPortalEntity_summonCreaturesRefreshAttributes(CallbackInfoReturnable<Integer> cir, @Local BaseCreatureEntity entityCreature){
-//        entityCreature.refreshAttributes();
-//    }
 }

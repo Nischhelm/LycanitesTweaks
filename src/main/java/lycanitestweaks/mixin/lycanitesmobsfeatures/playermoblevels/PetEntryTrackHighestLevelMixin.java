@@ -3,7 +3,7 @@ package lycanitestweaks.mixin.lycanitesmobsfeatures.playermoblevels;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.pets.PetEntry;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
-import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
+import lycanitestweaks.capability.PlayerMobLevelCapability;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,7 +25,7 @@ public abstract class PetEntryTrackHighestLevelMixin {
             remap = false
     )
     private static void lycanitesTweaks_lycanitesMobsPetEntry_createFromEntityPML(EntityPlayer player, BaseCreatureEntity entity, String petType, CallbackInfoReturnable<PetEntry> cir){
-        IPlayerMobLevelCapability pml = player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
+        IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(player);
         if(pml != null) pml.addNewPetLevels(entity.getLevel());
     }
 
@@ -35,7 +35,9 @@ public abstract class PetEntryTrackHighestLevelMixin {
             remap = false
     )
     public void lycanitesTweaks_lycanitesMobsPetEntry_setSpawningActiveCacheDirty(boolean spawningActive, CallbackInfoReturnable<PetEntry> cir){
-        IPlayerMobLevelCapability pml = this.host.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
-        if(pml != null) pml.clearHighestLevelPetActive();
+        if(this.host instanceof EntityPlayer) {
+            IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer((EntityPlayer) this.host);
+            if (pml != null) pml.clearHighestLevelPetActive();
+        }
     }
 }

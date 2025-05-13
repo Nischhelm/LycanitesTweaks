@@ -17,12 +17,14 @@ import java.util.Queue;
 
 public class PacketPlayerMobLevelsStats implements IMessage {
 
+    private int deathCooldown;
     private int[] nonMainLevels = new int[5];
     private Queue<Integer> mainHandLevels = new LinkedList<>();
     private Map<Integer, Integer> petEntryLevels = new HashMap<>();
 
     public PacketPlayerMobLevelsStats() {}
     public PacketPlayerMobLevelsStats(PlayerMobLevelCapability pml) {
+        this.deathCooldown = pml.deathCooldown;
         this.nonMainLevels = pml.nonMainLevels;
         this.mainHandLevels = pml.mainHandLevels;
         this.petEntryLevels = pml.petEntryLevels;
@@ -30,6 +32,7 @@ public class PacketPlayerMobLevelsStats implements IMessage {
 
     @Override
     public void fromBytes(ByteBuf buf) {
+        this.deathCooldown = buf.readInt();
 
         int nonMainLevelsSize = buf.readInt();
         if(nonMainLevelsSize == 5){
@@ -53,6 +56,8 @@ public class PacketPlayerMobLevelsStats implements IMessage {
 
     @Override
     public void toBytes(ByteBuf buf) {
+        buf.writeInt(this.deathCooldown);
+
         buf.writeInt(nonMainLevels.length);
         for(int level : nonMainLevels){
             buf.writeInt(level);
@@ -89,6 +94,7 @@ public class PacketPlayerMobLevelsStats implements IMessage {
                 if (pml instanceof PlayerMobLevelCapability) {
                     if(message.mainHandLevels.isEmpty()) message.mainHandLevels.add(0);
 
+                    ((PlayerMobLevelCapability) pml).deathCooldown = message.deathCooldown;
                     ((PlayerMobLevelCapability) pml).nonMainLevels = message.nonMainLevels;
                     ((PlayerMobLevelCapability) pml).mainHandLevels = message.mainHandLevels;
                     ((PlayerMobLevelCapability) pml).petEntryLevels = message.petEntryLevels;

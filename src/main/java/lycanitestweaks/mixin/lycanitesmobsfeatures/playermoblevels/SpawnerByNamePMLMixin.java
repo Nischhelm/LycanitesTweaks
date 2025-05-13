@@ -6,7 +6,7 @@ import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.spawner.MobSpawn;
 import com.lycanitesmobs.core.spawner.Spawner;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
-import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
+import lycanitestweaks.capability.PlayerMobLevelCapability;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
 import net.minecraft.entity.EntityLiving;
@@ -31,7 +31,7 @@ public abstract class SpawnerByNamePMLMixin {
     )
     public void lycanitesTweaks_lycanitesSpawner_spawnEntity(World world, ExtendedWorld worldExt, EntityLiving entityLiving, int level, MobSpawn mobSpawn, EntityPlayer player, int chain, CallbackInfo ci, @Local BaseCreatureEntity entityCreature){
         if(player != null) {
-            IPlayerMobLevelCapability pml = player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
+            IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(player);
             if (pml != null) {
                 boolean isInList = ForgeConfigHandler.getPMLSpawnerNames().contains(this.name);
 

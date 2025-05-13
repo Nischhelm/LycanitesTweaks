@@ -34,10 +34,17 @@ public class ForgeConfigHandler {
 	@Config.Name("Server Options")
 	public static final ServerConfig server = new ServerConfig();
 
+	@Config.Comment("Enable/Disable Client Tweaks")
+	@Config.Name("Toggle Client Mixins")
+	@MixinConfig.SubInstance
+	public static final clientFeaturesConfig clientFeaturesMixinConfig = new clientFeaturesConfig();
+
 	@Config.Comment("Enable/Disable Tweaks")
 	@Config.Name("Toggle Mixins")
 	@MixinConfig.SubInstance
 	public static final featuresConfig featuresMixinConfig = new featuresConfig();
+
+
 
 	@Config.Comment("Enable/Disable Patches")
 	@Config.Name("Toggle Patches")
@@ -460,6 +467,15 @@ public class ForgeConfigHandler {
 					"phase,15"
 			};
 		}
+	}
+
+	public static class clientFeaturesConfig {
+
+		@Config.Comment("Adds Player Mob Levels Information to Beastiary")
+		@Config.Name("Add Player Mob Levels Information to Beastiary")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureclientplayermoblevels.json")
+		public boolean beastiaryGUIPML = true;
 	}
 
 	public static class featuresConfig {

@@ -30,7 +30,7 @@ public abstract class AltarInfoUmberLobberEnchantedSoulkeyMixin {
                 creature.enablePersistence();
                 creature.setFixateTarget((EntityLivingBase)entity);
                 creature.spawnedAsBoss = true;
-                creature.addLevel(((ItemEnchantedSoulkey) itemStack.getItem()).getLevel(itemStack));
+                creature.addLevel(((ItemEnchantedSoulkey) itemStack.getItem()).getLevel(itemStack) - 1);
             }
         }
     }

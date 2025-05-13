@@ -30,7 +30,8 @@ public class PlayerMobLevelsConfig {
             "DungeonBoss,WILD,1.0",
             "SoulboundTame,TAMED,1.0",
             "SpawnerNatural,ALL,1.0",
-            "SpawnerTrigger,ALL,1.0",
+            "SpawnerTile,WILD,1.0",
+            "SpawnerTrigger,WILD,1.0",
             "SummonMinion,TAMED,1.0"
     };
 
@@ -78,6 +79,7 @@ public class PlayerMobLevelsConfig {
     @Config.RequiresMcRestart
     public int[] enchRarityDivisors = {1, 2, 5, 10};
 
+    // TODO Remove no calculate
     @Config.Comment("Alternative to fully disabling, forge caps exist (non null) but always returns 0")
     @Config.Name("Mod Compatibility: No Calculate")
     public boolean playerMobLevelCapabilityNoCalc = false;
@@ -252,6 +254,7 @@ public class PlayerMobLevelsConfig {
         DungeonBoss("DungeonBoss"),
         SoulboundTame("SoulboundTame"),
         SpawnerNatural("SpawnerNatural"),
+        SpawnerTile("SpawnerTile"),
         SpawnerTrigger("SpawnerTrigger"),
         SummonMinion("SummonMinion"),
         Dummy("");

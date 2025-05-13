@@ -2,6 +2,8 @@ package lycanitestweaks.util;
 
 import com.lycanitesmobs.ObjectManager;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
+import com.lycanitesmobs.core.entity.ExtendedPlayer;
+import com.lycanitesmobs.core.info.CreatureInfo;
 import com.lycanitesmobs.core.info.CreatureManager;
 import com.lycanitesmobs.core.info.ElementInfo;
 import com.lycanitesmobs.core.info.Variant;
@@ -26,8 +28,8 @@ import java.util.*;
 
 public class Helpers {
 
-    public static HashMap<String, ArrayList<String>> chargeElementsMap = null;
-    public static HashMap<String, ArrayList<String>> creatureElementsMap = null;
+    private static HashMap<String, ArrayList<String>> chargeElementsMap = null;
+    private static HashMap<String, ArrayList<String>> creatureElementsMap = null;
 
     // mfw Lycanites config for no flying mount doesn't catch mobs whose flight check considers landed state
     public static boolean isPracticallyFlying(BaseCreatureEntity entity){
@@ -120,6 +122,22 @@ public class Helpers {
             if(ForgeConfigHandler.client.debugLoggerAutomatic) LycanitesTweaks.LOGGER.log(Level.INFO, "creatureElementsMap: {}", Helpers.creatureElementsMap);
         }
         return Helpers.creatureElementsMap;
+    }
+
+    public static double getImperfectHostileChance(ExtendedPlayer extendedPlayer, CreatureInfo creatureInfo){
+        double hostileChance = ForgeConfigHandler.server.imperfectSummoningConfig.imperfectHostileBaseChance;
+        if (ForgeConfigHandler.server.imperfectSummoningConfig.imperfectHostileBaseChance != 0.0D && extendedPlayer.getBeastiary().hasKnowledgeRank(creatureInfo.getName(), 1)) {
+            hostileChance -= extendedPlayer.getBeastiary().getCreatureKnowledge(creatureInfo.getName()).experience * ForgeConfigHandler.server.imperfectSummoningConfig.imperfectHostileChanceModifier;
+        }
+        return hostileChance;
+    }
+
+    public static double getImperfectStatsChance(ExtendedPlayer extendedPlayer, CreatureInfo creatureInfo){
+        double lowerStatsChance = ForgeConfigHandler.server.imperfectSummoningConfig.imperfectStatsBaseChance;
+        if(ForgeConfigHandler.server.imperfectSummoningConfig.imperfectStatsChanceModifier != 0.0D && extendedPlayer.getBeastiary().hasKnowledgeRank(creatureInfo.getName(), 1)){
+            lowerStatsChance -= extendedPlayer.getBeastiary().getCreatureKnowledge(creatureInfo.getName()).experience * ForgeConfigHandler.server.imperfectSummoningConfig.imperfectStatsChanceModifier;
+        }
+        return lowerStatsChance;
     }
 
     // Extracted from com.lycanitesmobs.core.entity.BaseCreatureEntity

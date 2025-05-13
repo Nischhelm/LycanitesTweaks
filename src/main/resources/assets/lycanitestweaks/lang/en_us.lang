@@ -1,7 +1,13 @@
+effect.consumed=Consumed
+effect.consumed.description=Drastically reduces maximum health and cripples the victim
+effect.voided=Voided
+effect.voided.description=Slightly reduces maximum health and prevents beneficial effects from being gained.
 effects.lycanitestweaks.consumed=Consumed
 effects.lycanitestweaks.voided=Voided
 
+element.consuming.description=A para element that represents nothingness and removal. A rare and more powerful Void element
 element.consuming.name=Consuming
+element.voiding.description=A para element that represents nothingness and removal. A rare and more powerful Void element
 element.voiding.name=Voiding
 
 enchantedkey.use.nocharge=This Soulkey lacks power and must be recharged
@@ -9,10 +15,30 @@ enchantedkey.message.active=The Soulkey activates the Altar! The boss is empower
 
 event.boss.playermoblevels=The Soulgazer has unleashed a reflection of your soul!
 
+gui.beastiary.creatures.mixin.pml=Knowledge Rank 2 Player Level Bonus: +Natural Starting Levels
+gui.beastiary.elements.mixin.creatures=§lKnown Creatures:
+gui.beastiary.elements.mixin.creatures.description=§r%s - Knowledge Rank: %s
+gui.beastiary.elements.mixin.creatures.description.pml=Base Bonus Levels: +§a%s
+gui.beastiary.index.mixin.category=Player Mob Levels
+gui.beastiary.index.mixin.deathcooldown=Death Cooldown: %ss
+gui.beastiary.index.mixin.AltarBossMain=Main Boss: +§a%s
+gui.beastiary.index.mixin.AltarBossMini=Challenge Altar: +§a%s
+gui.beastiary.index.mixin.DungeonBoss=Dungeon Boss: +§a%s
+gui.beastiary.index.mixin.SoulboundTame=Limited Dimension: §a%s
+gui.beastiary.index.mixin.SpawnerNatural=Natural Spawn: +§a%s
+gui.beastiary.index.mixin.SpawnerTile=Mob Spawner: +§a%s
+gui.beastiary.index.mixin.SpawnerTrigger=Event Spawn: +§a%s
+gui.beastiary.index.mixin.SummonMinion=Summoned Minion: +§a%s
+gui.beastiary.summoning.mixin.imperfect=§l§cImperfect§r§l Minion Knowledge
+gui.beastiary.summoning.mixin.imperfect.hostile=Hostile Chance: §c%.2d%%
+gui.beastiary.summoning.mixin.imperfect.stats=Reduced Stats Chance: §e%.2d%%
+gui.beastiary.summoning.mixin.pml=Total Bonus Levels: +§a%s
+
+item.equipment.description.mixin=§dEnchantable
 item.summoningstaff.description.mixin=§rThe §5§lEquipment Infuser§r can infuse a §lcharge§r to this staff and allow leveling §lassociated elements§r.
 item.summoningstaff.description.mixin.chargeitem=§r(§lCharge§r: §d%s§r)
 item.summoningstaff.description.mixin.element=§r[§lElement§r: §b%s§r]
-item.summoningstaff.description.mixin.level=||§r[§lLevel§r: §a%s§r][§lExperience§r: §a%s§r/%s]
+item.summoningstaff.description.mixin.level=||§r[§lLvl§r: §a%s§r][§lXP§r: §a%s§r/%s]
 
 item.lycanitestweaks.enchantedsoulkey.name=Enchanted Soulkey
 item.lycanitestweaks.enchantedsoulkeydiamond.name=Enchanted Diamond Soulkey
@@ -22,7 +48,7 @@ item.lycanitestweaks.enchantedsoulkeydiamond.thousand.name=Key to One Thousand E
 item.lycanitestweaks.enchantedsoulkeyemerald.thousand.name=Key to One Thousand Nightmares
 item.lycanitestweaks.enchantedsoulkey.description=A Soul Key that can be used multiple times as long as it has power. It can also increase the level of the summoned boss when used from the mainhand
 item.lycanitestweaks.enchantedsoulkey.description.mixin=§rThe §5§lEquipment Infuser§r can level up the key to spawn more powerful bosses. The §3§lEquipment Station§r can recharge the Key with §lGem Blocks§r and §lNether Stars§r.
-item.lycanitestweaks.enchantedsoulkey.description.level=§r[§lLevel§r: §a%s§r/%s][§lExperience§r: §a%s§r/%s]
+item.lycanitestweaks.enchantedsoulkey.description.level=§r[§lLvl§r: §a%s§r/%s][§lXP§r: §a%s§r/%s]
 item.lycanitestweaks.enchantedsoulkey.description.power=§r[§lGem Power§r: §b%s§r/%s]
 item.lycanitestweaks.enchantedsoulkey.description.mana=§r[§lNether Star§r: §d%s§r/%s]
 
@@ -39,7 +65,7 @@ soulgazer.playermoblevels.bosscrystal=The Crystal contains, Level: %s - %s, brea
 soulgazer.playermoblevels.bosscrystal.nogazer=The Crystal contains, Level: %s - %s
 soulgazer.playermoblevels.bosscrystal.vanilla=The Crystal contains, %s
 
-summonstaff.description.pmlsummon=Automatic Player Level Bonus: +§a%s
+summonstaff.description.pmlsummon=Other Level Bonuses: +§a%s
 
 summon.imperfect.hostile=Your lack of knowledge has manifested a hostile creature!
 summon.imperfect.attack=Your lack of knowledge has manifested a weak creature!

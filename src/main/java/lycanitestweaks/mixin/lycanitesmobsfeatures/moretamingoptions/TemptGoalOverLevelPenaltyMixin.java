@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.goals.actions.TemptGoal;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
-import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
+import lycanitestweaks.capability.PlayerMobLevelCapability;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,12 +27,10 @@ public abstract class TemptGoalOverLevelPenaltyMixin {
     public boolean lycanitesTweaks_lycanitesMobsTemptGoal_isTemptStackLevelPenalty(boolean original){
         if(original && !ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelTreatTempt){
             if(ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel > 0){
-                if(ForgeConfigHandler.server.pmlConfig.playerMobLevelCapability){
-                    IPlayerMobLevelCapability pml = this.player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
-                    if(pml != null){
-                        if (Math.max(0, this.host.getLevel() - pml.getHighestLevelPetSoulbound()) > ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel)
-                            return false;
-                    }
+                IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(this.player);
+                if(pml != null){
+                    if (Math.max(0, this.host.getLevel() - pml.getHighestLevelPetSoulbound()) > ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel)
+                        return false;
                 }
                 else{
                     if(this.host.getLevel() > ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel) return false;

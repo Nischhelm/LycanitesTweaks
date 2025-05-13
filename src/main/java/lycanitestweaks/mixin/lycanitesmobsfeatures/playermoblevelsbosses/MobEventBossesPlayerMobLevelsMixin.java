@@ -5,7 +5,7 @@ import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.item.special.ItemSoulgazer;
 import com.lycanitesmobs.core.mobevent.MobEvent;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
-import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
+import lycanitestweaks.capability.PlayerMobLevelCapability;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,7 +34,7 @@ public abstract class MobEventBossesPlayerMobLevelsMixin {
     )
     public int lycanitesTweaks_lycanitesMobEvent_onSpawn(int level, @Local(argsOnly = true) EntityPlayer player, @Local BaseCreatureEntity entityCreature){
         if(player != null && (!ForgeConfigHandler.server.pmlConfig.pmlBossRequiresSoulgazer || player.getHeldItemMainhand().getItem() instanceof ItemSoulgazer)) {
-            IPlayerMobLevelCapability pml = player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
+            IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(player);
             if (pml != null) {
                 if (CHANNEL_BOSS.equals(this.channel)) {
                     player.sendStatusMessage(new TextComponentTranslation("event.boss.playermoblevels"), true);

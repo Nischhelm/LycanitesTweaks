@@ -4,8 +4,9 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.lycanitesmobs.core.pets.PetEntry;
 import com.lycanitesmobs.core.pets.PetManager;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
-import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
+import lycanitestweaks.capability.PlayerMobLevelCapability;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -36,8 +37,10 @@ public abstract class PetManagerTrackHighestLevelMixin {
             remap = false
     )
     public void lycanitesTweaks_lycanitesMobsPetManager_removeEntryPML(PetEntry petEntry, CallbackInfo ci){
-        IPlayerMobLevelCapability pml = this.host.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
-        if(pml != null) pml.removePetEntryLevels(petEntry);
+        if(this.host instanceof EntityPlayer) {
+            IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer((EntityPlayer) this.host);
+            if (pml != null) pml.removePetEntryLevels(petEntry);
+        }
     }
 
     // Accurately load saved levels
@@ -47,7 +50,9 @@ public abstract class PetManagerTrackHighestLevelMixin {
             remap = false
     )
     public void lycanitesTweaks_lycanitesMobsPetManager_onUpdatePML(World world, CallbackInfo ci, @Local PetEntry petEntry){
-        IPlayerMobLevelCapability pml = this.host.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
-        if(pml != null) pml.addPetEntryLevels(petEntry);
+        if(this.host instanceof EntityPlayer) {
+            IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer((EntityPlayer) this.host);
+            if (pml != null) pml.addPetEntryLevels(petEntry);
+        }
     }
 }

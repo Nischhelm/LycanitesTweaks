@@ -3,10 +3,7 @@ package lycanitestweaks.handlers.features.item;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.info.CreatureManager;
 import com.lycanitesmobs.core.item.special.ItemSoulgazer;
-import lycanitestweaks.capability.EntityStoreCreatureCapabilityHandler;
-import lycanitestweaks.capability.IEntityStoreCreatureCapability;
-import lycanitestweaks.capability.IPlayerMobLevelCapability;
-import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
+import lycanitestweaks.capability.*;
 import lycanitestweaks.entity.item.EntityBossSummonCrystal;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.LycanitesTweaksRegistry;
@@ -25,11 +22,10 @@ public class ItemSoulgazerMoreInteractionsHandler {
     @SubscribeEvent
     public static void soulgazeBlockRightClick(PlayerInteractEvent.RightClickBlock event){
         if(event.getEntityPlayer() == null || event.getWorld().isRemote) return;
-        if(!ForgeConfigHandler.server.pmlConfig.playerMobLevelCapability) return;
         EntityPlayer player = event.getEntityPlayer();
 
         if(player.isCreative() && player.getHeldItemMainhand().getItem() instanceof ItemSoulgazer){
-            IPlayerMobLevelCapability pml = player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
+            IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(player);
             if (pml != null) {
                 player.sendMessage(new TextComponentTranslation("soulgazer.interact.pmlcreative",
                         pml.getTotalEnchantmentLevels(),
@@ -58,8 +54,8 @@ public class ItemSoulgazerMoreInteractionsHandler {
         if(event.getTarget() instanceof EntityPlayer && event.getWorld().rand.nextFloat() < 0.05){
             event.getWorld().playSound(null, event.getPos(), LycanitesTweaksRegistry.SOULGAZER_PLAYER, SoundCategory.PLAYERS, 1F, 1F);
         }
-        else if(ForgeConfigHandler.server.pmlConfig.playerMobLevelCapability){
-            IPlayerMobLevelCapability pml = event.getEntityPlayer().getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
+        else{
+            IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(event.getEntityPlayer());
             if (pml != null) {
                 if(event.getTarget() instanceof EntityBossSummonCrystal) {
                     IEntityStoreCreatureCapability storeCreature = event.getTarget().getCapability(EntityStoreCreatureCapabilityHandler.ENTITY_STORE_CREATURE, null);

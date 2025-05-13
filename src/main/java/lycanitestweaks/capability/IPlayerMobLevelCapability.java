@@ -7,6 +7,7 @@ import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public interface IPlayerMobLevelCapability {
@@ -18,7 +19,8 @@ public interface IPlayerMobLevelCapability {
     void sync();
 
     int getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory category);
-    int getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory category, BaseCreatureEntity creature);
+    int getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory category, @Nullable BaseCreatureEntity creature);
+    int getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory category, @Nullable BaseCreatureEntity creature, boolean client);
 
     int getTotalEnchantmentLevels();
 

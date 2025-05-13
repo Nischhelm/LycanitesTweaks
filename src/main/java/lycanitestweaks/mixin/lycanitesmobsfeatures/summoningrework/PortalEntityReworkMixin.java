@@ -6,7 +6,9 @@ import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.ExtendedPlayer;
 import com.lycanitesmobs.core.entity.PortalEntity;
 import com.lycanitesmobs.core.entity.TameableCreatureEntity;
+import com.lycanitesmobs.core.tileentity.TileEntitySummoningPedestal;
 import lycanitestweaks.handlers.ForgeConfigHandler;
+import lycanitestweaks.util.Helpers;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -25,6 +27,8 @@ public abstract class PortalEntityReworkMixin {
 
     @Shadow(remap = false)
     public EntityPlayer shootingEntity;
+    @Shadow(remap = false)
+    public TileEntitySummoningPedestal summoningPedestal;
 
     @WrapWithCondition(
             method = "summonCreatures",
@@ -37,11 +41,7 @@ public abstract class PortalEntityReworkMixin {
 
         if (ForgeConfigHandler.server.imperfectSummoningConfig.imperfectSummoning &&
                 !extendedPlayer.getBeastiary().hasKnowledgeRank(instance.creatureInfo.getName(), ForgeConfigHandler.server.imperfectSummoningConfig.variantSummonRank)) {
-            double hostileChance = ForgeConfigHandler.server.imperfectSummoningConfig.imperfectHostileBaseChance;
-            if (ForgeConfigHandler.server.imperfectSummoningConfig.imperfectHostileBaseChance != 0.0D && extendedPlayer.getBeastiary().hasKnowledgeRank(instance.creatureInfo.getName(), 1)) {
-                hostileChance -= extendedPlayer.getBeastiary().getCreatureKnowledge(instance.creatureInfo.getName()).experience * ForgeConfigHandler.server.imperfectSummoningConfig.imperfectHostileChanceModifier;
-            }
-            lycanitesTweaks$isHostileToPlayer = player.getEntityWorld().rand.nextDouble() < hostileChance;
+            lycanitesTweaks$isHostileToPlayer = player.getEntityWorld().rand.nextDouble() < Helpers.getImperfectHostileChance(extendedPlayer, instance.creatureInfo);
             if(lycanitesTweaks$isHostileToPlayer) {
                 instance.setRevengeTarget(player);
                 player.sendStatusMessage(new TextComponentTranslation("summon.imperfect.hostile"), true);
@@ -51,30 +51,33 @@ public abstract class PortalEntityReworkMixin {
         return true;
     }
 
+    // Need to apply this as late as possible, any stat refreshes would erase the stat mods set here
     @Inject(
             method = "summonCreatures",
-            at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/core/item/temp/ItemStaffSummoning;applyMinionEffects(Lcom/lycanitesmobs/core/entity/BaseCreatureEntity;)V"),
+            at = @At(value = "FIELD", target = "Lcom/lycanitesmobs/core/entity/PortalEntity;summonDuration:I", ordinal = 0),
             remap = false
     )
     public void lycanitesTweaks_lycanitesPortalEntity_summonImperfect(CallbackInfoReturnable<Integer> cir, @Local BaseCreatureEntity entityCreature) {
-        ExtendedPlayer extendedPlayer = ExtendedPlayer.getForPlayer(this.shootingEntity);
+        EntityPlayer player = this.shootingEntity;
+        if(player == null && this.summoningPedestal.getOwnerUUID() != null)
+            player = entityCreature.getEntityWorld().getPlayerEntityByUUID(this.summoningPedestal.getOwnerUUID());
+        ExtendedPlayer extendedPlayer = ExtendedPlayer.getForPlayer(player);
 
-        if(ForgeConfigHandler.server.imperfectSummoningConfig.imperfectSummoning &&
-                !lycanitesTweaks$isHostileToPlayer && extendedPlayer != null &&
-                !extendedPlayer.getBeastiary().hasKnowledgeRank(entityCreature.creatureInfo.getName(), ForgeConfigHandler.server.imperfectSummoningConfig.variantSummonRank)){
-            double lowerStatsChance = ForgeConfigHandler.server.imperfectSummoningConfig.imperfectStatsBaseChance;
-            if(ForgeConfigHandler.server.imperfectSummoningConfig.imperfectStatsChanceModifier != 0.0D && extendedPlayer.getBeastiary().hasKnowledgeRank(entityCreature.creatureInfo.getName(), 1)){
-                lowerStatsChance -= extendedPlayer.getBeastiary().getCreatureKnowledge(entityCreature.creatureInfo.getName()).experience * ForgeConfigHandler.server.imperfectSummoningConfig.imperfectStatsChanceModifier;
-            }
-            if(this.shootingEntity.getEntityWorld().rand.nextDouble() < lowerStatsChance){
+        if(extendedPlayer != null
+                && ForgeConfigHandler.server.imperfectSummoningConfig.imperfectSummoning
+                && !lycanitesTweaks$isHostileToPlayer
+                && !extendedPlayer.getBeastiary().hasKnowledgeRank(entityCreature.creatureInfo.getName(), ForgeConfigHandler.server.imperfectSummoningConfig.variantSummonRank)
+        ){
+            double lowerStatsChance = Helpers.getImperfectStatsChance(extendedPlayer, entityCreature.creatureInfo);
+            if(player.getEntityWorld().rand.nextDouble() < lowerStatsChance){
                 lowerStatsChance = Math.max(0.1D, 1.0F - lowerStatsChance);
-                if(this.shootingEntity.getEntityWorld().rand.nextBoolean()){
+                if(player.getEntityWorld().rand.nextBoolean()){
                     entityCreature.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(entityCreature.getMaxHealth() * lowerStatsChance);
-                    this.shootingEntity.sendStatusMessage(new TextComponentTranslation("summon.imperfect.health"), true);
+                    if(this.summoningPedestal == null) player.sendStatusMessage(new TextComponentTranslation("summon.imperfect.health"), true);
                 }
                 else{
                     entityCreature.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(entityCreature.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() * lowerStatsChance);
-                    this.shootingEntity.sendStatusMessage(new TextComponentTranslation("summon.imperfect.attack"), true);
+                    if(this.summoningPedestal == null) player.sendStatusMessage(new TextComponentTranslation("summon.imperfect.attack"), true);
                 }
             }
         }

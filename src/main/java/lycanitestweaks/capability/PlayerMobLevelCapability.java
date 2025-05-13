@@ -26,8 +26,8 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
 
     private EntityPlayer player;
     public static final int MAINHAND_CHECK_SIZE = 8;
-    private int deathCooldown = 0;
 
+    public int deathCooldown = 0;
     public int[] nonMainLevels = new int[5];
     public Queue<Integer> mainHandLevels = new LinkedList<>();
     public Map<Integer, Integer> petEntryLevels = new HashMap<>();
@@ -44,7 +44,7 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
     }
 
     public static IPlayerMobLevelCapability getForPlayer(EntityPlayer player) {
-        if (player == null) {
+        if (player == null || !ForgeConfigHandler.server.pmlConfig.playerMobLevelCapability) {
             return null;
         }
         IPlayerMobLevelCapability pml = player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
@@ -80,14 +80,19 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
 
     @Override
     public int getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory category) {
-        return getTotalLevelsForCategory(category, null);
+        return this.getTotalLevelsForCategory(category, null);
     }
 
     @Override
     public int getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory category, @Nullable BaseCreatureEntity creature) {
+        return this.getTotalLevelsForCategory(category, creature, false);
+    }
+
+    @Override
+    public int getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory category, @Nullable BaseCreatureEntity creature, boolean client) {
+        if(ForgeConfigHandler.server.pmlConfig.playerMobLevelCapabilityNoCalc) return 0;
         double totalLevels = 0;
         double deathModifier = 0;
-        if(ForgeConfigHandler.server.pmlConfig.playerMobLevelCapabilityNoCalc) return 0;
 
         if(PlayerMobLevelsConfig.getPmlBonusCateogories().containsKey(category)){
             for(PlayerMobLevelsConfig.Bonus bonus : PlayerMobLevelsConfig.Bonus.values()) {
@@ -110,7 +115,7 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
                         totalLevels += this.getHighestLevelPetActive() * modifier;
                         break;
                     case BestiaryCreature:
-                        totalLevels += this.getCurrentLevelBestiary(creature) * modifier;
+                        if(!client) totalLevels += this.getCurrentLevelBestiary(creature) * modifier;
                         break;
                     case BestiaryElement:
                         if(creature != null) totalLevels += this.getCurrentLevelBestiary(creature.getElements()) * modifier;
@@ -163,16 +168,24 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
         return 0;
     }
 
+    /**
+     * Gets the base level bonus for a list of elements, will only choose the element with the highest bonus
+     * WARNING, this does not check if a given ElementInfo is in the Creature-Elements map
+     *
+     * @param elements List of elements to check
+     * @return Base level bonus
+     */
     @Override
     public int getCurrentLevelBestiary(List<ElementInfo> elements) {
         int total = 0;
         ExtendedPlayer extendedPlayer = ExtendedPlayer.getForPlayer(this.player);
         if (extendedPlayer != null) {
             for(ElementInfo elementInfo : elements){
+                int elementTotal = 0;
                 for(String creatureName : Helpers.getCreatureElementsMap().get(elementInfo.name)){
-                    CreatureKnowledge knowledge = extendedPlayer.getBeastiary().getCreatureKnowledge(creatureName);
-                    if(knowledge.rank >= 2) total++;
+                    if(extendedPlayer.getBeastiary().hasKnowledgeRank(creatureName, 2)) elementTotal++;
                 }
+                total = Math.max(total, elementTotal);
             }
         }
         return total;

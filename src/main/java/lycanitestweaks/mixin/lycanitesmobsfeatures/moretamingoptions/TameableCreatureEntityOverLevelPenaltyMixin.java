@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.lycanitesmobs.core.entity.AgeableCreatureEntity;
 import com.lycanitesmobs.core.entity.TameableCreatureEntity;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
-import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
+import lycanitestweaks.capability.PlayerMobLevelCapability;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -27,13 +27,11 @@ public abstract class TameableCreatureEntityOverLevelPenaltyMixin extends Ageabl
     )
     public int lycanitesTweaks_lycanitesMobsTameableCreatureEntity_tameLevelPenalty(int amount, @Local(argsOnly = true) EntityPlayer player){
         if(ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelTreatPointPenalty && ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel > 0){
-            if(ForgeConfigHandler.server.pmlConfig.playerMobLevelCapability) {
-                IPlayerMobLevelCapability pml = player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
-                if (pml != null){
-                    if (Math.max(0, this.getLevel() - pml.getHighestLevelPetSoulbound()) > ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel) {
-                        player.sendStatusMessage(new TextComponentTranslation("tame.overlevel.penalty"), false);
-                        return (int) Math.max(1, amount * (float) (pml.getHighestLevelPetSoulbound()) / (2 * this.getLevel()));
-                    }
+            IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(player);
+            if (pml != null){
+                if (Math.max(0, this.getLevel() - pml.getHighestLevelPetSoulbound()) > ForgeConfigHandler.server.pmlConfig.pmlTamedOverLevelStartLevel) {
+                    player.sendStatusMessage(new TextComponentTranslation("tame.overlevel.penalty"), false);
+                    return (int) Math.max(1, amount * (float) (pml.getHighestLevelPetSoulbound()) / (2 * this.getLevel()));
                 }
             }
             else{

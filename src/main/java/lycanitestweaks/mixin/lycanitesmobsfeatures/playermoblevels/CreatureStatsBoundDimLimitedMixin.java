@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.CreatureStats;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
-import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
+import lycanitestweaks.capability.PlayerMobLevelCapability;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,8 +26,8 @@ public abstract class CreatureStatsBoundDimLimitedMixin {
             remap = false
     )
     public int lycanitesTweaks_lycanitesMobsPetEntry_onUpdate(int original){
-        if(ForgeConfigHandler.isDimensionLimitedMinion(this.entity.dimension) && this.entity.isBoundPet()){
-            IPlayerMobLevelCapability pml = this.entity.getPetEntry().host.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
+        if(ForgeConfigHandler.isDimensionLimitedMinion(this.entity.dimension) && this.entity.isBoundPet() && this.entity.getPetEntry().host instanceof EntityPlayer){
+            IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer((EntityPlayer) this.entity.getPetEntry().host);
             if(pml != null){
                 int levels = Math.min(original,
                         pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.SoulboundTame, this.entity));

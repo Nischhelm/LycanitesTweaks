@@ -5,10 +5,12 @@ import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.info.ElementInfo;
 import com.lycanitesmobs.core.info.ElementManager;
 import com.lycanitesmobs.core.item.ChargeItem;
+import com.lycanitesmobs.core.item.ItemBase;
 import com.lycanitesmobs.core.item.temp.ItemScepter;
 import com.lycanitesmobs.core.item.temp.ItemStaffSummoning;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.features.item.IStoredElementLevelMapItemMixin;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
@@ -49,37 +51,41 @@ public abstract class ItemStaffSummoningLevelMapItemMixin extends ItemScepter im
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
 
+        StringBuilder rawStrings = new StringBuilder();
         NBTTagCompound nbt = this.getTagCompound(stack);
 
-        tooltip.add(I18n.format("item.summoningstaff.description.mixin"));
+        rawStrings.append(I18n.format("item.summoningstaff.description.mixin"));
         if(nbt.hasKey("ChargeItem"))
             if(ForgeConfigHandler.client.translateWhenPossible) {
                 ChargeItem chargeItem = (ChargeItem)ObjectManager.getItem(nbt.getString("ChargeItem").toLowerCase(Locale.ROOT));
                 if(chargeItem != null)
-                    tooltip.add(I18n.format("item.summoningstaff.description.mixin.chargeitem", chargeItem.getProjectileName()));
+                    rawStrings.append("\n").append(I18n.format("item.summoningstaff.description.mixin.chargeitem", chargeItem.getProjectileName()));
             }
             else{
-                tooltip.add(I18n.format("item.summoningstaff.description.mixin.chargeitem", nbt.getString("ChargeItem")));
+                rawStrings.append("\n").append(I18n.format("item.summoningstaff.description.mixin.chargeitem", nbt.getString("ChargeItem")));
             }
         if(nbt.hasKey("ElementsLevel"))
             for(String element : nbt.getCompoundTag("ElementsLevel").getKeySet()) {
                 if(ForgeConfigHandler.client.translateWhenPossible) {
                     ElementInfo elementInfo = ElementManager.getInstance().getElement(element);
                     if(elementInfo != null)
-                        tooltip.add(I18n.format("item.summoningstaff.description.mixin.element",
+                        rawStrings.append("\n").append(I18n.format("item.summoningstaff.description.mixin.element",
                                 elementInfo.getTitle())
                         );
                 }
                 else
-                    tooltip.add(I18n.format("item.summoningstaff.description.mixin.element",
+                    rawStrings.append("\n").append(I18n.format("item.summoningstaff.description.mixin.element",
                             element)
                     );
-                tooltip.add(I18n.format("item.summoningstaff.description.mixin.level",
+                rawStrings.append("\n").append(I18n.format("item.summoningstaff.description.mixin.level",
                         this.lycanitesTweaks$getLevel(stack, element),
                         this.lycanitesTweaks$getExperience(stack, element),
                         this.lycanitesTweaks$getExperienceForNextLevel(stack, element))
                 );
             }
+
+        List<String> formattedDescriptionList = Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(rawStrings.toString(), ItemBase.DESCRIPTION_WIDTH);
+        tooltip.addAll(formattedDescriptionList);
     }
 
     @Unique

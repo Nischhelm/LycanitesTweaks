@@ -8,7 +8,7 @@ import com.lycanitesmobs.core.item.special.ItemSoulgazer;
 import com.lycanitesmobs.core.pets.PetEntry;
 import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
-import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
+import lycanitestweaks.capability.PlayerMobLevelCapability;
 import lycanitestweaks.compat.ModLoadedUtil;
 import lycanitestweaks.compat.RLTweakerHandler;
 import lycanitestweaks.entity.item.EntityBossSummonCrystal;
@@ -18,6 +18,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
@@ -294,8 +295,8 @@ public class StoredCreatureEntity {
         this.loadEntityNBT();
 
         // calc PML after NBT Levels are loaded
-        if(ForgeConfigHandler.server.pmlConfig.playerMobLevelCapability){
-            IPlayerMobLevelCapability pml = target.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
+        if(target instanceof EntityPlayer){
+            IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer((EntityPlayer) target);
             if(pml != null && this.host instanceof EntityBossSummonCrystal && this.entity instanceof BaseCreatureEntity){
                 switch (((EntityBossSummonCrystal) this.host).getVariantType()){
                     case 1:
