@@ -7,9 +7,7 @@ import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.info.CreatureInfo;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
 import lycanitestweaks.capability.PlayerMobLevelCapability;
-import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
-import lycanitestweaks.util.Helpers;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -41,18 +39,7 @@ public abstract class SummoningBeastiaryScreenPMLMixin extends BeastiaryScreen {
             if(pml != null && this.creaturePreviewEntity instanceof BaseCreatureEntity){
                 if(this.player.ticksExisted % 20 == 0) lycanitesTweaks$cachePML = pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.SummonMinion, (BaseCreatureEntity)this.creaturePreviewEntity, true);
                 this.getFontRenderer().drawString(I18n.format("gui.beastiary.summoning.mixin.pml", lycanitesTweaks$cachePML), nextX, nextY, 0xFFFFFF, true);
-                nextY += 4 + this.getFontRenderer().getWordWrappedHeight(text, this.colRightWidth);
             }
-
-            if(ForgeConfigHandler.server.imperfectSummoningConfig.imperfectSummoning &&
-                    !this.playerExt.getBeastiary().hasKnowledgeRank(selectedCreature.getName(), ForgeConfigHandler.server.imperfectSummoningConfig.variantSummonRank)) {
-                this.getFontRenderer().drawString(I18n.format("gui.beastiary.summoning.mixin.imperfect"), nextX, nextY, 0xFFFFFF, true);
-                nextY += 4 + this.getFontRenderer().getWordWrappedHeight(text, this.colRightWidth);
-                this.getFontRenderer().drawString(I18n.format("gui.beastiary.summoning.mixin.imperfect.hostile", (int)(100 * Helpers.getImperfectHostileChance(playerExt, selectedCreature))), nextX, nextY, 0xFFFFFF, true);
-                nextY += 4 + this.getFontRenderer().getWordWrappedHeight(text, this.colRightWidth);
-                this.getFontRenderer().drawString(I18n.format("gui.beastiary.summoning.mixin.imperfect.stats",(int)(100 * Helpers.getImperfectStatsChance(playerExt, selectedCreature))), nextX, nextY, 0xFFFFFF, true);
-            }
-
         }
     }
 }

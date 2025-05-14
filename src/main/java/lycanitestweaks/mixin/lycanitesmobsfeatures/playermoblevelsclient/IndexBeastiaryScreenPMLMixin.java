@@ -1,5 +1,6 @@
 package lycanitestweaks.mixin.lycanitesmobsfeatures.playermoblevelsclient;
 
+import com.lycanitesmobs.LycanitesMobs;
 import com.lycanitesmobs.client.gui.beastiary.BeastiaryScreen;
 import com.lycanitesmobs.client.gui.beastiary.IndexBeastiaryScreen;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
@@ -7,6 +8,7 @@ import lycanitestweaks.capability.PlayerMobLevelCapability;
 import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -36,7 +38,7 @@ public abstract class IndexBeastiaryScreenPMLMixin extends BeastiaryScreen {
         if(this.player.ticksExisted % 20 == 0){
             IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(this.player);
             if(pml != null) {
-                for (PlayerMobLevelsConfig.BonusCategory category : PlayerMobLevelsConfig.getPmlBonusCateogories().keySet()) {
+                for (PlayerMobLevelsConfig.BonusCategory category : PlayerMobLevelsConfig.getPmlBonusCategories().keySet()) {
                     lycanitesTweaks$pmlBonusCateogories.put(category, pml.getTotalLevelsForCategory(category, null, true));
                 }
             }
@@ -45,9 +47,13 @@ public abstract class IndexBeastiaryScreenPMLMixin extends BeastiaryScreen {
         this.getFontRenderer().drawString(text, xOffset, yOffset, 0xFFFFFF, true);
         yOffset += 4 + this.getFontRenderer().getWordWrappedHeight(text, this.colLeftWidth);
         for(PlayerMobLevelsConfig.BonusCategory category : lycanitesTweaks$pmlBonusCateogories.keySet()) {
-            text = I18n.format("gui.beastiary.index.mixin." + category.name(), lycanitesTweaks$pmlBonusCateogories.get(category));
-            this.getFontRenderer().drawString(text, xOffset, yOffset, 0xFFFFFF, true);
-            yOffset += 4 + this.getFontRenderer().getWordWrappedHeight(text, this.colLeftWidth);
+            if(I18n.hasKey("gui.beastiary.index.mixin." + category.name())) {
+                if(PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(category))
+                    this.drawTexture(new ResourceLocation(LycanitesMobs.modid, "textures/items/soulgazer.png"),xOffset - 20, yOffset - 4, 0, 1, 1, 16 ,16);
+                text = I18n.format("gui.beastiary.index.mixin." + category.name(), lycanitesTweaks$pmlBonusCateogories.get(category));
+                this.getFontRenderer().drawString(text, xOffset, yOffset, 0xFFFFFF, true);
+                yOffset += 4 + this.getFontRenderer().getWordWrappedHeight("", this.colLeftWidth);
+            }
         }
 
         IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(this.player);

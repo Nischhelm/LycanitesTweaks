@@ -77,6 +77,7 @@ public abstract class PortalEntityReworkMixin {
                 }
                 else{
                     entityCreature.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(entityCreature.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() * lowerStatsChance);
+                    entityCreature.getEntityAttribute(BaseCreatureEntity.RANGED_SPEED).setBaseValue(entityCreature.getEntityAttribute(BaseCreatureEntity.RANGED_SPEED).getAttributeValue() * lowerStatsChance);
                     if(this.summoningPedestal == null) player.sendStatusMessage(new TextComponentTranslation("summon.imperfect.attack"), true);
                 }
             }

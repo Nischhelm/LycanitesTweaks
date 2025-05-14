@@ -1,0 +1,78 @@
+package lycanitestweaks.handlers.features.entity;
+
+import com.lycanitesmobs.ExtendedWorld;
+import com.lycanitesmobs.core.entity.BaseCreatureEntity;
+import com.lycanitesmobs.core.item.special.ItemSoulgazer;
+import lycanitestweaks.LycanitesTweaks;
+import lycanitestweaks.capability.IPlayerMobLevelCapability;
+import lycanitestweaks.capability.PlayerMobLevelCapability;
+import lycanitestweaks.handlers.ForgeConfigHandler;
+import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingDestroyBlockEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.apache.logging.log4j.Level;
+
+public class EntityLivingHandler {
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLateDPSCalc(LivingDamageEvent event) {
+        if (!ForgeConfigHandler.featuresMixinConfig.bossDPSLimitRecalc) return;
+
+        if (event.getEntityLiving() instanceof BaseCreatureEntity) {
+            BaseCreatureEntity boss = (BaseCreatureEntity) event.getEntityLiving();
+            boss.onDamage(event.getSource(), event.getAmount());
+            if (ForgeConfigHandler.server.bossDamageLimitReducesAmount && boss.damageLimit > 0.0F)
+                event.setAmount(Math.min(event.getAmount(), boss.damageLimit));
+        }
+    }
+
+    @SubscribeEvent
+    public static void onBlockBreak(LivingDestroyBlockEvent event) {
+        if (!ForgeConfigHandler.server.blockProtectionLivingEvent) return;
+        if (event.getState() == null
+                || event.isCanceled()
+                || event.getEntityLiving() == null
+                || event.getEntityLiving().getEntityWorld().isRemote) {
+            return;
+        }
+
+        ExtendedWorld extendedWorld = ExtendedWorld.getForWorld(event.getEntity().getEntityWorld());
+        if (extendedWorld.isBossNearby(new Vec3d(event.getPos()))) {
+            event.setCanceled(true);
+            event.setResult(Event.Result.DENY);
+            if (ForgeConfigHandler.client.debugLoggerTick)
+                LycanitesTweaks.LOGGER.log(Level.INFO, "Boss prevented block at {}, from being broke by {}", event.getPos(), event.getEntityLiving());
+        }
+    }
+
+    @SubscribeEvent
+    public static void onCreatureSpawn(LivingSpawnEvent.SpecialSpawn event) {
+        if(event.getWorld().isRemote) return;
+        PlayerMobLevelsConfig.BonusCategory category = null;
+
+        if(event.getSpawner() == null && PlayerMobLevelsConfig.getPmlBonusCategories().containsKey(PlayerMobLevelsConfig.BonusCategory.SpawnerNatural)){
+            category = PlayerMobLevelsConfig.BonusCategory.SpawnerNatural;
+        }
+        else if(event.getSpawner() != null && PlayerMobLevelsConfig.getPmlBonusCategories().containsKey(PlayerMobLevelsConfig.BonusCategory.SpawnerTile)){
+            category = PlayerMobLevelsConfig.BonusCategory.SpawnerTile;
+        }
+        if(category == null || !(event.getEntityLiving() instanceof BaseCreatureEntity)) return;
+
+        BaseCreatureEntity creature = (BaseCreatureEntity) event.getEntityLiving();
+        EntityPlayer player = event.getWorld().getClosestPlayerToEntity(event.getEntityLiving(), 128);
+        IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(player);
+
+        if(pml == null || !creature.firstSpawn) return;
+        if(!PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(category) || player.getHeldItemMainhand().getItem() instanceof ItemSoulgazer){
+            creature.onFirstSpawn();
+            creature.addLevel(pml.getTotalLevelsForCategory(category, creature));
+            if(ForgeConfigHandler.client.debugLoggerTick) LycanitesTweaks.LOGGER.log(Level.INFO, "{} Spawning: {}", category.name(), creature);
+        }
+    }
+}

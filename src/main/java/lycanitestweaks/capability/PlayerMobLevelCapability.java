@@ -27,7 +27,7 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
     private EntityPlayer player;
     public static final int MAINHAND_CHECK_SIZE = 8;
 
-    public int deathCooldown = 0;
+    private int deathCooldown = 0;
     public int[] nonMainLevels = new int[5];
     public Queue<Integer> mainHandLevels = new LinkedList<>();
     public Map<Integer, Integer> petEntryLevels = new HashMap<>();
@@ -94,10 +94,10 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
         double totalLevels = 0;
         double deathModifier = 0;
 
-        if(PlayerMobLevelsConfig.getPmlBonusCateogories().containsKey(category)){
+        if(PlayerMobLevelsConfig.getPmlBonusCategories().containsKey(category)){
             for(PlayerMobLevelsConfig.Bonus bonus : PlayerMobLevelsConfig.Bonus.values()) {
                 double modifier = 0.0D;
-                switch (PlayerMobLevelsConfig.getPmlBonusCateogories().get(category).getLeft()) {
+                switch (PlayerMobLevelsConfig.getPmlBonusCategories().get(category).getLeft()) {
                     case WILD:
                         if(PlayerMobLevelsConfig.getPmlBonusUsagesWild().containsKey(bonus))
                             modifier = PlayerMobLevelsConfig.getPmlBonusUsagesWild().get(bonus);
@@ -128,7 +128,7 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
                     default:
                 }
             }
-            totalLevels *= PlayerMobLevelsConfig.getPmlBonusCateogories().get(category).getRight();
+            totalLevels *= PlayerMobLevelsConfig.getPmlBonusCategories().get(category).getRight();
         }
 
         if(this.getDeathCooldown() > 0) {

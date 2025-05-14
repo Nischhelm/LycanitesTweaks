@@ -4,25 +4,9 @@ import net.minecraftforge.common.config.Config;
 
 public class EntityStoreCreatureConfig {
 
-    @Config.Comment("Altar Boss Crystals")
-    @Config.Name("Altar Boss Crystal Player Mob Levels")
-    public boolean altarBossCrystalPML = false;
-
-    @Config.Comment("Require a held main hand Soulgazer in order to scale to Player Mob Levels")
-    @Config.Name("Altar Boss Crystal Player Mob Levels Requires Soulgazer")
-    public boolean altarBossCrystalSoulgazerHold = true;
-
     @Config.Comment("Enable logic to automatically release stored Entity (Checks every second)")
     @Config.Name("Boss Crystal Tick Checks")
     public boolean bossCrystalTickChecks = true;
-
-    @Config.Comment("Dungeon Boss Crystals check if Player Mob Levels is higher than stored Entity's levels")
-    @Config.Name("Dungeon Boss Crystal Player Mob Levels")
-    public boolean dungeonBossCrystalPML = false;
-
-    @Config.Comment("Require a held main hand Soulgazer in order to scale to Player Mob Levels")
-    @Config.Name("Dungeon Boss Crystal Player Mob Levels Requires Soulgazer")
-    public boolean dungeonBossCrystalSoulgazerHold = true;
 
     @Config.Comment("1/n Chance to despawn per second, set to 0 to disable random despawning (Forced Despawning happens when further than 128 blocks)")
     @Config.Name("Encounter Crystal Despawn Chance")
@@ -43,14 +27,6 @@ public class EntityStoreCreatureConfig {
     @Config.Name("Encounter Crystal Spawn Tick Rate")
     @Config.RangeInt(min = 1)
     public int encounterCrystalSpawnTickRate = 20;
-
-    @Config.Comment("Encounter Crystals")
-    @Config.Name("Encounter Crystal Player Mob Levels")
-    public boolean encounterCrystalPML = true;
-
-    @Config.Comment("Require a held main hand Soulgazer in order to scale to Player Mob Levels")
-    @Config.Name("Encounter Crystal Player Mob Levels Requires Soulgazer")
-    public boolean encounterCrystalSoulgazerHold = false;
 
     @Config.Comment("Enable Capability to replicate LycanitesMobs PetEntry for any owner")
     @Config.Name("Entity Store Creature Capability")

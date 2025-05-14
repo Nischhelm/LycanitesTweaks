@@ -24,7 +24,7 @@ public class PacketPlayerMobLevelsStats implements IMessage {
 
     public PacketPlayerMobLevelsStats() {}
     public PacketPlayerMobLevelsStats(PlayerMobLevelCapability pml) {
-        this.deathCooldown = pml.deathCooldown;
+        this.deathCooldown = pml.getDeathCooldown();
         this.nonMainLevels = pml.nonMainLevels;
         this.mainHandLevels = pml.mainHandLevels;
         this.petEntryLevels = pml.petEntryLevels;
@@ -94,7 +94,7 @@ public class PacketPlayerMobLevelsStats implements IMessage {
                 if (pml instanceof PlayerMobLevelCapability) {
                     if(message.mainHandLevels.isEmpty()) message.mainHandLevels.add(0);
 
-                    ((PlayerMobLevelCapability) pml).deathCooldown = message.deathCooldown;
+                    pml.setDeathCooldown(message.deathCooldown);
                     ((PlayerMobLevelCapability) pml).nonMainLevels = message.nonMainLevels;
                     ((PlayerMobLevelCapability) pml).mainHandLevels = message.mainHandLevels;
                     ((PlayerMobLevelCapability) pml).petEntryLevels = message.petEntryLevels;

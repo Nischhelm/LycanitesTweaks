@@ -60,11 +60,11 @@ public class RenderBossSummonCrystal extends RenderEnderCrystal {
         if(entity instanceof EntityBossSummonCrystal){
             switch (((EntityBossSummonCrystal) entity).getVariantType()){
                 case -1: return BOSS_SUMMON_CRYSTAL_TEXTURES_ENCOUNTER;
+                case 0: return BOSS_SUMMON_CRYSTAL_TEXTURES;
                 case 1: return BOSS_SUMMON_CRYSTAL_TEXTURES_DIAMOND;
                 case 2: return BOSS_SUMMON_CRYSTAL_TEXTURES_EMERALD;
-                default: return BOSS_SUMMON_CRYSTAL_TEXTURES;
             }
         }
-        return BOSS_SUMMON_CRYSTAL_TEXTURES;
+        return super.getEntityTexture(entity);
     }
 }

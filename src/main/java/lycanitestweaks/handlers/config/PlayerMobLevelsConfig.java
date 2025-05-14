@@ -11,28 +11,32 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class PlayerMobLevelsConfig {
 
-    private static HashMap<BonusCategory, Pair<BonusUsage, Double>> pmlBonusCateogories = null;
+    private static HashMap<BonusCategory, Pair<BonusUsage, Double>> pmlBonusCategories = null;
+    private static HashSet<BonusCategory> pmlBonusCategorySoulgazer = null;
     public static HashMap<Bonus, Double> pmlBonusUsagesAll = null;
     public static HashMap<Bonus, Double> pmlBonusUsagesTamed = null;
     public static HashMap<Bonus, Double> pmlBonusUsagesWild = null;
 
-    @Config.Comment("Format: [categoryName,bonusGroup,multiplier]\n" +
+    @Config.Comment("Format: [categoryName,soulgazer,bonusGroup,multiplier]\n" +
                         "\tcategoryName - The case player mob levels is added, do not change from the defaults\n" +
+                        "\tsoulgazer - If a mainhand Soulgazer is required to apply level boost\n" +
                         "\tbonusGroup - [All,TAMED,WILD], specifies the list of multipliers to use when calculating bonus levels\n" +
                         "\tmultiplier - Multiplier to use on the total bonus before it is used")
     @Config.Name("Bonus Categories")
     public String[] pmlCategories = {
-            "AltarBossMain,WILD,1.0",
-            "AltarBossMini,WILD,1.0",
-            "DungeonBoss,WILD,1.0",
-            "SoulboundTame,TAMED,1.0",
-            "SpawnerNatural,ALL,1.0",
-            "SpawnerTile,WILD,1.0",
-            "SpawnerTrigger,WILD,1.0",
-            "SummonMinion,TAMED,1.0"
+            "AltarBossMain,true,WILD,1.0",
+            "AltarBossMini,true,WILD,1.0",
+            "DungeonBoss,true,WILD,1.0",
+            "EncounterEvent,false,ALL,1.0",
+            "SoulboundTame,false,TAMED,1.0",
+            "SpawnerNatural,false,ALL,1.0",
+            "SpawnerTile,false,WILD,1.0",
+            "SpawnerTrigger,false,WILD,1.0",
+            "SummonMinion,false,TAMED,1.0"
     };
 
     @Config.Comment("Specifies multipliers on specific bonus sources. Fall back list for when Tamed/Wild values are not found.\n" +
@@ -89,10 +93,6 @@ public class PlayerMobLevelsConfig {
     @Config.RequiresMcRestart
     public boolean playerMobLevelCapability = true;
 
-    @Config.Comment("Require a held main hand Soulgazer in order to summon a boss with additional levels")
-    @Config.Name("Player Mob Level Boss Requires Soulgazer")
-    public boolean pmlBossRequiresSoulgazer = true;
-
     @Config.Comment("If Highest Level Pet Entry should try to be calculated, unsorted levels are still stored, false always returns 0")
     @Config.Name("Player Mob Level Calculate Highest Level Pet Entry")
     public boolean pmlCalcHighestLevelPet = true;
@@ -124,6 +124,12 @@ public class PlayerMobLevelsConfig {
     @Config.Name("Player Mob Level Dimensions no spirit recharge")
     public boolean pmlMinionLimitDimNoSpiritRecharge = true;
 
+    @Config.Comment("Flags JSON entities to not be affected by the Natural Spawn Boost whether or not an entity was boosted.\n" +
+            "This can make every event provide a smaller boost or make a few events stack a large boost\n" +
+            "Requires Mixin 'Player Mob Level JSON Spawner'")
+    @Config.Name("PML Spawner Names Calls First Spawn")
+    public boolean pmlSpawnerNameFirstSpawn = false;
+
     @Config.Comment("List of Lycanites Spawner Names to attempt to apply Player Mob Levels (ex World triggers don't have players)")
     @Config.Name("PML Spawner Names")
     public String[] pmlSpawnerNameStrings = {
@@ -148,14 +154,14 @@ public class PlayerMobLevelsConfig {
     @Config.Name("PML Taming Over Leveled Treat Tempt")
     public boolean pmlTamedOverLevelTreatTempt = false;
 
-    public static HashMap<BonusCategory, Pair<BonusUsage, Double>> getPmlBonusCateogories(){
-        if(PlayerMobLevelsConfig.pmlBonusCateogories == null){
+    public static HashMap<BonusCategory, Pair<BonusUsage, Double>> getPmlBonusCategories(){
+        if(PlayerMobLevelsConfig.pmlBonusCategories == null){
             HashMap<BonusCategory, Pair<BonusUsage, Double>> map = new HashMap<>();
             for(String string : ForgeConfigHandler.server.pmlConfig.pmlCategories){
                 String[] line = string.split(",");
                 try {
                     BonusUsage usage = BonusUsage.ALL;
-                    switch (line[1]){
+                    switch (line[2]){
                         case "TAMED":
                             usage = BonusUsage.TAMED;
                             break;
@@ -163,15 +169,34 @@ public class PlayerMobLevelsConfig {
                             usage = BonusUsage.WILD;
                             break;
                     }
-                    map.put(BonusCategory.get(line[0]), new Pair<>(usage, Double.valueOf(line[2])));
+                    map.put(BonusCategory.get(line[0]), new Pair<>(usage, Double.valueOf(line[3])));
                 }
                 catch (Exception exception){
                     LycanitesTweaks.LOGGER.error("Failed to parse {} in pmlCategories", string);
                 }
             }
-            PlayerMobLevelsConfig.pmlBonusCateogories = map;
+            PlayerMobLevelsConfig.pmlBonusCategories = map;
         }
-        return PlayerMobLevelsConfig.pmlBonusCateogories;
+        return PlayerMobLevelsConfig.pmlBonusCategories;
+    }
+
+    // SoulboundTame and SummonMinion don't check this atm
+    // Condition is currently still mainhand soulgazer, if it was something else then perhaps
+    public static HashSet<BonusCategory> getPmlBonusCategorySoulgazer(){
+        if(PlayerMobLevelsConfig.pmlBonusCategorySoulgazer == null){
+            HashSet<BonusCategory> set = new HashSet<>();
+            for(String string : ForgeConfigHandler.server.pmlConfig.pmlCategories){
+                String[] line = string.split(",");
+                try {
+                    if("true".equals(line[1])) set.add(BonusCategory.get(line[0]));
+                }
+                catch (Exception exception){
+                    LycanitesTweaks.LOGGER.error("Failed to parse {} in pmlCategories", string);
+                }
+            }
+            PlayerMobLevelsConfig.pmlBonusCategorySoulgazer = set;
+        }
+        return PlayerMobLevelsConfig.pmlBonusCategorySoulgazer;
     }
 
     public static HashMap<Bonus, Double> getPmlBonusUsagesAll(){
@@ -252,6 +277,7 @@ public class PlayerMobLevelsConfig {
         AltarBossMain("AltarBossMain"),
         AltarBossMini("AltarBossMini"),
         DungeonBoss("DungeonBoss"),
+        EncounterEvent("EncounterEvent"),
         SoulboundTame("SoulboundTame"),
         SpawnerNatural("SpawnerNatural"),
         SpawnerTile("SpawnerTile"),
@@ -285,7 +311,8 @@ public class PlayerMobLevelsConfig {
         @SubscribeEvent
         public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
             if(event.getModID().equals(LycanitesTweaks.MODID)) {
-                PlayerMobLevelsConfig.pmlBonusCateogories = null;
+                PlayerMobLevelsConfig.pmlBonusCategories = null;
+                PlayerMobLevelsConfig.pmlBonusCategorySoulgazer = null;
                 PlayerMobLevelsConfig.pmlBonusUsagesAll = null;
                 PlayerMobLevelsConfig.pmlBonusUsagesTamed = null;
                 PlayerMobLevelsConfig.pmlBonusUsagesWild = null;

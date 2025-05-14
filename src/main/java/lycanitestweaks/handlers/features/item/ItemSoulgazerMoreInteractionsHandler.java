@@ -5,7 +5,6 @@ import com.lycanitesmobs.core.info.CreatureManager;
 import com.lycanitesmobs.core.item.special.ItemSoulgazer;
 import lycanitestweaks.capability.*;
 import lycanitestweaks.entity.item.EntityBossSummonCrystal;
-import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.LycanitesTweaksRegistry;
 import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
 import net.minecraft.entity.player.EntityPlayer;
@@ -67,11 +66,10 @@ public class ItemSoulgazerMoreInteractionsHandler {
                             event.getEntityPlayer().sendMessage(new TextComponentTranslation("soulgazer.playermoblevels.bosscrystal.vanilla",
                                     storeCreature.getStoredCreatureEntity().getDisplayName())
                             );
-                        else if(variant == 1 && ForgeConfigHandler.server.escConfig.altarBossCrystalPML){
-                            levels = Math.min(levels,
-                                    pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.AltarBossMini,
-                                            (BaseCreatureEntity)storeCreature.getStoredCreatureEntity().entity));
-                            if(ForgeConfigHandler.server.escConfig.altarBossCrystalSoulgazerHold) {
+                        else if(variant == 1 && PlayerMobLevelsConfig.getPmlBonusCategories().containsKey(PlayerMobLevelsConfig.BonusCategory.AltarBossMini)){
+                            levels = levels + pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.AltarBossMini,
+                                    (BaseCreatureEntity)storeCreature.getStoredCreatureEntity().entity);
+                            if(PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(PlayerMobLevelsConfig.BonusCategory.AltarBossMini)){
                                 event.getEntityPlayer().sendMessage(new TextComponentTranslation("soulgazer.playermoblevels.bosscrystal",
                                         storeCreature.getStoredCreatureEntity().getLevel(),
                                         storeCreature.getStoredCreatureEntity().getDisplayName(),
@@ -85,11 +83,10 @@ public class ItemSoulgazerMoreInteractionsHandler {
                                 );
                             }
                         }
-                        else if(variant == 2 && ForgeConfigHandler.server.escConfig.dungeonBossCrystalPML){
-                            levels = Math.min(levels,
-                                    pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.DungeonBoss,
-                                            (BaseCreatureEntity)storeCreature.getStoredCreatureEntity().entity));
-                            if(ForgeConfigHandler.server.escConfig.dungeonBossCrystalSoulgazerHold) {
+                        else if(variant == 2 && PlayerMobLevelsConfig.getPmlBonusCategories().containsKey(PlayerMobLevelsConfig.BonusCategory.DungeonBoss)){
+                            levels = levels + pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.DungeonBoss,
+                                    (BaseCreatureEntity)storeCreature.getStoredCreatureEntity().entity);
+                            if(PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(PlayerMobLevelsConfig.BonusCategory.DungeonBoss)){
                                 event.getEntityPlayer().sendMessage(new TextComponentTranslation("soulgazer.playermoblevels.bosscrystal",
                                         storeCreature.getStoredCreatureEntity().getLevel(),
                                         storeCreature.getStoredCreatureEntity().getDisplayName(),
@@ -103,11 +100,10 @@ public class ItemSoulgazerMoreInteractionsHandler {
                                 );
                             }
                         }
-                        else if(variant == -1 && ForgeConfigHandler.server.escConfig.encounterCrystalPML){
-                            levels = Math.min(levels,
-                                    pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.SpawnerNatural,
-                                            (BaseCreatureEntity)storeCreature.getStoredCreatureEntity().entity));
-                            if(ForgeConfigHandler.server.escConfig.encounterCrystalPML) {
+                        else if(variant == -1 && PlayerMobLevelsConfig.getPmlBonusCategories().containsKey(PlayerMobLevelsConfig.BonusCategory.EncounterEvent)){
+                            levels = levels + pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.EncounterEvent,
+                                            (BaseCreatureEntity)storeCreature.getStoredCreatureEntity().entity);
+                            if(PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(PlayerMobLevelsConfig.BonusCategory.EncounterEvent)){
                                 event.getEntityPlayer().sendMessage(new TextComponentTranslation("soulgazer.playermoblevels.bosscrystal",
                                         storeCreature.getStoredCreatureEntity().getLevel(),
                                         storeCreature.getStoredCreatureEntity().getDisplayName(),

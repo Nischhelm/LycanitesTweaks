@@ -53,13 +53,17 @@ public class ForgeConfigHandler {
 
 	public static class ClientConfig {
 
+		@Config.Comment("Enable Debug logging for auto information dumping")
+		@Config.Name("Enables debug logging automatic")
+		public boolean debugLoggerAutomatic = false;
+
 		@Config.Comment("Enable Debug logging for manually triggered information")
 		@Config.Name("Enables debug logging")
 		public boolean debugLoggerTrigger = false;
 
-		@Config.Comment("Enable Debug logging for constant information dumping")
-		@Config.Name("Enables debug logging automatic")
-		public boolean debugLoggerAutomatic = false;
+		@Config.Comment("Enable Debug logging for constant tick information dumping")
+		@Config.Name("Enables debug logging tick")
+		public boolean debugLoggerTick = false;
 
 		@Config.Comment("Example client side config option")
 		@Config.Name("Example Client Option")
@@ -125,7 +129,6 @@ public class ForgeConfigHandler {
 
 		@Config.Comment("Whether Lycanites Block Protection protect against any Living Entity")
 		@Config.Name("Block Protection Living Event")
-		@Config.RequiresMcRestart
 		public boolean blockProtectionLivingEvent = true;
 
 		@Config.Comment("Distance between entities to trigger auto pickup drop, Default Lycanites is 32. Requires Mixin 'Pickup Checks Distances'")
@@ -205,10 +208,6 @@ public class ForgeConfigHandler {
 		@Config.Comment("Apply Mixin 'Potion Core Jump Fix (PotionCore)' to all mobs")
 		@Config.Name("Mod Compatibility: Fix all Mobs PotionCore Jump")
 		public boolean fixAllMobsPotionCoreJump = true;
-
-		@Config.Comment("Whether Mixin 'Love Arrow Fix (Switch-Bow)' only affects animals, else includes all creatures who can breed")
-		@Config.Name("Mod Compatibility: Love Arrow Breeds Animals Only (Switch-Bow)")
-		public boolean loveArrowBreedAnimalsOnly = true;
 
 		public static class PotionEffectsConfig {
 
@@ -470,6 +469,12 @@ public class ForgeConfigHandler {
 	}
 
 	public static class clientFeaturesConfig {
+
+		@Config.Comment("Adds Imperfect Summoning Information to Beastiary")
+		@Config.Name("Add Imperfect Summoning Information to Beastiary")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureclientimperfectsummon.json")
+		public boolean beastiaryGUIImperfectSummon = true;
 
 		@Config.Comment("Adds Player Mob Levels Information to Beastiary")
 		@Config.Name("Add Player Mob Levels Information to Beastiary")

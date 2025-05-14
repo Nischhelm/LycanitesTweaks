@@ -4,9 +4,8 @@ import lycanitestweaks.capability.EntityStoreCreatureCapabilityHandler;
 import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
 import lycanitestweaks.compat.ModLoadedUtil;
 import lycanitestweaks.handlers.ForgeConfigHandler;
-import lycanitestweaks.handlers.features.boss.DamageLimitCalcHandler;
-import lycanitestweaks.handlers.features.boss.DefaultBossLootHandler;
-import lycanitestweaks.handlers.features.boss.MoreBlockProtectionHandler;
+import lycanitestweaks.handlers.features.entity.EntityLivingHandler;
+import lycanitestweaks.handlers.features.entity.EntityLootHandler;
 import lycanitestweaks.handlers.features.effect.CripplingEffectsHandler;
 import lycanitestweaks.handlers.features.effect.ItemCuringEffectsHandler;
 import lycanitestweaks.compat.RLCombatHandler;
@@ -57,14 +56,13 @@ public class LycanitesTweaks {
             MinecraftForge.EVENT_BUS.register(ItemStaffSummingLevelMapHandler.class);
         }
 
-        if(ForgeConfigHandler.server.blockProtectionLivingEvent) MinecraftForge.EVENT_BUS.register(MoreBlockProtectionHandler.class);
+        MinecraftForge.EVENT_BUS.register(EntityLootHandler.class);
+        MinecraftForge.EVENT_BUS.register(EntityLivingHandler.class);
 
         if(ForgeConfigHandler.server.effectsConfig.registerConsumed || ForgeConfigHandler.server.effectsConfig.registerVoided)
             MinecraftForge.EVENT_BUS.register(CripplingEffectsHandler.class);
 
-        MinecraftForge.EVENT_BUS.register(DefaultBossLootHandler.class);
 
-        if(ForgeConfigHandler.featuresMixinConfig.bossDPSLimitRecalc) MinecraftForge.EVENT_BUS.register(DamageLimitCalcHandler.class);
         if(ForgeConfigHandler.featuresMixinConfig.customItemCureEffectList) MinecraftForge.EVENT_BUS.register(ItemCuringEffectsHandler.class);
         if(ForgeConfigHandler.featuresMixinConfig.craftedEquipmentRLCombatSweep && ModLoadedUtil.isRLCombatLoaded())
             MinecraftForge.EVENT_BUS.register(RLCombatHandler.class);

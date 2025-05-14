@@ -300,21 +300,21 @@ public class StoredCreatureEntity {
             if(pml != null && this.host instanceof EntityBossSummonCrystal && this.entity instanceof BaseCreatureEntity){
                 switch (((EntityBossSummonCrystal) this.host).getVariantType()){
                     case 1:
-                        if(ForgeConfigHandler.server.escConfig.altarBossCrystalPML){
-                            if(!ForgeConfigHandler.server.escConfig.altarBossCrystalSoulgazerHold || target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer)
-                                this.setLevel(Math.max(this.getLevel(), pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.AltarBossMini, (BaseCreatureEntity)this.entity)));
+                        if(PlayerMobLevelsConfig.getPmlBonusCategories().containsKey(PlayerMobLevelsConfig.BonusCategory.AltarBossMini)){
+                            if(!PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(PlayerMobLevelsConfig.BonusCategory.AltarBossMini) || target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer)
+                                this.setLevel(this.getLevel() + pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.AltarBossMini, (BaseCreatureEntity)this.entity));
                         }
                         break;
                     case 2:
-                        if(ForgeConfigHandler.server.escConfig.dungeonBossCrystalPML){
-                            if(!ForgeConfigHandler.server.escConfig.dungeonBossCrystalSoulgazerHold || target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer)
-                                this.setLevel(Math.max(this.getLevel(), pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.DungeonBoss, (BaseCreatureEntity)this.entity)));
+                        if(PlayerMobLevelsConfig.getPmlBonusCategories().containsKey(PlayerMobLevelsConfig.BonusCategory.DungeonBoss)){
+                            if(!PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(PlayerMobLevelsConfig.BonusCategory.DungeonBoss) || target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer)
+                                this.setLevel(this.getLevel() + pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.DungeonBoss, (BaseCreatureEntity)this.entity));
                         }
                         break;
                     case -1:
-                        if(ForgeConfigHandler.server.escConfig.encounterCrystalPML){
-                            if(!ForgeConfigHandler.server.escConfig.encounterCrystalSoulgazerHold || target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer)
-                                this.setLevel(Math.max(this.getLevel(), pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.SpawnerNatural, (BaseCreatureEntity)this.entity)));
+                        if(PlayerMobLevelsConfig.getPmlBonusCategories().containsKey(PlayerMobLevelsConfig.BonusCategory.EncounterEvent)){
+                            if(!PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(PlayerMobLevelsConfig.BonusCategory.EncounterEvent) || target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer)
+                                this.setLevel(this.getLevel() + pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.EncounterEvent, (BaseCreatureEntity)this.entity));
                         }
                         break;
                     default:

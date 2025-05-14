@@ -1,4 +1,4 @@
-package lycanitestweaks.handlers.features.boss;
+package lycanitestweaks.handlers.features.entity;
 
 import com.lycanitesmobs.LycanitesMobs;
 import com.lycanitesmobs.ObjectManager;
@@ -23,7 +23,7 @@ import net.minecraft.world.storage.loot.functions.LootingEnchantBonus;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class DefaultBossLootHandler {
+public class EntityLootHandler {
 
 //    public static final String[] lootPoolNames = {
 //            "amalgalich_emeralds_with_mob_levels", "amalgalich_book_with_mob_levels",

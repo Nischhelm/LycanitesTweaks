@@ -4,11 +4,9 @@ import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.lycanitesmobs.core.entity.AgeableCreatureEntity;
 import com.lycanitesmobs.core.info.CreatureManager;
 import de.Whitedraco.switchbow.entity.arrow.EntityArrowLove;
-import lycanitestweaks.handlers.ForgeConfigHandler;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.PotionEffect;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(EntityArrowLove.class)
@@ -20,15 +18,12 @@ public abstract class EntityArrowLoveMixin {
             remap = true
     )
     public boolean lycanitesTweaks_switchbowEntityArrowSplitLoveUpgrade_AOEEffekt(EntityLivingBase instance, PotionEffect effect){
-        if(instance instanceof AgeableCreatureEntity && lycanitesTweaks$canCreatureBreed((AgeableCreatureEntity)instance)){
+        if(instance instanceof AgeableCreatureEntity
+                && CreatureManager.getInstance().creatureGroups.get("animal").hasEntity(instance)
+                && ((AgeableCreatureEntity) instance).canBreed()){
             ((AgeableCreatureEntity) instance).breed();
             return false;
         }
         return true;
-    }
-
-    @Unique
-    private static boolean lycanitesTweaks$canCreatureBreed(AgeableCreatureEntity creature){
-        return creature.canBreed() && (!ForgeConfigHandler.server.loveArrowBreedAnimalsOnly || CreatureManager.getInstance().creatureGroups.get("animal").hasEntity(creature));
     }
 }
