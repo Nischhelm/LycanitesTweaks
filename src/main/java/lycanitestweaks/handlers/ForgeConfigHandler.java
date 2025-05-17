@@ -179,7 +179,9 @@ public class ForgeConfigHandler {
 				"minecraft:unluck",
 				"lycanitesmobs:fear",
 				"lycanitesmobs:insomnia",
-				"lycanitesmobs:decay"
+				"lycanitesmobs:decay",
+				"srparasites:fear",
+				"mod_lavacow:fear"
 		};
 
 		@Config.Comment("List of potion resource locations immunization will cure. Requires Mixin 'Customizable Curing Item Effects List'")
@@ -410,15 +412,21 @@ public class ForgeConfigHandler {
 			@Config.RangeDouble(min = 0)
 			public double capPierceRatio = 3.0D;
 
-			@Config.Comment("Ratio of lycanites bonus Health bosses will receive, requires Mixin 'Boss Lower Health Scale'")
+			@Config.Comment("Ratio of lycanites bonus Health bosses will receive, requires Mixin 'Boss Lower Health Scale'" +
+					"\nThis applies to non Rares")
 			@Config.Name("Spawned As Boss Health Bonus Ratio")
 			@Config.RangeDouble(min = 0)
 			public double spawnedAsBossHealthBonusRatio = 0.5D;
 
+			@Config.Comment("Ratio of lycanites bonus Health bosses will receive, requires Mixin 'Boss Lower Health Scale'" +
+					"\nThis applies to Rares who normally have higher stats and the DPS limit")
+			@Config.Name("Spawned As Boss Rare Health Bonus Ratio")
+			@Config.RangeDouble(min = 0)
+			public double spawnedAsBossRareHealthBonusRatio = 0.5D;
+
 			@Config.Comment("Apply Mixin 'Boss Invert Health and Damage Scale' to variants/dungeon bosses instead of just the main Bosses")
 			@Config.Name("Spawned As Boss Invert Health and Damage Scale")
 			public boolean spawnedAsBossInvert = true;
-
 
 			/*
 			 * 	EffectAuraGoal - Amalgalich Auto Decay, Archvile Demon Buffs
@@ -469,6 +477,14 @@ public class ForgeConfigHandler {
 	}
 
 	public static class clientFeaturesConfig {
+
+		@Config.Comment("Adds Distinct Damage Descriptions Information to Beastiary" +
+				"(Currently restricted to putting formatted text at the bottom else color formatting bleeds through no matter what!)")
+		@Config.Name("Add Distinct Damage Descriptions Information to Beastiary")
+		@Config.RequiresMcRestart
+		@MixinConfig.CompatHandling(modid = "distinctdamagedescriptions")
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureclientbeastiaryddd.json")
+		public boolean beastiaryGUIDDD = false;
 
 		@Config.Comment("Adds Imperfect Summoning Information to Beastiary")
 		@Config.Name("Add Imperfect Summoning Information to Beastiary")
@@ -730,6 +746,12 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresoulkeyvariantset.json")
 		public boolean soulkeysSetVariant = true;
+
+		@Config.Comment("Grant all creatures tagged as SpawnedAsBoss the Rare variant stat multipliers instead of Common/Uncommon")
+		@Config.Name("Spawned As Boos Rare Boost")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurespawnedasbossrareboost.json")
+		public boolean spawnedAsBossRareBoost = true;
 
 		@Config.Comment("Rework summon progression to allow summoning weaker minions at low knowledge")
 		@Config.Name("Summon Progression Rework")

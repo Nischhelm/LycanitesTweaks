@@ -52,11 +52,15 @@ public class BossAsmodeusConfig {
 
     @Config.Comment("Whether Astaroth Minions are teleported away on spawn")
     @Config.Name("Astaroths Teleport Adjacent Node")
-    public boolean astarothsTeleportAdjacent = true;
+    public boolean astarothsTeleportAdjacent = false;
 
     @Config.Comment("Whether Astaroth Minions use Rare/Boss Damage Limit")
     @Config.Name("Astaroths Boss Damage Limit")
-    public boolean astarothsUseBossDamageLimit = true;
+    public boolean astarothsUseBossDamageLimit = false;
+
+    @Config.Comment("Whether Astaroth Minions are flagged as SpawnedAsBoss to interact with other tweaks that check for this property")
+    @Config.Name("Astaroths Boss SpawnedAsBoss Tag")
+    public boolean astarothsSpawnedAsBoss = true;
 
     @Config.Comment("Astaroth respawn time in seconds (2 per Player Max 2 Alive, Lycanites uses 30)")
     @Config.Name("Astaroths Phase 2 Respawn Time")

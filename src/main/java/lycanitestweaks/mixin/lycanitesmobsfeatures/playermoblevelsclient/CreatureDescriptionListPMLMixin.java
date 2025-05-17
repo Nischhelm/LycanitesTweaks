@@ -20,24 +20,24 @@ public abstract class CreatureDescriptionListPMLMixin {
 
     @ModifyReturnValue(
             method = "getContent",
-            at = @At("RETURN"),
+            at = @At(value = "RETURN", ordinal = 2),
             remap = false
     )
     public String lycanitesTweaks_lycanitesMobsCreatureDescriptionList_getContentPML(String original){
         if(this.parentGui.playerExt.getBeastiary().hasKnowledgeRank(this.creatureKnowledge.creatureName, 2)){
-            StringBuilder textBuilder = new StringBuilder(original);
+            StringBuilder textBuilder = new StringBuilder();
 
             if(CreatureManager.getInstance().config.startingLevelMax > CreatureManager.getInstance().config.startingLevelMin){
-                textBuilder.insert(0, "\n\n").insert(0, I18n.format("gui.beastiary.creatures.mixin.pml.range",
+                textBuilder.append(I18n.format("gui.beastiary.creatures.mixin.pml.range",
                         CreatureManager.getInstance().config.startingLevelMin,
                         CreatureManager.getInstance().config.startingLevelMax));
             }
             else{
-                textBuilder.insert(0, "\n\n").insert(0, I18n.format("gui.beastiary.creatures.mixin.pml.time",
-                        (int)(CreatureManager.getInstance().config.levelPerDayMax
-                            + CreatureManager.getInstance().config.levelPerLocalDifficulty
-                            * 6.75D)));
+                int timeLevel = (int)(CreatureManager.getInstance().config.levelPerLocalDifficulty * 6.75D);
+                if(CreatureManager.getInstance().config.levelPerDay > 0) timeLevel += CreatureManager.getInstance().config.levelPerDayMax;
+                textBuilder.append(I18n.format("gui.beastiary.creatures.mixin.pml.time", timeLevel));
             }
+            textBuilder.append("\n\n").append(original);
             return textBuilder.toString();
         }
         return original;

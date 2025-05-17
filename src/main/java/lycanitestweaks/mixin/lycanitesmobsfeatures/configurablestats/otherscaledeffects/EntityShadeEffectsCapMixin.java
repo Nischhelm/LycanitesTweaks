@@ -1,4 +1,4 @@
-package lycanitestweaks.mixin.lycanitesmobsfeatures.capbonusstats.otherscaledeffects;
+package lycanitestweaks.mixin.lycanitesmobsfeatures.configurablestats.otherscaledeffects;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;

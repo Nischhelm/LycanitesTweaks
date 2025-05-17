@@ -1,4 +1,4 @@
-package lycanitestweaks.mixin.lycanitesmobsfeatures.capbonusstats.otherscaledeffects;
+package lycanitestweaks.mixin.lycanitesmobsfeatures.configurablestats.otherscaledeffects;
 
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.creature.EntityWarg;

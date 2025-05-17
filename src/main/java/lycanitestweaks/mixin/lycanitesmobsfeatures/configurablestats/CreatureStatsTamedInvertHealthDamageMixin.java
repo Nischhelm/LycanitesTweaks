@@ -1,4 +1,4 @@
-package lycanitestweaks.mixin.lycanitesmobsfeatures.invertstatbonusscaling;
+package lycanitestweaks.mixin.lycanitesmobsfeatures.configurablestats;
 
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.CreatureStats;

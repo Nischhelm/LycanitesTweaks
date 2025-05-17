@@ -6,7 +6,7 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "invertstatbonusscaling.CreatureStatsMinionInvertHealthDamageMixin"
+    "configurablestats.CreatureStatsMinionInvertHealthDamageMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

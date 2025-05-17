@@ -29,13 +29,13 @@ public class PlayerMobLevelsConfig {
     @Config.Name("Bonus Categories")
     public String[] pmlCategories = {
             "AltarBossMain,true,WILD,1.0",
-            "AltarBossMini,true,WILD,1.0",
-            "DungeonBoss,true,WILD,1.0",
+            "AltarBossMini,true,WILD,0.75",
+            "DungeonBoss,true,WILD,0.75",
             "EncounterEvent,false,ALL,1.0",
             "SoulboundTame,false,TAMED,1.0",
-            "SpawnerNatural,false,ALL,1.0",
-            "SpawnerTile,false,WILD,1.0",
-            "SpawnerTrigger,false,WILD,1.0",
+            "SpawnerNatural,false,ALL,0.2",
+            "SpawnerTile,false,WILD,0.4",
+            "SpawnerTrigger,false,WILD,0.2",
             "SummonMinion,false,TAMED,1.0"
     };
 
@@ -45,7 +45,7 @@ public class PlayerMobLevelsConfig {
             "\tmultiplier - Multiplier to use on the total bonus before it is used")
     @Config.Name("Bonus Source Multipliers - ALL")
     public String[] pmlBonusAll = {
-            "ActivePet,1.0",
+            "ActivePet,0.75",
             "BestiaryCreature,1.0",
             "BestiaryElement,1.0",
             "Enchantments,1.0",
@@ -82,11 +82,6 @@ public class PlayerMobLevelsConfig {
     @Config.Name("Enchantment Rarity Divisors")
     @Config.RequiresMcRestart
     public int[] enchRarityDivisors = {1, 2, 5, 10};
-
-    // TODO Remove no calculate
-    @Config.Comment("Alternative to fully disabling, forge caps exist (non null) but always returns 0")
-    @Config.Name("Mod Compatibility: No Calculate")
-    public boolean playerMobLevelCapabilityNoCalc = false;
 
     @Config.Comment("Enable Capability to calculate a Mob Level associated to a player")
     @Config.Name("Player Mob Level Capability")

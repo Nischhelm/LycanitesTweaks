@@ -56,7 +56,7 @@
                 },
 				{
 					"condition": "lycanitesTweaks:has_mob_levels",
-					"range": 50
+					"range": 30
 				}
             ]
         },
@@ -83,13 +83,10 @@
                 {
                    "condition": "random_chance","chance": 1.000
                 },
-                {
-                    "condition": "lycanitesTweaks:has_mob_levels",
-                    "range": {
-                      "min": 100,
-                      "max": 115
-                    }
-                }
+              {
+                "condition": "lycanitesTweaks:has_mob_levels",
+                "range": 100
+              }
             ]
         }
     ]

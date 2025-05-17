@@ -31,8 +31,10 @@ public abstract class CreatureStatsBossHealthMixin {
                 || !ForgeConfigHandler.featuresMixinConfig.bossInvertHealthDamageScale &&stat.equals(HEALTH))) {
             if (this.entity.isBossAlways()) {
                 return original * ForgeConfigHandler.server.statsConfig.bossHealthBonusRatio;
-            } else if (this.entity.isBoss()) {
-                return original * ForgeConfigHandler.server.statsConfig.spawnedAsBossHealthBonusRatio;
+            } else if (this.entity.spawnedAsBoss) {
+                return (this.entity.isRareVariant()) ?
+                        original * ForgeConfigHandler.server.statsConfig.spawnedAsBossRareHealthBonusRatio :
+                        original * ForgeConfigHandler.server.statsConfig.spawnedAsBossHealthBonusRatio;
             }
         }
         return original;

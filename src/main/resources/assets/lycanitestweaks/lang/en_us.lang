@@ -15,6 +15,7 @@ enchantedkey.message.active=The Soulkey activates the Altar! The boss is empower
 
 event.boss.playermoblevels=The Soulgazer has unleashed a reflection of your soul!
 
+gui.beastiary.creatures.mixin.ddd=Distinct Damage Descriptions
 gui.beastiary.creatures.mixin.pml.range=Knowledge Rank 2 Player Level Bonus: Random +[%s - %s)
 gui.beastiary.creatures.mixin.pml.time=Knowledge Rank 2 Player Level Bonus: World Age +[0 - %s)
 gui.beastiary.elements.mixin.creatures=§lKnown Creatures:
@@ -36,7 +37,18 @@ gui.beastiary.summoning.mixin.imperfect.hostile=§lHostile Chance: §c%.2d%%
 gui.beastiary.summoning.mixin.imperfect.stats=§lReduced Stats Chance: §e%.2d%%
 gui.beastiary.summoning.mixin.pml=§lTotal Bonus Levels: +§a%s
 
-item.equipment.description.mixin=§dEnchantable
+gui.jei.equipment.mana.description=The Equipment Station restores Mana. Search 'Mana:' in JEI to see valid items
+gui.jei.equipment.sharpness.description=The Equipment Station restores Sharpness. Search 'Sharpness:' in JEI to see valid items
+gui.jei.equipmentpart.infuser.description=The Equipment Infuser can be used to give experience to the part using charges. One element listed on the part must match one listed on the Charge.
+gui.jei.equipmentpart.base.description=Base Slot Parts are the start of any product of the Equipment Forge. Complete equipment must also have a Blade, Axe, Pike, or Jewel.
+gui.jei.equipmentpart.pommel.description=Certain Base Slot parts will unlock the Pommel Slot. Pommel Slot Parts are optional parts, they are not required for a complete equipment.
+gui.jei.equipmentpart.head.description=Head Slot Parts are always unlocked by the Base Slot. This part will determine if the equipment will have a Blade, Axe, Pike, or Jewel.
+gui.jei.equipmentpart.blade.description=Blade Slot Parts are one type of part that makes an equipment complete. It must be connected to a compatible Head slot part.
+gui.jei.equipmentpart.axe.description=Axe Slot Parts are one type of part that makes an equipment complete. It must be connected to a compatible Head slot part. Up to two Axe Slot Parts can be used on one equipment.
+gui.jei.equipmentpart.pike.description=Pike Slot Parts are one type of part that makes an equipment complete. It must be connected to a compatible Head slot part.
+gui.jei.equipmentpart.jewel.description=Jewel Slot Parts are one type of part that makes an equipment complete. It must be connected to a compatible Head slot part.
+
+item.equipment.description.mixin=§dEnchantable§r, will clear enchantments if a part is removed
 item.summoningstaff.description.mixin=§rThe §5§lEquipment Infuser§r can infuse a §lcharge§r to this staff and allow leveling §lassociated elements§r.
 item.summoningstaff.description.mixin.chargeitem=§r(§lCharge§r: §d%s§r)
 item.summoningstaff.description.mixin.element=§r[§lElement§r: §b%s§r]

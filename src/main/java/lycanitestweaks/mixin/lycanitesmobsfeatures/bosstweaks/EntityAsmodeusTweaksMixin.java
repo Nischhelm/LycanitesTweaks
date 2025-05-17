@@ -143,10 +143,14 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
     public void lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesPhaseTwoMinion(CallbackInfo ci, @Local EntityAstaroth minion){
         minion.setCustomNameTag("Arachnotron");
         minion.setSizeScale(1.8);
+        if(ForgeConfigHandler.server.asmodeusConfig.astarothsSpawnedAsBoss) {
+            minion.spawnedAsBoss = true;
+            minion.refreshAttributes();
+            minion.firstSpawn = false;
+        }
         if(ForgeConfigHandler.server.asmodeusConfig.astarothsUseBossDamageLimit) {
             minion.damageMax = BaseCreatureEntity.BOSS_DAMAGE_LIMIT;
             minion.damageLimit = (float) BaseCreatureEntity.BOSS_DAMAGE_LIMIT;
-            minion.spawnedAsBoss = true;
         }
         if(ForgeConfigHandler.server.asmodeusConfig.astarothsTeleportAdjacent && this.currentArenaNode != null){
             BlockPos randomPos = this.currentArenaNode.getRandomAdjacentNode().pos;
@@ -164,10 +168,14 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
         minion.setCustomNameTag("Asakku");
         minion.setSizeScale(2.5);
         minion.setSubspecies(1);
+        if(ForgeConfigHandler.server.asmodeusConfig.astarothsSpawnedAsBoss) {
+            minion.spawnedAsBoss = true;
+            minion.refreshAttributes();
+            minion.firstSpawn = false;
+        }
         if(ForgeConfigHandler.server.asmodeusConfig.astarothsUseBossDamageLimit) {
             minion.damageMax = BaseCreatureEntity.BOSS_DAMAGE_LIMIT;
             minion.damageLimit = (float) BaseCreatureEntity.BOSS_DAMAGE_LIMIT;
-            minion.spawnedAsBoss = true;
         }
         if(ForgeConfigHandler.server.asmodeusConfig.astarothsTeleportAdjacent && this.currentArenaNode != null){
             BlockPos randomPos = this.currentArenaNode.getRandomAdjacentNode().pos;

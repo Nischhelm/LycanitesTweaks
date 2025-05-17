@@ -32,4 +32,10 @@ public class EntityStoreCreatureConfig {
     @Config.Name("Entity Store Creature Capability")
     @Config.RequiresMcRestart
     public boolean entityStoreCreatureCapability = true;
+
+    @Config.Comment("Apply the Rare/Boss Damage Limit only if the stored creature is flagged to spawn as a boss" +
+            "\nThis grants partial consistency for non Rare Dungeon bosses who did not have this property in vanilla Lycanites" +
+            "\nThis option does not grant the Rare stat boost")
+    @Config.Name("SpawnedAsBoss Damage Limit")
+    public boolean spawnedAsBossDamageLimit = true;
 }

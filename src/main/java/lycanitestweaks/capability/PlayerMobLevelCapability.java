@@ -90,7 +90,6 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
 
     @Override
     public int getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory category, @Nullable BaseCreatureEntity creature, boolean client) {
-        if(ForgeConfigHandler.server.pmlConfig.playerMobLevelCapabilityNoCalc) return 0;
         double totalLevels = 0;
         double deathModifier = 0;
 
@@ -105,6 +104,9 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
                     case TAMED:
                         if(PlayerMobLevelsConfig.getPmlBonusUsagesTamed().containsKey(bonus))
                             modifier = PlayerMobLevelsConfig.getPmlBonusUsagesTamed().get(bonus);
+                    case ALL:
+                        if(bonus == PlayerMobLevelsConfig.Bonus.PlayerDeath && PlayerMobLevelsConfig.getPmlBonusUsagesAll().containsKey(bonus))
+                            modifier = PlayerMobLevelsConfig.getPmlBonusUsagesAll().get(bonus);
                 }
                 if(modifier == 0.0D && bonus != PlayerMobLevelsConfig.Bonus.PlayerDeath && PlayerMobLevelsConfig.getPmlBonusUsagesAll().containsKey(bonus)){
                     modifier = PlayerMobLevelsConfig.getPmlBonusUsagesAll().get(bonus);
@@ -153,7 +155,7 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
     public int getCurrentLevelBestiary(BaseCreatureEntity creature) {
         if(creature != null) {
             ExtendedPlayer extendedPlayer = ExtendedPlayer.getForPlayer(this.player);
-            if (extendedPlayer != null) {
+            if (extendedPlayer != null && extendedPlayer.getBeastiary().hasKnowledgeRank(creature.creatureInfo.getName(), 0)) {
                 CreatureKnowledge knowledge = extendedPlayer.getBeastiary().getCreatureKnowledge(creature.creatureInfo.getName());
                 float experience;
                 if(knowledge.rank >= 2){

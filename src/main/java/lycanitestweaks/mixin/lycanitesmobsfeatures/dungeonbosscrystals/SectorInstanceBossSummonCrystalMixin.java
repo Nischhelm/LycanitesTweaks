@@ -66,7 +66,7 @@ public abstract class SectorInstanceBossSummonCrystalMixin {
                 storeCreature.setStoredCreatureEntity(StoredCreatureEntity.createFromEntity(crystal, creature)
                         .setPersistant(creature.isPersistant())
                         .setFixate(creature.hasFixateTarget())
-                        .setHome(creature.getHomeDistanceMax())
+                        .setHome(Math.max(3, Math.max(this.roomSize.getX(), this.roomSize.getZ())))
                         .setSpawnAsBoss(creature.spawnedAsBoss)
                         .setTemporary(creature.temporaryDuration)
                         .setMobDropsList(creature.savedDrops)
