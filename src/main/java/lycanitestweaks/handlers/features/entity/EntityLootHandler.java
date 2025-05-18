@@ -92,7 +92,7 @@ public class EntityLootHandler {
                                         LycanitesTweaks.MODID + ":enchant_with_mob_levels_book_treasure")},
                         new LootCondition[]{
                                 new IsVariant(-1, false, false, true),
-                                new HasMobLevels(new RandomValueRange(100))},
+                                new HasMobLevels(new RandomValueRange(30))},
                         new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_boss_book_treasure");
                 LootPool xpTable = new LootPool(
                         new LootEntry[]{

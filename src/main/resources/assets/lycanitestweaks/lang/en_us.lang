@@ -37,10 +37,10 @@ gui.beastiary.summoning.mixin.imperfect.hostile=§lHostile Chance: §c%.2d%%
 gui.beastiary.summoning.mixin.imperfect.stats=§lReduced Stats Chance: §e%.2d%%
 gui.beastiary.summoning.mixin.pml=§lTotal Bonus Levels: +§a%s
 
-gui.jei.equipment.mana.description=The Equipment Station restores Mana. Search 'Mana:' in JEI to see valid items
-gui.jei.equipment.sharpness.description=The Equipment Station restores Sharpness. Search 'Sharpness:' in JEI to see valid items
-gui.jei.equipmentpart.infuser.description=The Equipment Infuser can be used to give experience to the part using charges. One element listed on the part must match one listed on the Charge.
-gui.jei.equipmentpart.base.description=Base Slot Parts are the start of any product of the Equipment Forge. Complete equipment must also have a Blade, Axe, Pike, or Jewel.
+gui.jei.equipment.mana.description=The §3§lEquipment Station§r restores §dMana§r with:
+gui.jei.equipment.sharpness.description=The §3§lEquipment Station§r restores §bSharpness§r with:
+gui.jei.equipmentpart.infuser.description=The §5§lEquipment Infuser§r can be used to give §aexperience§r to the part using §lCharges§r. One element listed on the part must match one listed on the §lCharge§r.
+gui.jei.equipmentpart.base.description=Base Slot Parts are the start of any output from the §lEquipment Forge§r. Complete equipment must also have a Blade, Axe, Pike, or Jewel.
 gui.jei.equipmentpart.pommel.description=Certain Base Slot parts will unlock the Pommel Slot. Pommel Slot Parts are optional parts, they are not required for a complete equipment.
 gui.jei.equipmentpart.head.description=Head Slot Parts are always unlocked by the Base Slot. This part will determine if the equipment will have a Blade, Axe, Pike, or Jewel.
 gui.jei.equipmentpart.blade.description=Blade Slot Parts are one type of part that makes an equipment complete. It must be connected to a compatible Head slot part.

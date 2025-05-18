@@ -651,11 +651,11 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureenchantedsoulkeyequipmenttiles.json")
 		public boolean enchantedSoulkeyEquipmentTiles = true;
 
-		@Config.Comment("Attempt a vanilla like despawn and store the creature in a Crystal Entity to interact with Player Mob Levels")
-		@Config.Name("Encounter Natural Spawn Summon Crystal (Requires Capability)")
+		@Config.Comment("Randomly store some Mob Event spawns in an Encounter Crystal, flags entity as SpawnedAsBoss (has configs)")
+		@Config.Name("Encounter Crystal Mob Event (Requires Capability)")
 		@Config.RequiresMcRestart
-		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurenaturalencountercrystal.json")
-		public boolean encounterNaturalSpawnCrystal = false;
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuremobeventencountercrystal.json")
+		public boolean encounterCrystalMobEvent = true;
 
 		@Config.Comment("When reading familiars from URL, Set Spawning Active to false")
 		@Config.Name("Familiars Inactive On Join")

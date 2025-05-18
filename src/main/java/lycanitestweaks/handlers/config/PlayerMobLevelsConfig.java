@@ -9,6 +9,7 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,25 +18,29 @@ public class PlayerMobLevelsConfig {
 
     private static HashMap<BonusCategory, Pair<BonusUsage, Double>> pmlBonusCategories = null;
     private static HashSet<BonusCategory> pmlBonusCategorySoulgazer = null;
-    public static HashMap<Bonus, Double> pmlBonusUsagesAll = null;
-    public static HashMap<Bonus, Double> pmlBonusUsagesTamed = null;
-    public static HashMap<Bonus, Double> pmlBonusUsagesWild = null;
+    private static HashMap<Bonus, Double> pmlBonusUsagesAll = null;
+    private static HashMap<Bonus, Double> pmlBonusUsagesTamed = null;
+    private static HashMap<Bonus, Double> pmlBonusUsagesWild = null;
+    private static ArrayList<BonusCategory> pmlBonusCategoryClientRenderOrder = null;
 
     @Config.Comment("Format: [categoryName,soulgazer,bonusGroup,multiplier]\n" +
                         "\tcategoryName - The case player mob levels is added, do not change from the defaults\n" +
                         "\tsoulgazer - If a mainhand Soulgazer is required to apply level boost\n" +
                         "\tbonusGroup - [All,TAMED,WILD], specifies the list of multipliers to use when calculating bonus levels\n" +
-                        "\tmultiplier - Multiplier to use on the total bonus before it is used")
+                        "\tmultiplier - Multiplier to use on the total bonus before it is used\n\n" +
+                    "This list is very particular and controls various features:\n" +
+                        "\tBeastiary Render order is determined by the order of this list\n" +
+                        "\tRemove an entry to fully disable, ex. 'SpawnerTrigger' flags first-time spawns with 0.0 multiplier")
     @Config.Name("Bonus Categories")
     public String[] pmlCategories = {
             "AltarBossMain,true,WILD,1.0",
             "AltarBossMini,true,WILD,0.75",
             "DungeonBoss,true,WILD,0.75",
-            "EncounterEvent,false,ALL,1.0",
-            "SoulboundTame,false,TAMED,1.0",
             "SpawnerNatural,false,ALL,0.2",
             "SpawnerTile,false,WILD,0.4",
             "SpawnerTrigger,false,WILD,0.2",
+            "EncounterEvent,false,ALL,1.0",
+            "SoulboundTame,false,TAMED,1.0",
             "SummonMinion,false,TAMED,1.0"
     };
 
@@ -125,7 +130,7 @@ public class PlayerMobLevelsConfig {
     @Config.Name("PML Spawner Names Calls First Spawn")
     public boolean pmlSpawnerNameFirstSpawn = false;
 
-    @Config.Comment("List of Lycanites Spawner Names to attempt to apply Player Mob Levels (ex World triggers don't have players)")
+    @Config.Comment("List of Lycanites Spawner Names to attempt to apply Player Mob Levels")
     @Config.Name("PML Spawner Names")
     public String[] pmlSpawnerNameStrings = {
             "chaos",
@@ -245,6 +250,25 @@ public class PlayerMobLevelsConfig {
         return PlayerMobLevelsConfig.pmlBonusUsagesWild;
     }
 
+    public static ArrayList<BonusCategory> getPmlBonusCategoryClientRenderOrder(){
+        if(PlayerMobLevelsConfig.pmlBonusCategoryClientRenderOrder == null){
+            ArrayList<BonusCategory> renderOrder = new ArrayList<>();
+
+            for(String string : ForgeConfigHandler.server.pmlConfig.pmlCategories){
+                String[] line = string.split(",");
+                try {
+                    renderOrder.add(BonusCategory.get(line[0]));
+                }
+                catch (Exception exception){
+                    LycanitesTweaks.LOGGER.error("Failed to parse {} in pmlCategories", string);
+                }
+            }
+
+            PlayerMobLevelsConfig.pmlBonusCategoryClientRenderOrder = renderOrder;
+        }
+        return PlayerMobLevelsConfig.pmlBonusCategoryClientRenderOrder;
+    }
+
     public enum Bonus {
 
         ActivePet("ActivePet"),
@@ -311,6 +335,7 @@ public class PlayerMobLevelsConfig {
                 PlayerMobLevelsConfig.pmlBonusUsagesAll = null;
                 PlayerMobLevelsConfig.pmlBonusUsagesTamed = null;
                 PlayerMobLevelsConfig.pmlBonusUsagesWild = null;
+                PlayerMobLevelsConfig.pmlBonusCategoryClientRenderOrder = null;
 
                 ConfigManager.sync(LycanitesTweaks.MODID, Config.Type.INSTANCE);
             }

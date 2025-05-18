@@ -50,7 +50,13 @@ public class EntityEncounterSummonCrystal extends EntityBossSummonCrystal {
         IEntityStoreCreatureCapability storeCreature = crystal.getCapability(EntityStoreCreatureCapabilityHandler.ENTITY_STORE_CREATURE, null);
 
         if(storeCreature != null) {
-            if(entityLiving instanceof BaseCreatureEntity) storeCreature.setStoredCreatureEntity(StoredCreatureEntity.createFromEntity(crystal, (BaseCreatureEntity)entityLiving));
+            if(entityLiving instanceof BaseCreatureEntity) {
+                storeCreature.setStoredCreatureEntity(StoredCreatureEntity.createFromEntity(crystal, (BaseCreatureEntity) entityLiving)
+                    .setPersistant(true)
+                    .setFixate(true)
+                    .setSpawnAsBoss(true)
+                    .setTemporary(((BaseCreatureEntity) entityLiving).temporaryDuration));
+            }
             else storeCreature.setStoredCreatureEntity(StoredCreatureEntity.createFromEntity(crystal, entityLiving));
             crystal.setVariantType(-1);
         }
