@@ -2,8 +2,9 @@ package lycanitestweaks.mixin.ddd;
 
 import com.lycanitesmobs.client.gui.beastiary.BeastiaryScreen;
 import com.lycanitesmobs.client.gui.beastiary.SummoningBeastiaryScreen;
-import com.lycanitesmobs.core.item.ItemBase;
 import lycanitestweaks.client.gui.DDDDescriptionList;
+import lycanitestweaks.client.gui.RenderToggleButton;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -16,6 +17,8 @@ public abstract class SummoningBeastiaryScreenDDDMixin extends BeastiaryScreen {
 
     @Unique
     public DDDDescriptionList lycanitesTweaks$dddDescriptionList;
+    @Unique
+    public RenderToggleButton lycanitesTweaks$descListToggle;
 
     public SummoningBeastiaryScreenDDDMixin(EntityPlayer player) {
         super(player);
@@ -27,21 +30,27 @@ public abstract class SummoningBeastiaryScreenDDDMixin extends BeastiaryScreen {
             remap = false
     )
     public void lycanitesTweaks_lycanitesMobsSummoningBeastiaryScreen_initControlsDDD(CallbackInfo ci){
-        int width = (int)(ItemBase.DESCRIPTION_WIDTH * 0.8);
-        int height = width / 4;
-        int top = (int)(this.colRightY * 0.75);
-        int bottom = (int)(this.colRightY * 1.25);
-        int xPos = (int) (this.colRightX * 2.6);
+        int height = (int) (DDDDescriptionList.LIST_WIDTH / 3.25);
+        int top = (int) (this.colRightCenterY * 0.75);
+        int bottom = top + height;
+        int xPos = (int) (this.colRightCenterX * 0.7);
 
-        lycanitesTweaks$dddDescriptionList = new DDDDescriptionList(this, width, height, top, bottom, xPos);
+        lycanitesTweaks$descListToggle = new RenderToggleButton(RenderToggleButton.BUTTON_ID, this.colRightX * 3, this.colRightY , 80, 20, I18n.format("gui.beastiary.creatures.mixin.ddd"));
+        this.buttonList.add(lycanitesTweaks$descListToggle);
+        lycanitesTweaks$dddDescriptionList = new DDDDescriptionList(this, DDDDescriptionList.LIST_WIDTH, height, top, bottom, xPos, lycanitesTweaks$descListToggle);
     }
 
     @Inject(
             method = "drawForeground",
-            at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/client/gui/beastiary/SummoningBeastiaryScreen;renderCreature(Lcom/lycanitesmobs/core/info/CreatureInfo;IIIIF)V"),
+            at = @At("TAIL"),
             remap = false
     )
     public void lycanitesTweaks_lycanitesMobsSummoningBeastiaryScreen_drawForegroundDDD(int mouseX, int mouseY, float partialTicks, CallbackInfo ci){
-        this.lycanitesTweaks$dddDescriptionList.drawScreen(mouseX, mouseY, partialTicks);
+        if(this.creaturePreviewEntity != null) {
+            this.lycanitesTweaks$descListToggle.visible = true;
+            this.lycanitesTweaks$dddDescriptionList.drawScreen(mouseX, mouseY, partialTicks);
+        }
+        else
+            this.lycanitesTweaks$descListToggle.visible = false;
     }
 }

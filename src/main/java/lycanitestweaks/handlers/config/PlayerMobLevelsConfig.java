@@ -37,7 +37,7 @@ public class PlayerMobLevelsConfig {
             "AltarBossMini,true,WILD,0.75",
             "DungeonBoss,true,WILD,0.75",
             "SpawnerNatural,false,ALL,0.2",
-            "SpawnerTile,false,WILD,0.4",
+            "SpawnerTile,false,WILD,0.3",
             "SpawnerTrigger,false,WILD,0.2",
             "EncounterEvent,false,ALL,1.0",
             "SoulboundTame,false,TAMED,1.0",

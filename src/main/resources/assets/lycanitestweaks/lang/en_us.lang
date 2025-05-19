@@ -15,7 +15,10 @@ enchantedkey.message.active=The Soulkey activates the Altar! The boss is empower
 
 event.boss.playermoblevels=The Soulgazer has unleashed a reflection of your soul!
 
-gui.beastiary.creatures.mixin.ddd=Distinct Damage Descriptions
+gui.beastiary.creatures.mixin.ddd=Show DDD
+gui.beastiary.creatures.mixin.ddd.description=Distinct Damage Descriptions
+gui.beastiary.creatures.mixin.interact.diet=Additionally can be tamed with: Diet
+gui.beastiary.creatures.mixin.interact.saddle=Additionally can be ridden with a normal saddle at Level: %s
 gui.beastiary.creatures.mixin.pml.range=Knowledge Rank 2 Player Level Bonus: Random +[%s - %s)
 gui.beastiary.creatures.mixin.pml.time=Knowledge Rank 2 Player Level Bonus: World Age +[0 - %s)
 gui.beastiary.elements.mixin.creatures=§lKnown Creatures:

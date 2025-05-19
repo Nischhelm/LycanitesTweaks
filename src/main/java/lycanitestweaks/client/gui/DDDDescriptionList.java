@@ -12,10 +12,14 @@ import net.minecraftforge.fml.client.config.GuiUtils;
 import yeelp.distinctdamagedescriptions.integration.hwyla.client.HwylaMobDamageFormatter;
 import yeelp.distinctdamagedescriptions.integration.hwyla.client.HwylaMobResistanceFormatter;
 
-public class DDDDescriptionList extends GuiScrollingList {
+public class DDDDescriptionList extends GuiScrollingList{
+
+    RenderToggleButton renderToggleButton;
 
     protected BeastiaryScreen parentGui;
     public CreatureKnowledge creatureKnowledge;
+
+    public static final int LIST_WIDTH = (int)(ItemBase.DESCRIPTION_WIDTH * 1.6);
 
     /**
      * Constructor
@@ -25,9 +29,10 @@ public class DDDDescriptionList extends GuiScrollingList {
      * @param bottom The y position that the list stops at.
      * @param x The x position of the list.
      */
-    public DDDDescriptionList(BeastiaryScreen parentGui, int width, int height, int top, int bottom, int x) {
+    public DDDDescriptionList(BeastiaryScreen parentGui, int width, int height, int top, int bottom, int x, RenderToggleButton renderToggleButton) {
         super(Minecraft.getMinecraft(), width, height, top, bottom, x, 10800, width, height);
         this.parentGui = parentGui;
+        this.renderToggleButton = renderToggleButton;
     }
 
 
@@ -66,18 +71,19 @@ public class DDDDescriptionList extends GuiScrollingList {
             if(this.parentGui.playerExt.beastiary.hasKnowledgeRank(creature.creatureInfo.getName(), 0))
                 this.creatureKnowledge = this.parentGui.playerExt.beastiary.getCreatureKnowledge(creature.creatureInfo.getName());
         }
-        if(index == 0 && this.creatureKnowledge != null) {
-            this.parentGui.drawSplitString(this.getContent(), this.left + 6, boxTop, ItemBase.DESCRIPTION_WIDTH, 0xFFFFFF, true);
+        if(index == 0) {
+            this.parentGui.drawSplitString(this.getContent(), this.left + 6, boxTop, DDDDescriptionList.LIST_WIDTH - 12, 0xFFFFFF, true);
         }
     }
 
 
     public String getContent() {
         StringBuilder textBuilder = new StringBuilder();
-        if(this.creatureKnowledge == null) {
-            return textBuilder.toString();
+        if(this.creatureKnowledge == null || this.creatureKnowledge.rank < 2) {
+            textBuilder.append(I18n.format("gui.beastiary.creatures.mixin.ddd.description")).append("\n");
+            textBuilder.append(I18n.format("gui.beastiary.unlockedat")).append(" ").append(I18n.format("creature.stat.knowledge")).append(" 2");
         }
-        if(this.creatureKnowledge.rank >= 2) {
+        else {
             // Stats:
             if(this.parentGui.creaturePreviewEntity != null) {
                 HwylaMobDamageFormatter.getInstance().format(this.parentGui.creaturePreviewEntity).forEach((line) -> {
@@ -87,15 +93,16 @@ public class DDDDescriptionList extends GuiScrollingList {
                 HwylaMobResistanceFormatter.getInstance().format(this.parentGui.creaturePreviewEntity).forEach((line) -> {
                     textBuilder.append(line).append("\n");
                 });
+                textBuilder.append("\n").append("\n");
             }
         }
-        else {
-            textBuilder.append(I18n.format("gui.beastiary.creatures.mixin.ddd"));
-            textBuilder.append("\n").append(I18n.format("gui.beastiary.unlockedat")).append(" ").append(I18n.format("creature.stat.knowledge")).append(" 2");
-        }
-
 
         return textBuilder.toString();
+    }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks){
+        if(!this.renderToggleButton.enabled) super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
     /** Overridden to change the background gradient without copying over an entire function. **/

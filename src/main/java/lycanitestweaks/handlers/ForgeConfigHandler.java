@@ -203,7 +203,7 @@ public class ForgeConfigHandler {
 				"twilightforest:enchanted_forest"
 		};
 
-		@Config.Comment("Apply Mixin 'Lycanites Fire Extinguish (Vanilla)' to all modded fires")
+		@Config.Comment("Apply Mixin 'Lycanites Fire No Break Collision' to all modded fires")
 		@Config.Name("Mod Compatibility: Fix all Modded Fire Extinguish")
 		public boolean fixAllModdedFireExtinguish = true;
 
@@ -478,13 +478,12 @@ public class ForgeConfigHandler {
 
 	public static class clientFeaturesConfig {
 
-		@Config.Comment("Adds Distinct Damage Descriptions Information to Beastiary" +
-				"(Currently restricted to putting formatted text at the bottom else color formatting bleeds through no matter what!)")
+		@Config.Comment("Adds Distinct Damage Descriptions Information to Beastiary")
 		@Config.Name("Add Distinct Damage Descriptions Information to Beastiary")
 		@Config.RequiresMcRestart
 		@MixinConfig.CompatHandling(modid = "distinctdamagedescriptions")
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureclientbeastiaryddd.json")
-		public boolean beastiaryGUIDDD = false;
+		public boolean beastiaryGUIDDD = true;
 
 		@Config.Comment("Adds Imperfect Summoning Information to Beastiary")
 		@Config.Name("Add Imperfect Summoning Information to Beastiary")
@@ -518,12 +517,6 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		@MixinConfig.EarlyMixin(name = "mixins.lycanitestweaks.vanillawithertargettremor.json")
 		public boolean witherTargetTremor = true;
-
-		@Config.Comment("Add Modded Fires to the specific Blocks.FIRE check made by the World")
-		@Config.Name("Lycanites Fire Extinguish (Vanilla)")
-		@Config.RequiresMcRestart
-		@MixinConfig.EarlyMixin(name = "mixins.lycanitestweaks.vanillaextinguishmoddedfire.json")
-		public boolean lycanitesFireExtinguish = true;
 
 		@Config.Comment("Whether a Smited LivingEntityBase is undead if method inherited (often overridden)")
 		@Config.Name("Most Smited Are Undead (Vanilla)")
@@ -681,9 +674,10 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebasecreatureminionhostlevelmatch.json")
 		public boolean levelMatchMinionsHostMethod = true;
 
-		@Config.Comment("Fix explosion damage being reduced to 1, pair with early Mixin 'Lycanites Fire Extinguish (Vanilla)")
+		@Config.Comment("Fix explosion damage being reduced to 1 and use vanilla's fire punch-out handling")
 		@Config.Name("Lycanites Fire No Break Collision")
 		@Config.RequiresMcRestart
+		@MixinConfig.EarlyMixin(name = "mixins.lycanitestweaks.vanillaextinguishmoddedfire.json")
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurelycanitesfirepassable.json")
 		public boolean lycanitesFiresNoBreakCollision = true;
 
@@ -699,7 +693,7 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureinverthostileminiondamagehealthscale.json")
 		public boolean minionInvertHealthDamageScale = true;
 
-		@Config.Comment("Allow mounts to be use vanilla saddles under certain conditions (has configs)")
+		@Config.Comment("Allow mounts to be use vanilla saddles based on levels (has configs)")
 		@Config.Name("Mounts can use Vanilla saddles with limitations")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurelimitedvanillasaddle.json")
@@ -801,25 +795,25 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuretameabletreatpersistence.json")
 		public boolean treatSetsPersistence = true;
 
-		@Config.Comment("Use Player Mob Level to affect the main Bosses")
+		@Config.Comment("Inject handling for Player Mob Levels affecting the main Bosses")
 		@Config.Name("Player Mob Level Bosses (Requires Capability)")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossesplayermoblevels.json")
 		public boolean playerMobLevelMainBosses = true;
 
-		@Config.Comment("Use Player Mob Level to affect JSON Spawners by whitelist")
+		@Config.Comment("Inject handling for Player Mob Level affecting JSON Spawners by whitelist")
 		@Config.Name("Player Mob Level JSON Spawner (Requires Capability)")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurejsonspawnerplayermoblevels.json")
 		public boolean playerMobLevelJSONSpawner = true;
 
-		@Config.Comment("Use Player Mob Level to limit soulbounds in specified dimensions")
+		@Config.Comment("Inject handling for Player Mob Level to limit soulbounds in specified dimensions")
 		@Config.Name("Player Mob Level Soulbound Limit Dims (Requires Capability)")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurelimitedbounddimensions.json")
 		public boolean playerMobLevelSoulboundLimitedDimensions = true;
 
-		@Config.Comment("Use Player Mob Level to affect summon staff minions")
+		@Config.Comment("Inject handling for Player Mob Level to affect summon staff minions")
 		@Config.Name("Player Mob Level Summon Staff (Requires Capability)")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresummonstaffplayermoblevel.json")
@@ -897,13 +891,13 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesageablebabydrops.json")
 		public boolean fixAgeableBabyDrops = true;
 
-		@Config.Comment("Add persistence to summons via BaseCreature method")
+		@Config.Comment("Add persistence to summons via BaseCreature method (as fix for Rahovart/Asmodeus minion mechanics)")
 		@Config.Name("Fix BaseCreature Summon Persistence")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesbasecreatureminionpersistence.json")
 		public boolean fixBaseCreatureSummonPersistence = true;
 
-		@Config.Comment("Add a call to super in BaseCreature's isPotionApplicable method")
+		@Config.Comment("Add a call to super in BaseCreature's isPotionApplicable method, restores vanilla parity for Undead mobs")
 		@Config.Name("Fix BaseCreature Potion Applicable")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesbasecreaturepotionapplicable.json")

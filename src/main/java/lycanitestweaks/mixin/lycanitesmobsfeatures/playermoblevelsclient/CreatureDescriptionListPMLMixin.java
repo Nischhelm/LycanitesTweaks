@@ -1,14 +1,22 @@
 package lycanitestweaks.mixin.lycanitesmobsfeatures.playermoblevelsclient;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.lycanitesmobs.client.gui.beastiary.BeastiaryScreen;
 import com.lycanitesmobs.client.gui.beastiary.lists.CreatureDescriptionList;
+import com.lycanitesmobs.core.entity.BaseCreatureEntity;
+import com.lycanitesmobs.core.info.CreatureInfo;
 import com.lycanitesmobs.core.info.CreatureKnowledge;
 import com.lycanitesmobs.core.info.CreatureManager;
+import lycanitestweaks.handlers.ForgeConfigHandler;
+import lycanitestweaks.util.Helpers;
 import net.minecraft.client.resources.I18n;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(CreatureDescriptionList.class)
 public abstract class CreatureDescriptionListPMLMixin {
@@ -41,5 +49,39 @@ public abstract class CreatureDescriptionListPMLMixin {
             return textBuilder.toString();
         }
         return original;
+    }
+
+    // TODO Consider moving this misc stuff
+    @Inject(
+            method = "getContent",
+            at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/core/info/CreatureInfo;isMountable()Z"),
+            remap = false
+    )
+    public void lycanitesTweaks_lycanitesMobsCreatureDescriptionList_getContentHealingFoodTame(CallbackInfoReturnable<String> cir, @Local LocalRef<String> text){
+        StringBuilder textBuilder = new StringBuilder(text.get());
+        if(ForgeConfigHandler.featuresMixinConfig.tameWithHealingFood && this.parentGui.creaturePreviewEntity instanceof BaseCreatureEntity &&
+                !(Helpers.isPracticallyFlying((BaseCreatureEntity) this.parentGui.creaturePreviewEntity)
+                        && !ForgeConfigHandler.server.tamedWithFoodAllowFlying)){
+            textBuilder.deleteCharAt(textBuilder.lastIndexOf("\n"));
+            textBuilder.append(I18n.format("gui.beastiary.creatures.mixin.interact.diet")).append("\n\n");
+        }
+        text.set(textBuilder.toString());
+    }
+
+    @Inject(
+            method = "getContent",
+            at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/core/info/CreatureInfo;isSummonable()Z", ordinal = 0),
+            remap = false
+    )
+    public void lycanitesTweaks_lycanitesMobsCreatureDescriptionList_getContentVanillaSaddle(CallbackInfoReturnable<String> cir, @Local CreatureInfo creatureInfo, @Local LocalRef<String> text){
+        StringBuilder textBuilder = new StringBuilder(text.get());
+        if(creatureInfo.isMountable())
+            if(ForgeConfigHandler.featuresMixinConfig.mountVanillaSaddleLimited && this.parentGui.creaturePreviewEntity instanceof BaseCreatureEntity &&
+                    !(Helpers.isPracticallyFlying((BaseCreatureEntity) this.parentGui.creaturePreviewEntity)
+                            && !ForgeConfigHandler.server.vanillaSaddleAllowFlying)){
+                textBuilder.deleteCharAt(textBuilder.lastIndexOf("\n"));
+                textBuilder.append(I18n.format("gui.beastiary.creatures.mixin.interact.saddle", ForgeConfigHandler.server.vanillaSaddleLevelRequirement)).append("\n\n");
+            }
+        text.set(textBuilder.toString());
     }
 }
