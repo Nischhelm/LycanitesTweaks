@@ -17,6 +17,8 @@ public abstract class BaseCreatureEntityMinionPersistenceMixin extends EntityLiv
     public abstract void setTemporary(int duration);
     @Shadow(remap = false)
     public abstract EntityLivingBase getMasterTarget();
+    @Shadow(remap = false)
+    public boolean isTemporary;
 
     public BaseCreatureEntityMinionPersistenceMixin(World worldIn) {
         super(worldIn);
@@ -41,6 +43,6 @@ public abstract class BaseCreatureEntityMinionPersistenceMixin extends EntityLiv
             at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/core/entity/BaseCreatureEntity;getMasterTarget()Lnet/minecraft/entity/EntityLivingBase;", ordinal = 1, remap = false)
     )
     public void lycanitestweaks_lycanitesBaseCreatureEntity_onLivingUpdateMinionMakeTemporary(CallbackInfo ci){
-        if(!this.getMasterTarget().isEntityAlive()) this.setTemporary(1200);
+        if(!this.getMasterTarget().isEntityAlive() && !this.isTemporary) this.setTemporary(1200);
     }
 }

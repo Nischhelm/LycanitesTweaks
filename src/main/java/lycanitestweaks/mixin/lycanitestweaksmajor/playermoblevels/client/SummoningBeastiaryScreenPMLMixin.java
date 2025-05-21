@@ -33,7 +33,7 @@ public abstract class SummoningBeastiaryScreenPMLMixin extends BeastiaryScreen {
     )
     public void lycanitesTweaks_lycanitesMobsSummoningBeastiaryScreen_drawForegroundPML(int mouseX, int mouseY, float partialTicks, CallbackInfo ci, @Local(ordinal = 3) int nextX, @Local(ordinal = 4) int nextY, @Local CreatureInfo selectedCreature, @Local String text){
         if(selectedCreature != null){
-            nextX *= (int)2.5F;
+            nextX = Math.round(nextX * 2.5F);
 
             IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(this.player);
             if(pml != null && this.creaturePreviewEntity instanceof BaseCreatureEntity){

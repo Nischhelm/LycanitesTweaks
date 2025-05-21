@@ -27,7 +27,7 @@ public abstract class SummoningBeastiaryScreenImperfectMixin extends BeastiarySc
     )
     public void lycanitesTweaks_lycanitesMobsSummoningBeastiaryScreen_drawForegroundImperfect(int mouseX, int mouseY, float partialTicks, CallbackInfo ci, @Local(ordinal = 3) int nextX, @Local(ordinal = 4) int nextY, @Local CreatureInfo selectedCreature, @Local String text){
         if(selectedCreature != null){
-            nextX += (int)2.5F;
+            nextX = Math.round(nextX * 2.5F);
 
             if(ForgeConfigHandler.majorFeaturesConfig.pmlConfig.playerMobLevelSummonStaff){
                 nextY += 4 + this.getFontRenderer().getWordWrappedHeight(text, this.colRightWidth);

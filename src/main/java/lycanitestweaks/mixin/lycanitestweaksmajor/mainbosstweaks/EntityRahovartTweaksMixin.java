@@ -112,6 +112,7 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
     )
     public EntityLivingBase lycanitesTweaks_lycanitesMobsEntityRahovart_updatePhasesSetTemporaryMinions(EntityLivingBase creature){
         // Skip BaseCreatureCheck, we know they are
+        ((BaseCreatureEntity)creature).enablePersistence();
         if(ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.minionTemporaryDuration > 0)
             ((BaseCreatureEntity)creature).setTemporary(ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.minionTemporaryDuration);
         return creature;

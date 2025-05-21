@@ -46,7 +46,7 @@ public class ForgeConfigHandler {
 
 	@Config.Comment("Mod Compatibility\n" +
 			"Toggles are enabled by default and will flag Fermium Booter errors, disable when associated mod is not installed")
-	@Config.Name("Integration Features")
+	@Config.Name("Mod Compatibility")
 	@MixinConfig.SubInstance
 	public static final IntegrationConfig integrationConfig = new IntegrationConfig();
 
@@ -538,8 +538,10 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesageablebabydrops.json")
 		public boolean fixAgeableBabyDrops = true;
 
-		@Config.Comment("Add persistence to minions from Rahovart/Asmodeus mechanics\n" +
-				"This fixes vanilla Boss issues caused by despawning minions, however this alone does not fix Rahovart spawning infinite minions")
+		@Config.Comment("Add persistence to minions spawned through the summonMinion method\n" +
+				"This fixes vanilla Boss issues caused by despawning minions\n" +
+				"If master dies, minion will be force despawned after 1 minute\n" +
+				"This alone doesn't fix Rahovart being able to spawn uncapped minions")
 		@Config.Name("Fix Boss Mechanics Minion Persistence")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesbasecreatureminionpersistence.json")

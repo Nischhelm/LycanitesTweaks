@@ -139,6 +139,7 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
     public void lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesPhaseTwoMinion(CallbackInfo ci, @Local EntityAstaroth minion){
         minion.setCustomNameTag("Arachnotron");
         minion.setSizeScale(1.8);
+        minion.enablePersistence();
         if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsSpawnedAsBoss) {
             minion.spawnedAsBoss = true;
             minion.refreshAttributes();
@@ -164,6 +165,7 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
         minion.setCustomNameTag("Asakku");
         minion.setSizeScale(2.5);
         minion.setSubspecies(1);
+        minion.enablePersistence();
         if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsSpawnedAsBoss) {
             minion.spawnedAsBoss = true;
             minion.refreshAttributes();

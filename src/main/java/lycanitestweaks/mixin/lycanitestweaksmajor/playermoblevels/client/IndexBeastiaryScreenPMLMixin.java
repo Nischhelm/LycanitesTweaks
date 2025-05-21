@@ -22,7 +22,7 @@ import java.util.HashMap;
 public abstract class IndexBeastiaryScreenPMLMixin extends BeastiaryScreen {
 
     @Unique
-    private HashMap<PlayerMobLevelsConfig.BonusCategory, Integer> lycanitesTweaks$pmlBonusCateogories = null;
+    private final HashMap<PlayerMobLevelsConfig.BonusCategory, Integer> lycanitesTweaks$pmlBonusCateogories = new HashMap<>();
 
     public IndexBeastiaryScreenPMLMixin(EntityPlayer player) {
         super(player);
@@ -39,7 +39,6 @@ public abstract class IndexBeastiaryScreenPMLMixin extends BeastiaryScreen {
         if(this.player.ticksExisted % 20 == 0){
             IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(this.player);
             if(pml != null) {
-                if(lycanitesTweaks$pmlBonusCateogories == null) lycanitesTweaks$pmlBonusCateogories = new HashMap<>();
                 for (PlayerMobLevelsConfig.BonusCategory category : PlayerMobLevelsConfig.getPmlBonusCategories().keySet()) {
                     lycanitesTweaks$pmlBonusCateogories.put(category, pml.getTotalLevelsForCategory(category, null, true));
                 }
