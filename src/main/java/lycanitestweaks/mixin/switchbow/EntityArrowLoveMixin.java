@@ -14,8 +14,7 @@ public abstract class EntityArrowLoveMixin {
 
     @WrapWithCondition(
             method = "arrowHit",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityLivingBase;addPotionEffect(Lnet/minecraft/potion/PotionEffect;)V", ordinal = 1),
-            remap = true
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityLivingBase;addPotionEffect(Lnet/minecraft/potion/PotionEffect;)V", ordinal = 1)
     )
     public boolean lycanitesTweaks_switchbowEntityArrowSplitLoveUpgrade_AOEEffekt(EntityLivingBase instance, PotionEffect effect){
         if(instance instanceof AgeableCreatureEntity

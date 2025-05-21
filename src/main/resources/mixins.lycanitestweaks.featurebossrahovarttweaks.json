@@ -1,14 +1,14 @@
 {
   "required": true,
-  "package": "lycanitestweaks.mixin.lycanitesmobsfeatures",
+  "package": "lycanitestweaks.mixin.lycanitestweaksmajor",
   "refmap": "mixins.lycanitestweaks.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "bosstweaks.EntityRahovartTweaksMixin",
-    "bosstweaks.EntityHellfireBarrierTweaksMixin",
-    "bosstweaks.EntityHellfireWallTweaksMixin"
+    "mainbosstweaks.EntityRahovartTweaksMixin",
+    "mainbosstweaks.EntityHellfireBarrierTweaksMixin",
+    "mainbosstweaks.EntityHellfireWallTweaksMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

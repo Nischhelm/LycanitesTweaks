@@ -1,8 +1,15 @@
 package lycanitestweaks.handlers.config;
 
+import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 
 public class BossAsmodeusConfig {
+
+    @Config.Comment("Main toggle to enabled this feature and its configs")
+    @Config.Name("Add Feature")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossasmodeustweaks.json")
+    public boolean bossTweaksAsmodeus = true;
 
     @Config.Comment("Replace the 50hp/sec heal with a 2% Max HP/sec heal")
     @Config.Name("Heal Portion When No Players")

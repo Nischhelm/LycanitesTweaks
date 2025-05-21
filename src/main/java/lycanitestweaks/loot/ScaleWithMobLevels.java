@@ -84,7 +84,7 @@ public class ScaleWithMobLevels extends LootFunction {
         }
 
         public ScaleWithMobLevels deserialize(JsonObject object, JsonDeserializationContext deserializationContext, LootCondition[] conditionsIn) {
-            RandomValueRange count = (RandomValueRange)JsonUtils.deserializeClass(object, "count", deserializationContext, RandomValueRange.class);
+            RandomValueRange count = JsonUtils.deserializeClass(object, "count", deserializationContext, RandomValueRange.class);
             float scale = JsonUtils.getFloat(object, "scale", 1.0F);
             int limit = JsonUtils.getInt(object, "limit", 0);
             return new ScaleWithMobLevels(conditionsIn, count, scale, limit);

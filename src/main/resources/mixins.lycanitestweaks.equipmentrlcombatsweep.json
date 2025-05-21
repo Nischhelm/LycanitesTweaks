@@ -6,7 +6,7 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "lycanitesmobsfeatures.rlcombatcompat.ItemEquipmentRLCombatSweepMixin"
+    "lycanitestweaksmajor.rlcombatcompat.ItemEquipmentRLCombatSweepMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

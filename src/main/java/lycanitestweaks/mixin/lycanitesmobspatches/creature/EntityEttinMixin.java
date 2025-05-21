@@ -10,8 +10,7 @@ public abstract class EntityEttinMixin {
 
     @Redirect(
             method = "onLivingUpdate",
-            at = @At(value = "FIELD", target = "Lcom/lycanitesmobs/core/entity/creature/EntityEttin;griefing:Z", remap = false),
-            remap = true
+            at = @At(value = "FIELD", target = "Lcom/lycanitesmobs/core/entity/creature/EntityEttin;griefing:Z", remap = false)
     )
     public boolean lycanitestweaks_lycanitesEntityEttin_onLivingUpdate(EntityEttin instance){
         return false;

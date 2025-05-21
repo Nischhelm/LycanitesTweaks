@@ -67,8 +67,6 @@ public class JeiPlugin implements IModPlugin {
         registry.addIngredientInfo(new ItemStack(ObjectManager.getItem("equipment")), VanillaTypes.ITEM,  "gui.jei.equipment.sharpness.description", sharpnessItems.toString(), "gui.jei.equipment.mana.description", manaItems.toString());
 
 
-        EquipmentPartManager.getInstance().equipmentParts.forEach((name, item) -> {
-            registry.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM, "gui.jei.equipmentpart." + item.slotType + ".description", "gui.jei.equipmentpart.infuser.description");
-        });
+        EquipmentPartManager.getInstance().equipmentParts.forEach((name, item) -> registry.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM, "gui.jei.equipmentpart." + item.slotType + ".description", "gui.jei.equipmentpart.infuser.description"));
     }
 }

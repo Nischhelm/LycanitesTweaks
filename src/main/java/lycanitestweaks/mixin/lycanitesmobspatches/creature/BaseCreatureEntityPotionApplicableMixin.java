@@ -18,8 +18,7 @@ public abstract class BaseCreatureEntityPotionApplicableMixin extends EntityLivi
 
     @ModifyReturnValue(
             method = "isPotionApplicable",
-            at = @At(value = "RETURN", ordinal = 1),
-            remap = true
+            at = @At(value = "RETURN", ordinal = 1)
     )
     public boolean lycanitesTweaks_lycanitesBaseCreatureEntity_isPotionApplicable(boolean original, @Local(argsOnly = true) PotionEffect potionEffect){
         return super.isPotionApplicable(potionEffect);

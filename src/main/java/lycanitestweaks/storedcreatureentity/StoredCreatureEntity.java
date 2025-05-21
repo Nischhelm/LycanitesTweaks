@@ -358,7 +358,7 @@ public class StoredCreatureEntity {
                 for (ItemDrop itemDrop : this.mobDrops) entityCreature.addSavedItemDrop(itemDrop);
             }
             entityCreature.spawnedAsBoss = this.spawnAsBoss;
-            if(this.spawnAsBoss && ForgeConfigHandler.server.escConfig.bossCrystalSpawnedAsBossDamageLimit){
+            if(this.spawnAsBoss && ForgeConfigHandler.majorFeaturesConfig.escConfig.bossCrystalSpawnedAsBossDamageLimit){
                 entityCreature.damageMax = BaseCreatureEntity.BOSS_DAMAGE_LIMIT;
                 entityCreature.damageLimit = (float) BaseCreatureEntity.BOSS_DAMAGE_LIMIT;
             }

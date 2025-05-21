@@ -17,6 +17,7 @@ public class SummonLeveledMinionsGoal extends BaseGoal {
 	protected CreatureInfo minionInfo;
 	protected boolean perPlayer = false;
 	protected boolean antiFlight = false;
+	protected boolean setPersistence = false;
 	protected double sizeScale = 1.0F;
 
 	/**
@@ -88,6 +89,16 @@ public class SummonLeveledMinionsGoal extends BaseGoal {
     }
 
 	/**
+	 * If true, the minion will be spawned with persistence
+	 * @param persitence True to enable.
+	 * @return This goal for chaining.
+	 */
+	public SummonLeveledMinionsGoal setPersitence(boolean persitence) {
+		this.setPersistence = persitence;
+		return this;
+	}
+
+	/**
 	 * Sets the creature to summon.
 	 * @param creatureName The creature name to summon.
 	 * @return This goal for chaining.
@@ -151,7 +162,8 @@ public class SummonLeveledMinionsGoal extends BaseGoal {
 		if(minion instanceof BaseCreatureEntity) {
 			BaseCreatureEntity minionCreature = (BaseCreatureEntity)minion;
 			minionCreature.setAttackTarget(target);
-			minionCreature.enablePersistence();
+
+			if(this.setPersistence) minionCreature.enablePersistence();
 
 			if((this.sizeScale == -1)) minionCreature.setSizeScale(minionCreature.sizeScale * this.host.sizeScale);
 			else minionCreature.setSizeScale(minionCreature.sizeScale * this.sizeScale);

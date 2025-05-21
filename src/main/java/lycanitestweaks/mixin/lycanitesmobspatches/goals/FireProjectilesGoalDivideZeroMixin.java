@@ -10,8 +10,7 @@ public abstract class FireProjectilesGoalDivideZeroMixin {
 
     @ModifyExpressionValue(
             method = "updateTask",
-            at = @At(value = "INVOKE", target = "Ljava/lang/Math;round(F)I"),
-            remap = true
+            at = @At(value = "INVOKE", target = "Ljava/lang/Math;round(F)I")
     )
     public int lycanitesTweaks_lycanitesFireProjectilesGoal_updateTask(int original){
         return Math.max(original, 1);

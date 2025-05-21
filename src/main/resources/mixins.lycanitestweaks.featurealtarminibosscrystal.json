@@ -1,19 +1,19 @@
 {
   "required": true,
-  "package": "lycanitestweaks.mixin.lycanitesmobsfeatures",
+  "package": "lycanitestweaks.mixin.lycanitestweaksmajor",
   "refmap": "mixins.lycanitestweaks.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "minibossaltarcrystals.AltarInfoCelestialGeonachCrystalMixin",
-    "minibossaltarcrystals.AltarInfoCrimsonEpionCrystalMixin",
-    "minibossaltarcrystals.AltarInfoEbonCacodemonCrystalMixin",
-    "minibossaltarcrystals.AltarInfoLunarGrueCrystalMixin",
-    "minibossaltarcrystals.AltarInfoMottleAbaiaCrystalMixin",
-    "minibossaltarcrystals.AltarInfoPhosphorescentChupacabraCrystalMixin",
-    "minibossaltarcrystals.AltarInfoRoyalArchvileCrystalMixin",
-    "minibossaltarcrystals.AltarInfoUmberLobberCrystalMixin"
+    "entitystorecrystals.altar.AltarInfoCelestialGeonachCrystalMixin",
+    "entitystorecrystals.altar.AltarInfoCrimsonEpionCrystalMixin",
+    "entitystorecrystals.altar.AltarInfoEbonCacodemonCrystalMixin",
+    "entitystorecrystals.altar.AltarInfoLunarGrueCrystalMixin",
+    "entitystorecrystals.altar.AltarInfoMottleAbaiaCrystalMixin",
+    "entitystorecrystals.altar.AltarInfoPhosphorescentChupacabraCrystalMixin",
+    "entitystorecrystals.altar.AltarInfoRoyalArchvileCrystalMixin",
+    "entitystorecrystals.altar.AltarInfoUmberLobberCrystalMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

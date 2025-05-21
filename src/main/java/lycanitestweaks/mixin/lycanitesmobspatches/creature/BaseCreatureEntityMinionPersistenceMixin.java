@@ -38,8 +38,7 @@ public abstract class BaseCreatureEntityMinionPersistenceMixin extends EntityLiv
     // Also despawn is delayed until reload
     @Inject(
             method = "onLivingUpdate",
-            at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/core/entity/BaseCreatureEntity;getMasterTarget()Lnet/minecraft/entity/EntityLivingBase;", ordinal = 1, remap = false),
-            remap = true
+            at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/core/entity/BaseCreatureEntity;getMasterTarget()Lnet/minecraft/entity/EntityLivingBase;", ordinal = 1, remap = false)
     )
     public void lycanitestweaks_lycanitesBaseCreatureEntity_onLivingUpdateMinionMakeTemporary(CallbackInfo ci){
         if(!this.getMasterTarget().isEntityAlive()) this.setTemporary(1200);

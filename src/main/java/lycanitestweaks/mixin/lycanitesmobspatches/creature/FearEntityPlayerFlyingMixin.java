@@ -17,8 +17,7 @@ public abstract class FearEntityPlayerFlyingMixin extends BaseCreatureEntity {
 
     @ModifyExpressionValue(
             method = "isFlying",
-            at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerCapabilities;isCreativeMode:Z"),
-            remap = true
+            at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerCapabilities;isCreativeMode:Z")
     )
     public boolean lycanitesTweaks_lycanitesFearEntity_isFlyingSurvivalPlayer(boolean original){
         return ((EntityPlayer)this.pickupEntity).capabilities.allowFlying && ((EntityPlayer)this.pickupEntity).capabilities.isFlying;

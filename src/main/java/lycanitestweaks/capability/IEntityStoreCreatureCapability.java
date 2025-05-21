@@ -12,7 +12,7 @@ public interface IEntityStoreCreatureCapability {
     StoredCreatureEntity getStoredCreatureEntity();
     void setStoredCreatureEntity(StoredCreatureEntity storedCreatureEntity);
 
-    public void readNBT(NBTTagCompound nbtTagCompound);
-    public void writeNBT(NBTTagCompound nbtTagCompound);
+    void readNBT(NBTTagCompound nbtTagCompound);
+    void writeNBT(NBTTagCompound nbtTagCompound);
 
     }

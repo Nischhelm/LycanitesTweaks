@@ -40,19 +40,19 @@ public class LycanitesTweaks {
         LycanitesTweaksRegistry.init();
         LycanitesTweaks.PROXY.preInit();
 
-        if(ForgeConfigHandler.server.escConfig.entityStoreCreatureCapability){
+        if(ForgeConfigHandler.majorFeaturesConfig.escConfig.entityStoreCreatureCapability){
             EntityStoreCreatureCapabilityHandler.registerCapability();
             MinecraftForge.EVENT_BUS.register(EntityStoreCreatureCapabilityHandler.AttachCapabilityHandler.class);
             MinecraftForge.EVENT_BUS.register(EntityStoreCreatureCapabilityHandler.class);
         }
-        if(ForgeConfigHandler.server.pmlConfig.playerMobLevelCapability){
+        if(ForgeConfigHandler.majorFeaturesConfig.pmlConfig.playerMobLevelCapability){
             PlayerMobLevelCapabilityHandler.registerCapability();
             MinecraftForge.EVENT_BUS.register(PlayerMobLevelCapabilityHandler.AttachCapabilityHandler.class);
             MinecraftForge.EVENT_BUS.register(PlayerMobLevelCapabilityHandler.class);
             MinecraftForge.EVENT_BUS.register(ItemSoulgazerMoreInteractionsHandler.class);
         }
 
-        if(ForgeConfigHandler.featuresMixinConfig.summonStaffLevelMap){
+        if(ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.summonStaffLevelMap){
             MinecraftForge.EVENT_BUS.register(ItemStaffSummingLevelMapHandler.class);
         }
 
@@ -63,8 +63,8 @@ public class LycanitesTweaks {
             MinecraftForge.EVENT_BUS.register(CripplingEffectsHandler.class);
 
 
-        if(ForgeConfigHandler.featuresMixinConfig.customItemCureEffectList) MinecraftForge.EVENT_BUS.register(ItemCuringEffectsHandler.class);
-        if(ForgeConfigHandler.featuresMixinConfig.craftedEquipmentRLCombatSweep && ModLoadedUtil.isRLCombatLoaded())
+        if(ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.customItemCureEffectList) MinecraftForge.EVENT_BUS.register(ItemCuringEffectsHandler.class);
+        if(ForgeConfigHandler.integrationConfig.craftedEquipmentRLCombatSweep && ModLoadedUtil.isRLCombatLoaded())
             MinecraftForge.EVENT_BUS.register(RLCombatHandler.class);
     }
 

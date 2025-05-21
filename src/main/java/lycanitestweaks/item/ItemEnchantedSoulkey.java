@@ -116,7 +116,7 @@ public class ItemEnchantedSoulkey extends Item {
 
         StringBuilder rawStrings = new StringBuilder();
         rawStrings.append(I18n.format("item.lycanitestweaks.enchantedsoulkey.description"));
-        if(ForgeConfigHandler.featuresMixinConfig.enchantedSoulkeyEquipmentTiles)
+        if(ForgeConfigHandler.server.itemConfig.enchantedSoulkeyEquipmentTiles)
             rawStrings.append("\n").append(I18n.format("item.lycanitestweaks.enchantedsoulkey.description.mixin"));
         rawStrings.append("\n").append(I18n.format("item.lycanitestweaks.enchantedsoulkey.description.level",
                 this.getLevel(itemStack),

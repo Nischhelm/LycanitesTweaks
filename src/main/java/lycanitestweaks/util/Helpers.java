@@ -109,7 +109,7 @@ public class Helpers {
     public static HashMap<String, ArrayList<String>> getCreatureElementsMap(){
         if(Helpers.creatureElementsMap == null){
             Helpers.creatureElementsMap = new HashMap<>();
-            CreatureManager.getInstance().creatures.forEach((creatureName, creatureInfo) -> {;
+            CreatureManager.getInstance().creatures.forEach((creatureName, creatureInfo) -> {
                 for(ElementInfo elementInfo : creatureInfo.elements){
                     ArrayList<String> creatures;
 
@@ -125,17 +125,17 @@ public class Helpers {
     }
 
     public static double getImperfectHostileChance(ExtendedPlayer extendedPlayer, CreatureInfo creatureInfo){
-        double hostileChance = ForgeConfigHandler.server.imperfectSummoningConfig.imperfectHostileBaseChance;
-        if (ForgeConfigHandler.server.imperfectSummoningConfig.imperfectHostileBaseChance != 0.0D && extendedPlayer.getBeastiary().hasKnowledgeRank(creatureInfo.getName(), 1)) {
-            hostileChance -= extendedPlayer.getBeastiary().getCreatureKnowledge(creatureInfo.getName()).experience * ForgeConfigHandler.server.imperfectSummoningConfig.imperfectHostileChanceModifier;
+        double hostileChance = ForgeConfigHandler.majorFeaturesConfig.imperfectSummoningConfig.imperfectHostileBaseChance;
+        if (ForgeConfigHandler.majorFeaturesConfig.imperfectSummoningConfig.imperfectHostileBaseChance != 0.0D && extendedPlayer.getBeastiary().hasKnowledgeRank(creatureInfo.getName(), 1)) {
+            hostileChance -= extendedPlayer.getBeastiary().getCreatureKnowledge(creatureInfo.getName()).experience * ForgeConfigHandler.majorFeaturesConfig.imperfectSummoningConfig.imperfectHostileChanceModifier;
         }
         return hostileChance;
     }
 
     public static double getImperfectStatsChance(ExtendedPlayer extendedPlayer, CreatureInfo creatureInfo){
-        double lowerStatsChance = ForgeConfigHandler.server.imperfectSummoningConfig.imperfectStatsBaseChance;
-        if(ForgeConfigHandler.server.imperfectSummoningConfig.imperfectStatsChanceModifier != 0.0D && extendedPlayer.getBeastiary().hasKnowledgeRank(creatureInfo.getName(), 1)){
-            lowerStatsChance -= extendedPlayer.getBeastiary().getCreatureKnowledge(creatureInfo.getName()).experience * ForgeConfigHandler.server.imperfectSummoningConfig.imperfectStatsChanceModifier;
+        double lowerStatsChance = ForgeConfigHandler.majorFeaturesConfig.imperfectSummoningConfig.imperfectStatsBaseChance;
+        if(ForgeConfigHandler.majorFeaturesConfig.imperfectSummoningConfig.imperfectStatsChanceModifier != 0.0D && extendedPlayer.getBeastiary().hasKnowledgeRank(creatureInfo.getName(), 1)){
+            lowerStatsChance -= extendedPlayer.getBeastiary().getCreatureKnowledge(creatureInfo.getName()).experience * ForgeConfigHandler.majorFeaturesConfig.imperfectSummoningConfig.imperfectStatsChanceModifier;
         }
         return lowerStatsChance;
     }
@@ -165,7 +165,7 @@ public class Helpers {
         double statValue = creature.creatureInfo.effectDuration;
 
         // Wild:
-        if(!creature.isTamed() || ForgeConfigHandler.featuresMixinConfig.tamedVariantStats) {
+        if(!creature.isTamed() || ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.tamedVariantStats) {
             statValue *= Helpers.getDifficultyMultiplier(creature.getEntityWorld(), statName);
             statValue *= Helpers.getVariantMultiplier(creature, statName);
             if(creature.extraMobBehaviour != null) {
@@ -177,9 +177,9 @@ public class Helpers {
         statValue *= Helpers.getLevelMultiplier(statName, creature, levelCap);
 
         // Going to suck when I forget to sync with the Mixin stat caps
-        if(ForgeConfigHandler.server.statsConfig.capEffectDurationRatio > 0) {
+        if(ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.capEffectDurationRatio > 0) {
             statValue = Math.min(statValue,
-                    ForgeConfigHandler.server.statsConfig.capEffectDurationRatio
+                    ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.capEffectDurationRatio
                             * creature.creatureInfo.effectDuration
                             * Helpers.getVariantMultiplier(creature, statName)
             );
@@ -192,7 +192,7 @@ public class Helpers {
         double statValue = creature.creatureInfo.effectAmplifier;
 
         // Wild:
-        if(!creature.isTamed() || ForgeConfigHandler.featuresMixinConfig.tamedVariantStats) {
+        if(!creature.isTamed() || ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.tamedVariantStats) {
             statValue *= Helpers.getDifficultyMultiplier(creature.getEntityWorld(), statName);
             statValue *= Helpers.getVariantMultiplier(creature, statName);
         }

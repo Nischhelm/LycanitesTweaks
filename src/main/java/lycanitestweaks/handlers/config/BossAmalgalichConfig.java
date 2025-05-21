@@ -1,8 +1,15 @@
 package lycanitestweaks.handlers.config;
 
+import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 
 public class BossAmalgalichConfig {
+
+    @Config.Comment("Main toggle to enabled this feature and its configs")
+    @Config.Name("Add Feature")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossamalgalich.json")
+    public boolean bossTweaksAmalgalich = true;
 
     @Config.Comment("Projectile to replace main 'spectralbolt' auto attack (targeted/all)")
     @Config.Name("Main Projectile Name")
@@ -46,12 +53,12 @@ public class BossAmalgalichConfig {
     @Config.RequiresMcRestart
     public int consumptionGoalCooldown = 400;
 
-    @Config.Comment("If consumption should use LycanitesTweaks Consumption debuff")
+    @Config.Comment("Whether consumption should use LycanitesTweaks Consumption debuff")
     @Config.Name("Consumption Debuff effect")
     @Config.RequiresMcRestart
     public boolean consumptionEffect = true;
 
-    @Config.Comment("If consumption should deal damage based on victim's max hp")
+    @Config.Comment("Whether consumption should deal damage based on victim's max hp")
     @Config.Name("Consumption Damage Max HP")
     public boolean consumptionDamageMaxHP = true;
 

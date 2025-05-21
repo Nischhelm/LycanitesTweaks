@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "lycanitestweaks.mixin.lycanitesmobsfeatures",
+  "package": "lycanitestweaks.mixin.lycanitestweaksmajor",
   "refmap": "mixins.lycanitestweaks.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
@@ -9,10 +9,10 @@
 
   ],
   "client": [
-    "playermoblevelsclient.CreatureDescriptionListPMLMixin",
-    "playermoblevelsclient.ElementDescriptionListPMLMixin",
-    "playermoblevelsclient.IndexBeastiaryScreenPMLMixin",
-    "playermoblevelsclient.SummoningBeastiaryScreenPMLMixin"
+    "playermoblevels.client.CreatureDescriptionListPMLMixin",
+    "playermoblevels.client.ElementDescriptionListPMLMixin",
+    "playermoblevels.client.IndexBeastiaryScreenPMLMixin",
+    "playermoblevels.client.SummoningBeastiaryScreenPMLMixin"
   ],
     "injectors": {
     "maxShiftBy": 10

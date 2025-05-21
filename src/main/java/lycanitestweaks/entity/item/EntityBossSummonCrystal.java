@@ -70,7 +70,7 @@ public class EntityBossSummonCrystal extends EntityEnderCrystal {
             if (!(this.world.provider instanceof WorldProviderEnd) && this.world.getBlockState(blockpos).getBlock() != Blocks.FIRE){
                 if(this.world.isAirBlock(blockpos)) this.world.setBlockState(blockpos, Blocks.FIRE.getDefaultState());
             }
-            if(this.ticksExisted % 20 == 0 && this.searchDistance > -1F && ForgeConfigHandler.server.escConfig.bossCrystalTickChecks) {
+            if(this.ticksExisted % 20 == 0 && this.searchDistance > -1F && ForgeConfigHandler.majorFeaturesConfig.escConfig.bossCrystalTickChecks) {
                 // Find a player
                 if(this.target == null){
                     EntityPlayer candidate = this.world.getNearestPlayerNotCreative(this, this.searchDistance);

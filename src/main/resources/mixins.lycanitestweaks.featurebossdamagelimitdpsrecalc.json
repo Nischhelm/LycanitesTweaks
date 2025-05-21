@@ -1,12 +1,12 @@
 {
   "required": true,
-  "package": "lycanitestweaks.mixin.lycanitesmobsfeatures",
+  "package": "lycanitestweaks.mixin.lycanitestweaksminor",
   "refmap": "mixins.lycanitestweaks.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "dpsrecalc.BaseCreatureEntityDPSRecalcMixin"
+    "bosstweaks.BaseCreatureEntityDPSRecalcMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

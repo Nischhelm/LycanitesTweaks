@@ -30,7 +30,7 @@ public class EntityEncounterSummonCrystal extends EntityBossSummonCrystal {
             ++this.innerRotation;
         if(!this.world.isRemote && this.ticksExisted % 20 == 0){
             if(!(this.world.isAnyPlayerWithinRangeAt(this.posX, this.posY, this.posZ, this.getSearchDistance()))) this.setDead();
-            if(ForgeConfigHandler.server.escConfig.encounterCrystalDespawnChance != 0 && this.rand.nextInt(ForgeConfigHandler.server.escConfig.encounterCrystalDespawnChance) == 0)
+            if(ForgeConfigHandler.majorFeaturesConfig.escConfig.encounterCrystalDespawnChance != 0 && this.rand.nextInt(ForgeConfigHandler.majorFeaturesConfig.escConfig.encounterCrystalDespawnChance) == 0)
                 this.setDead();
         }
     }

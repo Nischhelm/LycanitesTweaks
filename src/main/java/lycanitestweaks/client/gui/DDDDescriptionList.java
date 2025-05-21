@@ -86,13 +86,9 @@ public class DDDDescriptionList extends GuiScrollingList{
         else {
             // Stats:
             if(this.parentGui.creaturePreviewEntity != null) {
-                HwylaMobDamageFormatter.getInstance().format(this.parentGui.creaturePreviewEntity).forEach((line) -> {
-                    textBuilder.append(line).append("\n");
-                });
+                HwylaMobDamageFormatter.getInstance().format(this.parentGui.creaturePreviewEntity).forEach((line) -> textBuilder.append(line).append("\n"));
                 textBuilder.append("\n");
-                HwylaMobResistanceFormatter.getInstance().format(this.parentGui.creaturePreviewEntity).forEach((line) -> {
-                    textBuilder.append(line).append("\n");
-                });
+                HwylaMobResistanceFormatter.getInstance().format(this.parentGui.creaturePreviewEntity).forEach((line) -> textBuilder.append(line).append("\n"));
                 textBuilder.append("\n").append("\n");
             }
         }

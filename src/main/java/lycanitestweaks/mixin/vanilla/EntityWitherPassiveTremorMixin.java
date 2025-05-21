@@ -12,8 +12,7 @@ public abstract class EntityWitherPassiveTremorMixin {
 
     @ModifyReturnValue(
             method = "apply*",
-            at = @At("RETURN"),
-            remap = true
+            at = @At("RETURN")
     )
     public boolean lycanitesTweaks_vanillaEntityWitherPredicate_apply(boolean original, @Local(argsOnly = true) Entity p_apply_1_){
         return original && !LycanitesMobsWrapper.isTremor(p_apply_1_);

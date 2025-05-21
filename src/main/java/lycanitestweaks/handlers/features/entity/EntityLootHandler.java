@@ -25,12 +25,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EntityLootHandler {
 
-//    public static final String[] lootPoolNames = {
-//            "amalgalich_emeralds_with_mob_levels", "amalgalich_book_with_mob_levels",
-//            "asmodeus_emerald_with_mob_levels", "asmodeus_book_with_mob_levels",
-//            "rahovart_emerald_with_mob_levels", "rahovart_book_with_mob_levels"
-//    };
-
     // JSON examples
     @SubscribeEvent
     public static void removeDefaultBossLoot(LootTableLoadEvent event){

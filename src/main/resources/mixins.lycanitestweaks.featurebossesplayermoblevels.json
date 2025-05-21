@@ -1,12 +1,12 @@
 {
   "required": true,
-  "package": "lycanitestweaks.mixin.lycanitesmobsfeatures",
+  "package": "lycanitestweaks.mixin.lycanitestweaksmajor",
   "refmap": "mixins.lycanitestweaks.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "playermoblevelsbosses.MobEventBossesPlayerMobLevelsMixin"
+    "playermoblevels.MobEventBossesPlayerMobLevelsMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

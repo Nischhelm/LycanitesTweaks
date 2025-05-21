@@ -82,7 +82,7 @@ public class EnchantWithMobLevels extends LootFunction {
         }
 
         public EnchantWithMobLevels deserialize(JsonObject object, JsonDeserializationContext deserializationContext, LootCondition[] conditionsIn) {
-            RandomValueRange levels = (RandomValueRange)JsonUtils.deserializeClass(object, "levels", deserializationContext, RandomValueRange.class);
+            RandomValueRange levels = JsonUtils.deserializeClass(object, "levels", deserializationContext, RandomValueRange.class);
             boolean isTreasure = JsonUtils.getBoolean(object, "treasure", false);
             float scale = JsonUtils.getFloat(object, "scale", 1.0F);
             return new EnchantWithMobLevels(conditionsIn, levels, isTreasure, scale);

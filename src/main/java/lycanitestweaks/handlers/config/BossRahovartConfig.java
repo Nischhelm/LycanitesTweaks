@@ -1,8 +1,15 @@
 package lycanitestweaks.handlers.config;
 
+import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 
 public class BossRahovartConfig {
+
+    @Config.Comment("Main toggle to enabled this feature and its configs")
+    @Config.Name("Add Feature")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossrahovarttweaks.json")
+    public boolean bossTweaksRahovart = true;
 
     @Config.Comment("Projectile to replace targeted 'hellfireball' auto attack")
     @Config.Name("Main Targeted Projectile Name")
@@ -38,7 +45,7 @@ public class BossRahovartConfig {
     @Config.Name("Hellfire Energy Attacks Base Damage")
     public int hellfireAttacksBaseDamage = 10;
 
-    @Config.Comment("If all three of Rahovart Flame Wall attacks have their damage always match level 1 Rahovart")
+    @Config.Comment("Whether all three of Rahovart Flame Wall attacks have their damage always match level 1 Rahovart")
     @Config.Name("Hellfire Energy Attacks Fixed Damage")
     public boolean hellfireAttackFixedDamage = true;
 

@@ -17,12 +17,11 @@ public abstract class HealWhenNoPlayersGoalCheckMixin extends EntityAIBase {
     public boolean firstPlayerTargetCheck;
 
     @Shadow(remap = false)
-    private BaseCreatureEntity host;
+    BaseCreatureEntity host;
 
     @ModifyExpressionValue(
             method = "updateTask",
-            at = @At(value = "FIELD", target = "Lcom/lycanitesmobs/core/entity/BaseCreatureEntity;updateTick:J", remap = false),
-            remap = true
+            at = @At(value = "FIELD", target = "Lcom/lycanitesmobs/core/entity/BaseCreatureEntity;updateTick:J", remap = false)
     )
     public long lycanitesTweaks_lycanitesMobsHealWhenNoPlayersGoal_updateTaskTickTrue(long original){
         return 200L;
@@ -30,8 +29,7 @@ public abstract class HealWhenNoPlayersGoalCheckMixin extends EntityAIBase {
 
     @Inject(
             method = "updateTask",
-            at = @At("HEAD"),
-            remap = true
+            at = @At("HEAD")
     )
     public void lycanitesTweaks_lycanitesMobsHealWhenNoPlayersGoal_updateTaskVarDoesCheck(CallbackInfo ci){
         this.firstPlayerTargetCheck = this.firstPlayerTargetCheck || (this.host.updateTick % 200L == 0L);

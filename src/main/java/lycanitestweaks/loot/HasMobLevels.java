@@ -69,7 +69,7 @@ public class HasMobLevels implements LootCondition {
         }
 
         public HasMobLevels deserialize(JsonObject json, JsonDeserializationContext context) {
-            return new HasMobLevels((RandomValueRange)JsonUtils.deserializeClass(json, "range", context, RandomValueRange.class));
+            return new HasMobLevels(JsonUtils.deserializeClass(json, "range", context, RandomValueRange.class));
         }
     }
 }

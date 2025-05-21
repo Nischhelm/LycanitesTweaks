@@ -1,14 +1,14 @@
 {
   "required": true,
-  "package": "lycanitestweaks.mixin.lycanitesmobsfeatures",
+  "package": "lycanitestweaks.mixin.lycanitestweaksmajor",
   "refmap": "mixins.lycanitestweaks.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "pickupfix.ExtendedEntityPickupMixin",
-    "pickupfix.BaseCreatureEntityPickupMixin",
-    "pickupfix.FearEntityMixin"
+    "interacttweaks.pickup.ExtendedEntityPickupMixin",
+    "interacttweaks.pickup.BaseCreatureEntityPickupMixin",
+    "interacttweaks.pickup.FearEntityMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

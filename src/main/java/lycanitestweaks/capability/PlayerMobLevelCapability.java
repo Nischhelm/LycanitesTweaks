@@ -44,7 +44,7 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
     }
 
     public static IPlayerMobLevelCapability getForPlayer(EntityPlayer player) {
-        if (player == null || !ForgeConfigHandler.server.pmlConfig.playerMobLevelCapability) {
+        if (player == null || !ForgeConfigHandler.majorFeaturesConfig.pmlConfig.playerMobLevelCapability) {
             return null;
         }
         IPlayerMobLevelCapability pml = player.getCapability(PlayerMobLevelCapabilityHandler.PLAYER_MOB_LEVEL, null);
@@ -209,7 +209,7 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
                 if(ForgeConfigHandler.client.debugLoggerTrigger) LycanitesTweaks.LOGGER.log(Level.INFO, "Total:{} PetEntry:{} Cache:{}", total, petEntry.getLevel(), this.highestActivePetLevels);
                 if(petEntry.spawningActive){
                     total = Math.max(total, petEntry.getLevel());
-                    if(ForgeConfigHandler.featuresMixinConfig.petManagerTracksHighestLevelPet) {
+                    if(ForgeConfigHandler.majorFeaturesConfig.pmlConfig.petManagerTracksHighestLevelPet) {
                         this.highestActivePetLevels = total;
                     }
                 }
@@ -221,7 +221,7 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
 
     @Override
     public int getHighestLevelPetSoulbound() {
-        if(!ForgeConfigHandler.server.pmlConfig.pmlCalcHighestLevelPet || this.petEntryLevels.isEmpty()) return 0;
+        if(!ForgeConfigHandler.majorFeaturesConfig.pmlConfig.pmlCalcHighestLevelPet || this.petEntryLevels.isEmpty()) return 0;
         if(this.petEntryLevelsCopy == null) {
             this.petEntryLevelsCopy = petEntryLevels.keySet().toArray(new Integer[0]);
             Arrays.sort(petEntryLevelsCopy, Comparator.comparingInt(a -> (int) a).reversed());
@@ -251,16 +251,16 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
 
                 switch (ench.getRarity()){
                     case COMMON:
-                        enchantabilityLevels /= ForgeConfigHandler.server.pmlConfig.enchRarityDivisors[0];
+                        enchantabilityLevels /= ForgeConfigHandler.majorFeaturesConfig.pmlConfig.enchRarityDivisors[0];
                         break;
                     case UNCOMMON:
-                        enchantabilityLevels /= ForgeConfigHandler.server.pmlConfig.enchRarityDivisors[1];
+                        enchantabilityLevels /= ForgeConfigHandler.majorFeaturesConfig.pmlConfig.enchRarityDivisors[1];
                         break;
                     case RARE:
-                        enchantabilityLevels /= ForgeConfigHandler.server.pmlConfig.enchRarityDivisors[2];
+                        enchantabilityLevels /= ForgeConfigHandler.majorFeaturesConfig.pmlConfig.enchRarityDivisors[2];
                         break;
                     case VERY_RARE:
-                        enchantabilityLevels /= ForgeConfigHandler.server.pmlConfig.enchRarityDivisors[3];
+                        enchantabilityLevels /= ForgeConfigHandler.majorFeaturesConfig.pmlConfig.enchRarityDivisors[3];
                         break;
                 }
 
