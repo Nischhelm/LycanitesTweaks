@@ -47,6 +47,10 @@ public class CreatureInteractConfig {
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureentitypickupfix.json")
     public boolean pickupChecksDistance = true;
 
+    @Config.Comment("Additionally have Darklings run the check for latch target")
+    @Config.Name("Pickup Checks Distances - Darkling")
+    public boolean pickupChecksDarkling = true;
+
     @Config.Comment("Distance between entities to trigger auto pickup drop, Default Lycanites is 32.")
     @Config.Name("Pickup Checks Distances - Value")
     @Config.RangeDouble(min = 0)

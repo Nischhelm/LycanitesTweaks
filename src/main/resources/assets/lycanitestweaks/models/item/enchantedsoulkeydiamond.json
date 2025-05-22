@@ -1,7 +1,7 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "lycanitestweaks:items/enchantedsoulkeydiamond"
+		"layer0": "lycanitesmobs:items/soulkeydiamond"
 	},
 	"display": {
 		"thirdperson": {

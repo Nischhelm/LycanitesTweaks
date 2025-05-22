@@ -7,6 +7,7 @@
   "minVersion": "0.8",
   "mixins": [
     "interacttweaks.pickup.ExtendedEntityPickupMixin",
+    "interacttweaks.pickup.EntityDarklingPickupMixin",
     "interacttweaks.pickup.BaseCreatureEntityPickupMixin",
     "interacttweaks.pickup.FearEntityMixin"
   ],
