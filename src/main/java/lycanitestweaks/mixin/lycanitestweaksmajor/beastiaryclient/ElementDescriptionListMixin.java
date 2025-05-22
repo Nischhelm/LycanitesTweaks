@@ -1,4 +1,4 @@
-package lycanitestweaks.mixin.lycanitestweaksmajor.playermoblevels.client;
+package lycanitestweaks.mixin.lycanitestweaksmajor.beastiaryclient;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.lycanitesmobs.client.gui.beastiary.BeastiaryScreen;
@@ -7,6 +7,7 @@ import com.lycanitesmobs.core.info.CreatureManager;
 import com.lycanitesmobs.core.info.ElementInfo;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
 import lycanitestweaks.capability.PlayerMobLevelCapability;
+import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.util.Helpers;
 import net.minecraft.client.resources.I18n;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(ElementDescriptionList.class)
-public abstract class ElementDescriptionListPMLMixin {
+public abstract class ElementDescriptionListMixin {
 
     @Unique
     private int lycanitesTweaks$cachePML = 0;
@@ -34,6 +35,8 @@ public abstract class ElementDescriptionListPMLMixin {
             remap = false
     )
     public String lycanitesTweaks_lycanitesMobsElementDescriptionList_getContentPML(String text){
+        if(!ForgeConfigHandler.clientFeaturesMixinConfig.beastiaryGUIPML) return text;
+
         if(this.parentGui.player != null && this.parentGui.playerExt != null){
             IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(this.parentGui.player);
             if(pml != null){

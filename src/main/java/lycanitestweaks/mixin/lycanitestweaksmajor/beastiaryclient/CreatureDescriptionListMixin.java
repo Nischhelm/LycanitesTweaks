@@ -1,4 +1,4 @@
-package lycanitestweaks.mixin.lycanitestweaksmajor.playermoblevels.client;
+package lycanitestweaks.mixin.lycanitestweaksmajor.beastiaryclient;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(CreatureDescriptionList.class)
-public abstract class CreatureDescriptionListPMLMixin {
+public abstract class CreatureDescriptionListMixin {
 
     @Shadow(remap = false)
     protected BeastiaryScreen parentGui;
@@ -32,6 +32,8 @@ public abstract class CreatureDescriptionListPMLMixin {
             remap = false
     )
     public String lycanitesTweaks_lycanitesMobsCreatureDescriptionList_getContentPML(String original){
+        if(!ForgeConfigHandler.clientFeaturesMixinConfig.beastiaryGUIPML) return original;
+
         if(this.parentGui.playerExt.getBeastiary().hasKnowledgeRank(this.creatureKnowledge.creatureName, 2)){
             StringBuilder textBuilder = new StringBuilder();
 
@@ -51,21 +53,20 @@ public abstract class CreatureDescriptionListPMLMixin {
         return original;
     }
 
-    // TODO Consider moving this misc stuff
     @Inject(
             method = "getContent",
             at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/core/info/CreatureInfo;isMountable()Z"),
             remap = false
     )
     public void lycanitesTweaks_lycanitesMobsCreatureDescriptionList_getContentHealingFoodTame(CallbackInfoReturnable<String> cir, @Local LocalRef<String> text){
-        StringBuilder textBuilder = new StringBuilder(text.get());
         if(ForgeConfigHandler.majorFeaturesConfig.creatureInteractConfig.tameWithHealingFood && this.parentGui.creaturePreviewEntity instanceof BaseCreatureEntity &&
                 !(Helpers.isPracticallyFlying((BaseCreatureEntity) this.parentGui.creaturePreviewEntity)
                         && !ForgeConfigHandler.majorFeaturesConfig.creatureInteractConfig.tamedWithFoodAllowFlying)){
+            StringBuilder textBuilder = new StringBuilder(text.get());
             textBuilder.deleteCharAt(textBuilder.lastIndexOf("\n"));
             textBuilder.append(I18n.format("gui.beastiary.creatures.mixin.interact.diet")).append("\n\n");
+            text.set(textBuilder.toString());
         }
-        text.set(textBuilder.toString());
     }
 
     @Inject(
@@ -74,14 +75,14 @@ public abstract class CreatureDescriptionListPMLMixin {
             remap = false
     )
     public void lycanitesTweaks_lycanitesMobsCreatureDescriptionList_getContentVanillaSaddle(CallbackInfoReturnable<String> cir, @Local CreatureInfo creatureInfo, @Local LocalRef<String> text){
-        StringBuilder textBuilder = new StringBuilder(text.get());
         if(creatureInfo.isMountable())
             if(ForgeConfigHandler.majorFeaturesConfig.creatureInteractConfig.mountVanillaSaddleLimited && this.parentGui.creaturePreviewEntity instanceof BaseCreatureEntity &&
                     !(Helpers.isPracticallyFlying((BaseCreatureEntity) this.parentGui.creaturePreviewEntity)
                             && !ForgeConfigHandler.majorFeaturesConfig.creatureInteractConfig.vanillaSaddleAllowFlying)){
+                StringBuilder textBuilder = new StringBuilder(text.get());
                 textBuilder.deleteCharAt(textBuilder.lastIndexOf("\n"));
                 textBuilder.append(I18n.format("gui.beastiary.creatures.mixin.interact.saddle", ForgeConfigHandler.majorFeaturesConfig.creatureInteractConfig.vanillaSaddleLevelRequirement)).append("\n\n");
+                text.set(textBuilder.toString());
             }
-        text.set(textBuilder.toString());
     }
 }

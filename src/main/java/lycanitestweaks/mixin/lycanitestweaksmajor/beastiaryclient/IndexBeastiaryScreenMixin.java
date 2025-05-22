@@ -1,4 +1,4 @@
-package lycanitestweaks.mixin.lycanitestweaksmajor.playermoblevels.client;
+package lycanitestweaks.mixin.lycanitestweaksmajor.beastiaryclient;
 
 import com.lycanitesmobs.LycanitesMobs;
 import com.lycanitesmobs.client.gui.beastiary.BeastiaryScreen;
@@ -19,12 +19,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.HashMap;
 
 @Mixin(IndexBeastiaryScreen.class)
-public abstract class IndexBeastiaryScreenPMLMixin extends BeastiaryScreen {
+public abstract class IndexBeastiaryScreenMixin extends BeastiaryScreen {
 
     @Unique
     private final HashMap<PlayerMobLevelsConfig.BonusCategory, Integer> lycanitesTweaks$pmlBonusCateogories = new HashMap<>();
 
-    public IndexBeastiaryScreenPMLMixin(EntityPlayer player) {
+    public IndexBeastiaryScreenMixin(EntityPlayer player) {
         super(player);
     }
 
@@ -34,6 +34,8 @@ public abstract class IndexBeastiaryScreenPMLMixin extends BeastiaryScreen {
             remap = false
     )
     public void lycanitesTweaks_lycanitesMobsIndexBeastiaryScreen_drawForegroundPML(int mouseX, int mouseY, float partialTicks, CallbackInfo ci){
+        if(!ForgeConfigHandler.clientFeaturesMixinConfig.beastiaryGUIPML) return;
+
         int xOffset = this.colLeftX;
         int yOffset = this.colLeftY;
         if(this.player.ticksExisted % 20 == 0){

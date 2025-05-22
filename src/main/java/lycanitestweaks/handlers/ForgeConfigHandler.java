@@ -296,22 +296,24 @@ public class ForgeConfigHandler {
 
 	public static class ClientFeaturesConfig {
 
-		@Config.Comment("Adds Imperfect Summoning Information to Beastiary")
-		@Config.Name("Add Feature: Imperfect Summoning Information to Beastiary")
+		@Config.Comment("Adds LycanitesTweaks Information to Beastiary")
+		@Config.Name("Add Feature: LycanitesTweaks Beastiary")
 		@Config.RequiresMcRestart
-		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureclientimperfectsummon.json")
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureclientbeastiarylt.json")
+		public boolean beastiaryGUILT = true;
+
+		@Config.Comment("Show Imperfect Summoning Information")
+		@Config.Name("Add Feature: LycanitesTweaks Beastiary - Imperfect Summoning")
 		public boolean beastiaryGUIImperfectSummon = true;
 
-		@Config.Comment("Adds Player Mob Levels Information to Beastiary")
-		@Config.Name("Add Feature: Player Mob Levels Information to Beastiary")
-		@Config.RequiresMcRestart
-		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureclientplayermoblevels.json")
+		@Config.Comment("Show Player Mob Levels Information")
+		@Config.Name("Add Feature: LycanitesTweaks Beastiary - Player Mob Levels")
 		public boolean beastiaryGUIPML = true;
 
 		@Config.Comment("Beastiary Render order is determined by the order of this list\n" +
 				"\tcategoryName - Spelling must match defaults, only modify order\n" +
 				"This will be compared to the existence of 'Bonus Categories' entries in the PML config")
-		@Config.Name("Player Mob Levels Information to Beastiary - Category Display Order")
+		@Config.Name("Add Feature: LycanitesTweaks Beastiary - PML Category Display Order")
 		public String[] pmlBeastiaryOrder = {
 				"AltarBossMain",
 				"AltarBossMini",
@@ -538,14 +540,15 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesageablebabydrops.json")
 		public boolean fixAgeableBabyDrops = true;
 
+		// Rahovart is an example with oversight and can spawn infinite minions regardless of this
 		@Config.Comment("Add persistence to minions spawned through the summonMinion method\n" +
-				"This fixes vanilla Boss issues caused by despawning minions\n" +
+				"This fixes vanilla Boss issues caused by despawning minions when mechanics depend on minions\n" +
 				"If master dies, minion will be force despawned after 1 minute\n" +
-				"This alone doesn't fix Rahovart being able to spawn uncapped minions")
+				"Default is false as LycanitesTweaks boss enhancements directly addresses")
 		@Config.Name("Fix Boss Mechanics Minion Persistence")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesbasecreatureminionpersistence.json")
-		public boolean fixBaseCreatureSummonPersistence = true;
+		public boolean fixBaseCreatureSummonPersistence = false;
 
 		@Config.Comment("Add a call to super in BaseCreature's isPotionApplicable method, restores vanilla parity for Undead mobs")
 		@Config.Name("Fix BaseCreature Potion Applicable")
@@ -571,23 +574,36 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesfearsurvivalflying.json")
 		public boolean fixFearSurvivalFlying = true;
 
-		@Config.Comment("Fix HealWhenNoPlayersGoal trigger check using AND instead of OR")
+		@Config.Comment("Fix HealWhenNoPlayersGoal trigger check using AND instead of OR therefore bricking in most cases")
 		@Config.Name("Fix Heal Goal Check")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patcheshealgoalcheck.json")
 		public boolean fixHealGoalCheck = true;
 
-		@Config.Comment("Fix Mounting when trying to Heal a tamed creature with food")
+		@Config.Comment("Fix Mounting when trying to Heal a tamed creature with food, will no longer mount when trying to heal the creature")
 		@Config.Name("Fix Mounting With Heal Food")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesnomountwithfood.json")
 		public boolean fixMountingWithHealFood = true;
+
+
+		// Mixin is not needed, original handling does not need to be canceled
+		// Handle apply curing in PR, not needed here as original handling will catch active blindness
+		@Config.Comment("Have NV deny Blindness from applying. This fixes visual flashing when blindness is applied every tick")
+		@Config.Name("Fix Night Vision Curing Blindness")
+		public boolean fixNVCuringBlindness = true;
 
 		@Config.Comment("Fix Serpix Blizzard projectile spawning in the ground")
 		@Config.Name("Fix Serpix Blizzard Offset")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patcheserpixblizzardoffset.json")
 		public boolean fixSerpixBlizzardOffset = true;
+
+		@Config.Comment("Fix Pickup host entity losing track of target such as when holding inside a wall")
+		@Config.Name("Fix Pickup Target")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchespickuptarget.json")
+		public boolean fixPickupTargetAlways = true;
 
 		@Config.Comment("All Lyc containers (Equipment Forges, Infuser, Station, Summoning Pedestal) have no Item Quick Move implementation (via shift clicking). This fix makes them use newer mc quick move mechanics where the crafting slots are preferred over the player inventory+hotbar.\n" +
 				"Also fixes a minimal bug in Lyca Pet chest inventory where one slot (bottom right in player inventory) was not reachable via quick move.")

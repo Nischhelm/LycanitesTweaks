@@ -58,12 +58,11 @@ public class LycanitesTweaks {
 
         MinecraftForge.EVENT_BUS.register(EntityLootHandler.class);
         MinecraftForge.EVENT_BUS.register(EntityLivingHandler.class);
+        MinecraftForge.EVENT_BUS.register(ItemCuringEffectsHandler.class);
 
         if(ForgeConfigHandler.server.effectsConfig.registerConsumed || ForgeConfigHandler.server.effectsConfig.registerVoided)
             MinecraftForge.EVENT_BUS.register(CripplingEffectsHandler.class);
 
-
-        if(ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.customItemCureEffectList) MinecraftForge.EVENT_BUS.register(ItemCuringEffectsHandler.class);
         if(ForgeConfigHandler.integrationConfig.craftedEquipmentRLCombatSweep && ModLoadedUtil.isRLCombatLoaded())
             MinecraftForge.EVENT_BUS.register(RLCombatHandler.class);
     }

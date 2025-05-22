@@ -9,7 +9,10 @@
 
   ],
   "client": [
-    "playermoblevels.client.SummoningBeastiaryScreenImperfectMixin"
+    "beastiaryclient.CreatureDescriptionListMixin",
+    "beastiaryclient.ElementDescriptionListMixin",
+    "beastiaryclient.IndexBeastiaryScreenMixin",
+    "beastiaryclient.SummoningBeastiaryScreenMixin"
   ],
     "injectors": {
     "maxShiftBy": 10

@@ -29,7 +29,8 @@ public class CreatureStatsConfig {
         LycanitesTweaks turns all altar bosses in SpawnedAsBoss mobs for example
      */
 
-    @Config.Comment("Grant all creatures tagged as SpawnedAsBoss the Rare variant stat multipliers instead of the Common/Uncommon")
+    @Config.Comment("Grant all creatures tagged as SpawnedAsBoss the Rare variant stat multipliers instead of the Common/Uncommon\n" +
+            "This will not automatically rebalance Dungeon Bosses. Default Lycanites distributes Bosses between level 10-250, watch out!")
     @Config.Name("Boost Spawned As Boss Non Rares")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurespawnedasbossrareboost.json")
