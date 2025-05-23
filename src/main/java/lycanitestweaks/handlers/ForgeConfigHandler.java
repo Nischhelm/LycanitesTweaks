@@ -1,5 +1,6 @@
 package lycanitestweaks.handlers;
 
+import fermiumbooter.FermiumRegistryAPI;
 import fermiumbooter.annotations.MixinConfig;
 import lycanitestweaks.handlers.config.*;
 import net.minecraft.util.ResourceLocation;
@@ -332,23 +333,23 @@ public class ForgeConfigHandler {
 		@Config.Comment("Adds Distinct Damage Descriptions Information to Beastiary")
 		@Config.Name("Mod Compatibility: Beastiary Info (Distinct Damage Descriptions)")
 		@Config.RequiresMcRestart
-		@MixinConfig.CompatHandling(modid = "distinctdamagedescriptions", reason = "Distinct Damage Descriptions not found")
+		@MixinConfig.CompatHandling(modid = "distinctdamagedescriptions", reason = "Dependency Missing")
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureclientbeastiaryddd.json")
-		public boolean beastiaryGUIDDD = true;
+		public boolean beastiaryGUIDDD = FermiumRegistryAPI.isModPresent("distinctdamagedescriptions");
 
 		@Config.Comment("Allows love arrows to make Lycanites animals breed")
 		@Config.Name("Mod Compatibility: Love Arrow Fix (Switch-Bow)")
 		@Config.RequiresMcRestart
-		@MixinConfig.CompatHandling(modid = "switchbow", reason = "Switch-Bow not found")
+		@MixinConfig.CompatHandling(modid = "switchbow", reason = "Dependency Missing")
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.switchboxlovearrowfix.json")
-		public boolean switchbowLoveArrowFix = true;
+		public boolean switchbowLoveArrowFix = FermiumRegistryAPI.isModPresent("switchbow");
 
 		@Config.Comment("Fix Potion Core forcibly overwriting BaseCreatureEntity motionY ")
 		@Config.Name("Mod Compatibility: Potion Core Jump Fix (Potion Core)")
 		@Config.RequiresMcRestart
-		@MixinConfig.CompatHandling(modid = "potioncore", reason = "Potion Core not found")
+		@MixinConfig.CompatHandling(modid = "potioncore", reason = "Dependency Missing")
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.potioncorejumpfix.json")
-		public boolean potionCoreJumpFix = true;
+		public boolean potionCoreJumpFix = FermiumRegistryAPI.isModPresent("potioncore");
 
 		@Config.Comment("Whether to affect all mobs")
 		@Config.Name("Mod Compatibility: Potion Core Jump Fix - All Mobs")
@@ -365,14 +366,14 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		@MixinConfig.CompatHandling(modid = "reachfix", reason = "ReachFix not found")
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.equipmentreachfix.json")
-		public boolean craftedEquipmentReachFix = true;
+		public boolean craftedEquipmentReachFix = FermiumRegistryAPI.isModPresent("reachfix");
 
 		@Config.Comment("Cancels Custom Sweep and rehandle with RLCombat Sweep")
 		@Config.Name("Mod Compatibility: Crafted Equipment RLCombat Sweep (RLCombat)")
 		@Config.RequiresMcRestart
 		@MixinConfig.CompatHandling(modid = "bettercombatmod", reason = "RLCombat not found")
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.equipmentrlcombatsweep.json")
-		public boolean craftedEquipmentRLCombatSweep = true;
+		public boolean craftedEquipmentRLCombatSweep = FermiumRegistryAPI.isModPresent("bettercombatmod");
 	}
 
 	public static class MajorFeaturesConfig {

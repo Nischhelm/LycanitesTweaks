@@ -14,10 +14,12 @@ import lycanitestweaks.entity.goals.actions.abilities.HealPortionWhenNoPlayersGo
 import lycanitestweaks.entity.goals.actions.abilities.SummonLeveledMinionsGoal;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -130,6 +132,26 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
         return ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsRespawnTimePhase3;
     }
 
+    // Flag before enter world for boss info
+    // TODO Fix this in a better way
+    @ModifyArg(
+            method = "updatePhases",
+            at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/core/entity/creature/EntityAsmodeus;summonMinion(Lnet/minecraft/entity/EntityLivingBase;DD)V"),
+            index = 0,
+            remap = false
+    )
+    public EntityLivingBase lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesAstarothBoss(EntityLivingBase minion){
+        if(minion instanceof EntityAstaroth) {
+            if (ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsSpawnedAsBoss) {
+                ((EntityAstaroth) minion).spawnedAsBoss = true;
+            }
+            else {
+                ((EntityAstaroth) minion).forceBossHealthBar = true;
+            }
+        }
+        return minion;
+    }
+
     // Arachnotron
     @Inject(
             method = "updatePhases",
@@ -138,13 +160,10 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
     )
     public void lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesPhaseTwoMinion(CallbackInfo ci, @Local EntityAstaroth minion){
         minion.setCustomNameTag("Arachnotron");
+        if(minion.getBossInfo() != null) minion.bossInfo.setName(new TextComponentString(minion.getName()));
         minion.setSizeScale(1.8);
         minion.enablePersistence();
-        if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsSpawnedAsBoss) {
-            minion.spawnedAsBoss = true;
-            minion.refreshAttributes();
-            minion.firstSpawn = false;
-        }
+        this.firstSpawn = false;
         if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsUseBossDamageLimit) {
             minion.damageMax = BaseCreatureEntity.BOSS_DAMAGE_LIMIT;
             minion.damageLimit = (float) BaseCreatureEntity.BOSS_DAMAGE_LIMIT;
@@ -163,14 +182,11 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
     )
     public void lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesPhaseThreeMinion(CallbackInfo ci, @Local EntityAstaroth minion){
         minion.setCustomNameTag("Asakku");
+        if(minion.getBossInfo() != null) minion.bossInfo.setName(new TextComponentString(minion.getName()));
         minion.setSizeScale(2.5);
         minion.setSubspecies(1);
         minion.enablePersistence();
-        if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsSpawnedAsBoss) {
-            minion.spawnedAsBoss = true;
-            minion.refreshAttributes();
-            minion.firstSpawn = false;
-        }
+        this.firstSpawn = false;
         if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsUseBossDamageLimit) {
             minion.damageMax = BaseCreatureEntity.BOSS_DAMAGE_LIMIT;
             minion.damageLimit = (float) BaseCreatureEntity.BOSS_DAMAGE_LIMIT;

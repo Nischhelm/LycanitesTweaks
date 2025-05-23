@@ -9,7 +9,7 @@ import com.lycanitesmobs.core.item.ItemBase;
 import com.lycanitesmobs.core.item.temp.ItemScepter;
 import com.lycanitesmobs.core.item.temp.ItemStaffSummoning;
 import lycanitestweaks.handlers.ForgeConfigHandler;
-import lycanitestweaks.handlers.features.item.IStoredElementLevelMapItemMixin;
+import lycanitestweaks.util.IItemStaffSummoningElementLevelMapMixin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Locale;
 
 @Mixin(ItemStaffSummoning.class)
-public abstract class ItemStaffSummoningLevelMapItemMixin extends ItemScepter implements IStoredElementLevelMapItemMixin {
+public abstract class ItemStaffSummoningElementLevelMapMixin extends ItemScepter implements IItemStaffSummoningElementLevelMapMixin {
 
     // Could have been a Forge Cap, but it looked like Forge was being inefficient with it
 

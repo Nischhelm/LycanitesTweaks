@@ -1,15 +1,68 @@
 package lycanitestweaks.handlers.config;
 
 import fermiumbooter.annotations.MixinConfig;
+import lycanitestweaks.LycanitesTweaks;
+import lycanitestweaks.handlers.ForgeConfigHandler;
 import net.minecraftforge.common.config.Config;
+import net.minecraftforge.common.config.ConfigManager;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import java.util.Arrays;
+import java.util.HashSet;
 
 public class CreatureInteractConfig {
+
+    private static HashSet<String> transformBossSpawnerNames = null;
 
     @Config.Comment("Giving an Enchanted Golden Apple to a tamed creature will turn it into a baby")
     @Config.Name("Baby Age Gapple")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuretamedbabygapple.json")
     public boolean babyAgeGapple = true;
+
+    @Config.Comment("Allows non boss and non SpawnedAsBoss creatures to be flagged for SpawnedAsBoss transformations.\n" +
+            "This does not automatically enable Persistence, if they could despawn before they still can despawn.")
+    @Config.Name("Can Transform Into Boss Flag")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurecantransformbossflag.json")
+    public boolean canTransformIntoBossFlag = true;
+
+    @Config.Comment("Sets the Boss Damage Limit upon transformation")
+    @Config.Name("Can Transform Into Boss Flag - Boss Damage Limit")
+    public boolean canTransformBossDamageLimit = true;
+
+    @Config.Comment("Add Encounter Category Player Mob Levels upon transformation")
+    @Config.Name("Can Transform Into Boss Flag - Encounter PML")
+    public boolean canTransformBossPML = true;
+
+    @Config.Comment("Inject handling for flagging JSON Can Transform Into Boss JSON Spawners by whitelist")
+    @Config.Name("JSON Spawner Flag Transform Boss")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurejsonspawnertransformbossflag.json")
+    public boolean canTransformBossJSONSpawner = true;
+
+    @Config.Comment("JSON Spawner Names is a blacklist instead of whitelist")
+    @Config.Name("JSON Spawner Flag Transform Boss - Blacklist")
+    public boolean transformBossSpawnerNameStringsIsBlacklist = false;
+
+    @Config.Comment("List of Lycanites Spawner Names to attempt to flag Transform Boss\n" +
+            "Somewhat Easter Eggs but intended to apply when boat trapping certain mobs\n" +
+            "Add 'flower' when using 'Vehicle Anti Cheese - Transform Into Boss' if you want to be evil")
+    @Config.Name("JSON Spawner Flag Transform Boss - Spawner Names")
+    public String[] transformBossSpawnerNameStrings = {
+            "gem",
+            "glowstone",
+            "mineshaft",
+            "mushroom",
+            "ore",
+            "portal",
+            "pumpkin",
+            "sleep",
+            "tree",
+            "village"
+    };
 
     @Config.Comment("Allow mounts to be use vanilla saddles based on levels")
     @Config.Name("Mount with Vanilla Saddles")
@@ -99,4 +152,49 @@ public class CreatureInteractConfig {
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuretameabletreatpersistence.json")
     public boolean treatSetsPersistence = true;
+
+    @Config.Comment("Blacklist automatically entering riding boats and other vehicles when creature has particular properties\n" +
+            "Creatures are still capable of entering through data or force option with startRiding method\n" +
+            "The default toggled properties targets Sleep Reapers and Mineshaft Banshees\n" +
+            "Nymph is still allowed by default")
+    @Config.Name("Vehicle Anti Cheese")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuremountcheesefix.json")
+    public boolean mountCheeseFix = true;
+
+    @Config.Comment("Prevent flying creatures")
+    @Config.Name("Vehicle Anti Cheese - Flying")
+    public boolean mountCheeseFixFlying = false;
+
+    @Config.Comment("Prevent creatures who are mounted")
+    @Config.Name("Vehicle Anti Cheese - Mounted")
+    public boolean mountCheeseFixMounted = true;
+
+    @Config.Comment("Prevent creatures with No Clip movement")
+    @Config.Name("Vehicle Anti Cheese - NoClip")
+    public boolean mountCheeseFixNoClip = true;
+
+    @Config.Comment("Transform if Can Transform Into Boss Flag")
+    @Config.Name("Vehicle Anti Cheese - Transform Into Boss")
+    public boolean mountCheeseFixTransform = true;
+
+    public static HashSet<String> getCanTransformIntoBossSpawnerNames(){
+        if(CreatureInteractConfig.transformBossSpawnerNames == null){
+            CreatureInteractConfig.transformBossSpawnerNames = new HashSet<>(Arrays.asList(ForgeConfigHandler.majorFeaturesConfig.creatureInteractConfig.transformBossSpawnerNameStrings));
+        }
+        return CreatureInteractConfig.transformBossSpawnerNames;
+    }
+
+    @Mod.EventBusSubscriber(modid = LycanitesTweaks.MODID)
+    private static class EventHandler{
+
+        @SubscribeEvent
+        public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
+            if(event.getModID().equals(LycanitesTweaks.MODID)) {
+                CreatureInteractConfig.transformBossSpawnerNames = null;
+
+                ConfigManager.sync(LycanitesTweaks.MODID, Config.Type.INSTANCE);
+            }
+        }
+    }
 }

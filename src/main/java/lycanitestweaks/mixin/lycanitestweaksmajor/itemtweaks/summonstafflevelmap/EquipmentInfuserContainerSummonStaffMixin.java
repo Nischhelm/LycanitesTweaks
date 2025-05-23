@@ -5,7 +5,7 @@ import com.lycanitesmobs.core.container.EquipmentInfuserContainer;
 import com.lycanitesmobs.core.container.EquipmentInfuserPartSlot;
 import com.lycanitesmobs.core.info.ElementInfo;
 import com.lycanitesmobs.core.item.ChargeItem;
-import lycanitestweaks.handlers.features.item.IStoredElementLevelMapItemMixin;
+import lycanitestweaks.util.IItemStaffSummoningElementLevelMapMixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -29,8 +29,8 @@ public abstract class EquipmentInfuserContainerSummonStaffMixin {
             remap = false
     )
     public void lycanitesTweaks_lycanitesMobsEquipmentInfuserContainer_attemptInfusionLevelMapItem(CallbackInfo ci){
-        if (!this.partSlot.getStack().isEmpty() && this.partSlot.getStack().getItem() instanceof IStoredElementLevelMapItemMixin) {
-            IStoredElementLevelMapItemMixin equipmentPart = (IStoredElementLevelMapItemMixin)this.partSlot.getStack().getItem();
+        if (!this.partSlot.getStack().isEmpty() && this.partSlot.getStack().getItem() instanceof IItemStaffSummoningElementLevelMapMixin) {
+            IItemStaffSummoningElementLevelMapMixin equipmentPart = (IItemStaffSummoningElementLevelMapMixin)this.partSlot.getStack().getItem();
 
             if (equipmentPart.lycanitesTweaks$isLevelingChargeItem(this.chargeSlot.getStack())) {
                 boolean infused = false;

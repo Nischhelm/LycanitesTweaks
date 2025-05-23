@@ -369,7 +369,7 @@ public class StoredCreatureEntity {
             }
 
             // Entity Appearance:
-            entityCreature.applyLevel(this.entityLevel);
+            entityCreature.setLevel(this.entityLevel);
             entityCreature.setExperience(this.entityExperience);
             entityCreature.setSizeScale(this.entitySize);
             entityCreature.setSubspecies(this.subspeciesIndex);

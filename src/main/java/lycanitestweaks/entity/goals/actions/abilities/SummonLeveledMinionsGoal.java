@@ -158,6 +158,13 @@ public class SummonLeveledMinionsGoal extends BaseGoal {
 
     protected void summonMinion(EntityLivingBase target) {
 		EntityLivingBase minion = this.minionInfo.createEntity(this.host.getEntityWorld());
+		int variantIndex = (this.variantIndex == -1) ? this.host.getVariantIndex() : this.variantIndex;
+
+		// TODO fix this jank way to ensure boss health bar
+		if(minion instanceof BaseCreatureEntity){
+			((BaseCreatureEntity) minion).setVariant(variantIndex);
+		}
+
 		this.host.summonMinion(minion, this.host.getRNG().nextDouble() * 360, this.host.width + 1);
 		if(minion instanceof BaseCreatureEntity) {
 			BaseCreatureEntity minionCreature = (BaseCreatureEntity)minion;
@@ -171,8 +178,7 @@ public class SummonLeveledMinionsGoal extends BaseGoal {
 			if((this.subSpeciesIndex == -1)) minionCreature.setSubspecies(this.host.getSubspeciesIndex());
 			else minionCreature.setSubspecies(this.subSpeciesIndex);
 
-            if((this.variantIndex == -1)) minionCreature.setVariant(this.host.getVariantIndex());
-			else minionCreature.setVariant(this.variantIndex);
+            minionCreature.setVariant(variantIndex);
 
 			minionCreature.applyLevel(host.getLevel()); // refresh stats
         }

@@ -1,4 +1,4 @@
-package lycanitestweaks.handlers.features.item;
+package lycanitestweaks.util;
 
 import com.lycanitesmobs.core.info.ElementInfo;
 import com.lycanitesmobs.core.item.ChargeItem;
@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
-public interface IStoredElementLevelMapItemMixin {
+public interface IItemStaffSummoningElementLevelMapMixin {
 
     // Based on ItemEquipmentPart
 
