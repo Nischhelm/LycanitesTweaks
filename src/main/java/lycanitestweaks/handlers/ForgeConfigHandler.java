@@ -48,7 +48,6 @@ public class ForgeConfigHandler {
 	@Config.Comment("Mod Compatibility\n" +
 			"Toggles are enabled by default and will flag Fermium Booter errors, disable when associated mod is not installed")
 	@Config.Name("Mod Compatibility")
-	@MixinConfig.SubInstance
 	public static final IntegrationConfig integrationConfig = new IntegrationConfig();
 
 	@Config.Comment("Enable/Disable Patches for Lycanites Mobs")
@@ -312,7 +311,7 @@ public class ForgeConfigHandler {
 		public boolean beastiaryGUIPML = true;
 
 		@Config.Comment("Beastiary Render order is determined by the order of this list\n" +
-				"\tcategoryName - Spelling must match defaults, only modify order\n" +
+				"\tcategoryName - Spelling must match 'Bonus Categories' entries else hidden\n" +
 				"This will be compared to the existence of 'Bonus Categories' entries in the PML config")
 		@Config.Name("Add Feature: LycanitesTweaks Beastiary - PML Category Display Order")
 		public String[] pmlBeastiaryOrder = {
@@ -321,9 +320,9 @@ public class ForgeConfigHandler {
 				"DungeonBoss",
 				"SpawnerNatural",
 				"SpawnerTile",
-				"SpawnerTrigger",
-				"EncounterEvent",
-				"SoulboundTame",
+				"SpawnerTrigger_",
+				"EncounterEvent_",
+				"SoulboundTame_",
 				"SummonMinion"
 		};
 	}
@@ -333,23 +332,23 @@ public class ForgeConfigHandler {
 		@Config.Comment("Adds Distinct Damage Descriptions Information to Beastiary")
 		@Config.Name("Mod Compatibility: Beastiary Info (Distinct Damage Descriptions)")
 		@Config.RequiresMcRestart
-		@MixinConfig.CompatHandling(modid = "distinctdamagedescriptions", reason = "Dependency Missing")
-		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureclientbeastiaryddd.json")
-		public boolean beastiaryGUIDDD = FermiumRegistryAPI.isModPresent("distinctdamagedescriptions");
+//		@MixinConfig.CompatHandling(modid = "distinctdamagedescriptions", reason = "Dependency Missing")
+//		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureclientbeastiaryddd.json")
+		public boolean beastiaryGUIDDD = true;
 
 		@Config.Comment("Allows love arrows to make Lycanites animals breed")
 		@Config.Name("Mod Compatibility: Love Arrow Fix (Switch-Bow)")
 		@Config.RequiresMcRestart
-		@MixinConfig.CompatHandling(modid = "switchbow", reason = "Dependency Missing")
-		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.switchboxlovearrowfix.json")
-		public boolean switchbowLoveArrowFix = FermiumRegistryAPI.isModPresent("switchbow");
+//		@MixinConfig.CompatHandling(modid = "switchbow", reason = "Dependency Missing")
+//		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.switchboxlovearrowfix.json")
+		public boolean switchbowLoveArrowFix = true;
 
 		@Config.Comment("Fix Potion Core forcibly overwriting BaseCreatureEntity motionY ")
 		@Config.Name("Mod Compatibility: Potion Core Jump Fix (Potion Core)")
 		@Config.RequiresMcRestart
-		@MixinConfig.CompatHandling(modid = "potioncore", reason = "Dependency Missing")
-		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.potioncorejumpfix.json")
-		public boolean potionCoreJumpFix = FermiumRegistryAPI.isModPresent("potioncore");
+//		@MixinConfig.CompatHandling(modid = "potioncore", reason = "Dependency Missing")
+//		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.potioncorejumpfix.json")
+		public boolean potionCoreJumpFix = true;
 
 		@Config.Comment("Whether to affect all mobs")
 		@Config.Name("Mod Compatibility: Potion Core Jump Fix - All Mobs")
@@ -364,15 +363,15 @@ public class ForgeConfigHandler {
 		@Config.Comment("Makes Crafted Equipment reach stat influence ReachFix attack range")
 		@Config.Name("Mod Compatibility: Crafted Equipment ReachFix (ReachFix)")
 		@Config.RequiresMcRestart
-		@MixinConfig.CompatHandling(modid = "reachfix", reason = "ReachFix not found")
-		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.equipmentreachfix.json")
+//		@MixinConfig.CompatHandling(modid = "reachfix", reason = "ReachFix not found")
+//		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.equipmentreachfix.json")
 		public boolean craftedEquipmentReachFix = FermiumRegistryAPI.isModPresent("reachfix");
 
 		@Config.Comment("Cancels Custom Sweep and rehandle with RLCombat Sweep")
 		@Config.Name("Mod Compatibility: Crafted Equipment RLCombat Sweep (RLCombat)")
 		@Config.RequiresMcRestart
-		@MixinConfig.CompatHandling(modid = "bettercombatmod", reason = "RLCombat not found")
-		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.equipmentrlcombatsweep.json")
+//		@MixinConfig.CompatHandling(modid = "bettercombatmod", reason = "RLCombat not found")
+//		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.equipmentrlcombatsweep.json")
 		public boolean craftedEquipmentRLCombatSweep = FermiumRegistryAPI.isModPresent("bettercombatmod");
 	}
 

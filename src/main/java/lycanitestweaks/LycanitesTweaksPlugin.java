@@ -13,6 +13,19 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 		MixinBootstrap.init();
 
 		FermiumRegistryAPI.registerAnnotatedMixinConfig(ForgeConfigHandler.class, null);
+
+		// Mod Compat - This way doesn't render the error message if people use the default
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.lycanitestweaks.featureclientbeastiaryddd.json",
+		FermiumRegistryAPI.isModPresent("distinctdamagedescriptions") && ForgeConfigHandler.integrationConfig.beastiaryGUIDDD);
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.lycanitestweaks.switchboxlovearrowfix.json",
+		FermiumRegistryAPI.isModPresent("switchbow") && ForgeConfigHandler.integrationConfig.switchbowLoveArrowFix);
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.lycanitestweaks.potioncorejumpfix.json",
+		FermiumRegistryAPI.isModPresent("potioncore") && ForgeConfigHandler.integrationConfig.fixAllMobsPotionCoreJump);
+		//
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.lycanitestweaks.equipmentreachfix.json",
+				FermiumRegistryAPI.isModPresent("reachfix") && ForgeConfigHandler.integrationConfig.craftedEquipmentReachFix);
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.lycanitestweaks.equipmentrlcombatsweep.json",
+				FermiumRegistryAPI.isModPresent("bettercombatmod") && ForgeConfigHandler.integrationConfig.craftedEquipmentRLCombatSweep);
 	}
 
 	@Override
