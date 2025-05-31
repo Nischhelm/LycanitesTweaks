@@ -45,12 +45,12 @@ public abstract class RideableCreatureEntitySaddleLevelMixin extends AgeableCrea
             if (!this.inventory.getEquipmentStack("saddle").isEmpty() &&
                     this.inventory.getEquipmentStack("saddle").getItem() == Items.SADDLE) {
                 if (Helpers.isPracticallyFlying(this) && !ForgeConfigHandler.majorFeaturesConfig.creatureInteractConfig.vanillaSaddleAllowFlying) {
-                    player.sendStatusMessage(new TextComponentTranslation("mount.fail.noflying"), true);
+                    player.sendStatusMessage(new TextComponentTranslation("message.mount.fail.noflying"), true);
                     return true;
                 } else if (this.getLevel() >= ForgeConfigHandler.majorFeaturesConfig.creatureInteractConfig.vanillaSaddleLevelRequirement) {
                     return false;
                 } else if (player instanceof EntityPlayer) {
-                    player.sendStatusMessage(new TextComponentTranslation("mount.fail.saddlelevel", ForgeConfigHandler.majorFeaturesConfig.creatureInteractConfig.vanillaSaddleLevelRequirement), true);
+                    player.sendStatusMessage(new TextComponentTranslation("message.mount.fail.saddlelevel", ForgeConfigHandler.majorFeaturesConfig.creatureInteractConfig.vanillaSaddleLevelRequirement), true);
                     return true;
                 }
             }

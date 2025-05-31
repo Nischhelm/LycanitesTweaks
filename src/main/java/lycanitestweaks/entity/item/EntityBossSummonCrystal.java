@@ -67,7 +67,7 @@ public class EntityBossSummonCrystal extends EntityEnderCrystal {
         if(!this.world.isRemote){
             BlockPos blockpos = new BlockPos(this);
 
-            if (!(this.world.provider instanceof WorldProviderEnd) && this.world.getBlockState(blockpos).getBlock() != Blocks.FIRE){
+            if (!(this.world.provider instanceof WorldProviderEnd) && this.getVariantType() != 0 && this.world.getBlockState(blockpos).getBlock() != Blocks.FIRE){
                 if(this.world.isAirBlock(blockpos)) this.world.setBlockState(blockpos, Blocks.FIRE.getDefaultState());
             }
             if(this.ticksExisted % 20 == 0 && this.searchDistance > -1F && ForgeConfigHandler.majorFeaturesConfig.escConfig.bossCrystalTickChecks) {
@@ -237,6 +237,27 @@ public class EntityBossSummonCrystal extends EntityEnderCrystal {
             crystal.setShowBottom(true);
             crystal.setDestroyBlocks(true);
             crystal.setVariantType(1);
+            crystal.setSearchDistance(16);
+        }
+        return crystal;
+    }
+
+    public static EntityBossSummonCrystal storeAltarCreature(World world, BaseCreatureEntity entity, BlockPos blockPos){
+        EntityBossSummonCrystal crystal = new EntityBossSummonCrystal(world);
+        world.setBlockState(new BlockPos(blockPos.getX(), blockPos.getY() - 1, blockPos.getZ()), Blocks.OBSIDIAN.getDefaultState());
+        crystal.setPosition(blockPos.getX() + 0.5F, blockPos.getY(), blockPos.getZ() + 0.5F); // Align ontop of Obsidian
+        IEntityStoreCreatureCapability storeCreature = crystal.getCapability(EntityStoreCreatureCapabilityHandler.ENTITY_STORE_CREATURE, null);
+
+        if(storeCreature != null) {
+            entity.getRandomSize(); // Update boss size
+            storeCreature.setStoredCreatureEntity(StoredCreatureEntity.createFromEntity(crystal, entity)
+                    .setPersistant(entity.isPersistant())
+                    .setFixate(entity.hasFixateTarget())
+                    .setSpawnAsBoss(entity.spawnedAsBoss)
+            );
+            crystal.setShowBottom(true);
+            crystal.setDestroyBlocks(entity.isBoss());
+            crystal.setVariantType(0);
             crystal.setSearchDistance(16);
         }
         return crystal;

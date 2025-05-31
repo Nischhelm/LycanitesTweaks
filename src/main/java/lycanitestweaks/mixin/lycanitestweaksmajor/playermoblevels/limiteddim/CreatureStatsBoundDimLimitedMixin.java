@@ -31,7 +31,7 @@ public abstract class CreatureStatsBoundDimLimitedMixin {
                 int levels = Math.min(original,
                         pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.SoulboundTame, this.entity));
                 if(this.entity.ticksExisted == 0) {
-                    ((EntityPlayer) this.entity.getPetEntry().host).sendStatusMessage(new TextComponentTranslation("soulbound.limited.levels", levels), true);
+                    ((EntityPlayer) this.entity.getPetEntry().host).sendStatusMessage(new TextComponentTranslation("message.soulbound.limited.levels", levels), true);
                 }
                 return levels;
             }

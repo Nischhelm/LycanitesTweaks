@@ -5,6 +5,7 @@ import com.lycanitesmobs.core.item.ChargeItem;
 import com.lycanitesmobs.core.item.ItemBase;
 import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.handlers.ForgeConfigHandler;
+import lycanitestweaks.info.altar.IAltarNoBoost;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -350,60 +351,59 @@ public class ItemEnchantedSoulkey extends Item {
             this.setGemPower(itemStack, ForgeConfigHandler.server.itemConfig.enchantedSoulkeyMaxUsages);
         }
 
-        if(!player.getEntityWorld().isRemote){
-            if(!this.isCharged(itemStack)){
-                player.sendMessage(new TextComponentTranslation("enchantedkey.use.nocharge"));
+        if(!player.getEntityWorld().isRemote) {
+            if (!this.isCharged(itemStack)) {
+                player.sendMessage(new TextComponentTranslation("message.enchantedkey.fail.nocharge"));
                 return EnumActionResult.FAIL;
             }
-            if(!AltarInfo.checkAltarsEnabled()) {
+            if (!AltarInfo.checkAltarsEnabled()) {
                 player.sendMessage(new TextComponentTranslation("message.soulkey.disabled"));
                 return EnumActionResult.FAIL;
             }
-        }
 
-        // Get Possible Altars:
-        List<AltarInfo> possibleAltars = new ArrayList<>();
-        if (AltarInfo.altars.isEmpty())
-            LycanitesTweaks.LOGGER.log(Level.WARN, "No altars have been registered, Soulkeys will not work at all.");
 
-        for (AltarInfo altarInfo : AltarInfo.altars.values()) {
-            if (altarInfo.checkBlockEvent(player, world, pos) && altarInfo.quickCheck(player, world, pos)) {
-                possibleAltars.add(altarInfo);
-            }
-        }
-        if (possibleAltars.isEmpty()) {
-            player.sendMessage(new TextComponentTranslation("message.soulkey.none"));
-            return EnumActionResult.FAIL;
-        }
+            // Get Possible Altars:
+            List<AltarInfo> possibleAltars = new ArrayList<>();
+            if (AltarInfo.altars.isEmpty())
+                LycanitesTweaks.LOGGER.log(Level.WARN, "No altars have been registered, Soulkeys will not work at all.");
 
-        // Activate First Valid Altar:
-        for (AltarInfo altarInfo : possibleAltars) {
-            if (altarInfo.fullCheck(player, world, pos)) {
-
-                // Valid Altar:
-                if (!player.getEntityWorld().isRemote) {
-                    if (!altarInfo.activate(player, world, pos, this.variant)) {
-                        player.sendMessage(new TextComponentTranslation("message.soulkey.badlocation"));
-                        return EnumActionResult.FAIL;
-                    }
-                    if (!player.capabilities.isCreativeMode) {
-                        this.reduceCharge(itemStack);
-                    }
-                    if(hand == EnumHand.MAIN_HAND){
-                        player.sendMessage(new TextComponentTranslation("enchantedkey.message.active", this.getLevel(itemStack)));
-                    }
-                    else if(hand == EnumHand.OFF_HAND){
-                        player.sendMessage(new TextComponentTranslation("message.soulkey.active"));
-                    }
+            for (AltarInfo altarInfo : AltarInfo.altars.values()) {
+                if (altarInfo.checkBlockEvent(player, world, pos) && altarInfo.quickCheck(player, world, pos)) {
+                    possibleAltars.add(altarInfo);
                 }
-                return EnumActionResult.SUCCESS;
+            }
+            if (possibleAltars.isEmpty()) {
+                player.sendMessage(new TextComponentTranslation("message.soulkey.none"));
+                return EnumActionResult.FAIL;
+            }
+
+            // Activate First Valid Altar:
+            for (AltarInfo altarInfo : possibleAltars) {
+                if (altarInfo.fullCheck(player, world, pos)) {
+
+                    // Valid Altar:
+                    if (!player.getEntityWorld().isRemote) {
+                        if (!altarInfo.activate(player, world, pos, this.variant)) {
+                            player.sendMessage(new TextComponentTranslation("message.soulkey.badlocation"));
+                            return EnumActionResult.FAIL;
+                        }
+                        if (!player.capabilities.isCreativeMode) {
+                            this.reduceCharge(itemStack);
+                        }
+                        if (hand == EnumHand.MAIN_HAND && !(altarInfo instanceof IAltarNoBoost)) {
+                            player.sendMessage(new TextComponentTranslation("message.enchantedkey.active", this.getLevel(itemStack)));
+                        } else {
+                            player.sendMessage(new TextComponentTranslation("message.soulkey.active"));
+                        }
+                    }
+                    return EnumActionResult.SUCCESS;
+                }
+            }
+
+            if (!player.capabilities.isCreativeMode) {
+                player.sendMessage(new TextComponentTranslation("message.soulkey.invalid"));
             }
         }
-
-        if (!player.capabilities.isCreativeMode) {
-            player.sendMessage(new TextComponentTranslation("message.soulkey.invalid"));
-        }
-
         return EnumActionResult.FAIL;
     }
 }

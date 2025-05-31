@@ -1,5 +1,6 @@
 package lycanitestweaks;
 
+import com.lycanitesmobs.core.info.AltarInfo;
 import lycanitestweaks.capability.EntityStoreCreatureCapabilityHandler;
 import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
 import lycanitestweaks.compat.ModLoadedUtil;
@@ -11,6 +12,8 @@ import lycanitestweaks.handlers.features.effect.ItemCuringEffectsHandler;
 import lycanitestweaks.compat.RLCombatHandler;
 import lycanitestweaks.handlers.features.item.ItemSoulgazerMoreInteractionsHandler;
 import lycanitestweaks.handlers.features.item.ItemStaffSummingLevelMapHandler;
+import lycanitestweaks.info.altar.AltarInfoBeastiary;
+import lycanitestweaks.info.altar.AltarInfoZombieHorse;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -65,6 +68,9 @@ public class LycanitesTweaks {
 
         if(ForgeConfigHandler.integrationConfig.craftedEquipmentRLCombatSweep && ModLoadedUtil.isRLCombatLoaded())
             MinecraftForge.EVENT_BUS.register(RLCombatHandler.class);
+
+        if(ForgeConfigHandler.server.altarsConfig.beastiaryAltar) AltarInfo.addAltar(new AltarInfoBeastiary("BeastiaryAltar"));
+        if(ForgeConfigHandler.server.altarsConfig.zombieHorseAltar) AltarInfo.addAltar(new AltarInfoZombieHorse("ZombieHorseAltar"));
     }
 
     @Mod.EventHandler

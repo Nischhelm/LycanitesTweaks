@@ -36,7 +36,7 @@ public abstract class TameableCreatureEntityTameHealingFoodMixin extends Ageable
         if(!original) {
             if(this.isHealingItem(itemStack)) {
                 if (Helpers.isPracticallyFlying(this) && !ForgeConfigHandler.majorFeaturesConfig.creatureInteractConfig.tamedWithFoodAllowFlying) {
-                    player.sendStatusMessage(new TextComponentTranslation("tame.fail.healingnofly"), true);
+                    player.sendStatusMessage(new TextComponentTranslation("message.tame.fail.healingnofly"), true);
                     return false;
                 }
                 return true;

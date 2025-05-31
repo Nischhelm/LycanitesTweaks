@@ -44,7 +44,7 @@ public abstract class PortalEntityReworkMixin {
             lycanitesTweaks$isHostileToPlayer = player.getEntityWorld().rand.nextDouble() < Helpers.getImperfectHostileChance(extendedPlayer, instance.creatureInfo);
             if(lycanitesTweaks$isHostileToPlayer) {
                 instance.setRevengeTarget(player);
-                player.sendStatusMessage(new TextComponentTranslation("summon.imperfect.hostile"), true);
+                player.sendStatusMessage(new TextComponentTranslation("message.summon.imperfect.hostile"), true);
             }
             return !lycanitesTweaks$isHostileToPlayer;
         }
@@ -73,12 +73,12 @@ public abstract class PortalEntityReworkMixin {
                 lowerStatsChance = Math.max(0.1D, 1.0F - lowerStatsChance);
                 if(player.getEntityWorld().rand.nextBoolean()){
                     entityCreature.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(entityCreature.getMaxHealth() * lowerStatsChance);
-                    if(this.summoningPedestal == null) player.sendStatusMessage(new TextComponentTranslation("summon.imperfect.health"), true);
+                    if(this.summoningPedestal == null) player.sendStatusMessage(new TextComponentTranslation("message.summon.imperfect.health"), true);
                 }
                 else{
                     entityCreature.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(entityCreature.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() * lowerStatsChance);
                     entityCreature.getEntityAttribute(BaseCreatureEntity.RANGED_SPEED).setBaseValue(entityCreature.getEntityAttribute(BaseCreatureEntity.RANGED_SPEED).getAttributeValue() * lowerStatsChance);
-                    if(this.summoningPedestal == null) player.sendStatusMessage(new TextComponentTranslation("summon.imperfect.attack"), true);
+                    if(this.summoningPedestal == null) player.sendStatusMessage(new TextComponentTranslation("message.summon.imperfect.attack"), true);
                 }
             }
         }

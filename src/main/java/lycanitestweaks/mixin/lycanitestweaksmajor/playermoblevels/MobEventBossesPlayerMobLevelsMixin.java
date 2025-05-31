@@ -32,7 +32,7 @@ public abstract class MobEventBossesPlayerMobLevelsMixin {
             IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(player);
             if (pml != null) {
                 if ("boss".equals(this.channel)) {
-                    player.sendStatusMessage(new TextComponentTranslation("event.boss.playermoblevels"), true);
+                    player.sendStatusMessage(new TextComponentTranslation("message.event.boss.playermoblevels"), true);
                     return level + pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.AltarBossMain, entityCreature);
                 }
             }

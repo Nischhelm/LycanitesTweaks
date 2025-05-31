@@ -26,7 +26,7 @@ public class ItemSoulgazerMoreInteractionsHandler {
         if(player.isCreative() && player.getHeldItemMainhand().getItem() instanceof ItemSoulgazer){
             IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(player);
             if (pml != null) {
-                player.sendMessage(new TextComponentTranslation("soulgazer.interact.pmlcreative",
+                player.sendMessage(new TextComponentTranslation("item.soulgazer.interact.pmlcreative",
                         pml.getTotalEnchantmentLevels(),
                         pml.getHighestLevelPetSoulbound()
                 ));
@@ -63,21 +63,21 @@ public class ItemSoulgazerMoreInteractionsHandler {
                         int variant = ((EntityBossSummonCrystal) event.getTarget()).getVariantType();
 
                         if(CreatureManager.getInstance().getCreature(storeCreature.getStoredCreatureEntity().creatureTypeName) == null)
-                            event.getEntityPlayer().sendMessage(new TextComponentTranslation("soulgazer.playermoblevels.bosscrystal.vanilla",
+                            event.getEntityPlayer().sendMessage(new TextComponentTranslation("message.soulgazer.playermoblevels.bosscrystal.vanilla",
                                     storeCreature.getStoredCreatureEntity().getDisplayName())
                             );
                         else if(variant == 1 && PlayerMobLevelsConfig.getPmlBonusCategories().containsKey(PlayerMobLevelsConfig.BonusCategory.AltarBossMini)){
                             levels = levels + pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.AltarBossMini,
                                     (BaseCreatureEntity)storeCreature.getStoredCreatureEntity().entity);
                             if(PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(PlayerMobLevelsConfig.BonusCategory.AltarBossMini)){
-                                event.getEntityPlayer().sendMessage(new TextComponentTranslation("soulgazer.playermoblevels.bosscrystal",
+                                event.getEntityPlayer().sendMessage(new TextComponentTranslation("message.soulgazer.playermoblevels.bosscrystal",
                                         storeCreature.getStoredCreatureEntity().getLevel(),
                                         storeCreature.getStoredCreatureEntity().getDisplayName(),
                                         levels)
                                 );
                             }
                             else{
-                                event.getEntityPlayer().sendMessage(new TextComponentTranslation("soulgazer.playermoblevels.bosscrystal.nogazer",
+                                event.getEntityPlayer().sendMessage(new TextComponentTranslation("message.soulgazer.playermoblevels.bosscrystal.nogazer",
                                         levels,
                                         storeCreature.getStoredCreatureEntity().getDisplayName())
                                 );
@@ -87,14 +87,14 @@ public class ItemSoulgazerMoreInteractionsHandler {
                             levels = levels + pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.DungeonBoss,
                                     (BaseCreatureEntity)storeCreature.getStoredCreatureEntity().entity);
                             if(PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(PlayerMobLevelsConfig.BonusCategory.DungeonBoss)){
-                                event.getEntityPlayer().sendMessage(new TextComponentTranslation("soulgazer.playermoblevels.bosscrystal",
+                                event.getEntityPlayer().sendMessage(new TextComponentTranslation("message.soulgazer.playermoblevels.bosscrystal",
                                         storeCreature.getStoredCreatureEntity().getLevel(),
                                         storeCreature.getStoredCreatureEntity().getDisplayName(),
                                         levels)
                                 );
                             }
                             else{
-                                event.getEntityPlayer().sendMessage(new TextComponentTranslation("soulgazer.playermoblevels.bosscrystal.nogazer",
+                                event.getEntityPlayer().sendMessage(new TextComponentTranslation("message.soulgazer.playermoblevels.bosscrystal.nogazer",
                                         levels,
                                         storeCreature.getStoredCreatureEntity().getDisplayName())
                                 );
@@ -104,21 +104,21 @@ public class ItemSoulgazerMoreInteractionsHandler {
                             levels = levels + pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.EncounterEvent,
                                             (BaseCreatureEntity)storeCreature.getStoredCreatureEntity().entity);
                             if(PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(PlayerMobLevelsConfig.BonusCategory.EncounterEvent)){
-                                event.getEntityPlayer().sendMessage(new TextComponentTranslation("soulgazer.playermoblevels.bosscrystal",
+                                event.getEntityPlayer().sendMessage(new TextComponentTranslation("message.soulgazer.playermoblevels.bosscrystal",
                                         storeCreature.getStoredCreatureEntity().getLevel(),
                                         storeCreature.getStoredCreatureEntity().getDisplayName(),
                                         levels)
                                 );
                             }
                             else{
-                                event.getEntityPlayer().sendMessage(new TextComponentTranslation("soulgazer.playermoblevels.bosscrystal.nogazer",
+                                event.getEntityPlayer().sendMessage(new TextComponentTranslation("message.soulgazer.playermoblevels.bosscrystal.nogazer",
                                         levels,
                                         storeCreature.getStoredCreatureEntity().getDisplayName())
                                 );
                             }
                         }
                         else{
-                            event.getEntityPlayer().sendMessage(new TextComponentTranslation("soulgazer.playermoblevels.bosscrystal.nogazer",
+                            event.getEntityPlayer().sendMessage(new TextComponentTranslation("message.soulgazer.playermoblevels.bosscrystal.nogazer",
                                     levels,
                                     storeCreature.getStoredCreatureEntity().getDisplayName())
                             );

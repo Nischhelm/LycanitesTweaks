@@ -20,10 +20,10 @@ public class ClientEventListener {
             if (event.getItemStack().getItem() instanceof ItemSoulgazer) {
                 if(!PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().isEmpty()) {
                     event.getToolTip().addAll(Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(
-                            I18n.format("soulgazer.description.pmlsoulgazer"), ItemBase.DESCRIPTION_WIDTH));
+                            I18n.format("item.soulgazer.description.pmlsoulgazer"), ItemBase.DESCRIPTION_WIDTH));
                 }
                 if(event.getEntityPlayer().isCreative()){
-                    event.getToolTip().add(I18n.format("soulgazer.description.pmlcreative",
+                    event.getToolTip().add(I18n.format("item.soulgazer.description.pmlcreative",
                             pml.getTotalEnchantmentLevels(),
                             pml.getHighestLevelPetSoulbound()
                     ));
@@ -33,7 +33,7 @@ public class ClientEventListener {
             else if (event.getItemStack().getItem() instanceof ItemStaffSummoning) {
                 if(PlayerMobLevelsConfig.getPmlBonusCategories().containsKey(PlayerMobLevelsConfig.BonusCategory.SummonMinion)) {
                     event.getToolTip().addAll(Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(
-                            I18n.format("summonstaff.description.pmlsummon"), ItemBase.DESCRIPTION_WIDTH));
+                            I18n.format("item.summonstaff.description.pmlsummon"), ItemBase.DESCRIPTION_WIDTH));
                 }
             }
         }
