@@ -12,7 +12,7 @@ element.voiding.name=Void - Nullifying
 
 fluid.ooze=Ooze
 fluid.rabbitooze=Rabbitooze
-fluid.moglaval=Moglava
+fluid.moglava=Moglava
 fluid.acid=Acid
 fluid.sharacid=Sharacid
 fluid.poison=Poison

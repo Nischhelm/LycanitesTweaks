@@ -21,7 +21,7 @@
   ],
   "behaviours": [
     {
-      "type": "lycanitestweaks:advancedfireProjectiles",
+      "type": "lycanitestweaks:advancedFireProjectiles",
       "projectileName": "devilstar",
       "tickRate": 10,
       "persistentCount": 1,
@@ -31,7 +31,7 @@
       "aimType": "target"
     },
     {
-      "type": "lycanitestweaks:advancedfireProjectiles",
+      "type": "lycanitestweaks:advancedFireProjectiles",
       "projectileName": "demonicspark",
       "tickRate": -1,
       "impactCount": 1,

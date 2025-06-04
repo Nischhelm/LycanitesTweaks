@@ -16,19 +16,32 @@ import net.minecraftforge.event.ForgeEventFactory;
 public abstract class AltarInfoTemplate extends AltarInfo {
 
     protected BlockPattern blockPattern;
+    BlockPattern.PatternHelper patternHelper;
+    // The block that the Soulkey is used on
     protected Block coreBlock;
     protected Block bodyBlock;
 
-    protected int coreOffset = 0;
-    protected int clearHeight = 0;
-    protected int clearWidth = 0;
+    // Offset from the top of where the Block Pattern starts checking
+    protected int coreOffset;
+    // Size of spawn area to clear
+    protected int clearHeight;
+    protected int clearWidth;
 
+    // ==================================================
+    //                    Constructor
+    // ==================================================
     public AltarInfoTemplate(String name) {
         super(name);
+        this.coreBlock = Blocks.DIAMOND_BLOCK;
+        this.bodyBlock = Blocks.OBSIDIAN;
+        this.coreOffset = 2;
+        this.clearHeight = 4;
+        this.clearWidth = 4;
     }
 
     abstract protected BlockPattern getBlockPattern();
     abstract protected EntityLivingBase createEntity(Entity entity, World world);
+
 
     // ==================================================
     //                     Checking
@@ -45,24 +58,8 @@ public abstract class AltarInfoTemplate extends AltarInfo {
         if(!this.quickCheck(entity, world, pos)) return false;
 
         BlockPattern blockPattern = this.getBlockPattern();
-        BlockPattern.PatternHelper patternHelper = blockPattern.match(world, new BlockPos(pos.getX(), pos.getY() + this.coreOffset, pos.getZ()));
-        if(patternHelper != null){
-            for (int palmOffset = 0; palmOffset < blockPattern.getPalmLength(); ++palmOffset){
-                for (int thumbOffset = 0; thumbOffset < blockPattern.getThumbLength(); ++thumbOffset){
-                    BlockWorldState blockWorldStateReplace = patternHelper.translateOffset(palmOffset, thumbOffset, 0);
-                    world.setBlockState(blockWorldStateReplace.getPos(), Blocks.AIR.getDefaultState(), 2);
-                }
-            }
-
-            for (int palmOffset = 0; palmOffset < blockPattern.getPalmLength(); ++palmOffset){
-                for (int thumbOffset = 0; thumbOffset < blockPattern.getThumbLength(); ++thumbOffset){
-                    BlockWorldState blockWorldStateUpdate = patternHelper.translateOffset(palmOffset, thumbOffset, 0);
-                    world.notifyNeighborsRespectDebug(blockWorldStateUpdate.getPos(), Blocks.AIR, false);
-                }
-            }
-            return true;
-        }
-        return false;
+        this.patternHelper = blockPattern.match(world, new BlockPos(pos.getX(), pos.getY() + this.coreOffset, pos.getZ()));
+        return this.patternHelper != null;
     }
 
     // ==================================================
@@ -70,21 +67,43 @@ public abstract class AltarInfoTemplate extends AltarInfo {
     // ==================================================
     /** Called when this Altar should activate. This will typically destroy the Altar and summon a rare mob or activate an event such as a boss event. If false is returned then the activation did not work, this is the place to check for things like dimensions. **/
     @Override
-    public boolean activate(Entity entity, World world, BlockPos pos, int variant) {
-        if(world.isRemote)
-            return true;
+    public boolean activate(Entity activatorEntity, World world, BlockPos pos, int variant) {
+        if(world.isRemote) return true;
 
-        EntityLivingBase entityCreature = this.createEntity(entity, world);
+        // Create Mini Boss:
+        EntityLivingBase entityCreature = this.createEntity(activatorEntity, world);
+        if(entityCreature == null) return false;
+
+        // Clear Spawn Area:
+        this.clearAltar(world, pos);
         this.clearSpawnArea(world, pos, entityCreature);
 
         // Spawn Mini Boss:
-        entityCreature.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0, 0);
+        entityCreature.setLocationAndAngles(pos.getX() + 0.5D, pos.getY() - 2, pos.getZ() + 0.5D, 0, 0);
+        this.onSpawnEntity(activatorEntity, entityCreature);
         world.spawnEntity(entityCreature);
-        this.onSpawnEntity(entityCreature);
 
-        // Call it, return value is wrong for minibosses
-        super.activate(entity, world, pos, variant);
         return true;
+    }
+
+    protected void clearAltar(World world, BlockPos pos){
+        if(this.patternHelper != null){
+            for (int palmOffset = 0; palmOffset < blockPattern.getPalmLength(); ++palmOffset){
+                for (int thumbOffset = 0; thumbOffset < blockPattern.getThumbLength(); ++thumbOffset){
+                    BlockWorldState blockWorldStateReplace = this.patternHelper.translateOffset(palmOffset, thumbOffset, 0);
+                    if(blockWorldStateReplace.getBlockState().getBlock() == this.bodyBlock)
+                        world.setBlockState(blockWorldStateReplace.getPos(), Blocks.AIR.getDefaultState(), 2);
+                }
+            }
+
+            for (int palmOffset = 0; palmOffset < blockPattern.getPalmLength(); ++palmOffset){
+                for (int thumbOffset = 0; thumbOffset < blockPattern.getThumbLength(); ++thumbOffset){
+                    BlockWorldState blockWorldStateUpdate = this.patternHelper.translateOffset(palmOffset, thumbOffset, 0);
+                    world.notifyNeighborsRespectDebug(blockWorldStateUpdate.getPos(), Blocks.AIR, false);
+                }
+            }
+            world.setBlockToAir(pos);
+        }
     }
 
     protected void clearSpawnArea(World world, BlockPos pos, EntityLivingBase spawnedEntity){
@@ -100,7 +119,11 @@ public abstract class AltarInfoTemplate extends AltarInfo {
                         BlockPos clearPos = new BlockPos(xTarget, yTarget, zTarget);
                         IBlockState iblockstate = world.getBlockState(clearPos);
                         Block block = iblockstate.getBlock();
-                        if (!block.isAir(iblockstate, world, clearPos) && EntityWither.canDestroyBlock(block) && world.getTileEntity(clearPos) == null && ForgeEventFactory.onEntityDestroyBlock(spawnedEntity, clearPos, iblockstate)) {
+                        if (!block.isAir(iblockstate, world, clearPos)
+                                && !iblockstate.getMaterial().isLiquid()
+                                && EntityWither.canDestroyBlock(block)
+                                && world.getTileEntity(clearPos) == null
+                                && ForgeEventFactory.onEntityDestroyBlock(spawnedEntity, clearPos, iblockstate)) {
                             destroyedBlocks = world.setBlockToAir(clearPos) || destroyedBlocks;
                         }
                     }
@@ -110,5 +133,9 @@ public abstract class AltarInfoTemplate extends AltarInfo {
         }
     }
 
-    protected void onSpawnEntity(Entity entity){}
+
+    /** Called when the entity is spawned just before it is added to the world. **/
+    protected void onSpawnEntity(Entity activatingEntity, EntityLivingBase entity){
+        // This can be used on extensions of this class for NBT data, etc.
+    }
 }

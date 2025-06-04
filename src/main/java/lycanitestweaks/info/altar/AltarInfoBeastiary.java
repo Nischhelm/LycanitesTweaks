@@ -81,14 +81,14 @@ public class AltarInfoBeastiary extends AltarInfo implements IAltarNoBoost{
     /** Called when this Altar should activate. This will typically destroy the Altar and summon a rare mob or activate an event such as a boss event. If false is returned then the activation did not work, this is the place to check for things like dimensions. **/
     @Override
     public boolean activate(Entity entity, World world, BlockPos pos, int variant) {
-        if(world.isRemote)
-            return true;
+        if(world.isRemote) return true;
 
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();
 
         EntityLivingBase entityCreature = this.createEntity(entity, world);
+        if(entityCreature == null) return false;
 
         if(entityCreature instanceof BaseCreatureEntity) {
             if(ForgeConfigHandler.majorFeaturesConfig.escConfig.altarMiniBossSpawnCrystal) this.clearAltar(world, pos);
@@ -104,8 +104,6 @@ public class AltarInfoBeastiary extends AltarInfo implements IAltarNoBoost{
                 world.spawnEntity(entityCreature);
             }
 
-            // Call it, return value is wrong for minibosses
-            super.activate(entity, world, pos, variant);
             return true;
         }
         return false;

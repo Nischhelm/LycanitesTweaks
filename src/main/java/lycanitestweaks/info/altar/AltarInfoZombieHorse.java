@@ -36,9 +36,6 @@ public class AltarInfoZombieHorse extends AltarInfoTemplate implements IAltarNoB
                     .where('#', BlockWorldState.hasState(BlockStateMatcher.forBlock(this.bodyBlock)))
                     .where('^', BlockWorldState.hasState(BlockStateMatcher.forBlock(this.coreBlock)))
                     .where('~', BlockWorldState.hasState(BlockMaterialMatcher.forMaterial(Material.AIR))).build();
-            this.coreOffset = 2;
-            this.clearHeight = 5;
-            this.clearWidth = 5;
         }
         return this.blockPattern;
     }
@@ -55,7 +52,7 @@ public class AltarInfoZombieHorse extends AltarInfoTemplate implements IAltarNoB
     }
 
     @Override
-    protected void onSpawnEntity(Entity entity) {
+    protected void onSpawnEntity(Entity activatingEntity, EntityLivingBase entity){
         World world = entity.getEntityWorld();
         BlockPos pos = entity.getPosition();
         world.addWeatherEffect(new EntityLightningBolt(world, pos.getX(), pos.getY(), pos.getZ(), true));

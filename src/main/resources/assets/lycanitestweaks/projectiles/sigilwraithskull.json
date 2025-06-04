@@ -20,7 +20,7 @@
   ],
   "behaviours": [
     {
-      "type": "lycanitestweaks:advancedfireProjectiles",
+      "type": "lycanitestweaks:advancedFireProjectiles",
       "projectileName": "hellfireball",
       "tickRate": 10,
       "impactCount": 1,
@@ -29,7 +29,7 @@
       "aimType": "target"
     },
     {
-      "type": "lycanitestweaks:advancedfireProjectiles",
+      "type": "lycanitestweaks:advancedFireProjectiles",
       "projectileName": "doomfireball",
       "tickRate": 5,
       "impactCount": 0,

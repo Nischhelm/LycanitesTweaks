@@ -1,7 +1,6 @@
 package lycanitestweaks.mixin.lycanitesmobspatches.goals;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import com.llamalad7.mixinextras.sugar.Local;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.goals.actions.abilities.PlaceBlockGoal;
 import net.minecraft.block.state.IBlockState;
@@ -16,13 +15,16 @@ public abstract class PlaceBlockGoalForgeEventMixin {
 
     @Shadow(remap = false)
     private BaseCreatureEntity host;
+    @Shadow(remap = false)
+    private BlockPos pos;
+    @Shadow(remap = false)
+    public IBlockState blockState;
 
     @ModifyReturnValue(
-            method = "canPlaceBlock",
-            at = @At(value = "RETURN", ordinal = 2),
-            remap = false
+            method = "shouldExecute",
+            at = @At(value = "RETURN", ordinal = 2)
     )
-    public boolean lycanitesTweaks_lycanitesMobsPlaceBlockGoal_canPlaceBlock(boolean original, @Local(argsOnly = true) BlockPos pos, @Local IBlockState targetState){
-        return original && ForgeEventFactory.onEntityDestroyBlock(this.host, pos, targetState);
+    public boolean lycanitesTweaks_lycanitesMobsPlaceBlockGoal_shouldExecute(boolean original){
+        return original && ForgeEventFactory.onEntityDestroyBlock(this.host, this.pos, this.blockState);
     }
 }
