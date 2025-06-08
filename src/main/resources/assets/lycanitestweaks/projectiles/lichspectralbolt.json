@@ -24,6 +24,12 @@
 			"block": "lycanitesmobs:shadowfire",
 			"radius": 2,
 			"height": 1
+		},
+		{
+			"type": "lycanitestweaks:drainEffect",
+			"stealEffect": true,
+			"allEffects": false,
+			"chance": 0.1
 		}
 	],
 	"waterproof": true,

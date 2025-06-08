@@ -22,7 +22,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import lycanitestweaks.handlers.LycanitesTweaksRegistry;
 import lycanitestweaks.proxy.CommonProxy;
 
 @Mod(modid = LycanitesTweaks.MODID, version = LycanitesTweaks.VERSION, name = LycanitesTweaks.NAME, dependencies = "required-after:fermiumbooter@[1.2.0,);required-after:lycanitesmobs")
@@ -40,7 +39,6 @@ public class LycanitesTweaks {
 	
 	@Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        LycanitesTweaksRegistry.init();
         LycanitesTweaks.PROXY.preInit();
 
         if(ForgeConfigHandler.majorFeaturesConfig.escConfig.entityStoreCreatureCapability){
@@ -69,8 +67,8 @@ public class LycanitesTweaks {
         if(ForgeConfigHandler.integrationConfig.craftedEquipmentRLCombatSweep && ModLoadedUtil.isRLCombatLoaded())
             MinecraftForge.EVENT_BUS.register(RLCombatHandler.class);
 
-        if(ForgeConfigHandler.server.altarsConfig.beastiaryAltar) AltarInfo.addAltar(new AltarInfoBeastiary("BeastiaryAltar"));
-        if(ForgeConfigHandler.server.altarsConfig.zombieHorseAltar) AltarInfo.addAltar(new AltarInfoZombieHorse("ZombieHorseAltar"));
+        if(ForgeConfigHandler.server.altarsConfig.beastiaryAltar) AltarInfo.addAltar(new AltarInfoBeastiary("LycanitesTweaks:BeastiaryAltar"));
+        if(ForgeConfigHandler.server.altarsConfig.zombieHorseAltar) AltarInfo.addAltar(new AltarInfoZombieHorse("LycanitesTweaks:ZombieHorseAltar"));
     }
 
     @Mod.EventHandler

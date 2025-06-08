@@ -13,7 +13,7 @@ public class ProjectileBehaviorDrainEffect extends ProjectileBehaviour {
 
     private boolean stealEffect = false;
     private boolean allEffects = false;
-    private float rate = 1.0F;
+    private float chance = 1.0F;
 
     @Override
     public void loadFromJSON(JsonObject json) {
@@ -23,8 +23,8 @@ public class ProjectileBehaviorDrainEffect extends ProjectileBehaviour {
         if(json.has("allEffects")){
             this.allEffects = json.get("allEffects").getAsBoolean();
         }
-        if(json.has("rate")){
-            this.rate = json.get("rate").getAsFloat();
+        if(json.has("chance")){
+            this.chance = json.get("chance").getAsFloat();
         }
     }
 
@@ -36,7 +36,7 @@ public class ProjectileBehaviorDrainEffect extends ProjectileBehaviour {
 
         ArrayList<PotionEffect> toRemove = new ArrayList<>();
 
-        if(world.rand.nextFloat() < this.rate) {
+        if(world.rand.nextFloat() < this.chance) {
             ArrayList<PotionEffect> goodEffects = new ArrayList<>();
             for (PotionEffect effect : target.getActivePotionEffects()) {
                 if (!effect.getPotion().isBadEffect()) goodEffects.add(effect);

@@ -1,15 +1,31 @@
 package lycanitestweaks.handlers;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.settings.KeyConflictContext;
+import net.minecraftforge.client.settings.KeyModifier;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import lycanitestweaks.LycanitesTweaks;
+import org.lwjgl.input.Keyboard;
 
 @Mod.EventBusSubscriber(modid = LycanitesTweaks.MODID, value = Side.CLIENT)
 public class ClientModRegistry {
+
+    public static KeyBinding mount_change_view;
+
+    public static void init() {
+        mount_change_view = new KeyBinding("key.mount_change_view.lycanitestweaks",
+                KeyConflictContext.IN_GAME,
+                KeyModifier.SHIFT,
+                Keyboard.KEY_F5,
+                "key.categories.misc.lycanitestweaks");
+        ClientRegistry.registerKeyBinding(mount_change_view);
+    }
 
     @SubscribeEvent
     public static void registerModelEvent(ModelRegistryEvent event) {

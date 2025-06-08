@@ -14,7 +14,7 @@
   "weight": 0,
   "lifetime": 120,
   "elements": [
-    "phase",
+    "shadow",
     "void",
     "voiding"
   ],
@@ -42,7 +42,7 @@
       "type": "lycanitestweaks:drainEffect",
       "stealEffect": true,
       "allEffects": false,
-      "rate": 0.5
+      "chance": 0.5
     }
   ],
   "waterproof": true,

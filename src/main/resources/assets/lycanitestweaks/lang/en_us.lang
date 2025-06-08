@@ -77,6 +77,9 @@ item.soulgazer.description.pmlsoulgazer=§rMust be held in your main hand in ord
 item.soulgazer.interact.pmlcreative=SERVER PLAYER: [getTotalLevels: %s] [getHighestLevelPet: %s]
 item.summonstaff.description.pmlsummon=The Beastiary notes additional power!
 
+key.categories.misc.lycanitestweaks=LycanitesTweaks
+key.mount_change_view.lycanitestweaks=Change 3rd person camera for Lycanites mount
+
 message.altar.fail.native=The creature is not naive to this Dimension
 message.altar.beastiary.boss=You can not summon a Boss this way
 message.altar.beastiary.null=You don't have a creature selected in your Beastiary
