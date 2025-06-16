@@ -2,6 +2,7 @@ package lycanitestweaks.mixin.lycanitestweaksmajor.configurablestats;
 
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.CreatureStats;
+import lycanitestweaks.util.Helpers;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,8 +13,7 @@ public abstract class CreatureStatsTamedVariantStatsMixin {
 
     @Unique
     public boolean lycanitesTweaks$getConfigVariantCondition(BaseCreatureEntity entity){
-        // BaseCreatureEntity methods were not giving correct values when CreatureStats did tame/summon/soulbound checks
-        return false;
+        return !Helpers.shouldApplyExtraMultipliers(entity);
     }
 
     @Redirect(

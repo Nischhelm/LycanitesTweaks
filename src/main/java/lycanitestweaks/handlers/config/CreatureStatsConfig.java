@@ -16,84 +16,63 @@ public class CreatureStatsConfig {
     private static HashMap<String, Integer> effectsApplyScaleLevelLimited = null;
     private static HashMap<String, Integer> elementsApplyScaleLevelLimitedDebuffs = null;
 
-    /*
-        There are three categories that may overlap but all use the BOSS_DAMAGE_LIMIT mechanic
-        1. Always Bosses (Boss Group)
-        2. Spawned As Bosses (NBT Boss)
-        3. Rare Variants (Natural Boss)
+    @Config.Comment("Rahovart/Asmodeus mechanic based minions match the boss' levels")
+    @Config.Name("0. Minion Level Matches Host - Boss Mechanics")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebasecreatureminionhostlevelmatch.json")
+    public boolean levelMatchMinionsHostMethod = true;
 
-        Provided Boss configs only cover 1 and 2, and assumes 3 will never be level scaled
-        Lower Health Bonus Options exists so BOSS_DAMAGE_LIMIT does not create mobs with insane time to kill
+    @Config.Comment("Summon minion goal matches levels (AI Goal/Most Mobs). Amalgalich minions use this.")
+    @Config.Name("0. Minion Level Matches Host - Entity Summon Goal")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureaiminionhostlevelmatch.json")
+    public boolean levelMatchMinionsGoal = true;
 
-        A natural rare variant can have different stat modifiers from a SpawnedAsBoss version,
-        LycanitesTweaks turns all altar bosses in SpawnedAsBoss mobs for example
-     */
-
-    @Config.Comment("Grant all creatures tagged as SpawnedAsBoss the Rare variant stat multipliers instead of the Common/Uncommon.\n" +
+    @Config.Comment("Grant all lycanites tagged as SpawnedAsBoss the Rare variant stat multipliers instead of the Common/Uncommon.\n" +
             "This will automatically attempt to rebalance Dungeon Bosses that try to load default configs.\n" +
             "Default Lycanites distributes Bosses between level 10-250. This will result in 10 levels per config dungeonLevel, between 20-50")
-    @Config.Name("Boost Spawned As Boss Non Rares")
+    @Config.Name("0. Spawned As Boss Tagged Uses Rare Stats")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurespawnedasbossrareboost.json")
     public boolean spawnedAsBossRareBoost = true;
 
-    @Config.Comment("Invert bonus Health/Damage level scale for the Main Boss")
-    @Config.Name("Boss Invert Health and Damage Scale")
-    @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureinvertbossdamagehealthscale.json")
-    public boolean bossInvertHealthDamageScale = true;
-
-    @Config.Comment("Additionally apply to anything tagged with SpawnedAsBoss")
-    @Config.Name("Boss Invert Health and Damage Scale - Apply to Spawned As Boss")
-    public boolean spawnedAsBossInvert = true;
-
-    @Config.Comment("SpawnedAsBoss and Main Boss HP level bonus scaled down via config")
-    @Config.Name("Boss Lower Health Scale")
-    @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossbonushealthmodifier.json")
-    public boolean bossLowerHealthScale = true;
-
-    @Config.Comment("Ratio of lycanites bonus Health main bosses will receive")
-    @Config.Name("Boss Lower Health Scale - Main Boss Ratio")
-    @Config.RangeDouble(min = 0)
-    public double bossHealthBonusRatio = 0.25D;
-
-    @Config.Comment("Ratio of lycanites bonus Health bosses will receive. This applies to non Rares")
-    @Config.Name("Boss Lower Health Scale - Spawned As Boss Ratio No Rares")
-    @Config.RangeDouble(min = 0)
-    public double spawnedAsBossHealthBonusRatio = 0.5D;
-
-    @Config.Comment("Ratio of lycanites bonus Health bosses will receive" +
-            "\nThis applies to Rares who normally have higher stats and the DPS limit")
-    @Config.Name("Boss Lower Health Scale - Spawned As Boss Ratio Rare")
-    @Config.RangeDouble(min = 0)
-    public double spawnedAsBossRareHealthBonusRatio = 0.5D;
-
-    @Config.Comment("Add configurable caps to creature speed, effect durations, and pierce")
-    @Config.Name("Cap Specific Stats")
+    @Config.Comment("Dependency for usings caps on bonus stats per level. Does not affect variant/NBT bonuses.")
+    @Config.Name("1. Cap Specific Stats")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurecreaturestatbonuscap.json")
     public boolean capSpecificStats = true;
 
-    @Config.Comment("Ratio of max lycanites bonus defense, variants get more, set to 0 to disable the cap")
-    @Config.Name("Cap Specific Stats - Creature Defense")
+    @Config.Comment("Ratio of max bonus defense, set to 0 to disable the cap")
+    @Config.Name("1.a Defense Ratio")
     @Config.RangeDouble(min = 0)
     public double capDefenseRatio = 4.0D;
 
-    @Config.Comment("Ratio of max lycanites bonus effect duration, variants get more, set to 0 to disable the cap")
-    @Config.Name("Cap Specific Stats - Creature Effect Duration")
+    @Config.Comment("Ratio of max bonus effect duration, set to 0 to disable the cap")
+    @Config.Name("1.a Effect Duration Ratio")
     @Config.RangeDouble(min = 0)
     public double capEffectDurationRatio = 5.0D;
 
-    @Config.Comment("Ratio of max lycanites bonus movement speed, variants get more, set to 0 to disable the cap")
-    @Config.Name("Cap Specific Stats - Creature Movement Speed")
+    @Config.Comment("Ratio of max bonus movement speed, set to 0 to disable the cap")
+    @Config.Name("1.a Movement Speed Ratio")
     @Config.RangeDouble(min = 0)
     public double capSpeedRatio = 3.0D;
 
-    @Config.Comment("Ratio of max lycanites bonus pierce, variants get more, set to 0 to disable the cap")
-    @Config.Name("Cap Specific Stats - Creature Pierce")
+    @Config.Comment("Ratio of max bonus pierce, set to 0 to disable the cap")
+    @Config.Name("1.a Pierce Ratio")
     @Config.RangeDouble(min = 0)
     public double capPierceRatio = 3.0D;
+
+    @Config.Comment("List of elements whose Debuffs will have capped level scaling.\n" +
+            "Format:[elementName,maxScaleLevel]\n" +
+            "\telementName - Name of the element to limit, must be all lowercase\n" +
+            "\tmaxScaleLevel - Final Level before duration and amplifier stop increasing")
+    @Config.Name("1.b Elements' Debuffs Level Limit")
+    public String[] elementsLevelLimitedDebuffs = {
+            "arcane,15",
+            "chaos,15",
+            "lightning,15",
+            "phase,15"
+    };
 
     /*
      * 	EffectAuraGoal - Amalgalich Auto Decay, Archvile Demon Buffs
@@ -111,7 +90,7 @@ public class CreatureStatsConfig {
             "\tthing - Do not change from defaults\n" +
             "\tmaxScaleLevel - Final Level before duration and amplifier stop increasing\n" +
             "\tenable - 'true' Will use the level limit")
-    @Config.Name("Cap Specific Stats - Effects Level Limited")
+    @Config.Name("1.b Misc Effects Level Limit")
     public String[] effectsLevelLimited = {
             "barghest,15,false",
             "cockatrice,15,true",
@@ -124,48 +103,78 @@ public class CreatureStatsConfig {
             "EffectAuraGoal,15,true"
     };
 
-    @Config.Comment("List of loaded elements whose Debuffs that will have capped level scaling.\n" +
-            "Format:[elementName,maxscaledlevel]\n" +
-            "\telementName - Name of the element to limit, must be all lowercase\n" +
-            "\tmaxscaledlevel - Final Level before duration and amplifier stop increasing")
-    @Config.Name("Cap Specific Stats - Elements Level Limited Debuffs")
-    public String[] elementsLevelLimitedDebuffs = {
-            "arcane,15",
-            "chaos,15",
-            "lightning,15",
-            "phase,15"
-    };
-
-    @Config.Comment("Invert bonus Health/Damage level scale for Hostile Minion Creatures")
-    @Config.Name("Hostile Minion Invert Health and Damage Scale")
+    @Config.Comment("Dependency for toggles. Only affects per level bonus, does not modify variant or nbt bonuses.")
+    @Config.Name("2. Swap Health & Damage Per Level Bonus")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureinverthostileminiondamagehealthscale.json")
-    public boolean minionInvertHealthDamageScale = true;
+    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureswapdamagehealthscale.json")
+    public boolean swapHealthDamageLevelBonus = true;
 
-    @Config.Comment("Summon minion goal matches host and minion levels (AI Goal/Most Mobs)")
-    @Config.Name("Level match minions to creature host - summon goal")
+    @Config.Comment("Any Hostile Minions, such as those of the main bosses and rare variants")
+    @Config.Name("2.a Hostile Minions")
+    public boolean swapHealthDamageHostileMinion = true;
+
+    @Config.Comment("Rahovart, Asmodeus, and Amalgalich")
+    @Config.Name("2.a Main Bosses")
+    public boolean swapHealthDamageMainBoss = true;
+
+    @Config.Comment("Anything tagged with SpawnedAsBoss such as Dungeon Bosses")
+    @Config.Name("2.a Tagged Boss")
+    public boolean swapHealthDamageSpawnedAsBoss = true;
+
+    @Config.Comment("Any Tamed Mobs. Intended for all players' mobs to feel more impactful but still trade 1 for 1.")
+    @Config.Name("2.a Tamed Mobs")
+    public boolean swapHealthDamageTamed = true;
+
+    @Config.Comment("Dependency for modifying. Only affects per level bonus, does not modify variant or nbt bonuses.")
+    @Config.Name("3. Modify Total Boss Health Per Level Bonus")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureaiminionhostlevelmatch.json")
-    public boolean levelMatchMinionsGoal = true;
+    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossbonushealthmodifier.json")
+    public boolean bossLowerHealthScale = true;
 
-    @Config.Comment("Rahovart/Asmodeus mechanic based minions match the boss' levels")
-    @Config.Name("Level match minions to creature host - mechanics spawned")
-    @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebasecreatureminionhostlevelmatch.json")
-    public boolean levelMatchMinionsHostMethod = true;
+    /*
+        There are three categories that may overlap but all use the BOSS_DAMAGE_LIMIT mechanic
+        1. Always Bosses (Boss Group)
+        2. Spawned As Bosses (NBT Boss, Never by vanilla Lycanites)
+        3. Rare Variants (Natural Boss)
 
-    @Config.Comment("Invert bonus Health/Damage level scale for Tamed Creatures")
-    @Config.Name("Tamed Invert Health and Damage Scale")
-    @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureinverttameddamagehealthscale.json")
-    public boolean tamedInvertHealthDamageScale = true;
+        Lower Health Bonus Options exists so BOSS_DAMAGE_LIMIT does not create mobs with insane time to kill
 
-    @Config.Comment("Enable whether all tamed (tamed/summoned/soulbound) variants get stats bonuses\n" +
-            "In vanilla Lycanites, only Soulbound variants were boosted due to bonus calc timing")
-    @Config.Name("Tamed Variant Stat Bonuses")
+        A natural rare variant can have different stat modifiers from a SpawnedAsBoss version,
+        LycanitesTweaks turns all altar bosses in SpawnedAsBoss mobs for example
+     */
+
+    @Config.Comment("Rahovart, Asmodeus, and Amalgalich. Intended to balance the Boss Damage Limit.")
+    @Config.Name("3.a Main Boss Total Ratio")
+    @Config.RangeDouble(min = 0)
+    public double bossHealthBonusRatio = 0.25D;
+
+    @Config.Comment("Anything tagged with SpawnedAsBoss such as Dungeon Bosses. Intended to balance when the Boss Damage Limit is applied.")
+    @Config.Name("3.a Tagged Boss Excluding Rare Total Ratio")
+    @Config.RangeDouble(min = 0)
+    public double spawnedAsBossHealthBonusRatio = 0.5D;
+
+    @Config.Comment("Intended when Dungeon Bosses only have the Boss Damage Limit when Rare.")
+    @Config.Name("3.a Tagged Boss Exclusively Rare")
+    @Config.RangeDouble(min = 0)
+    public double spawnedAsBossRareHealthBonusRatio = 0.5D;
+
+    @Config.Comment("Dependency for toggles. Vanilla Lycanites erroneously allowed Soulbounds via oversight.")
+    @Config.Name("4. Variant/NBT Stat Bonus Receivers")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurealltamedvariantstats.json")
-    public boolean tamedVariantStats = true;
+    public boolean variantStatReceivers = true;
+
+    @Config.Comment("Any mob summoned via staff or pedestal")
+    @Config.Name("4.a Player Summoned")
+    public boolean variantStatsSummoned = true;
+
+    @Config.Comment("Any mob given a Soulstone or from one")
+    @Config.Name("4.a Soulbounded")
+    public boolean variantStatsSoulbound = true;
+
+    @Config.Comment("Any mob tamed with treats")
+    @Config.Name("4.a Tamed")
+    public boolean variantStatsTamed = true;
 
     public static HashMap<String, Integer> getLevelLimitedEffects(){
         if(CreatureStatsConfig.effectsApplyScaleLevelLimited == null){

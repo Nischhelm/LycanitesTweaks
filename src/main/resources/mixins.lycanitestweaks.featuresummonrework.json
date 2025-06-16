@@ -8,6 +8,7 @@
   "mixins": [
     "summoningrework.SummonSetReworkMixin",
     "summoningrework.BeastiarySummonMixin",
+    "summoningrework.ItemStaffSavageReworkMixin",
     "summoningrework.PortalEntityReworkMixin"
   ],
   "client": [

@@ -5,14 +5,24 @@ import com.lycanitesmobs.core.entity.CreatureStats;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(CreatureStats.class)
-public abstract class CreatureStatsBossInvertHealthDamageMixin {
+public abstract class CreatureStatsSwapHealthDamageMixin {
 
     @Shadow(remap = false)
     public BaseCreatureEntity entity;
+
+    @Unique
+    private boolean lycanitesTweaks$shouldDoSwap(){
+        if(this.entity.isBossAlways() && ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.swapHealthDamageMainBoss) return true;
+        else if(this.entity.spawnedAsBoss && ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.swapHealthDamageSpawnedAsBoss) return true;
+        else if(!this.entity.isTamed() && this.entity.isMinion() && ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.swapHealthDamageHostileMinion) return true;
+        else if(this.entity.isTamed() && ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.swapHealthDamageTamed) return true;
+        return false;
+    }
 
     @ModifyArg(
             method = "getHealth",
@@ -20,8 +30,7 @@ public abstract class CreatureStatsBossInvertHealthDamageMixin {
             remap = false
     )
     private String lycanitesTweaks_lycanitesCreatureStats_getHealthBossInvert(String stat){
-        if(this.entity.isBossAlways() || (ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.spawnedAsBossInvert && this.entity.isBoss()))
-            return "damage";
+        if(this.lycanitesTweaks$shouldDoSwap()) return "damage";
         return stat;
     }
 
@@ -31,8 +40,7 @@ public abstract class CreatureStatsBossInvertHealthDamageMixin {
             remap = false
     )
     private String lycanitesTweaks_lycanitesCreatureStats_getDamageBossInvert(String stat){
-        if(this.entity.isBossAlways() || (ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.spawnedAsBossInvert && this.entity.isBoss()))
-            return "health";
+        if(this.lycanitesTweaks$shouldDoSwap()) return "health";
         return stat;
     }
 }

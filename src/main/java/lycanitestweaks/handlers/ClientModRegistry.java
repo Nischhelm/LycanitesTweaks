@@ -19,12 +19,12 @@ public class ClientModRegistry {
     public static KeyBinding mount_change_view;
 
     public static void init() {
-        mount_change_view = new KeyBinding("key.mount_change_view.lycanitestweaks",
+        ClientModRegistry.mount_change_view = new KeyBinding("key.mount_change_view.lycanitestweaks",
                 KeyConflictContext.IN_GAME,
                 KeyModifier.SHIFT,
                 Keyboard.KEY_F5,
                 "key.categories.misc.lycanitestweaks");
-        ClientRegistry.registerKeyBinding(mount_change_view);
+        ClientRegistry.registerKeyBinding(ClientModRegistry.mount_change_view);
     }
 
     @SubscribeEvent

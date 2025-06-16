@@ -21,8 +21,8 @@ public abstract class CreatureStatsBossHealthMixin {
             remap = false
     )
     public double lycanitesTweaks_lycanitesCreatureStats_getLevelMultiplierBossHealth(double original, @Local(argsOnly = true) String stat){
-        if((ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.bossInvertHealthDamageScale && stat.equals("damage")
-                || !ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.bossInvertHealthDamageScale &&stat.equals("health"))) {
+        if((ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.swapHealthDamageMainBoss && stat.equals("damage")
+                || !ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.swapHealthDamageMainBoss && stat.equals("health"))) {
             if (this.entity.isBossAlways()) {
                 return original * ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.bossHealthBonusRatio;
             } else if (this.entity.isBoss()) {

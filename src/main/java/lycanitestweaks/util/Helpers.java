@@ -31,6 +31,27 @@ public class Helpers {
     private static HashMap<String, ArrayList<String>> chargeElementsMap = null;
     private static HashMap<String, ArrayList<String>> creatureElementsMap = null;
 
+
+    /**
+     * Check uses for determining legacy or intended behavior via config
+     * @return Whether to apply extra multipliers such as Variant and NBT
+     */
+    public static boolean shouldApplyExtraMultipliers(BaseCreatureEntity creature){
+        if(creature.isTamed()) {
+            if(!ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.variantStatReceivers) return false;
+
+            if (creature.isBoundPet()) {
+                if (creature.getPetEntry().getType().equals("familiar")) return false;
+                return ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.variantStatsSoulbound;
+            }
+
+            if (creature.isMinion()) return ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.variantStatsSummoned;
+
+            return ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.variantStatsTamed;
+        }
+        return true;
+    }
+
     // mfw Lycanites config for no flying mount doesn't catch mobs whose flight check considers landed state
     public static boolean isPracticallyFlying(BaseCreatureEntity entity){
         return (entity.isFlying() || entity.flySoundSpeed > 0);
@@ -165,7 +186,7 @@ public class Helpers {
         double statValue = creature.creatureInfo.effectDuration;
 
         // Wild:
-        if(!creature.isTamed() || ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.tamedVariantStats) {
+        if(Helpers.shouldApplyExtraMultipliers(creature)) {
             statValue *= Helpers.getDifficultyMultiplier(creature.getEntityWorld(), statName);
             statValue *= Helpers.getVariantMultiplier(creature, statName);
             if(creature.extraMobBehaviour != null) {
@@ -192,7 +213,7 @@ public class Helpers {
         double statValue = creature.creatureInfo.effectAmplifier;
 
         // Wild:
-        if(!creature.isTamed() || ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.tamedVariantStats) {
+        if(Helpers.shouldApplyExtraMultipliers(creature)) {
             statValue *= Helpers.getDifficultyMultiplier(creature.getEntityWorld(), statName);
             statValue *= Helpers.getVariantMultiplier(creature, statName);
         }

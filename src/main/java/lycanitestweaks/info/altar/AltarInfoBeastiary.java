@@ -91,18 +91,12 @@ public class AltarInfoBeastiary extends AltarInfo implements IAltarNoBoost{
         if(entityCreature == null) return false;
 
         if(entityCreature instanceof BaseCreatureEntity) {
-            if(ForgeConfigHandler.majorFeaturesConfig.escConfig.altarMiniBossSpawnCrystal) this.clearAltar(world, pos);
-            else this.clearSpawnArea(world, pos, entityCreature);
+            this.clearAltar(world, pos);
 
             // Spawn Mini Boss:
             entityCreature.setLocationAndAngles(x, y - 2, z, 0, 0);
 
-            if(ForgeConfigHandler.majorFeaturesConfig.escConfig.altarMiniBossSpawnCrystal){
-                world.spawnEntity(EntityBossSummonCrystal.storeAltarCreature(world, (BaseCreatureEntity)entityCreature, pos));
-            }
-            else {
-                world.spawnEntity(entityCreature);
-            }
+            world.spawnEntity(entityCreature);
 
             return true;
         }

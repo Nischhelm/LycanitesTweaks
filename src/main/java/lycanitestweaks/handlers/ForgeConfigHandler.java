@@ -592,6 +592,12 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesbasecreaturepotionapplicable.json")
 		public boolean fixBaseCreaturePotionApplicableSuper = true;
 
+		@Config.Comment("Fix client side showing incorrect stats in the beastiary, interact gui, and other mods")
+		@Config.Name("Fix Client Pet Stat Desync")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchespetentrydesync.json")
+		public boolean fixClientPetEntryVisual = true;
+
 		@Config.Comment("Fix divide by zero crash in FireProjectilesGoal and RangedSpeed of zero preventing attacks")
 		@Config.Name("Fix Creature Ranged Speed")
 		@Config.RequiresMcRestart
@@ -629,17 +635,24 @@ public class ForgeConfigHandler {
 		@Config.Name("Fix Night Vision Curing Blindness")
 		public boolean fixNVCuringBlindness = true;
 
-		@Config.Comment("Fix Serpix Blizzard projectile spawning in the ground")
-		@Config.Name("Fix Serpix Blizzard Offset")
-		@Config.RequiresMcRestart
-		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patcheserpixblizzardoffset.json")
-		public boolean fixSerpixBlizzardOffset = true;
-
 		@Config.Comment("Fix Pickup host entity losing track of target such as when holding inside a wall")
 		@Config.Name("Fix Pickup Target")
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchespickuptarget.json")
 		public boolean fixPickupTargetAlways = true;
+
+		// Better fix https://gitlab.com/Lycanite/LycanitesMobs/-/merge_requests/461
+		@Config.Comment("Fix properties, such as tamed state, being set after stat calculation. This fix adds a late additional recalculation.")
+		@Config.Name("Fix Properties Set After Stat Calculation")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patcheslatestatcalc.json")
+		public boolean fixLateSettingProperties = true;
+
+		@Config.Comment("Fix Serpix Blizzard projectile spawning in the ground")
+		@Config.Name("Fix Serpix Blizzard Offset")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patcheserpixblizzardoffset.json")
+		public boolean fixSerpixBlizzardOffset = true;
 
 		@Config.Comment("All Lyc containers (Equipment Forges, Infuser, Station, Summoning Pedestal) have no Item Quick Move implementation (via shift clicking). This fix makes them use newer mc quick move mechanics where the crafting slots are preferred over the player inventory+hotbar.\n" +
 				"Also fixes a minimal bug in Lyca Pet chest inventory where one slot (bottom right in player inventory) was not reachable via quick move.")

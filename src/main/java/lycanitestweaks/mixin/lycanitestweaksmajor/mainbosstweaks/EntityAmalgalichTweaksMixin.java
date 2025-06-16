@@ -131,7 +131,7 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
             index = 1
     )
     public EntityAIBase lycanitesTweaks_lycanitesMobsEntityAmalgalich_initEntityAIGheist(EntityAIBase task) {
-        return (new SummonLeveledMinionsGoal(this)).setPersitence(true).setMinionInfo("geist").setSummonRate(100).setSummonCap(8).setPerPlayer(true).setConditions(new ExtendedGoalConditions().setMinimumBattlePhase(1));
+        return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("geist").setSummonRate(100).setSummonCap(8).setPerPlayer(true).setConditions(new ExtendedGoalConditions().setMinimumBattlePhase(1));
     }
 
     @ModifyArg(
@@ -141,8 +141,8 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
     )
     public EntityAIBase lycanitesTweaks_lycanitesMobsEntityAmalgalich_initEntityAIEpion(EntityAIBase task) {
         if (ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.crimsonEpion)
-            return (new SummonLeveledMinionsGoal(this)).setPersitence(true).setMinionInfo("epion").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(1));
-        return (new SummonLeveledMinionsGoal(this)).setPersitence(true).setMinionInfo("epion").setSummonRate(100).setSummonCap(3).setPerPlayer(true).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(1));
+            return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("epion").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(1));
+        return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("epion").setSummonRate(100).setSummonCap(3).setPerPlayer(true).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(1));
     }
 
     @ModifyArg(
@@ -152,7 +152,7 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
     )
     public EntityAIBase lycanitesTweaks_lycanitesMobsEntityAmalgalich_initEntityAIDarkling(EntityAIBase task) {
         if (ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.replaceLobDarkling)
-            return (new SummonLeveledMinionsGoal(this)).setPersitence(true).setMinionInfo("darkling").setSummonRate(40).setSummonCap(9).setPerPlayer(true).setSizeScale(1.5).setConditions(new ExtendedGoalConditions().setMinimumBattlePhase(2));
+            return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("darkling").setSummonRate(40).setSummonCap(9).setPerPlayer(true).setSizeScale(1.5).setConditions(new ExtendedGoalConditions().setMinimumBattlePhase(2));
         return task;
     }
 
@@ -167,7 +167,7 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
                     setStaminaDrainRate(ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.targetedProjectileStaminaDrainRate).
                     setRange(90.0F).setChaseTime(0).setCheckSight(false));
         if (ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.grueSummon)
-            this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setPersitence(true).setMinionInfo("grue").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(2)));
+            this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("grue").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(2)));
 
         if (ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.consumptionAllPhases) {
             this.consumptionGoalP0.setPhase(-1);

@@ -15,6 +15,7 @@ public class SummonLeveledMinionsGoal extends BaseGoal {
 	protected int subSpeciesIndex = -1;
 	protected int variantIndex = -1;
 	protected CreatureInfo minionInfo;
+	protected boolean bossMechanic = false;
 	protected boolean perPlayer = false;
 	protected boolean antiFlight = false;
 	protected boolean setPersistence = false;
@@ -65,6 +66,16 @@ public class SummonLeveledMinionsGoal extends BaseGoal {
 	 */
 	public SummonLeveledMinionsGoal setVariantIndex(int variantIndex) {
 		this.variantIndex = variantIndex;
+		return this;
+	}
+
+	/**
+	 * If true, will enable persistence and set temporary for 5 minutes. Only applies to instances of BaseCreatureEntity
+	 * @param bossMechanic True to enable.
+	 * @return This goal for chaining.
+	 */
+	public SummonLeveledMinionsGoal setBossMechanic(boolean bossMechanic) {
+		this.bossMechanic = bossMechanic;
 		return this;
 	}
 
@@ -171,6 +182,10 @@ public class SummonLeveledMinionsGoal extends BaseGoal {
 			minionCreature.setAttackTarget(target);
 
 			if(this.setPersistence) minionCreature.enablePersistence();
+			if(this.bossMechanic){
+				minionCreature.enablePersistence();;
+				minionCreature.setTemporary(6000);
+			}
 
 			if((this.sizeScale == -1)) minionCreature.setSizeScale(minionCreature.sizeScale * this.host.sizeScale);
 			else minionCreature.setSizeScale(minionCreature.sizeScale * this.sizeScale);
