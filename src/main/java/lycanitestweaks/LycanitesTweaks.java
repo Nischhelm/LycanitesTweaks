@@ -5,6 +5,7 @@ import lycanitestweaks.capability.EntityStoreCreatureCapabilityHandler;
 import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
 import lycanitestweaks.compat.ModLoadedUtil;
 import lycanitestweaks.handlers.ForgeConfigHandler;
+import lycanitestweaks.handlers.ForgeConfigProvider;
 import lycanitestweaks.handlers.features.entity.EntityLivingHandler;
 import lycanitestweaks.handlers.features.entity.EntityLootHandler;
 import lycanitestweaks.handlers.features.effect.CripplingEffectsHandler;
@@ -74,5 +75,6 @@ public class LycanitesTweaks {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event){
         LycanitesTweaks.PROXY.init();
+        ForgeConfigProvider.init();
     }
 }
