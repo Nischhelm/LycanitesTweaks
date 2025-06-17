@@ -25,7 +25,7 @@ public class IntegrationConfig {
 //		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.potioncorejumpfix.json")
     public boolean potionCoreJumpFix = true;
 
-    @Config.Comment("Whether to affect all mobs")
+    @Config.Comment("Whether to affect all mobs - otherwise only LycanitesMobs entities are affected")
     @Config.Name("Mod Compatibility: Potion Core Jump Fix - All Mobs")
     public boolean fixAllMobsPotionCoreJump = true;
 
@@ -40,12 +40,12 @@ public class IntegrationConfig {
     @Config.RequiresMcRestart
 //		@MixinConfig.CompatHandling(modid = "reachfix", reason = "ReachFix not found")
 //		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.equipmentreachfix.json")
-    public boolean craftedEquipmentReachFix = FermiumRegistryAPI.isModPresent("reachfix");
+    public boolean craftedEquipmentReachFix = true;
 
     @Config.Comment("Cancels Custom Sweep and rehandle with RLCombat Sweep")
     @Config.Name("Mod Compatibility: Crafted Equipment RLCombat Sweep (RLCombat)")
     @Config.RequiresMcRestart
 //		@MixinConfig.CompatHandling(modid = "bettercombatmod", reason = "RLCombat not found")
 //		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.equipmentrlcombatsweep.json")
-    public boolean craftedEquipmentRLCombatSweep = FermiumRegistryAPI.isModPresent("bettercombatmod");
+    public boolean craftedEquipmentRLCombatSweep = true;
 }
