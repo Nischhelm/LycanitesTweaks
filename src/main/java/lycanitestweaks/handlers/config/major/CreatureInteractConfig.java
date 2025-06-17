@@ -1,4 +1,4 @@
-package lycanitestweaks.handlers.config;
+package lycanitestweaks.handlers.config.major;
 
 import fermiumbooter.annotations.MixinConfig;
 import lycanitestweaks.LycanitesTweaks;

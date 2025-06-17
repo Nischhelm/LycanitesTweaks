@@ -1,6 +1,6 @@
 package lycanitestweaks.handlers;
 
-import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
+import lycanitestweaks.handlers.config.major.PlayerMobLevelsConfig;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.*;

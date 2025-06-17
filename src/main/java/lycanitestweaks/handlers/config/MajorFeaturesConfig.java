@@ -1,6 +1,7 @@
 package lycanitestweaks.handlers.config;
 
 import fermiumbooter.annotations.MixinConfig;
+import lycanitestweaks.handlers.config.major.*;
 import net.minecraftforge.common.config.Config;
 
 public class MajorFeaturesConfig {

@@ -4,7 +4,7 @@ import com.lycanitesmobs.ObjectManager;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.ExtendedEntity;
 import lycanitestweaks.handlers.ForgeConfigHandler;
-import lycanitestweaks.handlers.config.ItemTweaksConfig;
+import lycanitestweaks.handlers.config.major.ItemTweaksConfig;
 import lycanitestweaks.util.Helpers;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.MobEffects;

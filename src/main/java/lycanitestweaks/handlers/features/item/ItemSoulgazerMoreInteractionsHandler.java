@@ -6,7 +6,7 @@ import com.lycanitesmobs.core.item.special.ItemSoulgazer;
 import lycanitestweaks.capability.*;
 import lycanitestweaks.entity.item.EntityBossSummonCrystal;
 import lycanitestweaks.handlers.LycanitesTweaksRegistry;
-import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
+import lycanitestweaks.handlers.config.major.PlayerMobLevelsConfig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.SoundCategory;
