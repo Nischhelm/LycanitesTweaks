@@ -3,7 +3,7 @@ package lycanitestweaks.handlers.config.server;
 import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 
-public class ItemConfig {
+public class EnchantedSoulkeyConfig {
     @Config.Comment("Mainhand Enchanted Soulkeys Add Levels to Altar Boss")
     @Config.Name("Add Feature: Enchanted Soulkey Altar Mini Bosses")
     @Config.RequiresMcRestart

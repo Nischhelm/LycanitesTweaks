@@ -16,7 +16,7 @@ public class PotionEffectsConfig {
     @Config.Name("Consumed Buffs Removes")
     public boolean consumedRemovesBuffs = true;
 
-    @Config.Comment("Consumed Max Health multiplied total to reduce")
+    @Config.Comment("Consumed Max Health multiplied total to reduce (-0.95 means -95% health or being left over with 5% health)")
     @Config.Name("Consumed Health Modifier")
     @Config.RequiresMcRestart
     @Config.RangeDouble(min = -1D, max = 0)
@@ -29,11 +29,11 @@ public class PotionEffectsConfig {
 
     @Config.Comment("Consumed makes all damage piercing")
     @Config.Name("Consumed Piercing All")
-    public boolean consumedPiecingAll = true;
+    public boolean consumedPiercingAll = true;
 
     @Config.Comment("Consumed makes environmental damage piercing")
     @Config.Name("Consumed Piercing Environment")
-    public boolean consumedPiecingEnvironment = false;
+    public boolean consumedPiercingEnvironment = false;
 
     @Config.Comment("Register Voided Potion Effect")
     @Config.Name("Register Voided")
@@ -48,7 +48,7 @@ public class PotionEffectsConfig {
     @Config.Name("Voided Buffs Removes")
     public boolean voidedRemovesBuffs = false;
 
-    @Config.Comment("Voided Max Health multiplied total to reduce")
+    @Config.Comment("Voided Max Health multiplied total to reduce (-0.1 means -10% health or being left over with 90% health)")
     @Config.Name("Voided Health Modifier")
     @Config.RequiresMcRestart
     @Config.RangeDouble(min = -1D, max = 0)
@@ -61,9 +61,9 @@ public class PotionEffectsConfig {
 
     @Config.Comment("Voided makes all damage piercing")
     @Config.Name("Voided Piercing All")
-    public boolean voidedPiecingAll = false;
+    public boolean voidedPiercingAll = false;
 
     @Config.Comment("Voided makes environmental damage piercing")
     @Config.Name("Voided Piercing Environment")
-    public boolean voidedPiecingEnvironment = true;
+    public boolean voidedPiercingEnvironment = true;
 }
