@@ -91,10 +91,18 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
 
     @ModifyConstant(
             method = "initEntityAI",
-            constant = @Constant(stringValue = "spectralbolt")
+            constant = @Constant(stringValue = "spectralbolt", ordinal = 0)
     )
-    public String lycanitesTweaks_lycanitesMobsEntityAmalgalich_initEntityAIReplaceProjectile(String constant) {
-        return ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.mainProjectile;
+    public String lycanitesTweaks_lycanitesMobsEntityAmalgalich_initEntityAIReplaceProjectileAll(String constant) {
+        return ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.mainProjectileAll;
+    }
+
+    @ModifyConstant(
+            method = "initEntityAI",
+            constant = @Constant(stringValue = "spectralbolt", ordinal = 1)
+    )
+    public String lycanitesTweaks_lycanitesMobsEntityAmalgalich_initEntityAIReplaceProjectileTargeted(String constant) {
+        return ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.mainProjectileTarget;
     }
 
     @ModifyArg(
@@ -213,10 +221,10 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
     public void lycanitesTweaks_lycanitesMobsEntityAmalgalich_onTryToDamageMinion(EntityLivingBase minion, float damageAmount, CallbackInfo ci) {
         if (ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.consumptionDamageMaxHP) {
             minion.setDead();
-            if (ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.consumptionKillHeal > 0) {
+            if (ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.consumptionKillHealPortion) {
                 this.heal(ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.consumptionKillHeal * this.getMaxHealth());
             } else
-                this.heal(25.0F);
+                this.heal(ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.consumptionKillHeal);
         }
     }
 

@@ -27,8 +27,7 @@ public class EntityLivingHandler {
         if (event.getEntityLiving() instanceof BaseCreatureEntity) {
             BaseCreatureEntity boss = (BaseCreatureEntity) event.getEntityLiving();
             boss.onDamage(event.getSource(), event.getAmount());
-            if (ForgeConfigHandler.minorFeaturesConfig.bossDamageLimitReducesAmount && boss.damageLimit > 0.0F)
-                event.setAmount(Math.min(event.getAmount(), boss.damageLimit));
+            if (boss.damageLimit > 0.0F) event.setAmount(Math.min(event.getAmount(), boss.damageLimit));
         }
     }
 

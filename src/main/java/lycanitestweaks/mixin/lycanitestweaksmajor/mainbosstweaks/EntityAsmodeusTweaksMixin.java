@@ -91,8 +91,8 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
         if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.chupacabraSummon)
             this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("chupacabra").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(2)));
         if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.additionalProjectileAdd) {
-            this.tasks.addTask(this.nextIdleGoalIndex, (new FireProjectilesGoal(this)).setProjectile(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.additionalProjectile).setFireRate(640).setVelocity(0.8F).setScale(8.0F).setAllPlayers(true));
-            this.tasks.addTask(this.nextIdleGoalIndex, (new FireProjectilesGoal(this)).setProjectile(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.additionalProjectile).setFireRate(960).setVelocity(0.8F).setScale(8.0F));
+            this.tasks.addTask(this.nextIdleGoalIndex, (new FireProjectilesGoal(this)).setProjectile(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.additionalProjectileAll).setFireRate(640).setVelocity(0.8F).setScale(8.0F).setAllPlayers(true));
+            this.tasks.addTask(this.nextIdleGoalIndex, (new FireProjectilesGoal(this)).setProjectile(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.additionalProjectileTarget).setFireRate(960).setVelocity(0.8F).setScale(8.0F));
         }
     }
 
@@ -258,9 +258,12 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             if(!this.astarothMinions.isEmpty()) {
                 float healAmount = this.astarothMinions.size();
                 if (((this.getHealth() + healAmount) / this.getMaxHealth()) > 0.2D) {
-                    float healValue = 2F;
-                    if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHealingPortion > 0) healValue = ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHealingPortion * this.getMaxHealth();
-                    this.heal(healAmount * healValue);
+                    if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHealPortion){
+                        this.heal(healAmount * ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHeal * this.getMaxHealth());
+                    }
+                    else{
+                        this.heal(healAmount * ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHeal);
+                    }
                 }
             }
         }
@@ -272,8 +275,12 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             remap = false
     )
     public float lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesRepairAmount(float constant){
-        if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHealingPortion > 0) return ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHealingPortion * this.getMaxHealth();
-        return constant;
+        if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHealPortion){
+            return (ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHeal * this.getMaxHealth());
+        }
+        else{
+            return (ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHeal);
+        }
     }
 
     @ModifyExpressionValue(

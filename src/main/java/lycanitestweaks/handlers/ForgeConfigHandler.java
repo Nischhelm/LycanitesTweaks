@@ -77,22 +77,6 @@ public class ForgeConfigHandler {
 		@Config.Name("Enables debug logging tick")
 		public boolean debugLoggerTick = false;
 
-		@Config.Comment("Example client side config option")
-		@Config.Name("Example Client Option")
-		public boolean exampleClientOption = true;
-
-		@Config.Comment("Test Int")
-		@Config.Name("Test Int")
-		public int testInt = 1;
-
-		@Config.Comment("Test Double")
-		@Config.Name("Test Double")
-		public double testDouble = 1.0D;
-
-		@Config.Comment("Test Float")
-		@Config.Name("Test Float")
-		public float testFloat = 1.0F;
-
 		@Config.Comment("Translate Client Text from data that is normally stored in English (such as NBT) instead of displaying the raw string")
 		@Config.Name("Translate Text When Possible")
 		public boolean translateWhenPossible = true;
@@ -417,14 +401,17 @@ public class ForgeConfigHandler {
 		@MixinConfig.SubInstance
 		public final PlayerMobLevelsConfig pmlConfig = new PlayerMobLevelsConfig();
 
+		@Config.Comment("Enable and Configure changes to the Amalgalich fight")
 		@Config.Name("Enhanced Amalgalich")
 		@MixinConfig.SubInstance
 		public final BossAmalgalichConfig amalgalichConfig = new BossAmalgalichConfig();
 
+		@Config.Comment("Enable and Configure changes to the Asmodeus fight")
 		@Config.Name("Enhanced Asmodeus")
 		@MixinConfig.SubInstance
 		public final BossAsmodeusConfig asmodeusConfig = new BossAsmodeusConfig();
 
+		@Config.Comment("Enable and Configure changes to the Rahovart fight")
 		@Config.Name("Enhanced Rahovart")
 		@MixinConfig.SubInstance
 		public final BossRahovartConfig rahovartConfig = new BossRahovartConfig();
@@ -433,7 +420,8 @@ public class ForgeConfigHandler {
 		@MixinConfig.SubInstance
 		public final ImperfectSummoningConfig imperfectSummoningConfig = new ImperfectSummoningConfig();
 
-		@Config.Name("Tweak Creature Stats")
+		@Config.Comment("Limits and modifiers to mob stats for balancing")
+		@Config.Name("Creature Stats")
 		@MixinConfig.SubInstance
 		public final CreatureStatsConfig creatureStatsConfig = new CreatureStatsConfig();
 
@@ -491,10 +479,6 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossdamagelimitdpsrecalc.json")
 		public boolean bossDPSLimitRecalc = true;
-
-		@Config.Comment("Additionally limits damage amount on LivingDamageEvent LOWEST, this will fix one-shots dropping mob loot early")
-		@Config.Name("Boss DPS Limit Recalc Modify - Reduces Amount")
-		public boolean bossDamageLimitReducesAmount = true;
 
 		@Config.Comment("When reading familiars from URL, Set Spawning Active to false")
 		@Config.Name("Familiars Inactive On Join")
