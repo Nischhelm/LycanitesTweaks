@@ -47,6 +47,8 @@ public class EntityLootHandler {
             }
         }
         if(!ForgeConfigHandler.server.lootConfig.registerBossSoulkeyLootTables){
+            //TODO: nischcomment how will this double check below ever work?
+            // resourceloc.toString will always be modid:whatever, so the first check will always fail
             if(LycanitesMobs.modid.equals(event.getName().toString())){
                 if (LycanitesMobs.modid.equals(event.getName().getNamespace())) {
                     switch (event.getName().getPath()) {
@@ -68,73 +70,77 @@ public class EntityLootHandler {
     // LootTableLoadEvent examples
     @SubscribeEvent
     public static void addDefaultBossLoot(LootTableLoadEvent event){
+        if (!LycanitesMobs.modid.equals(event.getName().getNamespace())) return;
+
         if(ForgeConfigHandler.server.lootConfig.registerSpawnedAsBossWithLevelsLootTables) {
-            if (LycanitesMobs.modid.equals(event.getName().getNamespace())) {
-                LootPool bookTable = new LootPool(
-                        new LootEntry[]{
-                                new LootEntryItem(Items.BOOK, 1, 0,
-                                        new LootFunction[]{new EnchantWithMobLevels(new LootCondition[0], new RandomValueRange(50), false, 1.0F)},
-                                        new LootCondition[0],
-                                        LycanitesTweaks.MODID + ":enchant_with_mob_levels_book")},
-                        new LootCondition[]{new IsVariant(-1, false, false, true)},
-                        new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_boss_book");
-                LootPool treasureBookTable = new LootPool(
-                        new LootEntry[]{
-                                new LootEntryItem(Items.BOOK, 1, 0,
-                                        new LootFunction[]{new EnchantWithMobLevels(new LootCondition[0], new RandomValueRange(100), true, 0.75F)},
-                                        new LootCondition[0],
-                                        LycanitesTweaks.MODID + ":enchant_with_mob_levels_book_treasure")},
-                        new LootCondition[]{
-                                new IsVariant(-1, false, false, true),
-                                new HasMobLevels(new RandomValueRange(30))},
-                        new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_boss_book_treasure");
-                LootPool xpTable = new LootPool(
-                        new LootEntry[]{
-                                new LootEntryItem(Items.EXPERIENCE_BOTTLE, 1, 0,
-                                        new LootFunction[]{new ScaleWithMobLevels(new LootCondition[0], new RandomValueRange(0, 1), 0.5F, 128)},
-                                        new LootCondition[0],
-                                        LycanitesTweaks.MODID + ":scale_with_mob_levels_xp")},
-                        new LootCondition[]{new IsVariant(-1, false, false, true)},
-                        new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_boss_xp");
-                event.getTable().addPool(bookTable);
-                event.getTable().addPool(treasureBookTable);
-                event.getTable().addPool(xpTable);
-            }
+            LootPool bookTable = new LootPool(
+                    new LootEntry[]{
+                            new LootEntryItem(Items.BOOK, 1, 0,
+                                    new LootFunction[]{new EnchantWithMobLevels(new LootCondition[0], new RandomValueRange(50), false, 1.0F)},
+                                    new LootCondition[0],
+                                    LycanitesTweaks.MODID + ":enchant_with_mob_levels_book")},
+                    new LootCondition[]{new IsVariant(-1, false, false, true)},
+                    new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_boss_book");
+
+            LootPool treasureBookTable = new LootPool(
+                    new LootEntry[]{
+                            new LootEntryItem(Items.BOOK, 1, 0,
+                                    new LootFunction[]{new EnchantWithMobLevels(new LootCondition[0], new RandomValueRange(100), true, 0.75F)},
+                                    new LootCondition[0],
+                                    LycanitesTweaks.MODID + ":enchant_with_mob_levels_book_treasure")},
+                    new LootCondition[]{
+                            new IsVariant(-1, false, false, true),
+                            new HasMobLevels(new RandomValueRange(30))},
+                    new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_boss_book_treasure");
+
+            LootPool xpTable = new LootPool(
+                    new LootEntry[]{
+                            new LootEntryItem(Items.EXPERIENCE_BOTTLE, 1, 0,
+                                    new LootFunction[]{new ScaleWithMobLevels(new LootCondition[0], new RandomValueRange(0, 1), 0.5F, 128)},
+                                    new LootCondition[0],
+                                    LycanitesTweaks.MODID + ":scale_with_mob_levels_xp")},
+                    new LootCondition[]{new IsVariant(-1, false, false, true)},
+                    new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_boss_xp");
+
+            event.getTable().addPool(bookTable);
+            event.getTable().addPool(treasureBookTable);
+            event.getTable().addPool(xpTable);
         }
-        if(ForgeConfigHandler.server.lootConfig.registerRandomChargesLootTable){
-            if (LycanitesMobs.modid.equals(event.getName().getNamespace())) {
-                CreatureInfo creatureInfo = CreatureManager.getInstance().getCreature(event.getName().getPath());
-                if(creatureInfo != null){
-                    LootPool chargeTable = new LootPool(
-                            new LootEntry[0],
-                            new LootCondition[]{new HasMobLevels(new RandomValueRange(ForgeConfigHandler.server.lootConfig.randomChargeMinimumMobLevel))},
-                            new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_random_charges");
-                    for(ElementInfo elementInfo : creatureInfo.elements){
-                        if(Helpers.getChargeElementsMap().containsKey(elementInfo.name)) {
-                            for (String charge : Helpers.getChargeElementsMap().get(elementInfo.name)) {
-                                String entryName = LycanitesTweaks.MODID + ":_random_charge_" + charge;
-                                if(chargeTable.getEntry(entryName) == null)
-                                    chargeTable.addEntry(
-                                            new LootEntryItem(ObjectManager.getItem(charge), 1, 0,
-                                                    new LootFunction[]{
-                                                            new ScaleWithMobLevels(new LootCondition[0],
-                                                                new RandomValueRange(
-                                                                    ForgeConfigHandler.server.lootConfig.randomChargeScaledCountMinimum,
-                                                                    ForgeConfigHandler.server.lootConfig.randomChargeScaledCountMaximum),
-                                                                ForgeConfigHandler.server.lootConfig.randomChargeLevelScale,
-                                                                ForgeConfigHandler.server.lootConfig.randomChargeDropLimit),
-                                                            new LootingEnchantBonus(new LootCondition[0], new RandomValueRange(0,
-                                                                    ForgeConfigHandler.server.lootConfig.randomChargeLootingBonus), 0)},
-                                                    new LootCondition[0],
-                                                    entryName)
-                                    );
-                            }
-                        }
-                    }
-                    event.getTable().addPool(chargeTable);
+
+        if(ForgeConfigHandler.server.lootConfig.registerRandomChargesLootTable) {
+            CreatureInfo creatureInfo = CreatureManager.getInstance().getCreature(event.getName().getPath());
+            if(creatureInfo == null) return;
+
+            LootPool chargeTable = new LootPool(
+                    new LootEntry[0],
+                    new LootCondition[]{new HasMobLevels(new RandomValueRange(ForgeConfigHandler.server.lootConfig.randomChargeMinimumMobLevel))},
+                    new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_random_charges");
+
+            for (ElementInfo elementInfo : creatureInfo.elements) {
+                if (!Helpers.getChargeElementsMap().containsKey(elementInfo.name)) continue;
+
+                for (String charge : Helpers.getChargeElementsMap().get(elementInfo.name)) {
+                    String entryName = LycanitesTweaks.MODID + ":_random_charge_" + charge;
+                    if (chargeTable.getEntry(entryName) != null) continue; //intellij complains here but it's fine
+                    chargeTable.addEntry(getRandomChargesEntry(charge, entryName));
                 }
             }
+            event.getTable().addPool(chargeTable);
         }
     }
 
+    private static LootEntry getRandomChargesEntry(String charge, String entryName) {
+        return new LootEntryItem(ObjectManager.getItem(charge), 1, 0,
+                new LootFunction[]{
+                        new ScaleWithMobLevels(new LootCondition[0],
+                                new RandomValueRange(
+                                        ForgeConfigHandler.server.lootConfig.randomChargeScaledCountMinimum,
+                                        ForgeConfigHandler.server.lootConfig.randomChargeScaledCountMaximum),
+                                ForgeConfigHandler.server.lootConfig.randomChargeLevelScale,
+                                ForgeConfigHandler.server.lootConfig.randomChargeDropLimit),
+                        new LootingEnchantBonus(new LootCondition[0], new RandomValueRange(0,
+                                ForgeConfigHandler.server.lootConfig.randomChargeLootingBonus), 0)},
+                new LootCondition[0],
+                entryName);
+    }
 }

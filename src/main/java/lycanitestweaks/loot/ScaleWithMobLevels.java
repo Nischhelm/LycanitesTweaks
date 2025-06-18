@@ -54,6 +54,13 @@ public class ScaleWithMobLevels extends LootFunction {
         if (context.getLootedEntity() instanceof BaseCreatureEntity) {
             BaseCreatureEntity creature = (BaseCreatureEntity)context.getLootedEntity();
 
+            //TODO: nischcomment did you deliberately round twice? would be more exact if you only round at the end
+            // also, doing it like this (so scale x level x rolledCount) has the same issue as serpent scales when min = 0
+            // a different option would be (scale x level) + rolledCount
+            // so theres a guaranteed part that grows with the level and a random part that always has the same variance
+            // since you use .grow this is already additive anyway, so rn any looting part would be flat added on top
+            // so using addition you could also just separate it into multiple loot functions (setCount + scaleWithMobLevels)
+            // so you could remove the whole this.count part
             int i = Math.round(creature.getLevel() * this.scale);
             if (i == 0) {
                 return stack;

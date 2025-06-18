@@ -4,28 +4,28 @@ import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 
 public class LootConfig {
-    @Config.Comment("Lycanites Creatures can use JSON loot tables alongside Lycanites Mobs drop list")
+    @Config.Comment("Lycanites Creatures can use JSON loot tables alongside Lycanites Mobs drop list - required for the added loot tables here")
     @Config.Name("Add Feature")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurecreaturevanillaloottables.json")
     public boolean vanillaBaseCreatureLootTable = true;
 
-    @Config.Comment("Minimum Level the creature must be to drop Random Charges")
+    @Config.Comment("Minimum Creature Level for the lycanite mob to drop Random Charges")
     @Config.Name("Random Charge Loot Minimum Mob Level")
     @Config.RequiresMcRestart
     public int randomChargeMinimumMobLevel = 5;
 
-    @Config.Comment("Minimum count per loot entry")
+    @Config.Comment("How many charges to drop at minimum")
     @Config.Name("Random Charge Loot Minimum Count")
     @Config.RequiresMcRestart
     public int randomChargeScaledCountMinimum = 0;
 
-    @Config.Comment("Maximum count per loot entry")
+    @Config.Comment("How many charges to drop at maximum")
     @Config.Name("Random Charge Loot Maximum Count")
     @Config.RequiresMcRestart
     public int randomChargeScaledCountMaximum = 4;
 
-    @Config.Comment("How many rolls per level, default is 0.1 so average one roll for every 10 levels")
+    @Config.Comment("How many charges per level, default is 0.1 so average one charge for every 10 levels")
     @Config.Name("Random Charge Level Scale")
     @Config.RequiresMcRestart
     public float randomChargeLevelScale = 0.1F;
@@ -60,6 +60,11 @@ public class LootConfig {
     @Config.RequiresMcRestart
     public boolean registerSpawnedAsBossWithLevelsLootTables = true;
 
+    //TODO: nischcomment are you sure you want to make this configable?
+    // if the default loot tables are loaded and this is false, you will get crashes (i assume) or at least error logs
+    // also, why not separate the two conditions and two functions into four configs then? i dont get it
+    // i would just not add the configs, less is more.
+    // dont see a problem in registering loot funcs/conds even if they are not used
     @Config.Comment("Register Has Mob Levels Loot Condition")
     @Config.Name("Register HasMobLevels Loot Condition")
     @Config.RequiresMcRestart
