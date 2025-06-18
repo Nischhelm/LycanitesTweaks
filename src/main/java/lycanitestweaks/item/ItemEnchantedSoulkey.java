@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
@@ -59,15 +60,13 @@ public class ItemEnchantedSoulkey extends Item {
      * @return The amount of Gem Power the provided itemstack restores.
      */
     public static int getSoulkeyGemPowerRepair(ItemStack itemStack) {
-        if (!itemStack.isEmpty()) {
-            Item item = itemStack.getItem();
-            ResourceLocation checkId = item.getRegistryName();
-
-            if(new ResourceLocation("minecraft:diamond_block").equals(checkId)
-                    || new ResourceLocation("minecraft:emerald_block").equals(checkId)){
-                return 1;
-            }
-        }
+        if(itemStack.isEmpty()) return 0;
+        Item item = itemStack.getItem();
+        ResourceLocation checkId = item.getRegistryName();
+        if(checkId == null) return 0;
+        String itemName = checkId.toString();
+        if(itemName.equals("minecraft:diamond_block") || itemName.equals("minecraft:emerald_block"))
+            return 1;
         return 0;
     }
 
@@ -117,7 +116,7 @@ public class ItemEnchantedSoulkey extends Item {
 
         StringBuilder rawStrings = new StringBuilder();
         rawStrings.append(I18n.format("item.lycanitestweaks.enchantedsoulkey.description"));
-        if(ForgeConfigHandler.server.enchSoulkeyConfig.enchantedSoulkeyEquipmentTiles)
+        if(ForgeConfigHandler.server.enchSoulkeyConfig.allowStationAndInfuser)
             rawStrings.append("\n").append(I18n.format("item.lycanitestweaks.enchantedsoulkey.description.mixin"));
         rawStrings.append("\n").append(I18n.format("item.lycanitestweaks.enchantedsoulkey.description.level",
                 this.getLevel(itemStack),
@@ -127,10 +126,10 @@ public class ItemEnchantedSoulkey extends Item {
         );
         rawStrings.append("\n").append(I18n.format("item.lycanitestweaks.enchantedsoulkey.description.power",
                 this.getGemPower(itemStack),
-                ForgeConfigHandler.server.enchSoulkeyConfig.enchantedSoulkeyMaxUsages));
+                ForgeConfigHandler.server.enchSoulkeyConfig.maxUsages));
         rawStrings.append("\n").append(I18n.format("item.lycanitestweaks.enchantedsoulkey.description.mana",
                 this.getStarPower(itemStack),
-                ForgeConfigHandler.server.enchSoulkeyConfig.enchantedSoulkeyMaxUsages));
+                ForgeConfigHandler.server.enchSoulkeyConfig.maxUsages));
 
         List<String> formattedDescriptionList = Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(rawStrings.toString(), ItemBase.DESCRIPTION_WIDTH);
         tooltip.addAll(formattedDescriptionList);
@@ -149,7 +148,7 @@ public class ItemEnchantedSoulkey extends Item {
     /** Sets the level of the provided Item Stack. **/
     public void setMaxLevel(ItemStack itemStack, int level) {
         NBTTagCompound nbt = this.getTagCompound(itemStack);
-        nbt.setInteger("soulkeyMaxLevel", Math.max(Math.min(level, ForgeConfigHandler.server.enchSoulkeyConfig.enchantedSoulkeyDefaultMaxLevel), 0));
+        nbt.setInteger("soulkeyMaxLevel", Math.max(Math.min(level, ForgeConfigHandler.server.enchSoulkeyConfig.defaultMaxLevel), 0));
         itemStack.setTagCompound(nbt);
     }
 
@@ -227,10 +226,11 @@ public class ItemEnchantedSoulkey extends Item {
      * @return Experience required for a level up.
      */
     public int getExperienceForNextLevel(ItemStack itemStack) {
-        return ForgeConfigHandler.server.enchSoulkeyConfig.enchantedSoulkeyBaseLevelupExperience
-                + Math.round(ForgeConfigHandler.server.enchSoulkeyConfig.enchantedSoulkeyBaseLevelupExperience
-                    * (Math.min(ForgeConfigHandler.server.enchSoulkeyConfig.enchantedSoulkeyNextLevelFinalScale,
-                        this.getLevel(itemStack)) - 1) * 0.25F);
+        float levelMulti = 1F + (this.getLevel(itemStack) - 1) * 0.25F;
+        return Math.min(
+                Math.round(ForgeConfigHandler.server.enchSoulkeyConfig.baseLevelupExperience * levelMulti),
+                ForgeConfigHandler.server.enchSoulkeyConfig.maxLevelupExperience
+        );
     }
 
     /**
@@ -238,7 +238,7 @@ public class ItemEnchantedSoulkey extends Item {
      * @param itemStack The possible leveling itemstack.
      * @return True if should consume the itemstack and gain experience.
      */
-    public boolean isLevelingChargeItem(ItemStack itemStack) {
+    public boolean isValidLevelingItem(ItemStack itemStack) {
         return itemStack.getItem() instanceof ChargeItem;
     }
 
@@ -248,7 +248,7 @@ public class ItemEnchantedSoulkey extends Item {
      * @return The amount of experience to gain.
      */
     public int getExperienceFromChargeItem(ItemStack itemStack) {
-        return (this.isLevelingChargeItem(itemStack)) ? ChargeItem.CHARGE_EXPERIENCE : 0;
+        return (this.isValidLevelingItem(itemStack)) ? ChargeItem.CHARGE_EXPERIENCE : 0;
     }
 
     /** Returns the Gem Power for the provided ItemStack. **/
@@ -256,7 +256,7 @@ public class ItemEnchantedSoulkey extends Item {
         NBTTagCompound nbt = this.getTagCompound(itemStack);
 
         int charges = (this.variant == 0) ? 1 : 2;
-        int sharpness = ForgeConfigHandler.server.enchSoulkeyConfig.enchantedSoulkeyOnCraftUsages * charges;
+        int sharpness = ForgeConfigHandler.server.enchSoulkeyConfig.usagesOnCraft * charges;
         if(nbt.hasKey("soulkeySharpness")) {
             sharpness = nbt.getInteger("soulkeySharpness");
         }
@@ -266,14 +266,14 @@ public class ItemEnchantedSoulkey extends Item {
     /** Sets the Gem Power of the provided Item Stack. **/
     public void setGemPower(ItemStack itemStack, int sharpness) {
         NBTTagCompound nbt = this.getTagCompound(itemStack);
-        nbt.setInteger("soulkeySharpness", Math.max(Math.min(sharpness, ForgeConfigHandler.server.enchSoulkeyConfig.enchantedSoulkeyMaxUsages), 0));
+        nbt.setInteger("soulkeySharpness", Math.max(Math.min(sharpness, ForgeConfigHandler.server.enchSoulkeyConfig.maxUsages), 0));
         itemStack.setTagCompound(nbt);
     }
 
     /** Increases the Gem Power of the provided Item Stack. **/
     public boolean addGemPower(ItemStack itemStack, int sharpness) {
         int currentSharpness = this.getGemPower(itemStack);
-        if(currentSharpness >= ForgeConfigHandler.server.enchSoulkeyConfig.enchantedSoulkeyMaxUsages) {
+        if(currentSharpness >= ForgeConfigHandler.server.enchSoulkeyConfig.maxUsages) {
             return false;
         }
         this.setGemPower(itemStack, this.getGemPower(itemStack) + sharpness);
@@ -293,7 +293,7 @@ public class ItemEnchantedSoulkey extends Item {
     /** Returns the Nether Star Power for the provided ItemStack. **/
     public int getStarPower(ItemStack itemStack) {
         NBTTagCompound nbt = this.getTagCompound(itemStack);
-        int mana = ForgeConfigHandler.server.enchSoulkeyConfig.enchantedSoulkeyOnCraftUsages;
+        int mana = ForgeConfigHandler.server.enchSoulkeyConfig.usagesOnCraft;
         if(nbt.hasKey("soulkeyMana")) {
             mana = nbt.getInteger("soulkeyMana");
         }
@@ -303,14 +303,14 @@ public class ItemEnchantedSoulkey extends Item {
     /** Sets the Nether Star Power of the provided Item Stack. **/
     public void setStarPower(ItemStack itemStack, int mana) {
         NBTTagCompound nbt = this.getTagCompound(itemStack);
-        nbt.setInteger("soulkeyMana", Math.max(Math.min(mana, ForgeConfigHandler.server.enchSoulkeyConfig.enchantedSoulkeyMaxUsages), 0));
+        nbt.setInteger("soulkeyMana", Math.max(Math.min(mana, ForgeConfigHandler.server.enchSoulkeyConfig.maxUsages), 0));
         itemStack.setTagCompound(nbt);
     }
 
     /** Increases the Nether Star Power of the provided Equipment Item Stack. **/
     public boolean addStarPower(ItemStack itemStack, int mana) {
         int currentMana = this.getStarPower(itemStack);
-        if(currentMana >= ForgeConfigHandler.server.enchSoulkeyConfig.enchantedSoulkeyMaxUsages) {
+        if(currentMana >= ForgeConfigHandler.server.enchSoulkeyConfig.maxUsages) {
             return false;
         }
         this.setStarPower(itemStack, this.getStarPower(itemStack) + mana);
@@ -346,9 +346,9 @@ public class ItemEnchantedSoulkey extends Item {
         // For creative use and NBT reference
         if(player.capabilities.isCreativeMode && player.isSneaking()) {
             this.setLevel(itemStack, this.getMaxLevel(itemStack));
-            this.setMaxLevel(itemStack, ForgeConfigHandler.server.enchSoulkeyConfig.enchantedSoulkeyDefaultMaxLevel);
-            this.setStarPower(itemStack, ForgeConfigHandler.server.enchSoulkeyConfig.enchantedSoulkeyMaxUsages);
-            this.setGemPower(itemStack, ForgeConfigHandler.server.enchSoulkeyConfig.enchantedSoulkeyMaxUsages);
+            this.setMaxLevel(itemStack, ForgeConfigHandler.server.enchSoulkeyConfig.defaultMaxLevel);
+            this.setStarPower(itemStack, ForgeConfigHandler.server.enchSoulkeyConfig.maxUsages);
+            this.setGemPower(itemStack, ForgeConfigHandler.server.enchSoulkeyConfig.maxUsages);
         }
 
         if(!player.getEntityWorld().isRemote) {

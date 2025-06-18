@@ -4,41 +4,41 @@ import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 
 public class EnchantedSoulkeyConfig {
-    @Config.Comment("Mainhand Enchanted Soulkeys Add Levels to Altar Boss")
-    @Config.Name("Add Feature: Enchanted Soulkey Altar Mini Bosses")
+    @Config.Comment("Holding the key in mainhand will add Creature Levels to Altar Mini Bosses")
+    @Config.Name("Add Feature: Works for Altar Mini Bosses")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureenchantedsoulkeyaltarminiboss.json")
-    public boolean enchantedSoulkeyAltarMiniBoss = true;
+    public boolean altarMiniBoss = true;
 
-    @Config.Comment("Mainhand Enchanted Soulkeys Add Levels to Altar Boss")
-    @Config.Name("Add Feature: Enchanted Soulkey Altar Main Bosses")
+    @Config.Comment("Holding the key in mainhand will add Creature Levels to Altar Main Bosses")
+    @Config.Name("Add Feature: Works for Altar Main Bosses")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureenchantedsoulkeymainboss.json")
-    public boolean enchantedSoulkeyAltarMainBoss = true;
+    public boolean altarMainBoss = true;
 
-    @Config.Comment("Enchanted Soulkeys can be put inside Equipment Infuser to level up and Station to recharge")
-    @Config.Name("Add Feature: Enchanted Soulkey Equipment Tiles Entities")
+    @Config.Comment("Allow keys to be put inside Equipment Infuser to level up, and inside Equipment Station to recharge")
+    @Config.Name("Add Feature: Allow on Equipment Station and Infuser")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureenchantedsoulkeyequipmenttiles.json")
-    public boolean enchantedSoulkeyEquipmentTiles = true;
+    public boolean allowStationAndInfuser = true;
 
-    @Config.Comment("Base EXP Required to level up, scales with level, Lycanites Charge EXP is 50")
-    @Config.Name("Enchanted Soulkey Base Levelup Experience")
-    public int enchantedSoulkeyBaseLevelupExperience = 500;
+    @Config.Comment("Base charge experience required to level up the key. Increases by 25% per level of the key until the max is reached. Each Lycanites Charge gives 50 experience")
+    @Config.Name("Base Levelup Experience")
+    public int baseLevelupExperience = 500;
 
-    @Config.Comment("At this level the required exp stops increasing, otherwise scales +25% per level")
-    @Config.Name("Enchanted Soulkey Next Level Final Scale")
-    public int enchantedSoulkeyNextLevelFinalScale = 16;
+    @Config.Comment("Leveling up the key will never cost more than this amount of charge experience.")
+    @Config.Name("Max Levelup Experience")
+    public int maxLevelupExperience = 2500;
 
-    @Config.Comment("Default Maximum Level Creature Enchanted Soulkeys can spawn, can be overriden with NBT")
-    @Config.Name("Enchanted Soulkey Max Level")
-    public int enchantedSoulkeyDefaultMaxLevel = 100;
+    @Config.Comment("Default Maximum Creature Level for mobs that can be summoned with the key. Can be overriden with NBT")
+    @Config.Name("Max Creature Level")
+    public int defaultMaxLevel = 100;
 
-    @Config.Comment("Default Usages when NBT is blank, recommended to match crafting recipe materials")
-    @Config.Name("Enchanted Soulkey On Craft Usages")
-    public int enchantedSoulkeyOnCraftUsages = 8;
+    @Config.Comment("Default Usages when crafted. The default value reflects the amount of nether stars and gem blocks that were used in the default crafting recipe for the key.")
+    @Config.Name("Usages On Craft")
+    public int usagesOnCraft = 8;
 
-    @Config.Comment("Maximum Stored Nether Star Power and Gem Power (Diamond/Emerald Blocks)")
-    @Config.Name("Enchanted Soulkey Max Usages")
-    public int enchantedSoulkeyMaxUsages = 1000;
+    @Config.Comment("Enchanted Soulkeys will not be able to store more than this amount of nether stars / gem blocks as usages.")
+    @Config.Name("Max Usages")
+    public int maxUsages = 1000;
 }

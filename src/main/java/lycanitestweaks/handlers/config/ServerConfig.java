@@ -22,10 +22,12 @@ public class ServerConfig {
     @Config.Name("Additional Effects")
     public final PotionEffectsConfig effectsConfig = new PotionEffectsConfig();
 
-    @Config.Comment("Here you could explain how the enchanted soulkey is supposed to work. \n" +
-            "Like that it has charges, that it can be used in the infuser and the station\n" +
-            "what doing that does (i guess infuser for lvl and station for how often you can use it?)\n" +
-            "and that it can increase the summoned bosses lvl")
+    @Config.Comment("Enchanted Soulkeys are a better version of existing Soulkeys.\n" +
+            "They not only allow for storing multiple usages for ease of access\n" +
+            "but also allow for increasing the summoned bosses creature level when held in mainhand when the boss spawns.\n" +
+            "Usages can be increased by adding Nether Stars and Gem (Diamond/Emerald) Blocks to the key inside the Equipment Station.\n" +
+            "Variant Soulkeys will need two Gem Blocks for one usage, while normal soulkeys only need one. Both need one Nether Star per usage.\n" +
+            "The Creature Level that this key summons can be increased inside the Equipment Infuser using Lycanites Charges")
     @Config.Name("Enchanted Soulkey")
     @MixinConfig.SubInstance
     public final EnchantedSoulkeyConfig enchSoulkeyConfig = new EnchantedSoulkeyConfig();
