@@ -1,6 +1,5 @@
 package lycanitestweaks.handlers.config;
 
-import fermiumbooter.FermiumRegistryAPI;
 import net.minecraftforge.common.config.Config;
 
 public class IntegrationConfig {

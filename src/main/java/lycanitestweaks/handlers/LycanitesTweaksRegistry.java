@@ -1,5 +1,6 @@
 package lycanitestweaks.handlers;
 
+import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.entity.item.EntityBossSummonCrystal;
 import lycanitestweaks.entity.item.EntityEncounterSummonCrystal;
 import lycanitestweaks.item.ItemEnchantedSoulkey;
@@ -7,7 +8,9 @@ import lycanitestweaks.loot.EnchantWithMobLevels;
 import lycanitestweaks.loot.HasMobLevels;
 import lycanitestweaks.loot.IsVariant;
 import lycanitestweaks.loot.ScaleWithMobLevels;
+import lycanitestweaks.potion.PotionConsumed;
 import lycanitestweaks.potion.PotionCripplingBase;
+import lycanitestweaks.potion.PotionVoided;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
@@ -17,9 +20,6 @@ import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import lycanitestweaks.LycanitesTweaks;
-import lycanitestweaks.potion.PotionConsumed;
-import lycanitestweaks.potion.PotionVoided;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.GameRegistry;
