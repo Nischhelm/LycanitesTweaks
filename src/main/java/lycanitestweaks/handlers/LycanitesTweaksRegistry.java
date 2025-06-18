@@ -39,14 +39,10 @@ public class LycanitesTweaksRegistry {
 
         // wasted an hour wondering why it couldn't be like RLMixins
         public static void init() {
-                if(ForgeConfigHandler.server.lootConfig.registerPMLLootCondition) {
-                        LootConditionManager.registerCondition(new HasMobLevels.Serializer());
-                        LootConditionManager.registerCondition(new IsVariant.Serializer());
-                }
-                if(ForgeConfigHandler.server.lootConfig.registerPMLLootFunction) {
-                        LootFunctionManager.registerFunction(new EnchantWithMobLevels.Serializer());
-                        LootFunctionManager.registerFunction(new ScaleWithMobLevels.Serializer());
-                }
+                LootConditionManager.registerCondition(new HasMobLevels.Serializer());
+                LootConditionManager.registerCondition(new IsVariant.Serializer());
+                LootFunctionManager.registerFunction(new EnchantWithMobLevels.Serializer());
+                LootFunctionManager.registerFunction(new ScaleWithMobLevels.Serializer());
 
                 SOULGAZER_CRAFTINGTABLE = new SoundEvent(new ResourceLocation(LycanitesTweaks.MODID, "soulgazer_craftingtable")).setRegistryName("soulgazer_craftingtable");
                 SOULGAZER_PLAYER = new SoundEvent(new ResourceLocation(LycanitesTweaks.MODID, "soulgazer_player")).setRegistryName("soulgazer_player");

@@ -20,10 +20,12 @@ import net.minecraft.world.storage.loot.RandomValueRange;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
 import net.minecraft.world.storage.loot.functions.LootFunction;
 import net.minecraft.world.storage.loot.functions.LootingEnchantBonus;
+import net.minecraft.world.storage.loot.functions.SetCount;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EntityLootHandler {
+    private static final LootCondition[] nullCond = new LootCondition[0];
 
     // JSON examples
     @SubscribeEvent
@@ -76,8 +78,8 @@ public class EntityLootHandler {
             LootPool bookTable = new LootPool(
                     new LootEntry[]{
                             new LootEntryItem(Items.BOOK, 1, 0,
-                                    new LootFunction[]{new EnchantWithMobLevels(new LootCondition[0], new RandomValueRange(50), false, 1.0F)},
-                                    new LootCondition[0],
+                                    new LootFunction[]{new EnchantWithMobLevels(nullCond, new RandomValueRange(50), false, 1.0F)},
+                                    nullCond,
                                     LycanitesTweaks.MODID + ":enchant_with_mob_levels_book")},
                     new LootCondition[]{new IsVariant(-1, false, false, true)},
                     new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_boss_book");
@@ -85,8 +87,8 @@ public class EntityLootHandler {
             LootPool treasureBookTable = new LootPool(
                     new LootEntry[]{
                             new LootEntryItem(Items.BOOK, 1, 0,
-                                    new LootFunction[]{new EnchantWithMobLevels(new LootCondition[0], new RandomValueRange(100), true, 0.75F)},
-                                    new LootCondition[0],
+                                    new LootFunction[]{new EnchantWithMobLevels(nullCond, new RandomValueRange(100), true, 0.75F)},
+                                    nullCond,
                                     LycanitesTweaks.MODID + ":enchant_with_mob_levels_book_treasure")},
                     new LootCondition[]{
                             new IsVariant(-1, false, false, true),
@@ -96,8 +98,11 @@ public class EntityLootHandler {
             LootPool xpTable = new LootPool(
                     new LootEntry[]{
                             new LootEntryItem(Items.EXPERIENCE_BOTTLE, 1, 0,
-                                    new LootFunction[]{new ScaleWithMobLevels(new LootCondition[0], new RandomValueRange(0, 1), 0.5F, 128)},
-                                    new LootCondition[0],
+                                    new LootFunction[]{
+                                            new SetCount(nullCond, new RandomValueRange(0, 1)),
+                                            new ScaleWithMobLevels(nullCond, 0.5F, 128)
+                                    },
+                                    nullCond,
                                     LycanitesTweaks.MODID + ":scale_with_mob_levels_xp")},
                     new LootCondition[]{new IsVariant(-1, false, false, true)},
                     new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_boss_xp");
@@ -132,15 +137,17 @@ public class EntityLootHandler {
     private static LootEntry getRandomChargesEntry(String charge, String entryName) {
         return new LootEntryItem(ObjectManager.getItem(charge), 1, 0,
                 new LootFunction[]{
-                        new ScaleWithMobLevels(new LootCondition[0],
-                                new RandomValueRange(
-                                        ForgeConfigHandler.server.lootConfig.randomChargeScaledCountMinimum,
-                                        ForgeConfigHandler.server.lootConfig.randomChargeScaledCountMaximum),
+                        //TODO: rn its [min to max] x moblvl x scale + [0 to loot] x lootLvl
+                        // idk if the looting part should be scaled as well
+                        new SetCount(nullCond,new RandomValueRange(
+                                ForgeConfigHandler.server.lootConfig.randomChargeScaledCountMinimum,
+                                ForgeConfigHandler.server.lootConfig.randomChargeScaledCountMaximum)),
+                        new ScaleWithMobLevels(nullCond,
                                 ForgeConfigHandler.server.lootConfig.randomChargeLevelScale,
                                 ForgeConfigHandler.server.lootConfig.randomChargeDropLimit),
-                        new LootingEnchantBonus(new LootCondition[0], new RandomValueRange(0,
+                        new LootingEnchantBonus(nullCond, new RandomValueRange(0,
                                 ForgeConfigHandler.server.lootConfig.randomChargeLootingBonus), 0)},
-                new LootCondition[0],
+                nullCond,
                 entryName);
     }
 }

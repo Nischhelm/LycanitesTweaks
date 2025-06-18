@@ -25,7 +25,7 @@ public class LootConfig {
     @Config.RequiresMcRestart
     public int randomChargeScaledCountMaximum = 4;
 
-    @Config.Comment("How many charges per level, default is 0.1 so average one charge for every 10 levels")
+    @Config.Comment("Multiplies the rolled amount of charges (min to max) with moblvl times this scaling factor. Default is 0.1 so the actual min and max are rolled for a lvl 10 lyca mob. A lvl 20 lyca mob will roll twice as much, etc.")
     @Config.Name("Random Charge Level Scale")
     @Config.RequiresMcRestart
     public float randomChargeLevelScale = 0.1F;
@@ -35,7 +35,7 @@ public class LootConfig {
     @Config.RequiresMcRestart
     public int randomChargeDropLimit = 0;
 
-    @Config.Comment("Set to 1 to use the standard vanilla looting bonus, set to 0 to disable")
+    @Config.Comment("How many charges per looting lvl to add on top at max (will roll a random amount between 0 and this number times looting lvl). Set to 0 to disable")
     @Config.Name("Random Charge Looting Bonus")
     @Config.RequiresMcRestart
     public int randomChargeLootingBonus = 1;
@@ -59,19 +59,4 @@ public class LootConfig {
     @Config.Name("Register SpawnedAsBoss With Levels Loot Tables")
     @Config.RequiresMcRestart
     public boolean registerSpawnedAsBossWithLevelsLootTables = true;
-
-    //TODO: nischcomment are you sure you want to make this configable?
-    // if the default loot tables are loaded and this is false, you will get crashes (i assume) or at least error logs
-    // also, why not separate the two conditions and two functions into four configs then? i dont get it
-    // i would just not add the configs, less is more.
-    // dont see a problem in registering loot funcs/conds even if they are not used
-    @Config.Comment("Register Has Mob Levels Loot Condition")
-    @Config.Name("Register HasMobLevels Loot Condition")
-    @Config.RequiresMcRestart
-    public boolean registerPMLLootCondition = true;
-
-    @Config.Comment("Register Scale With Mob Levels Loot Function")
-    @Config.Name("Register ScaleWithMobLevels Loot Function")
-    @Config.RequiresMcRestart
-    public boolean registerPMLLootFunction = true;
 }
