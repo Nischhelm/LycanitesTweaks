@@ -78,7 +78,7 @@ public class EntityLootHandler {
             LootPool bookTable = new LootPool(
                     new LootEntry[]{
                             new LootEntryItem(Items.BOOK, 1, 0,
-                                    new LootFunction[]{new EnchantWithMobLevels(nullCond, new RandomValueRange(50), false, 1.0F)},
+                                    new LootFunction[]{new EnchantWithMobLevels(nullCond, false, 1.0F)},
                                     nullCond,
                                     LycanitesTweaks.MODID + ":enchant_with_mob_levels_book")},
                     new LootCondition[]{new IsVariant(-1, false, false, true)},
@@ -87,12 +87,12 @@ public class EntityLootHandler {
             LootPool treasureBookTable = new LootPool(
                     new LootEntry[]{
                             new LootEntryItem(Items.BOOK, 1, 0,
-                                    new LootFunction[]{new EnchantWithMobLevels(nullCond, new RandomValueRange(100), true, 0.75F)},
+                                    new LootFunction[]{new EnchantWithMobLevels(nullCond, true, 0.75F)},
                                     nullCond,
                                     LycanitesTweaks.MODID + ":enchant_with_mob_levels_book_treasure")},
                     new LootCondition[]{
                             new IsVariant(-1, false, false, true),
-                            new HasMobLevels(new RandomValueRange(30))},
+                            new HasMobLevels(30)},
                     new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_boss_book_treasure");
 
             LootPool xpTable = new LootPool(
@@ -118,7 +118,7 @@ public class EntityLootHandler {
 
             LootPool chargeTable = new LootPool(
                     new LootEntry[0],
-                    new LootCondition[]{new HasMobLevels(new RandomValueRange(ForgeConfigHandler.server.lootConfig.randomChargeMinimumMobLevel))},
+                    new LootCondition[]{new HasMobLevels(ForgeConfigHandler.server.lootConfig.randomChargeMinimumMobLevel)},
                     new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_random_charges");
 
             for (ElementInfo elementInfo : creatureInfo.elements) {

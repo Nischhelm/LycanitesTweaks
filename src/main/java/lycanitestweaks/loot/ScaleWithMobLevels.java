@@ -25,7 +25,7 @@ import java.util.Random;
 
     "functions": [
         {
-            "function": "lycanitesTweaks:scale_with_mob_levels",
+            "function": "lycanitestweaks:scale_with_mob_levels",
             "count": {
                 "min": 0,
                 "max": 1
@@ -72,7 +72,6 @@ public class ScaleWithMobLevels extends LootFunction {
         }
 
         public ScaleWithMobLevels deserialize(JsonObject object, JsonDeserializationContext deserializationContext, LootCondition[] conditionsIn) {
-            RandomValueRange count = JsonUtils.deserializeClass(object, "count", deserializationContext, RandomValueRange.class);
             float scale = JsonUtils.getFloat(object, "scale", 1.0F);
             int limit = JsonUtils.getInt(object, "limit", 0);
             return new ScaleWithMobLevels(conditionsIn, scale, limit);
