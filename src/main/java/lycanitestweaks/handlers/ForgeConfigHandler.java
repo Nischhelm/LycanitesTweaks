@@ -3,6 +3,10 @@ package lycanitestweaks.handlers;
 import fermiumbooter.annotations.MixinConfig;
 import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.handlers.config.*;
+import lycanitestweaks.handlers.config.major.CreatureInteractConfig;
+import lycanitestweaks.handlers.config.major.CreatureStatsConfig;
+import lycanitestweaks.handlers.config.major.ItemTweaksConfig;
+import lycanitestweaks.handlers.config.major.PlayerMobLevelsConfig;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -60,6 +64,10 @@ public class ForgeConfigHandler {
 		@SubscribeEvent
 		public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
 			if(event.getModID().equals(LycanitesTweaks.MODID)) {
+				ItemTweaksConfig.reset();
+				CreatureInteractConfig.reset();
+				CreatureStatsConfig.reset();
+				PlayerMobLevelsConfig.reset();
 				ForgeConfigProvider.reset();
 				ConfigManager.sync(LycanitesTweaks.MODID, Config.Type.INSTANCE);
 			}
