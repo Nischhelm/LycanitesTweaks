@@ -1,5 +1,6 @@
 package lycanitestweaks.util;
 
+import baubles.api.BaublesApi;
 import com.lycanitesmobs.ObjectManager;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.ExtendedPlayer;
@@ -13,9 +14,11 @@ import com.lycanitesmobs.core.item.equipment.features.EffectEquipmentFeature;
 import com.lycanitesmobs.core.item.equipment.features.EquipmentFeature;
 import com.lycanitesmobs.core.item.equipment.features.ProjectileEquipmentFeature;
 import com.lycanitesmobs.core.item.equipment.features.SummonEquipmentFeature;
+import com.lycanitesmobs.core.item.special.ItemSoulgazer;
 import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -55,6 +58,21 @@ public class Helpers {
     // mfw Lycanites config for no flying mount doesn't catch mobs whose flight check considers landed state
     public static boolean isPracticallyFlying(BaseCreatureEntity entity){
         return (entity.isFlying() || entity.flySoundSpeed > 0);
+    }
+
+    public static boolean hasSoulgazerEquiped(EntityLivingBase target){
+        return Helpers.hasSoulgazerEquiped(target, false);
+    }
+
+    public static boolean hasSoulgazerEquiped(EntityLivingBase target, boolean ignoreHand){
+        if(!ignoreHand && target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer) return true;
+
+        if(target instanceof EntityPlayer) {
+            int baubleFound = BaublesApi.isBaubleEquipped((EntityPlayer) target, ObjectManager.getItem("soulgazer"));
+            if (baubleFound != -1) return true;
+        }
+
+        return false;
     }
 
     public static void cureActiveEffectsFromResourceSet(EntityLivingBase entity, HashSet<ResourceLocation> curingSet){
@@ -105,6 +123,7 @@ public class Helpers {
         for(Potion potion : toRemove) entity.removePotionEffect(potion);
     }
 
+    // Clearly using lang keys, fix
     public static HashMap<String, ArrayList<String>> getChargeElementsMap(){
         if(Helpers.chargeElementsMap == null){
             Helpers.chargeElementsMap = new HashMap<>();

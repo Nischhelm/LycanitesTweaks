@@ -2,12 +2,12 @@ package lycanitestweaks.handlers.features.entity;
 
 import com.lycanitesmobs.ExtendedWorld;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
-import com.lycanitesmobs.core.item.special.ItemSoulgazer;
 import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
 import lycanitestweaks.capability.PlayerMobLevelCapability;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
+import lycanitestweaks.util.Helpers;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -68,7 +68,7 @@ public class EntityLivingHandler {
         IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(player);
 
         if(pml == null || !creature.firstSpawn) return;
-        if(!PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(category) || player.getHeldItemMainhand().getItem() instanceof ItemSoulgazer){
+        if(!PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(category) || Helpers.hasSoulgazerEquiped(player)){
             creature.onFirstSpawn();
             creature.addLevel(pml.getTotalLevelsForCategory(category, creature));
             if(ForgeConfigHandler.client.debugLoggerTick) LycanitesTweaks.LOGGER.log(Level.INFO, "{} Spawning: {}", category.name(), creature);

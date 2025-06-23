@@ -6,6 +6,7 @@ import com.lycanitesmobs.core.entity.CreatureStats;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
 import lycanitestweaks.capability.PlayerMobLevelCapability;
 import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
+import lycanitestweaks.util.Helpers;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentTranslation;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,8 +29,10 @@ public abstract class CreatureStatsBoundDimLimitedMixin {
         if(PlayerMobLevelsConfig.isDimensionLimitedMinion(this.entity.dimension) && this.entity.isBoundPet() && this.entity.getPetEntry().host instanceof EntityPlayer){
             IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer((EntityPlayer) this.entity.getPetEntry().host);
             if(pml != null){
-                int levels = Math.min(original,
-                        pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.SoulboundTame, this.entity));
+                int levels = 1;
+                if(!PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(PlayerMobLevelsConfig.BonusCategory.SoulboundTame) || Helpers.hasSoulgazerEquiped(this.entity.getPetEntry().host)) {
+                    levels = Math.min(original, pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.SoulboundTame, this.entity));
+                }
                 if(this.entity.ticksExisted == 0) {
                     ((EntityPlayer) this.entity.getPetEntry().host).sendStatusMessage(new TextComponentTranslation("message.soulbound.limited.levels", levels), true);
                 }

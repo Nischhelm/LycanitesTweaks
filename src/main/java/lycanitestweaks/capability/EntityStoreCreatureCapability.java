@@ -5,7 +5,7 @@ import lycanitestweaks.storedcreatureentity.StoredCreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class EntityStoreCreatureCapabilityCapability implements IEntityStoreCreatureCapability {
+public class EntityStoreCreatureCapability implements IEntityStoreCreatureCapability {
 
     // Based on ExtendedPlayer's usage of PetManager
 
@@ -14,9 +14,9 @@ public class EntityStoreCreatureCapabilityCapability implements IEntityStoreCrea
     Entity host;
     StoredCreatureEntity storedCreatureEntity;
 
-    public EntityStoreCreatureCapabilityCapability() {}
+    public EntityStoreCreatureCapability() {}
 
-    public EntityStoreCreatureCapabilityCapability(Entity host){
+    public EntityStoreCreatureCapability(Entity host){
         this.host = host;
         this.storedCreatureEntity = new StoredCreatureEntity(host, "");
     }

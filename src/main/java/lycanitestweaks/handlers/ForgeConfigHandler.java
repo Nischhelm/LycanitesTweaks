@@ -355,12 +355,26 @@ public class ForgeConfigHandler {
 //		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.switchboxlovearrowfix.json")
 		public boolean switchbowLoveArrowFix = true;
 
-		@Config.Comment("Fix Potion Core forcibly overwriting BaseCreatureEntity motionY ")
+		@Config.Comment("Fix Potion Core forcibly overwriting BaseCreatureEntity motionY")
 		@Config.Name("Mod Compatibility: Potion Core Jump Fix (Potion Core)")
 		@Config.RequiresMcRestart
 //		@MixinConfig.CompatHandling(modid = "potioncore", reason = "Dependency Missing")
 //		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.potioncorejumpfix.json")
 		public boolean potionCoreJumpFix = true;
+
+		// TODO Make consistent with Nisch
+		@Config.Comment("SoulgazerSoulgazerSoulgazerSoulgazerSoulgazer")
+		@Config.Name("Mod Compatibility: Soulgazer Bauble (BaublesAPI)")
+		@Config.RequiresMcRestart
+		public boolean soulgazerBauble = true;
+
+		@Config.Comment("Charm Else All")
+		@Config.Name("Mod Compatibility: Soulgazer Bauble Charm")
+		public boolean soulgazerBaubleCharm = true;
+
+		@Config.Comment("Ender Pearl")
+		@Config.Name("Mod Compatibility: Soulgazer Bauble Repair Material")
+		public boolean soulgazerBaubleRepairMaterial = true;
 
 		@Config.Comment("Whether to affect all mobs")
 		@Config.Name("Mod Compatibility: Potion Core Jump Fix - All Mobs")
@@ -507,6 +521,12 @@ public class ForgeConfigHandler {
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurelycanitesfirepassable.json")
 		public boolean lycanitesFiresNoBreakCollision = true;
 
+		@Config.Comment("Removes the floor/ceiling rounding with Rejuvenation and Decay. Rejuv will not have a minimum healing boost and Decay will not nullify low healing.")
+		@Config.Name("Remove Healing Rejuv/Decay Rounding")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurerejuvdecayroundingbegone.json")
+		public boolean removeHealEffectsRounding = true;
+
 		@Config.Comment("Adds more parity to Repulsion and Weight, repulsion gains weights benefits")
 		@Config.Name("Repulsion Weight Benefits")
 		@Config.RequiresMcRestart
@@ -650,6 +670,12 @@ public class ForgeConfigHandler {
 		@Config.RequiresMcRestart
 		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.tileentityinteractiondistance.json")
 		public boolean fixTileEntityInteractionDistance = true;
+
+		@Config.Comment("Fix Lycanites Entities spawning their minions in walls. If collision is detected, spawn on top of host instead.")
+		@Config.Name("Fix Minions Spawning in Walls")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patcheswallminions.json")
+		public boolean fixWallMinion = true;
 	}
 
 	public static HashSet<ResourceLocation> getFlowersaurBiomes(){

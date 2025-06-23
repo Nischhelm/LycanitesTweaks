@@ -14,6 +14,7 @@ import lycanitestweaks.compat.RLTweakerHandler;
 import lycanitestweaks.entity.item.EntityBossSummonCrystal;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
+import lycanitestweaks.util.Helpers;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
@@ -301,19 +302,19 @@ public class StoredCreatureEntity {
                 switch (((EntityBossSummonCrystal) this.host).getVariantType()){
                     case 1:
                         if(PlayerMobLevelsConfig.getPmlBonusCategories().containsKey(PlayerMobLevelsConfig.BonusCategory.AltarBossMini)){
-                            if(!PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(PlayerMobLevelsConfig.BonusCategory.AltarBossMini) || target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer)
+                            if(!PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(PlayerMobLevelsConfig.BonusCategory.AltarBossMini) || Helpers.hasSoulgazerEquiped(target))
                                 this.setLevel(this.getLevel() + pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.AltarBossMini, (BaseCreatureEntity)this.entity));
                         }
                         break;
                     case 2:
                         if(PlayerMobLevelsConfig.getPmlBonusCategories().containsKey(PlayerMobLevelsConfig.BonusCategory.DungeonBoss)){
-                            if(!PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(PlayerMobLevelsConfig.BonusCategory.DungeonBoss) || target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer)
+                            if(!PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(PlayerMobLevelsConfig.BonusCategory.DungeonBoss) || Helpers.hasSoulgazerEquiped(target))
                                 this.setLevel(this.getLevel() + pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.DungeonBoss, (BaseCreatureEntity)this.entity));
                         }
                         break;
                     case -1:
                         if(PlayerMobLevelsConfig.getPmlBonusCategories().containsKey(PlayerMobLevelsConfig.BonusCategory.EncounterEvent)){
-                            if(!PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(PlayerMobLevelsConfig.BonusCategory.EncounterEvent) || target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer)
+                            if(!PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(PlayerMobLevelsConfig.BonusCategory.EncounterEvent) || Helpers.hasSoulgazerEquiped(target))
                                 this.setLevel(this.getLevel() + pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.EncounterEvent, (BaseCreatureEntity)this.entity));
                         }
                         break;

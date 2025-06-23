@@ -10,6 +10,7 @@ import com.lycanitesmobs.core.entity.goals.GoalConditions;
 import com.lycanitesmobs.core.entity.goals.actions.abilities.FireProjectilesGoal;
 import com.lycanitesmobs.core.entity.navigate.ArenaNode;
 import lycanitestweaks.entity.goals.ExtendedGoalConditions;
+import lycanitestweaks.entity.goals.actions.TeleportToHostGoal;
 import lycanitestweaks.entity.goals.actions.abilities.HealPortionWhenNoPlayersGoal;
 import lycanitestweaks.entity.goals.actions.abilities.SummonLeveledMinionsGoal;
 import lycanitestweaks.handlers.ForgeConfigHandler;
@@ -39,10 +40,12 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
         Replaced -> Grell method summon to SummonGoal, Asmodeus wasn't using the saved grells for anything
         Replaced -> Hell Shield invulnerability with interactive shield hp
         Added -> Void Trite Minimum Phase 2
-        Added -> Summon Phosphorescent Chupacabra Minimum Phase 3
 
         IDEAS
      */
+
+    @Unique
+    private boolean lycanitesTweaks$phaseTransition = false;
 
     @Shadow(remap = false)
     public List<EntityAstaroth> astarothMinions;
@@ -59,7 +62,7 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             index = 1
     )
     public EntityAIBase lycanitesTweaks_lycanitesMobsEntityAsmodeus_initEntityAIHeal(EntityAIBase task){
-        if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.healPortionNoPlayers) return new HealPortionWhenNoPlayersGoal(this).setCheckRange(80);
+        if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.healPortionNoPlayers) return new HealPortionWhenNoPlayersGoal(this).setCheckRange(96);
         else return task;
     }
 
@@ -69,7 +72,7 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             index = 1
     )
     public EntityAIBase lycanitesTweaks_lycanitesMobsEntityAsmodeus_initEntityAIGrigori(EntityAIBase task){
-        return (new SummonLeveledMinionsGoal(this)).setMinionInfo("grigori").setSummonRate(200).setPerPlayer(true);
+        return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("grigori").setSummonRate(200).setPerPlayer(true);
     }
 
     @ModifyArg(
@@ -78,7 +81,7 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             index = 1
     )
     public EntityAIBase lycanitesTweaks_lycanitesMobsEntityAsmodeus_initEntityAITriteNormal(EntityAIBase task){
-        return (new SummonLeveledMinionsGoal(this)).setMinionInfo("trite").setSummonRate(60).setSummonCap(6).setPerPlayer(true).setConditions((new GoalConditions()).setBattlePhase(0));
+        return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("trite").setSummonRate(60).setSummonCap(6).setPerPlayer(true).setConditions((new GoalConditions()).setBattlePhase(0));
     }
 
     @Inject(
@@ -86,8 +89,8 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             at = @At(value = "HEAD")
     )
     public void lycanitesTweaks_lycanitesMobsEntityAsmodeus_initEntityAIAdditionalGoals(CallbackInfo ci){
-        this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setMinionInfo("grell").setSummonRate(200).setSummonCap(6).setPerPlayer(true).setConditions(new ExtendedGoalConditions().setMinimumBattlePhase(1)));
-        this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setMinionInfo("trite").setSummonRate(40).setSummonCap(9).setPerPlayer(true).setSubSpeciesIndex(1).setConditions(new ExtendedGoalConditions().setMinimumBattlePhase(1)));
+        this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("grell").setSummonRate(200).setSummonCap(6).setPerPlayer(true).setConditions(new ExtendedGoalConditions().setMinimumBattlePhase(1)));
+        this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("trite").setSummonRate(40).setSummonCap(9).setPerPlayer(true).setSubSpeciesIndex(1).setConditions(new ExtendedGoalConditions().setMinimumBattlePhase(1)));
         if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.chupacabraSummon)
             this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("chupacabra").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(2)));
         if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.additionalProjectileAdd) {
@@ -142,12 +145,8 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
     )
     public EntityLivingBase lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesAstarothBoss(EntityLivingBase minion){
         if(minion instanceof EntityAstaroth) {
-            if (ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsSpawnedAsBoss) {
-                ((EntityAstaroth) minion).spawnedAsBoss = true;
-            }
-            else {
-                ((EntityAstaroth) minion).forceBossHealthBar = true;
-            }
+            if (ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsSpawnedAsBoss) ((EntityAstaroth) minion).spawnedAsBoss = true;
+            else ((EntityAstaroth) minion).forceBossHealthBar = true;
         }
         return minion;
     }
@@ -163,6 +162,7 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
         if(minion.getBossInfo() != null) minion.bossInfo.setName(new TextComponentString(minion.getName()));
         minion.setSizeScale(1.8);
         minion.enablePersistence();
+        minion.tasks.addTask(minion.nextTravelGoalIndex++, new TeleportToHostGoal(minion));
         this.firstSpawn = false;
         if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsUseBossDamageLimit) {
             minion.damageMax = BaseCreatureEntity.BOSS_DAMAGE_LIMIT;
@@ -172,6 +172,28 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             BlockPos randomPos = this.currentArenaNode.getRandomAdjacentNode().pos;
             minion.setPosition(randomPos.getX(), randomPos.getY(), randomPos.getZ());
         }
+    }
+
+    @ModifyExpressionValue(
+            method = "updatePhases",
+            at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z", ordinal = 0),
+
+            remap = false
+    )
+    public boolean lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesPhaseTwoAstarothCap(boolean original){
+        int playerCount = Math.max(this.playerTargets.size(), 1); // Doesn't want to be local captured
+        return (this.astarothMinions.size() < playerCount * ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsSummonCapPhase2);
+    }
+
+    @ModifyConstant(
+            method = "updatePhases",
+            constant = @Constant(intValue = 2),
+            remap = false
+    )
+    public int lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesPhaseTwoAstarothSummonAll(int original){
+        if(this.lycanitesTweaks$phaseTransition && ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsSummonAllPhase2)
+            return ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsSummonCapPhase2;
+        return 1;
     }
 
     // Asakku
@@ -186,6 +208,7 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
         minion.setSizeScale(2.5);
         minion.setSubspecies(1);
         minion.enablePersistence();
+        minion.tasks.addTask(minion.nextTravelGoalIndex++, new TeleportToHostGoal(minion));
         this.firstSpawn = false;
         if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsUseBossDamageLimit) {
             minion.damageMax = BaseCreatureEntity.BOSS_DAMAGE_LIMIT;
@@ -195,6 +218,26 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             BlockPos randomPos = this.currentArenaNode.getRandomAdjacentNode().pos;
             minion.setPosition(randomPos.getX(), randomPos.getY(), randomPos.getZ());
         }
+    }
+
+    @ModifyConstant(
+            method = "updatePhases",
+            constant = @Constant(intValue = 4),
+            remap = false
+    )
+    public int lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesPhaseThreeAstarothCap(int original){
+        return ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsSummonCapPhase3;
+    }
+
+    @ModifyConstant(
+            method = "updatePhases",
+            constant = @Constant(intValue = 0, ordinal = 1),
+            remap = false
+    )
+    public int lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesPhaseThreeAstarothSummonAll(int original, @Local int playerCount){
+        if(this.lycanitesTweaks$phaseTransition && ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsSummonAllPhase3)
+            return 1 - (ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsSummonCapPhase3 * playerCount);
+        return original;
     }
 
     @ModifyConstant(
@@ -253,34 +296,34 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             remap = false
     )
     public void lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesAnyPhaseRepair(CallbackInfo ci){
-        if(this.updateTick % 20 == 0L && ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairAllPhases){
+        if(this.updateTick % 20 == 0L){
             // Heal:
-            if(!this.astarothMinions.isEmpty()) {
-                float healAmount = this.astarothMinions.size();
-                if (((this.getHealth() + healAmount) / this.getMaxHealth()) > 0.2D) {
-                    if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHealPortion){
-                        this.heal(healAmount * ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHeal * this.getMaxHealth());
+            float healthNormalLimit;
+            if(this.getBattlePhase() == 1 && ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairAllPhases) healthNormalLimit = 0.6F;
+            else if(this.getBattlePhase() == 2) healthNormalLimit = 0.2F;
+            else healthNormalLimit = 0F;
+
+            if(healthNormalLimit != 0F && !this.astarothMinions.isEmpty()) {
+                this.astarothMinions.forEach(astaroth -> {
+                    if(astaroth.isEntityAlive()) {
+                        float healAmount = (ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHealPortion) ?
+                                (ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHeal * this.getMaxHealth()) :
+                                (ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHeal);
+                        if (((this.getHealth() + healAmount) / this.getMaxHealth()) < healthNormalLimit) this.heal(healAmount);
                     }
-                    else{
-                        this.heal(healAmount * ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHeal);
-                    }
-                }
+                });
             }
         }
     }
 
-    @ModifyConstant(
+    // Remove for better limit calculations
+    @ModifyExpressionValue(
             method = "updatePhases",
-            constant = @Constant(floatValue = 2F),
+            at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z", ordinal = 1),
             remap = false
     )
-    public float lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesRepairAmount(float constant){
-        if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHealPortion){
-            return (ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHeal * this.getMaxHealth());
-        }
-        else{
-            return (ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHeal);
-        }
+    public boolean lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesRemoveOriginalHealing(boolean original){
+        return true;
     }
 
     @ModifyExpressionValue(
@@ -346,5 +389,24 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             return 1F - ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.hellshieldDamageReduction;
         }
         return super.getDamageModifier(damageSrc);
+    }
+
+    @Unique
+    @Override
+    public void setBattlePhase(int phase) {
+        if (this.getBattlePhase() != phase) {
+            this.lycanitesTweaks$phaseTransition = true;
+        }
+        super.setBattlePhase(phase);
+    }
+
+    // Attempt to remove strong minions on chunk reload
+    @Unique
+    @Override
+    public void onMinionUpdate(EntityLivingBase minion, long tick) {
+        if(minion instanceof BaseCreatureEntity){
+            if(((BaseCreatureEntity) minion).isBoss() || ((BaseCreatureEntity) minion).isRareVariant()) ((BaseCreatureEntity) minion).setTemporary(20);
+        }
+        super.onMinionUpdate(minion, tick);
     }
 }

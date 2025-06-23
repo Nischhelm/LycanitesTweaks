@@ -4,6 +4,7 @@ import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.goals.BaseGoal;
 import com.lycanitesmobs.core.info.CreatureInfo;
 import com.lycanitesmobs.core.info.CreatureManager;
+import lycanitestweaks.entity.goals.actions.TeleportToHostGoal;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -14,6 +15,8 @@ public class SummonLeveledMinionsGoal extends BaseGoal {
 	protected int summonCap = 5;
 	protected int subSpeciesIndex = -1;
 	protected int variantIndex = -1;
+	protected int lostDistance = 32;
+	protected int behindDistance = 0;
 	protected CreatureInfo minionInfo;
 	protected boolean bossMechanic = false;
 	protected boolean perPlayer = false;
@@ -76,6 +79,20 @@ public class SummonLeveledMinionsGoal extends BaseGoal {
 	 */
 	public SummonLeveledMinionsGoal setBossMechanic(boolean bossMechanic) {
 		this.bossMechanic = bossMechanic;
+		return this;
+	}
+
+	/**
+	 * If true, will enable persistence and set temporary for 5 minutes. Only applies to instances of BaseCreatureEntity
+	 * @param bossMechanic True to enable.
+	 * @param lostDistance Distance away behind minion can teleport to host.
+	 * @param behindDistance Distance behind minion tries to be after teleport.
+	 * @return This goal for chaining.
+	 */
+	public SummonLeveledMinionsGoal setBossMechanic(boolean bossMechanic, int lostDistance, int behindDistance) {
+		this.bossMechanic = bossMechanic;
+		this.lostDistance = lostDistance;
+		this.behindDistance = behindDistance;
 		return this;
 	}
 
@@ -183,8 +200,12 @@ public class SummonLeveledMinionsGoal extends BaseGoal {
 
 			if(this.setPersistence) minionCreature.enablePersistence();
 			if(this.bossMechanic){
-				minionCreature.enablePersistence();;
+				minionCreature.enablePersistence();
 				minionCreature.setTemporary(6000);
+				((BaseCreatureEntity) minion).tasks.addTask(((BaseCreatureEntity) minion).nextTravelGoalIndex++,
+						new TeleportToHostGoal((BaseCreatureEntity) minion)
+								.setLostDistance(this.lostDistance)
+								.setFollowBehind(this.behindDistance));
 			}
 
 			if((this.sizeScale == -1)) minionCreature.setSizeScale(minionCreature.sizeScale * this.host.sizeScale);

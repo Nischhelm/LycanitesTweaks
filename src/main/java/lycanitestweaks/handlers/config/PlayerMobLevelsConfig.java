@@ -214,8 +214,6 @@ public class PlayerMobLevelsConfig {
         return PlayerMobLevelsConfig.pmlBonusCategories;
     }
 
-    // SoulboundTame and SummonMinion don't check this atm
-    // Condition is currently still mainhand soulgazer, if it was something else then perhaps
     public static HashSet<BonusCategory> getPmlBonusCategorySoulgazer(){
         if(PlayerMobLevelsConfig.pmlBonusCategorySoulgazer == null){
             HashSet<BonusCategory> set = new HashSet<>();

@@ -121,7 +121,7 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
             index = 1
     )
     public EntityAIBase lycanitesTweaks_lycanitesMobsEntityAmalgalich_initEntityAIBanshee(EntityAIBase task) {
-        return (new SummonLeveledMinionsGoal(this)).setMinionInfo("banshee").setSummonRate(200).setPerPlayer(true);
+        return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("banshee").setSummonRate(200).setPerPlayer(true);
     }
 
     @ModifyArg(
@@ -130,7 +130,7 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
             index = 1
     )
     public EntityAIBase lycanitesTweaks_lycanitesMobsEntityAmalgalich_initEntityAIReaper(EntityAIBase task) {
-        return (new SummonLeveledMinionsGoal(this)).setMinionInfo("reaper").setSummonRate(100).setSummonCap(8).setPerPlayer(true);
+        return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("reaper").setSummonRate(100).setSummonCap(8).setPerPlayer(true);
     }
 
     @ModifyArg(
@@ -213,19 +213,25 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
         return original;
     }
 
-    @Inject(
+    @ModifyConstant(
             method = "onTryToDamageMinion",
-            at = @At("TAIL"),
+            constant = @Constant(floatValue = 1000F),
             remap = false
     )
-    public void lycanitesTweaks_lycanitesMobsEntityAmalgalich_onTryToDamageMinion(EntityLivingBase minion, float damageAmount, CallbackInfo ci) {
-        if (ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.consumptionDamageMaxHP) {
-            minion.setDead();
-            if (ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.consumptionKillHealPortion) {
-                this.heal(ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.consumptionKillHeal * this.getMaxHealth());
-            } else
-                this.heal(ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.consumptionKillHeal);
-        }
+    public float lycanitesTweaks_lycanitesMobsEntityAmalgalich_onTryToDamageMinionAlways(float damageLimit){
+        return 1F;
+    }
+
+    @ModifyConstant(
+            method = "onTryToDamageMinion",
+            constant = @Constant(floatValue = 25F),
+            remap = false
+    )
+    public float lycanitesTweaks_lycanitesMobsEntityAmalgalich_onTryToDamageMinionHealAmount(float healAmount){
+        if (ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.consumptionKillHealPortion) {
+            return (ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.consumptionKillHeal * this.getMaxHealth());
+        } else
+            return (ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.consumptionKillHeal);
     }
 
     @ModifyConstant(
@@ -282,5 +288,15 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
                 }
             }
         }
+    }
+
+    // Attempt to remove strong minions on chunk reload
+    @Unique
+    @Override
+    public void onMinionUpdate(EntityLivingBase minion, long tick) {
+        if(minion instanceof BaseCreatureEntity){
+            if(((BaseCreatureEntity) minion).isBoss() || ((BaseCreatureEntity) minion).isRareVariant()) ((BaseCreatureEntity) minion).setTemporary(20);
+        }
+        super.onMinionUpdate(minion, tick);
     }
 }

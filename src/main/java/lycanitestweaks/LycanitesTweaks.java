@@ -2,6 +2,7 @@ package lycanitestweaks;
 
 import com.lycanitesmobs.core.info.AltarInfo;
 import lycanitestweaks.capability.EntityStoreCreatureCapabilityHandler;
+import lycanitestweaks.capability.LycanitesTweaksKeybindsCapabilityHandler;
 import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
 import lycanitestweaks.compat.ModLoadedUtil;
 import lycanitestweaks.handlers.ForgeConfigHandler;
@@ -41,6 +42,11 @@ public class LycanitesTweaks {
     public void preInit(FMLPreInitializationEvent event) {
         LycanitesTweaks.PROXY.preInit();
 
+        LycanitesTweaksKeybindsCapabilityHandler.registerCapability();
+        MinecraftForge.EVENT_BUS.register(LycanitesTweaksKeybindsCapabilityHandler.AttachCapabilityHandler.class);
+        MinecraftForge.EVENT_BUS.register(LycanitesTweaksKeybindsCapabilityHandler.class);
+        MinecraftForge.EVENT_BUS.register(ItemSoulgazerMoreInteractionsHandler.class);
+
         if(ForgeConfigHandler.majorFeaturesConfig.escConfig.entityStoreCreatureCapability){
             EntityStoreCreatureCapabilityHandler.registerCapability();
             MinecraftForge.EVENT_BUS.register(EntityStoreCreatureCapabilityHandler.AttachCapabilityHandler.class);
@@ -50,7 +56,6 @@ public class LycanitesTweaks {
             PlayerMobLevelCapabilityHandler.registerCapability();
             MinecraftForge.EVENT_BUS.register(PlayerMobLevelCapabilityHandler.AttachCapabilityHandler.class);
             MinecraftForge.EVENT_BUS.register(PlayerMobLevelCapabilityHandler.class);
-            MinecraftForge.EVENT_BUS.register(ItemSoulgazerMoreInteractionsHandler.class);
         }
 
         if(ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.summonStaffLevelMap){

@@ -78,10 +78,19 @@ public class BossAsmodeusConfig {
     @Config.Name("5. Astaroths Boss SpawnedAsBoss Tag")
     public boolean astarothsSpawnedAsBoss = true;
 
-    @Config.Comment("Astaroth respawn time in seconds (2 per Player, Max 2 Alive, Lycanites uses 30)")
+    @Config.Comment("Astaroth respawn time in seconds (Lycanites uses 30)")
     @Config.Name("6. Astaroths Phase 2 Respawn Time")
     @Config.RangeInt(min = 0)
-    public int astarothsRespawnTimePhase2 = 30;
+    public int astarothsRespawnTimePhase2 = 90;
+
+    @Config.Comment("Astaroth Summon Cap per player (Lycanites uses 2)")
+    @Config.Name("6. Astaroths Phase 2 Summon Cap")
+    @Config.RangeInt(min = 0)
+    public int astarothsSummonCapPhase2 = 2;
+
+    @Config.Comment("Transitioning to Phase 2 will spawn the maximum cap of Astaroths instead of one")
+    @Config.Name("6. Astaroths Phase 2 Transition Summon All")
+    public boolean astarothsSummonAllPhase2 = true;
 
     @Config.Comment("Hellshield is active whenever an Astaroth is alive instead of only phase 2")
     @Config.Name("6. Hellshield All Phases")
@@ -92,10 +101,19 @@ public class BossAsmodeusConfig {
     @Config.RangeDouble(min = 0, max = 1)
     public float hellshieldDamageReduction = 0.5F;
 
-    @Config.Comment("Astaroth respawn time in seconds (1 per Player, Max 4 Alive per Player, Lycanites uses 40)")
+    @Config.Comment("Astaroth respawn time in seconds (Lycanites uses 40)")
     @Config.Name("7. Astaroths Phase 3 Respawn Time")
     @Config.RangeInt(min = 0)
-    public int astarothsRespawnTimePhase3 = 30;
+    public int astarothsRespawnTimePhase3 = 120;
+
+    @Config.Comment("Astaroth Summon Cap per player (Lycanites uses 4)")
+    @Config.Name("7. Astaroths Phase 3 Summon Cap")
+    @Config.RangeInt(min = 0)
+    public int astarothsSummonCapPhase3 = 4;
+
+    @Config.Comment("Transitioning to Phase 3 will spawn the maximum cap of Astaroths instead of one")
+    @Config.Name("7. Astaroths Phase 3 Transition Summon All")
+    public boolean astarothsSummonAllPhase3 = true;
 
     @Config.Comment("Repair is active whenever an Astaroth is alive instead of only phase 3")
     @Config.Name("7. Repair All Phases")
@@ -107,7 +125,7 @@ public class BossAsmodeusConfig {
 
     @Config.Comment("HP healed per phase 3 Astaroth")
     @Config.Name("7. Repair Heal Amount")
-    public float repairHeal = 25;
+    public float repairHeal = 10;
 
     @Config.Comment("Should Phase 3 Summon a Phosphorescent Chupacabra")
     @Config.Name("7. Spawns Phosphorescent Chupacabra")

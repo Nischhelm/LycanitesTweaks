@@ -7,6 +7,7 @@ import lycanitestweaks.capability.IPlayerMobLevelCapability;
 import lycanitestweaks.capability.PlayerMobLevelCapability;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
+import lycanitestweaks.util.Helpers;
 import net.minecraft.entity.player.EntityPlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -32,7 +33,9 @@ public abstract class PortalEntitySummonPMLMixin {
         if(ForgeConfigHandler.majorFeaturesConfig.pmlConfig.playerMobLevelSummonStaff){
             IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(this.shootingEntity);
             if(pml != null){
-                entityCreature.addLevel(pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.SummonMinion, entityCreature));
+                if(!PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(PlayerMobLevelsConfig.BonusCategory.SummonMinion) || Helpers.hasSoulgazerEquiped(this.shootingEntity)) {
+                    entityCreature.addLevel(pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.SummonMinion, entityCreature));
+                }
             }
         }
     }

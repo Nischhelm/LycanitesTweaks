@@ -5,7 +5,6 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.lycanitesmobs.core.block.BlockFireBase;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.creature.EntityRahovart;
-import com.lycanitesmobs.core.entity.goals.actions.abilities.SummonMinionsGoal;
 import com.lycanitesmobs.core.entity.projectile.EntityHellfireWall;
 import lycanitestweaks.entity.goals.ExtendedGoalConditions;
 import lycanitestweaks.entity.goals.actions.abilities.HealPortionWhenNoPlayersGoal;
@@ -81,7 +80,7 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
             index = 1
     )
     public EntityAIBase lycanitesTweaks_lycanitesMobsEntityRahovart_initEntityAIWraith(EntityAIBase task){
-        return (new SummonLeveledMinionsGoal(this)).setMinionInfo("wraith").setSummonRate(200).setPerPlayer(true);
+        return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("wraith").setSummonRate(200).setPerPlayer(true);
     }
 
     @ModifyArg(
@@ -92,7 +91,7 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
     public EntityAIBase lycanitesTweaks_lycanitesMobsEntityRahovart_initEntityAIArchville(EntityAIBase task){
         if(ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.royalArchvile)
             return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("archvile").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(1));
-        return (new SummonMinionsGoal(this)).setMinionInfo("archvile").setSummonRate(200).setSummonCap(3).setPerPlayer(true).setSizeScale(2.0D).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(1));
+        return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("archvile").setSummonRate(200).setSummonCap(3).setPerPlayer(true).setSizeScale(2.0D).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(1));
     }
 
     @Inject(
@@ -271,5 +270,15 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
                 }
             }
         }
+    }
+
+    // Attempt to remove strong minions on chunk reload
+    @Unique
+    @Override
+    public void onMinionUpdate(EntityLivingBase minion, long tick) {
+        if(minion instanceof BaseCreatureEntity){
+            if(((BaseCreatureEntity) minion).isBoss() || ((BaseCreatureEntity) minion).isRareVariant()) ((BaseCreatureEntity) minion).setTemporary(20);
+        }
+        super.onMinionUpdate(minion, tick);
     }
 }

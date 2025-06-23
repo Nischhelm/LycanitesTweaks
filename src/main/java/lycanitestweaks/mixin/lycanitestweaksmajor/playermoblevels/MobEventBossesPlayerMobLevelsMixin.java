@@ -2,11 +2,11 @@ package lycanitestweaks.mixin.lycanitestweaksmajor.playermoblevels;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
-import com.lycanitesmobs.core.item.special.ItemSoulgazer;
 import com.lycanitesmobs.core.mobevent.MobEvent;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
 import lycanitestweaks.capability.PlayerMobLevelCapability;
 import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
+import lycanitestweaks.util.Helpers;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentTranslation;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,7 +28,7 @@ public abstract class MobEventBossesPlayerMobLevelsMixin {
             remap = false
     )
     public int lycanitesTweaks_lycanitesMobEvent_onSpawn(int level, @Local(argsOnly = true) EntityPlayer player, @Local BaseCreatureEntity entityCreature){
-        if(player != null && (!PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(PlayerMobLevelsConfig.BonusCategory.AltarBossMain) || player.getHeldItemMainhand().getItem() instanceof ItemSoulgazer)) {
+        if(player != null && (!PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(PlayerMobLevelsConfig.BonusCategory.AltarBossMain) || Helpers.hasSoulgazerEquiped(player))) {
             IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(player);
             if (pml != null) {
                 if ("boss".equals(this.channel)) {

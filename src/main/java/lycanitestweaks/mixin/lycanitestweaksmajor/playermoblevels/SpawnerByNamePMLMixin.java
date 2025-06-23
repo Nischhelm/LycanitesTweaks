@@ -2,7 +2,6 @@ package lycanitestweaks.mixin.lycanitestweaksmajor.playermoblevels;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
-import com.lycanitesmobs.core.item.special.ItemSoulgazer;
 import com.lycanitesmobs.core.spawner.Spawner;
 import com.lycanitesmobs.core.spawner.trigger.SpawnTrigger;
 import lycanitestweaks.LycanitesTweaks;
@@ -10,6 +9,7 @@ import lycanitestweaks.capability.IPlayerMobLevelCapability;
 import lycanitestweaks.capability.PlayerMobLevelCapability;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
+import lycanitestweaks.util.Helpers;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
@@ -46,7 +46,7 @@ public abstract class SpawnerByNamePMLMixin {
                 isInList = ForgeConfigHandler.majorFeaturesConfig.pmlConfig.pmlSpawnerNameStringsIsBlacklist != isInList;
 
                 if (isInList) {
-                    if(!PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(PlayerMobLevelsConfig.BonusCategory.SpawnerTrigger) || player.getHeldItemMainhand().getItem() instanceof ItemSoulgazer) {
+                    if(!PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(PlayerMobLevelsConfig.BonusCategory.SpawnerTrigger) || Helpers.hasSoulgazerEquiped(player)) {
                         creature.addLevel(pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.SpawnerTrigger, creature));
                         if (ForgeConfigHandler.client.debugLoggerAutomatic)
                             LycanitesTweaks.LOGGER.log(Level.INFO, "JSON Spawning: {}", creature);

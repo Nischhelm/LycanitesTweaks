@@ -21,11 +21,11 @@ public class EntityStoreCreatureCapabilityHandler {
 
     public static final ResourceLocation ENTITY_STORE_CREATURE_KEY = new ResourceLocation(LycanitesTweaks.MODID, "entitystorecreature");
 
-    @CapabilityInject(EntityStoreCreatureCapabilityCapability.class)
+    @CapabilityInject(EntityStoreCreatureCapability.class)
     public static Capability<IEntityStoreCreatureCapability> ENTITY_STORE_CREATURE;
 
     public static void registerCapability() {
-        CapabilityManager.INSTANCE.register(EntityStoreCreatureCapabilityCapability.class, new Storage(), EntityStoreCreatureCapabilityCapability::new);
+        CapabilityManager.INSTANCE.register(EntityStoreCreatureCapability.class, new Storage(), EntityStoreCreatureCapability::new);
     }
 
     public static class AttachCapabilityHandler {
@@ -41,7 +41,7 @@ public class EntityStoreCreatureCapabilityHandler {
         private final IEntityStoreCreatureCapability instance;
 
         public Provider(Entity entity) {
-            this.instance = new EntityStoreCreatureCapabilityCapability(entity);
+            this.instance = new EntityStoreCreatureCapability(entity);
         }
 
         @Override
@@ -66,10 +66,10 @@ public class EntityStoreCreatureCapabilityHandler {
         }
     }
 
-    private static class Storage implements Capability.IStorage<EntityStoreCreatureCapabilityCapability> {
+    private static class Storage implements Capability.IStorage<EntityStoreCreatureCapability> {
 
         @Override
-        public NBTBase writeNBT(Capability<EntityStoreCreatureCapabilityCapability> capability, EntityStoreCreatureCapabilityCapability instance, EnumFacing side) {
+        public NBTBase writeNBT(Capability<EntityStoreCreatureCapability> capability, EntityStoreCreatureCapability instance, EnumFacing side) {
             NBTTagCompound nbt = new NBTTagCompound();
 
             instance.writeNBT(nbt);
@@ -78,7 +78,7 @@ public class EntityStoreCreatureCapabilityHandler {
         }
 
         @Override
-        public void readNBT(Capability<EntityStoreCreatureCapabilityCapability> capability, EntityStoreCreatureCapabilityCapability instance, EnumFacing side, NBTBase nbt) {
+        public void readNBT(Capability<EntityStoreCreatureCapability> capability, EntityStoreCreatureCapability instance, EnumFacing side, NBTBase nbt) {
             NBTTagCompound tags = (NBTTagCompound) nbt;
 
             instance.readNBT(tags);

@@ -72,13 +72,20 @@ item.lycanitestweaks.enchantedsoulkey.description.mixin=§rThe §5§lEquipment I
 item.lycanitestweaks.enchantedsoulkey.description.level=§r[§lLvl§r: §a%s§r/%s][§lXP§r: §a%s§r/%s]
 item.lycanitestweaks.enchantedsoulkey.description.power=§r[§lGem Power§r: §b%s§r/%s]
 item.lycanitestweaks.enchantedsoulkey.description.mana=§r[§lNether Star§r: §d%s§r/%s]
+item.soulgazer.description.keybind.auto.1=Bauble Auto Soulgaze: OFF
+item.soulgazer.description.keybind.auto.2=Bauble Auto Soulgaze: Damage Target
+item.soulgazer.description.keybind.auto.3=Bauble Auto Soulgaze: Kill Target
+item.soulgazer.description.keybind.manual.1=Bauble Manual Soulgaze: ON
+item.soulgazer.description.keybind.manual.2=Bauble Manual Soulgaze: OFF
 item.soulgazer.description.pmlcreative=CREATIVE CLIENT PLAYER: [getTotalLevels: %s] [getHighestLevelPet: %s]
-item.soulgazer.description.pmlsoulgazer=§rMust be held in your main hand in order to empower certain events...
+item.soulgazer.description.pmlsoulgazer=§rMust be held in your main hand or close to your heart in order to empower certain events...
 item.soulgazer.interact.pmlcreative=SERVER PLAYER: [getTotalLevels: %s] [getHighestLevelPet: %s]
 item.summonstaff.description.pmlsummon=The Beastiary notes additional power!
 
 key.categories.misc.lycanitestweaks=LycanitesTweaks
 key.mount_change_view.lycanitestweaks=Change 3rd person camera for Lycanites mount
+key.toggle_soulgazer_auto.lycanitestweaks=Soulgazer Bauble Auto Mode Cycle
+key.toggle_soulgazer_manual.lycanitestweaks=Soulgazer Bauble Manual Mode Cycle
 
 message.altar.fail.native=The creature is not naive to this Dimension
 message.altar.beastiary.boss=You can not summon a Boss this way

@@ -1,37 +1,52 @@
 package lycanitestweaks.handlers.features.item;
 
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
+import com.lycanitesmobs.core.entity.ExtendedPlayer;
 import com.lycanitesmobs.core.info.CreatureManager;
 import com.lycanitesmobs.core.item.special.ItemSoulgazer;
 import lycanitestweaks.capability.*;
 import lycanitestweaks.entity.item.EntityBossSummonCrystal;
 import lycanitestweaks.handlers.LycanitesTweaksRegistry;
 import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
+import lycanitestweaks.util.Helpers;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ItemSoulgazerMoreInteractionsHandler {
 
-    // Used to send client messages, now only for debugging server side pml
-    @SubscribeEvent
-    public static void soulgazeBlockRightClick(PlayerInteractEvent.RightClickBlock event){
-        if(event.getEntityPlayer() == null || event.getWorld().isRemote) return;
-        EntityPlayer player = event.getEntityPlayer();
+    // Copy from ItemSoulgazer
+    private static boolean soulgazeAbility(EntityPlayer player, Entity entity) {
+        ExtendedPlayer playerExt = ExtendedPlayer.getForPlayer(player);
+        if(playerExt == null) {
+            return false;
+        }
 
-        if(player.isCreative() && player.getHeldItemMainhand().getItem() instanceof ItemSoulgazer){
-            IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(player);
-            if (pml != null) {
-                player.sendMessage(new TextComponentTranslation("item.soulgazer.interact.pmlcreative",
-                        pml.getTotalEnchantmentLevels(),
-                        pml.getHighestLevelPetSoulbound()
-                ));
+        int amount = CreatureManager.getInstance().config.creatureStudyKnowledge;
+        if (!playerExt.studyCreature(entity, amount, true, true)) {
+            return false;
+        }
+
+        if(player.getEntityWorld().isRemote) {
+            for(int i = 0; i < 32; ++i) {
+                entity.getEntityWorld().spawnParticle(EnumParticleTypes.VILLAGER_HAPPY,
+                        entity.getPosition().getX() + (4.0F * player.getRNG().nextFloat()) - 2.0F,
+                        entity.getPosition().getY() + (4.0F * player.getRNG().nextFloat()) - 2.0F,
+                        entity.getPosition().getZ() + (4.0F * player.getRNG().nextFloat()) - 2.0F,
+                        0.0D, 0.0D, 0.0D);
             }
         }
+
+        return true;
     }
 
     @SubscribeEvent
@@ -47,8 +62,46 @@ public class ItemSoulgazerMoreInteractionsHandler {
     }
 
     @SubscribeEvent
-    public static void soulgazeEntity(PlayerInteractEvent.EntityInteractSpecific event){
-        if(event.getWorld().isRemote || event.getEntityPlayer() == null || !(event.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemSoulgazer)) return;
+    public static void soulgazeAttackEntity(AttackEntityEvent event){
+        if(event.isCanceled()) return;
+        if(event.getEntityPlayer() == null) return;
+        if(event.getTarget() == null || !(Helpers.hasSoulgazerEquiped(event.getEntityPlayer()))) return;
+
+        ILycanitesTweaksKeybindsCapability playerKeybinds = LycanitesTweaksKeybindsCapability.getForPlayer(event.getEntityPlayer());
+        if(playerKeybinds != null){
+            if(playerKeybinds.getSoulgazerAutoToggle() == 2) soulgazeAbility(event.getEntityPlayer(), event.getTarget());
+        }
+    }
+
+    @SubscribeEvent
+    public static void soulgazeKillEntity(LivingDeathEvent event){
+        if(event.isCanceled()) return;
+        if(event.getEntityLiving() == null) return;
+
+        if(event.getSource().getTrueSource() instanceof EntityPlayer && "player".equals(event.getSource().damageType)){
+            EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
+            ILycanitesTweaksKeybindsCapability playerKeybinds = LycanitesTweaksKeybindsCapability.getForPlayer(player);
+            if(playerKeybinds != null){
+                if(playerKeybinds.getSoulgazerAutoToggle() == 3) soulgazeAbility(player, event.getEntityLiving());
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void soulgazeInteractEntity(PlayerInteractEvent.EntityInteractSpecific event){
+        if(event.getEntityPlayer() == null) return;
+        boolean hasSoulgazer = false;
+
+        if(event.getItemStack().getItem() instanceof ItemSoulgazer) {
+            hasSoulgazer = true;
+        }
+        else if(event.getHand() == EnumHand.MAIN_HAND && Helpers.hasSoulgazerEquiped(event.getEntityPlayer(), true)){
+            hasSoulgazer = true;
+            ILycanitesTweaksKeybindsCapability playerKeybinds = LycanitesTweaksKeybindsCapability.getForPlayer(event.getEntityPlayer());
+            if(playerKeybinds != null && playerKeybinds.getSoulgazerManualToggle()) soulgazeAbility(event.getEntityPlayer(), event.getTarget());
+        }
+
+        if(!hasSoulgazer || event.getWorld().isRemote) return;
 
         if(event.getTarget() instanceof EntityPlayer && event.getWorld().rand.nextFloat() < 0.05){
             event.getWorld().playSound(null, event.getPos(), LycanitesTweaksRegistry.SOULGAZER_PLAYER, SoundCategory.PLAYERS, 1F, 1F);
