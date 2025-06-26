@@ -3,9 +3,12 @@ package lycanitestweaks.handlers.features.effect;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import lycanitestweaks.potion.PotionCripplingBase;
 import lycanitestweaks.util.Helpers;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.PotionEvent;
@@ -64,16 +67,42 @@ public class CripplingEffectsHandler {
             return;
 
         event.setCanceled(true); //don't run the current attack
+
         //instead run a new attack
-        event.getEntityLiving().attackEntityFrom(
-                new EntityDamageSourceIndirect(
-                        event.getSource().damageType, //TODO: could use your own name here and add a death msg for it
-                        event.getSource().getImmediateSource(), //idk why intellij complains here, it's fine
-                        event.getSource().getTrueSource())
-                        .setDamageBypassesArmor()
-                        .setDamageIsAbsolute()
-                        //wish i could do .setHungerDamage(source.getHungerDamage()) but im too lazy to do a mixin
-                , event.getAmount());
+        DamageSource newSource = copyDamageSource(event.getSource()).setDamageBypassesArmor().setDamageIsAbsolute();
+        event.getEntityLiving().attackEntityFrom(newSource, event.getAmount());
+    }
+
+    private static DamageSource copyDamageSource(DamageSource source){
+        String damageType = source.damageType; //TODO: could use your own damagetype + deathmsg here, but dmg done to player will skip most SME enchants then (forces "player" or "mob")
+        Entity immSource = source.getImmediateSource();
+        Entity trueSource = source.getTrueSource();
+
+        DamageSource newSource;
+        if(immSource != null)
+            newSource =  new EntityDamageSourceIndirect(damageType, immSource, trueSource);
+        else if(trueSource != null)
+            newSource =  new EntityDamageSource(damageType, trueSource);
+        else
+            newSource = new DamageSource(damageType);
+
+        if(source.canHarmInCreative())
+            newSource.setDamageAllowedInCreativeMode();
+        if(source.isProjectile())
+            newSource.setProjectile();
+        if(source.isFireDamage())
+            newSource.setFireDamage();
+        if(source.isExplosion())
+            newSource.setExplosion();
+        if(source.isDifficultyScaled())
+            newSource.setDifficultyScaled();
+        if(newSource instanceof EntityDamageSource && source instanceof EntityDamageSource && ((EntityDamageSource) source).getIsThornsDamage())
+            ((EntityDamageSource) newSource).setIsThornsDamage();
+
+        //not copying damage location bc it's not really doable and only exists for checking if player can block it with shield, which we gladly disallow
+        //not copying hunger dmg bc it would require a mixin and i don't care enough about it
+
+        return newSource;
     }
 
     /**
