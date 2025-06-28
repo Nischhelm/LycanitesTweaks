@@ -16,9 +16,9 @@ public class PacketKeybindsSync implements IMessage {
     private boolean soulgazerManual;
 
     public PacketKeybindsSync() {}
-    public PacketKeybindsSync(LycanitesTweaksPlayerCapability playerKeybinds) {
-        this.soulgazerAuto = playerKeybinds.getSoulgazerAutoToggle();
-        this.soulgazerManual = playerKeybinds.getSoulgazerManualToggle();
+    public PacketKeybindsSync(LycanitesTweaksPlayerCapability ltPlayer) {
+        this.soulgazerAuto = ltPlayer.getSoulgazerAutoToggle();
+        this.soulgazerManual = ltPlayer.getSoulgazerManualToggle();
     }
 
     @Override
@@ -48,10 +48,10 @@ public class PacketKeybindsSync implements IMessage {
         @Override
         public IMessage onMessage(PacketKeybindsSync message, MessageContext ctx) {
             Minecraft.getMinecraft().addScheduledTask(() -> {
-                ILycanitesTweaksPlayerCapability playerKeybinds = LycanitesTweaksPlayerCapability.getForPlayer(Minecraft.getMinecraft().player);
-                if(playerKeybinds != null){
-                    playerKeybinds.setSoulgazerAutoToggle(message.soulgazerAuto);
-                    playerKeybinds.setSoulgazerManualToggle(message.soulgazerManual);
+                ILycanitesTweaksPlayerCapability ltPlayer = LycanitesTweaksPlayerCapability.getForPlayer(Minecraft.getMinecraft().player);
+                if(ltPlayer != null){
+                    ltPlayer.setSoulgazerAutoToggle(message.soulgazerAuto);
+                    ltPlayer.setSoulgazerManualToggle(message.soulgazerManual);
                 }
             });
             return null;

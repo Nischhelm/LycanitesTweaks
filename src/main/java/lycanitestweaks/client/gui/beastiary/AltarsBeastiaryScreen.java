@@ -205,6 +205,7 @@ public class AltarsBeastiaryScreen extends BeastiaryScreen {
 		}
 	}
 
+	// From ice and fire bestiary
 	public void drawItemStack(ItemStack stack, int x, int y, int z, float scale) {
 		int xScaled = (int)(x / scale);
 		int yScaled = (int)(y / scale);

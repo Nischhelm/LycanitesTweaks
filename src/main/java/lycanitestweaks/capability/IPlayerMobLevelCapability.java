@@ -22,6 +22,10 @@ public interface IPlayerMobLevelCapability {
     int getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory category, @Nullable BaseCreatureEntity creature);
     int getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory category, @Nullable BaseCreatureEntity creature, boolean client);
 
+    float getPMLModifierForCreature(BaseCreatureEntity creature);
+    void setPMLModifierForCreature(BaseCreatureEntity creature, float modifier);
+    void setPMLModifierForAll(float modifier);
+
     int getTotalEnchantmentLevels();
 
     int getCurrentLevelBestiary(BaseCreatureEntity creature);

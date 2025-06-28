@@ -1,25 +1,19 @@
 package lycanitestweaks.capability;
 
-import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import lycanitestweaks.network.PacketHandler;
 import lycanitestweaks.network.PacketKeybindsSync;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentTranslation;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
-import java.util.HashMap;
 
 public class LycanitesTweaksPlayerCapability implements ILycanitesTweaksPlayerCapability {
 
     private EntityPlayer player;
     private SOULGAZER_AUTO_ID soulgazerAuto = SOULGAZER_AUTO_ID.NONE;
     private boolean soulgazerManual = true;
-
-    public HashMap<String, Float> pmlModifiers = new HashMap<>();
-    private float defaultModifier = 1F;
 
     public enum SOULGAZER_AUTO_ID {
         NONE((byte)1), DAMAGE((byte)2), KILL((byte)3);
@@ -66,25 +60,6 @@ public class LycanitesTweaksPlayerCapability implements ILycanitesTweaksPlayerCa
             EntityPlayerMP playerMP = (EntityPlayerMP) this.player;
             PacketHandler.instance.sendTo(packet, playerMP);
         }
-    }
-
-    @Override
-    public float getPMLModifierForCreature(BaseCreatureEntity creature) {
-        String creatureName = creature.creatureInfo.getName();
-        if(this.pmlModifiers.containsKey(creatureName)) return this.pmlModifiers.get(creatureName);
-
-        return this.defaultModifier;
-    }
-
-    @Override
-    public void setPMLModifierForCreature(BaseCreatureEntity creature, float modifier) {
-        this.pmlModifiers.put(creature.creatureInfo.getName(), MathHelper.clamp(modifier, 0F, 1F));
-    }
-
-    @Override
-    public void setPMLModifierForAll(float modifier) {
-        this.defaultModifier = MathHelper.clamp(modifier, 0F, 1F);
-        this.pmlModifiers.clear();
     }
 
     @Override

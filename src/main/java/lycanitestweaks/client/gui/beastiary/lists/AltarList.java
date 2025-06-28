@@ -42,7 +42,6 @@ public class AltarList extends GuiScrollingList {
 	private final BeastiaryScreen parentGui;
 	private final AltarFilterList filterList;
 	private final Map<Integer, AltarInfo> altarList = new HashMap<>();
-	private boolean releaseRefresh;
 
 	/**
 	 * Constructor
@@ -209,6 +208,7 @@ public class AltarList extends GuiScrollingList {
 			if(altarName.isEmpty()) return;
 			int nameY = boxTop + 6;
 
+			// TODO lang keys
 			this.parentGui.getFontRenderer().drawString(altarName, this.left + 20, nameY, 0xFFFFFF);
 
 			// Level:
@@ -252,6 +252,7 @@ public class AltarList extends GuiScrollingList {
 		return null;
 	}
 
+	// TODO lang keys
 	private String getAltarTitle(int index){
 		AltarInfo altarInfo = this.altarList.get(index);
 		if (altarInfo != null) {
@@ -266,16 +267,7 @@ public class AltarList extends GuiScrollingList {
 	}
 
 	public String getSelectedAltarTitle(){
-		AltarInfo altarInfo = this.altarList.get(this.selectedIndex);
-		if (altarInfo != null) {
-			if(this.listType == Type.CHALLENGE || this.listType == Type.NONEVENT){
-				return I18n.format(altarInfo.name);
-			}
-			if(this.listType == Type.BOSS || this.listType == Type.EVENT){
-				return I18n.format(altarInfo.mobEventTrigger.mobEvent.name);
-			}
-		}
-		return "";
+		return this.getAltarTitle(this.selectedIndex);
 	}
 
 	/**

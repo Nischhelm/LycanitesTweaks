@@ -19,8 +19,9 @@ public abstract class GuiHandlerAltarTabMixin {
             remap = false,
             cancellable = true
     )
-    public void www(int id, EntityPlayer player, World world, int x, int y, int z, CallbackInfoReturnable<Object> cir){
-		if(id == GuiHandler.GuiType.BEASTIARY.id) {
+    public void lycanitesTweaks_lycanitesMobsGuiHandler_getClientGuiElementLT(int id, EntityPlayer player, World world, int x, int y, int z, CallbackInfoReturnable<Object> cir){
+		// TODO lycanitesTweaks_lycanitesMobsBeastiaryScreen_initControlsLTNavigation
+        if(id == GuiHandler.GuiType.BEASTIARY.id) {
             if (x == AltarsBeastiaryScreen.BEASTIARY_ALTAR_ID) {
                 cir.setReturnValue(new AltarsBeastiaryScreen(player));
             }

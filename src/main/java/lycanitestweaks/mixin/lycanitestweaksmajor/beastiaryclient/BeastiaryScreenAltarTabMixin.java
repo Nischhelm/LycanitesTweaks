@@ -33,7 +33,8 @@ public abstract class BeastiaryScreenAltarTabMixin extends BaseScreen {
             at = @At("TAIL"),
             remap = false
     )
-    public void sss(CallbackInfo ci){
+    public void lycanitesTweaks_lycanitesMobsBeastiaryScreen_initControlsLTNavigation(CallbackInfo ci){
+        // TODO use locals and turn this into configurable set of client
         int menuPadding = 6;
         int menuX = this.centerX - Math.round((float)this.windowWidth / 2.0F) + menuPadding;
         int menuY = 2 * this.windowY + menuPadding;
@@ -52,7 +53,7 @@ public abstract class BeastiaryScreenAltarTabMixin extends BaseScreen {
             method = "actionPerformed",
             at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/client/gui/BaseScreen;actionPerformed(Lnet/minecraft/client/gui/GuiButton;)V")
     )
-    public void www(GuiButton guiButton, CallbackInfo ci) {
+    public void lycanitesTweaks_lycanitesMobsBeastiaryScreen_actionPerformedLTNavigation(GuiButton guiButton, CallbackInfo ci) {
         if (guiButton != null) {
             if (guiButton.id == AltarsBeastiaryScreen.BEASTIARY_ALTAR_ID) {
                 AltarsBeastiaryScreen.openToPlayer(this.player);

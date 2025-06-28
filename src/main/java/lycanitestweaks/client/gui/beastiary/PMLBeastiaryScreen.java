@@ -11,8 +11,8 @@ import com.lycanitesmobs.client.localisation.LanguageManager;
 import com.lycanitesmobs.core.info.CreatureInfo;
 import com.lycanitesmobs.core.info.CreatureKnowledge;
 import com.lycanitesmobs.core.info.Subspecies;
-import lycanitestweaks.capability.ILycanitesTweaksPlayerCapability;
-import lycanitestweaks.capability.LycanitesTweaksPlayerCapability;
+import lycanitestweaks.capability.IPlayerMobLevelCapability;
+import lycanitestweaks.capability.PlayerMobLevelCapability;
 import lycanitestweaks.client.gui.GuiNumberField;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +21,7 @@ import java.io.IOException;
 
 public class PMLBeastiaryScreen extends BeastiaryScreen {
 
-	public ILycanitesTweaksPlayerCapability ltp;
+	public IPlayerMobLevelCapability pml;
 
 	public CreatureTypeList creatureTypeList;
 	public CreatureList creatureList;
@@ -43,7 +43,7 @@ public class PMLBeastiaryScreen extends BeastiaryScreen {
 
 	public PMLBeastiaryScreen(EntityPlayer player) {
 		super(player);
-		this.ltp = LycanitesTweaksPlayerCapability.getForPlayer(this.player);
+		this.pml = PlayerMobLevelCapability.getForPlayer(this.player);
 	}
 
 

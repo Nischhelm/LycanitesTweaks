@@ -78,6 +78,7 @@ public class LycanitesTweaks {
         if(ForgeConfigHandler.integrationConfig.craftedEquipmentRLCombatSweep && ModLoadedUtil.isRLCombatLoaded())
             MinecraftForge.EVENT_BUS.register(RLCombatHandler.class);
 
+        // TODO FIX the altars, withering height needs json inject
         if(ForgeConfigHandler.server.altarsConfig.beastiaryAltar) AltarInfo.addAltar(new AltarInfoBeastiary(LycanitesTweaks.MODID + ":beastiaryaltar"));
         if(ForgeConfigHandler.server.altarsConfig.zombieHorseAltar) {
             AltarInfo.addAltar(new AltarInfoChargedCreeper(LycanitesTweaks.MODID + ":chargedcreeperaltar"));

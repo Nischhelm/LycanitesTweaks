@@ -29,8 +29,8 @@ public class PacketKeybindSoulgazerAutoNext implements IMessage {
         }
 
         private static void handle(PacketKeybindSoulgazerAutoNext message, MessageContext ctx) {
-            ILycanitesTweaksPlayerCapability playerKeybinds = LycanitesTweaksPlayerCapability.getForPlayer(ctx.getServerHandler().player);
-            if(playerKeybinds != null) playerKeybinds.nextSoulgazerAutoToggle();
+            ILycanitesTweaksPlayerCapability ltPlayer = LycanitesTweaksPlayerCapability.getForPlayer(ctx.getServerHandler().player);
+            if(ltPlayer != null) ltPlayer.nextSoulgazerAutoToggle();
         }
     }
 }

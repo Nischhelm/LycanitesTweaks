@@ -16,6 +16,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.math.MathHelper;
 import org.apache.logging.log4j.Level;
 
 import javax.annotation.Nonnull;
@@ -25,7 +26,6 @@ import java.util.*;
 public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
 
     private EntityPlayer player;
-    private ILycanitesTweaksPlayerCapability ltp;
     public static final int MAINHAND_CHECK_SIZE = 8;
 
     private int deathCooldown = 0;
@@ -35,12 +35,13 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
     private Object[] petEntryLevelsCopy = null;
     public int highestActivePetLevels = 0; // cache value, only used with mixin enabled, clearHighestLevelPetActive flags dirty
     private boolean highestActivePetDirty = true;
+    public HashMap<String, Float> pmlModifiers = new HashMap<>();
+    private float defaultModifier = 1F;
 
     PlayerMobLevelCapability(){}
 
     PlayerMobLevelCapability(@Nonnull EntityPlayer player){
         this.player = player;
-        this.ltp = LycanitesTweaksPlayerCapability.getForPlayer(this.player);
         Arrays.fill(nonMainLevels, 0);
         mainHandLevels.add(0);
     }
@@ -78,6 +79,7 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
             EntityPlayerMP playerMP = (EntityPlayerMP) this.player;
             PacketHandler.instance.sendTo(packet, playerMP);
         }
+        // TODO sync modifiers map
     }
 
     @Override
@@ -92,8 +94,6 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
 
     @Override
     public int getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory category, @Nullable BaseCreatureEntity creature, boolean client) {
-        if(this.ltp == null || this.ltp.getPMLModifierForCreature(creature) == 0F) return 0;
-
         double totalLevels = 0;
         double deathModifier = 0;
 
@@ -102,15 +102,19 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
                 double modifier = 0.0D;
                 switch (PlayerMobLevelsConfig.getPmlBonusCategories().get(category).getLeft()) {
                     case WILD:
-                        if(PlayerMobLevelsConfig.getPmlBonusUsagesWild().containsKey(bonus))
+                        if(PlayerMobLevelsConfig.getPmlBonusUsagesWild().containsKey(bonus)) {
                             modifier = PlayerMobLevelsConfig.getPmlBonusUsagesWild().get(bonus);
+                            modifier *= this.getPMLModifierForCreature(creature);
+                        }
                         break;
                     case TAMED:
                         if(PlayerMobLevelsConfig.getPmlBonusUsagesTamed().containsKey(bonus))
                             modifier = PlayerMobLevelsConfig.getPmlBonusUsagesTamed().get(bonus);
                     case ALL:
-                        if(bonus == PlayerMobLevelsConfig.Bonus.PlayerDeath && PlayerMobLevelsConfig.getPmlBonusUsagesAll().containsKey(bonus))
+                        if(bonus == PlayerMobLevelsConfig.Bonus.PlayerDeath && PlayerMobLevelsConfig.getPmlBonusUsagesAll().containsKey(bonus)) {
                             modifier = PlayerMobLevelsConfig.getPmlBonusUsagesAll().get(bonus);
+                            modifier *= this.getPMLModifierForCreature(creature);
+                        }
                 }
                 if(modifier == 0.0D && bonus != PlayerMobLevelsConfig.Bonus.PlayerDeath && PlayerMobLevelsConfig.getPmlBonusUsagesAll().containsKey(bonus)){
                     modifier = PlayerMobLevelsConfig.getPmlBonusUsagesAll().get(bonus);
@@ -137,12 +141,34 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
             totalLevels *= PlayerMobLevelsConfig.getPmlBonusCategories().get(category).getRight();
         }
 
-        totalLevels *= this.ltp.getPMLModifierForCreature(creature);
-
         if(this.getDeathCooldown() > 0) {
             totalLevels *= (1D + deathModifier);
         }
         return (int)Math.round(totalLevels);
+    }
+
+    @Override
+    public float getPMLModifierForCreature(BaseCreatureEntity creature) {
+        if(creature != null) {
+            String creatureName = creature.creatureInfo.getName();
+            if (this.pmlModifiers.containsKey(creatureName)) return this.pmlModifiers.get(creatureName);
+
+            return this.defaultModifier;
+        }
+        return 1F;
+    }
+
+    @Override
+    public void setPMLModifierForCreature(BaseCreatureEntity creature, float modifier) {
+        if(creature != null) {
+            this.pmlModifiers.put(creature.creatureInfo.getName(), MathHelper.clamp(modifier, 0F, 1F));
+        }
+    }
+
+    @Override
+    public void setPMLModifierForAll(float modifier) {
+        this.defaultModifier = MathHelper.clamp(modifier, 0F, 1F);
+        this.pmlModifiers.clear();
     }
 
     @Override

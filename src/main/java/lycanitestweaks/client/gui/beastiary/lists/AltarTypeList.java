@@ -30,6 +30,7 @@ public class AltarTypeList extends AltarFilterList {
 		this.selectedIndex = this.parentGui.playerExt.selectedPetType;
 		this.altarTypeList.clear();
 
+		// TODO lang keys
 		this.altarTypeList.put(0, "gui.beastiary.altar.challenge");
 		this.altarTypeList.put(1, "gui.beastiary.altar.boss");
 		this.altarTypeList.put(2, "gui.beastiary.altar.nonevent");

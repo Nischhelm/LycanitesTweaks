@@ -10,6 +10,7 @@ public class GuiNumberField extends GuiTextField {
         this.setValidator(s -> s.matches("-?\\d*.?\\d*"));
     }
 
+    // Probably should just use GuiTextField with exact regex
     @Override
     public boolean textboxKeyTyped(char typedChar, int keyCode){
         if(Character.isAlphabetic(typedChar)) return false;
