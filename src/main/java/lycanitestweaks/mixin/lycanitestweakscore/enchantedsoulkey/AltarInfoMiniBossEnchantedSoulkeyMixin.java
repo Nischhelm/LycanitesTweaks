@@ -2,7 +2,14 @@ package lycanitestweaks.mixin.lycanitestweakscore.enchantedsoulkey;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
-import com.lycanitesmobs.core.info.altar.*;
+import com.lycanitesmobs.core.info.altar.AltarInfoCelestialGeonach;
+import com.lycanitesmobs.core.info.altar.AltarInfoCrimsonEpion;
+import com.lycanitesmobs.core.info.altar.AltarInfoEbonCacodemon;
+import com.lycanitesmobs.core.info.altar.AltarInfoLunarGrue;
+import com.lycanitesmobs.core.info.altar.AltarInfoMottleAbaia;
+import com.lycanitesmobs.core.info.altar.AltarInfoPhosphorescentChupacabra;
+import com.lycanitesmobs.core.info.altar.AltarInfoRoyalArchvile;
+import com.lycanitesmobs.core.info.altar.AltarInfoUmberLobber;
 import lycanitestweaks.item.ItemEnchantedSoulkey;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

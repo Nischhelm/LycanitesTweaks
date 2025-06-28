@@ -2,7 +2,13 @@ package lycanitestweaks.handlers;
 
 import fermiumbooter.annotations.MixinConfig;
 import lycanitestweaks.LycanitesTweaks;
-import lycanitestweaks.handlers.config.*;
+import lycanitestweaks.handlers.config.ClientConfig;
+import lycanitestweaks.handlers.config.ClientFeaturesConfig;
+import lycanitestweaks.handlers.config.IntegrationConfig;
+import lycanitestweaks.handlers.config.MajorFeaturesConfig;
+import lycanitestweaks.handlers.config.MinorFeaturesConfig;
+import lycanitestweaks.handlers.config.PatchConfig;
+import lycanitestweaks.handlers.config.ServerConfig;
 import lycanitestweaks.handlers.config.major.CreatureInteractConfig;
 import lycanitestweaks.handlers.config.major.CreatureStatsConfig;
 import lycanitestweaks.handlers.config.major.ItemTweaksConfig;

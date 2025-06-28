@@ -1,7 +1,15 @@
 package lycanitestweaks.handlers.config;
 
 import fermiumbooter.annotations.MixinConfig;
-import lycanitestweaks.handlers.config.major.*;
+import lycanitestweaks.handlers.config.major.BossAmalgalichConfig;
+import lycanitestweaks.handlers.config.major.BossAsmodeusConfig;
+import lycanitestweaks.handlers.config.major.BossRahovartConfig;
+import lycanitestweaks.handlers.config.major.CreatureInteractConfig;
+import lycanitestweaks.handlers.config.major.CreatureStatsConfig;
+import lycanitestweaks.handlers.config.major.EntityStoreCreatureConfig;
+import lycanitestweaks.handlers.config.major.ImperfectSummoningConfig;
+import lycanitestweaks.handlers.config.major.ItemTweaksConfig;
+import lycanitestweaks.handlers.config.major.PlayerMobLevelsConfig;
 import net.minecraftforge.common.config.Config;
 
 public class MajorFeaturesConfig {
