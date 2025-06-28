@@ -27,7 +27,11 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Helpers {
 
@@ -75,15 +79,12 @@ public class Helpers {
         return false;
     }
 
-    public static void cureActiveEffectsFromResourceSet(EntityLivingBase entity, HashSet<ResourceLocation> curingSet){
-        List<Potion> potionsToRemove = new ArrayList<>();
-        for(PotionEffect effect : entity.getActivePotionEffects()){
-            if(curingSet.contains(effect.getPotion().getRegistryName()))
-                potionsToRemove.add(effect.getPotion());
-        }
-        for(Potion potion : potionsToRemove){
-            entity.removePotionEffect(potion);
-        }
+    public static void cureActiveEffectsFromResourceSet(EntityLivingBase entity, Set<ResourceLocation> curingSet){
+        Set<Potion> potionsToRemove = entity.getActivePotionEffects().stream()
+                .map(PotionEffect::getPotion)
+                .filter(potion -> curingSet.contains(potion.getRegistryName()))
+                .collect(Collectors.toSet());
+        potionsToRemove.forEach(entity::removePotionEffect);
     }
 
     // Performs hit effect without dealing damage
@@ -123,14 +124,13 @@ public class Helpers {
         for(Potion potion : toRemove) entity.removePotionEffect(potion);
     }
 
-    // Clearly using lang keys, fix
     public static HashMap<String, ArrayList<String>> getChargeElementsMap(){
         if(Helpers.chargeElementsMap == null){
             Helpers.chargeElementsMap = new HashMap<>();
             ObjectManager.items.forEach((name, item) -> {
                 if(item instanceof ChargeItem){
-                    for(String element : ((ChargeItem) item).getElementNames().split(",")){
-                        String elementString = element.trim().toLowerCase();
+                    ((ChargeItem) item).getElements().forEach(elementInfo -> {
+                        String elementString = elementInfo.name;
                         String chargeString = ((ChargeItem) item).itemName.trim();
                         ArrayList<String> projectiles;
 
@@ -138,7 +138,7 @@ public class Helpers {
                         else projectiles = Helpers.chargeElementsMap.get(elementString);
                         projectiles.add(chargeString);
                         Helpers.chargeElementsMap.put(elementString, projectiles);
-                    }
+                    });
                 }
             });
             if(ForgeConfigHandler.client.debugLoggerAutomatic) LycanitesTweaks.LOGGER.log(Level.INFO, "chargeElementsMap: {}", Helpers.chargeElementsMap);

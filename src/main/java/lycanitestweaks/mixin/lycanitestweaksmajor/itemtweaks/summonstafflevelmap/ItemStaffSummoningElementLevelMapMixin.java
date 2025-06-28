@@ -57,7 +57,7 @@ public abstract class ItemStaffSummoningElementLevelMapMixin extends ItemScepter
         rawStrings.append(I18n.format("item.summoningstaff.description.mixin"));
         if(nbt.hasKey("ChargeItem"))
             if(ForgeConfigHandler.client.translateWhenPossible) {
-                ChargeItem chargeItem = (ChargeItem)ObjectManager.getItem(nbt.getString("ChargeItem").toLowerCase(Locale.ROOT));
+                ChargeItem chargeItem = (ChargeItem)ObjectManager.getItem(nbt.getString("ChargeItem"));
                 if(chargeItem != null)
                     rawStrings.append("\n").append(I18n.format("item.summoningstaff.description.mixin.chargeitem", chargeItem.getProjectileName()));
             }
@@ -239,7 +239,7 @@ public abstract class ItemStaffSummoningElementLevelMapMixin extends ItemScepter
 
         if(ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.summonStaffElementsByCharge){
             if(!nbt.hasKey("ChargeItem")) return false;
-            ChargeItem chargeItem = (ChargeItem)ObjectManager.getItem(nbt.getString("ChargeItem").toLowerCase(Locale.ROOT));
+            ChargeItem chargeItem = (ChargeItem)ObjectManager.getItem(nbt.getString("ChargeItem"));
             if(chargeItem == null) return false;
             return chargeItem.getElements().contains(element);
         }
