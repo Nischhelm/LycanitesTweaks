@@ -162,7 +162,6 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
         if(minion.getBossInfo() != null) minion.bossInfo.setName(new TextComponentString(minion.getName()));
         minion.setSizeScale(1.8);
         minion.enablePersistence();
-        minion.tasks.addTask(minion.nextTravelGoalIndex++, new TeleportToHostGoal(minion));
         this.firstSpawn = false;
         if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsUseBossDamageLimit) {
             minion.damageMax = BaseCreatureEntity.BOSS_DAMAGE_LIMIT;
@@ -170,8 +169,11 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
         }
         if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsTeleportAdjacent && this.currentArenaNode != null){
             BlockPos randomPos = this.currentArenaNode.getRandomAdjacentNode().pos;
-            minion.setPosition(randomPos.getX(), randomPos.getY(), randomPos.getZ());
+            minion.moveToBlockPosAndAngles(randomPos, world.rand.nextFloat() * 360.0F, 0.0F);
+            minion.motionX = (this.world.rand.nextDouble() - (double)0.5F);
+            minion.motionZ = (this.world.rand.nextDouble() - (double)0.5F);
         }
+        else minion.tasks.addTask(minion.nextTravelGoalIndex++, new TeleportToHostGoal(minion));
     }
 
     @ModifyExpressionValue(
@@ -208,7 +210,6 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
         minion.setSizeScale(2.5);
         minion.setSubspecies(1);
         minion.enablePersistence();
-        minion.tasks.addTask(minion.nextTravelGoalIndex++, new TeleportToHostGoal(minion));
         this.firstSpawn = false;
         if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsUseBossDamageLimit) {
             minion.damageMax = BaseCreatureEntity.BOSS_DAMAGE_LIMIT;
@@ -216,8 +217,11 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
         }
         if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsTeleportAdjacent && this.currentArenaNode != null){
             BlockPos randomPos = this.currentArenaNode.getRandomAdjacentNode().pos;
-            minion.setPosition(randomPos.getX(), randomPos.getY(), randomPos.getZ());
+            minion.moveToBlockPosAndAngles(randomPos, world.rand.nextFloat() * 360.0F, 0.0F);
+            minion.motionX = (this.world.rand.nextDouble() - (double)0.5F);
+            minion.motionZ = (this.world.rand.nextDouble() - (double)0.5F);
         }
+        else minion.tasks.addTask(minion.nextTravelGoalIndex++, new TeleportToHostGoal(minion));
     }
 
     @ModifyConstant(

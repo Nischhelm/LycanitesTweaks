@@ -1,8 +1,8 @@
 package lycanitestweaks.network;
 
 import io.netty.buffer.ByteBuf;
-import lycanitestweaks.capability.ILycanitesTweaksKeybindsCapability;
-import lycanitestweaks.capability.LycanitesTweaksKeybindsCapability;
+import lycanitestweaks.capability.ILycanitesTweaksPlayerCapability;
+import lycanitestweaks.capability.LycanitesTweaksPlayerCapability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -29,7 +29,7 @@ public class PacketKeybindSoulgazerManualNext implements IMessage {
         }
 
         private static void handle(PacketKeybindSoulgazerManualNext message, MessageContext ctx) {
-            ILycanitesTweaksKeybindsCapability playerKeybinds = LycanitesTweaksKeybindsCapability.getForPlayer(ctx.getServerHandler().player);
+            ILycanitesTweaksPlayerCapability playerKeybinds = LycanitesTweaksPlayerCapability.getForPlayer(ctx.getServerHandler().player);
             if(playerKeybinds != null) playerKeybinds.nextSoulgazerManualToggle();
         }
     }

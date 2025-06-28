@@ -1,6 +1,7 @@
 package lycanitestweaks.info.altar;
 
 import com.lycanitesmobs.core.info.AltarInfo;
+import lycanitestweaks.client.gui.beastiary.AltarsBeastiaryScreen;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.BlockWorldState;
 import net.minecraft.block.state.IBlockState;
@@ -9,14 +10,15 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 
-public abstract class AltarInfoTemplate extends AltarInfo {
+public abstract class AltarInfoTemplate extends AltarInfo implements IAltarBeastiaryRender {
 
     protected BlockPattern blockPattern;
-    BlockPattern.PatternHelper patternHelper;
+    protected BlockPattern.PatternHelper patternHelper;
     // The block that the Soulkey is used on
     protected Block coreBlock;
     protected Block bodyBlock;
@@ -39,7 +41,11 @@ public abstract class AltarInfoTemplate extends AltarInfo {
         this.clearWidth = 4;
     }
 
+    /** Returns the raw strings to be used in the Block Pattern. Exposed for other usages such as creating a visual. **/
+    abstract public String[] getBlockPatternStrings();
+    /** Returns a Block Pattern to check, inheritors should implement considering the Core Block and Body Blocks **/
     abstract protected BlockPattern getBlockPattern();
+    /** Returns the Entity to spawn with bare minimum defining properties. Returns null if failed checks such as checkDimensions. **/
     abstract protected EntityLivingBase createEntity(Entity entity, World world);
 
 
@@ -137,5 +143,43 @@ public abstract class AltarInfoTemplate extends AltarInfo {
     /** Called when the entity is spawned just before it is added to the world. **/
     protected void onSpawnEntity(Entity activatingEntity, EntityLivingBase entity){
         // This can be used on extensions of this class for NBT data, etc.
+    }
+
+    @Override
+    public void getBeastiaryRender(AltarsBeastiaryScreen altarsBeastiaryScreen, int mouseX, int mouseY, float partialTicks) {
+        String[] blockPatternStrings = this.getBlockPatternStrings();
+        int xPos = altarsBeastiaryScreen.colRightX + (altarsBeastiaryScreen.colRightWidth / 2);
+        int yPos = altarsBeastiaryScreen.colRightY + Math.round((float) altarsBeastiaryScreen.colRightHeight / 2);
+        float scale = (altarsBeastiaryScreen.mc.displayWidth / 1920F) * 4.0F;
+
+        Clear:
+        if(blockPatternStrings == null) {
+            return;
+        }
+
+        // Render:
+        int drawOffsetX = (int) (12 * scale);
+        int drawOffsetY = (int) (12 * scale);
+        int drawOffsetZ = (int) (4 * scale);
+        int startX = xPos - (drawOffsetX * blockPatternStrings[0].length() / 2);
+        int startY = yPos - (drawOffsetY * blockPatternStrings.length / 4);
+        int drawX;
+        int drawY = startY;
+
+        for (int yIndex = 0; yIndex < blockPatternStrings.length; yIndex++) {
+            drawX = startX;
+            for (int xIndex = 0; xIndex < blockPatternStrings[yIndex].length(); xIndex++) {
+                switch (blockPatternStrings[yIndex].charAt(xIndex)) {
+                    case '#':
+                        altarsBeastiaryScreen.drawItemStack(new ItemStack(this.bodyBlock), drawX, drawY - (xIndex * drawOffsetY / 2), (xIndex + yIndex) * drawOffsetZ, scale);
+                        break;
+                    case '^':
+                        altarsBeastiaryScreen.drawItemStack(new ItemStack(this.coreBlock), drawX, drawY - (xIndex * drawOffsetY / 2), (xIndex + yIndex) * drawOffsetZ, scale);
+                        break;
+                }
+                drawX += drawOffsetX;
+            }
+            drawY += drawOffsetY;
+        }
     }
 }

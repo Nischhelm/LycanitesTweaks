@@ -1,4 +1,4 @@
-package lycanitestweaks.client.gui;
+package lycanitestweaks.client.gui.buttons;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;

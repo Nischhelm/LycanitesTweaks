@@ -1,9 +1,10 @@
-package lycanitestweaks.client.gui;
+package lycanitestweaks.client.gui.beastiary.lists;
 
 import com.lycanitesmobs.client.gui.beastiary.BeastiaryScreen;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.info.CreatureKnowledge;
 import com.lycanitesmobs.core.item.ItemBase;
+import lycanitestweaks.client.gui.buttons.RenderToggleButton;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;

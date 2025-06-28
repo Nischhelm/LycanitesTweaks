@@ -21,6 +21,7 @@ public abstract class ModLoadedUtil {
             }
             catch(Exception ignored) { }
         }
+        else rlCombatLoaded = false;
         return rlCombatLoaded;
     }
 

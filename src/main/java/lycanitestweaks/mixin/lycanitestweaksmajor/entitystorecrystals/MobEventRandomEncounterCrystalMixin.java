@@ -22,7 +22,8 @@ public abstract class MobEventRandomEncounterCrystalMixin {
             remap = false
     )
     public void lycanitesTweaks_lycanitesMobEvent_onSpawnEncounterCrystal(EntityLiving entity, World world, EntityPlayer player, BlockPos pos, int level, int ticks, int variant, CallbackInfo ci){
-        if(entity instanceof BaseCreatureEntity && !((BaseCreatureEntity) entity).isTemporary) return; // Hopefully skip all Bosses
+        if(!(entity instanceof BaseCreatureEntity)) return;
+        if(!((BaseCreatureEntity) entity).isTemporary) return; // Hopefully skip all Bosses
 
         if(world.rand.nextInt(ForgeConfigHandler.majorFeaturesConfig.escConfig.encounterCrystalSpawnChance) == 0){
             if(EntityEncounterSummonCrystal.trySpawnEncounterCrystal(world, entity)) entity.setDead();

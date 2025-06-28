@@ -7,25 +7,26 @@ import net.minecraft.block.state.pattern.FactoryBlockPattern;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.passive.EntityZombieHorse;
+import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class AltarInfoZombieHorse extends AltarInfoTemplate implements IAltarNoBoost{
+public class AltarInfoChargedCreeper extends AltarInfoTemplate implements IAltarNoBoost{
 
     private final String[] BLOCK_PATTERN_STRINGS = new String[]{
-            "#~#",
-            "#~#",
-            "#^#",
-            "#~#",
+            "~^~",
+            "~#~",
+            "~#~",
+            "###",
             "#~#"
     };
 
-    public AltarInfoZombieHorse(String name) {
+    public AltarInfoChargedCreeper(String name) {
         super(name);
-        this.coreBlock = Blocks.NETHER_WART_BLOCK;
+        this.coreBlock = Blocks.TNT;
         this.bodyBlock = Blocks.SLIME_BLOCK;
+        this.coreOffset = 0;
     }
 
     @Override
@@ -57,16 +58,18 @@ public class AltarInfoZombieHorse extends AltarInfoTemplate implements IAltarNoB
 
     @Override
     protected EntityLivingBase createEntity(Entity entity, World world) {
-        EntityZombieHorse zombieHorse = new EntityZombieHorse(world);
-        zombieHorse.setGrowingAge(0);
-        zombieHorse.setHorseTamed(true);
-        return zombieHorse;
+        EntityCreeper creeper = new EntityCreeper(world);
+        creeper.enablePersistence();
+        return creeper;
     }
 
     @Override
     protected void onSpawnEntity(Entity activatingEntity, EntityLivingBase entity){
         World world = entity.getEntityWorld();
         BlockPos pos = entity.getPosition();
-        world.addWeatherEffect(new EntityLightningBolt(world, pos.getX(), pos.getY(), pos.getZ(), true));
+
+        EntityLightningBolt lightningBolt = new EntityLightningBolt(world, pos.getX(), pos.getY(), pos.getZ(), true);
+        world.addWeatherEffect(lightningBolt);
+        entity.onStruckByLightning(lightningBolt);
     }
 }

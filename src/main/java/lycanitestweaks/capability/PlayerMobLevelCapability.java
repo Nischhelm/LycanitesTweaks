@@ -25,6 +25,7 @@ import java.util.*;
 public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
 
     private EntityPlayer player;
+    private ILycanitesTweaksPlayerCapability ltp;
     public static final int MAINHAND_CHECK_SIZE = 8;
 
     private int deathCooldown = 0;
@@ -39,6 +40,7 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
 
     PlayerMobLevelCapability(@Nonnull EntityPlayer player){
         this.player = player;
+        this.ltp = LycanitesTweaksPlayerCapability.getForPlayer(this.player);
         Arrays.fill(nonMainLevels, 0);
         mainHandLevels.add(0);
     }
@@ -90,6 +92,8 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
 
     @Override
     public int getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory category, @Nullable BaseCreatureEntity creature, boolean client) {
+        if(this.ltp == null || this.ltp.getPMLModifierForCreature(creature) == 0F) return 0;
+
         double totalLevels = 0;
         double deathModifier = 0;
 
@@ -132,6 +136,8 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
             }
             totalLevels *= PlayerMobLevelsConfig.getPmlBonusCategories().get(category).getRight();
         }
+
+        totalLevels *= this.ltp.getPMLModifierForCreature(creature);
 
         if(this.getDeathCooldown() > 0) {
             totalLevels *= (1D + deathModifier);

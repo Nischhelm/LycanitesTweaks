@@ -2,8 +2,8 @@ package lycanitestweaks.client.keybinds;
 
 import com.lycanitesmobs.core.entity.RideableCreatureEntity;
 import lycanitestweaks.LycanitesTweaks;
-import lycanitestweaks.capability.ILycanitesTweaksKeybindsCapability;
-import lycanitestweaks.capability.LycanitesTweaksKeybindsCapability;
+import lycanitestweaks.capability.ILycanitesTweaksPlayerCapability;
+import lycanitestweaks.capability.LycanitesTweaksPlayerCapability;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.network.PacketHandler;
 import lycanitestweaks.network.PacketKeybindSoulgazerAutoNext;
@@ -82,13 +82,13 @@ public class KeyHandler {
 					LycanitesTweaks.PROXY.setMount3rdPersonView(currentView);
 				}
 				if(KeyHandler.TOGGLE_SOULGAZER_AUTO.isPressed()) {
-					ILycanitesTweaksKeybindsCapability playerKeybinds = LycanitesTweaksKeybindsCapability.getForPlayer(player);
+					ILycanitesTweaksPlayerCapability playerKeybinds = LycanitesTweaksPlayerCapability.getForPlayer(player);
 					if (playerKeybinds != null) {
 						PacketHandler.instance.sendToServer(new PacketKeybindSoulgazerAutoNext());
 					}
 				}
 				if(KeyHandler.TOGGLE_SOULGAZER_MANUAL.isPressed()) {
-					ILycanitesTweaksKeybindsCapability playerKeybinds = LycanitesTweaksKeybindsCapability.getForPlayer(player);
+					ILycanitesTweaksPlayerCapability playerKeybinds = LycanitesTweaksPlayerCapability.getForPlayer(player);
 					if (playerKeybinds != null) {
 						PacketHandler.instance.sendToServer(new PacketKeybindSoulgazerManualNext());
 					}

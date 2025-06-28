@@ -3,9 +3,9 @@ package lycanitestweaks.client;
 import com.lycanitesmobs.core.item.ItemBase;
 import com.lycanitesmobs.core.item.special.ItemSoulgazer;
 import com.lycanitesmobs.core.item.temp.ItemStaffSummoning;
-import lycanitestweaks.capability.ILycanitesTweaksKeybindsCapability;
+import lycanitestweaks.capability.ILycanitesTweaksPlayerCapability;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
-import lycanitestweaks.capability.LycanitesTweaksKeybindsCapability;
+import lycanitestweaks.capability.LycanitesTweaksPlayerCapability;
 import lycanitestweaks.capability.PlayerMobLevelCapability;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.config.PlayerMobLevelsConfig;
@@ -43,7 +43,7 @@ public class ClientEventListener {
 
         if(ForgeConfigHandler.integrationConfig.soulgazerBauble){
             if (event.getItemStack().getItem() instanceof ItemSoulgazer) {
-                ILycanitesTweaksKeybindsCapability playerKeybinds = LycanitesTweaksKeybindsCapability.getForPlayer(event.getEntityPlayer());
+                ILycanitesTweaksPlayerCapability playerKeybinds = LycanitesTweaksPlayerCapability.getForPlayer(event.getEntityPlayer());
                 if (playerKeybinds != null) {
                     int autoID = playerKeybinds.getSoulgazerAutoToggle();
                     int manualID = playerKeybinds.getSoulgazerManualToggle() ? 1 : 2;

@@ -9,12 +9,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
+// Based on com/lycanitesmobs/core/entity/goals/actions/FollowOwnerGoal.java
 public class TeleportToHostGoal extends EntityAIBase {
 
     BaseCreatureEntity host;
 
     // Properties:
-    private int updateRate;
     double lostDistance = 32;
     double teleportDistance = 0;
 
@@ -91,32 +91,36 @@ public class TeleportToHostGoal extends EntityAIBase {
 
     // ========== Teleport to Owner ==========
     public void teleportToOwner() {
-        if(this.getTarget() != null) {
-            if(!this.host.canBreatheAir() && ((!this.host.isLavaCreature && !this.getTarget().isInWater()) || (this.host.isLavaCreature && !this.getTarget().isInLava()))) {
-                return;
-            }
-            if(!this.host.canBreatheUnderwater() && this.getTarget().isInWater()) {
-                return;
-            }
+        if(this.getTarget() == null) return;
 
-            World world = this.getTarget().getEntityWorld();
-            int xPos = MathHelper.floor(this.getTarget().posX) - 2;
-            int yPos = MathHelper.floor(this.getTarget().getEntityBoundingBox().minY);
-            int zPos = MathHelper.floor(this.getTarget().posZ) - 2;
+        if(!this.host.canBreatheAir() && ((!this.host.isLavaCreature && !this.getTarget().isInWater())
+                || (this.host.isLavaCreature && !this.getTarget().isInLava()))) {
+            return;
+        }
+        if(!this.host.canBreatheUnderwater() && this.getTarget().isInWater()) {
+            return;
+        }
 
-            if(this.host.isFlying() || this.getTarget().isInWater()) {
-                this.host.setLocationAndAngles(xPos, yPos + 1, zPos, this.host.rotationYaw, this.host.rotationPitch);
-                this.host.clearMovement();
-                return;
-            }
+        World world = this.getTarget().getEntityWorld();
+        int xPos = MathHelper.floor(this.getTarget().posX) - 2;
+        int yPos = MathHelper.floor(this.getTarget().getEntityBoundingBox().minY);
+        int zPos = MathHelper.floor(this.getTarget().posZ) - 2;
 
-            for(int xOffset = 0; xOffset <= 4; ++xOffset) {
-                for(int zOffset = 0; zOffset <= 4; ++zOffset) {
-                    if((xOffset < 1 || zOffset < 1 || xOffset > 3 || zOffset > 3) && world.isSideSolid(new BlockPos(xPos + xOffset, yPos - 1, zPos + zOffset), EnumFacing.UP) && !world.isBlockNormalCube(new BlockPos(xPos + xOffset, yPos, zPos + zOffset), true) && !world.isBlockNormalCube(new BlockPos(xPos + xOffset, yPos + 1, zPos + zOffset), true)) {
-                        this.host.setLocationAndAngles(((float)(xPos + xOffset) + 0.5F), yPos, ((float)(zPos + zOffset) + 0.5F), this.host.rotationYaw, this.host.rotationPitch);
-                        this.host.clearMovement();
-                        return;
-                    }
+        if(this.host.isFlying() || this.getTarget().isInWater()) {
+            this.host.setLocationAndAngles(xPos, yPos + 1, zPos, this.host.rotationYaw, this.host.rotationPitch);
+            this.host.clearMovement();
+            return;
+        }
+
+        for(int xOffset = 0; xOffset <= 4; ++xOffset) {
+            for(int zOffset = 0; zOffset <= 4; ++zOffset) {
+                if((xOffset < 1 || zOffset < 1 || xOffset > 3 || zOffset > 3)
+                        && world.isSideSolid(new BlockPos(xPos + xOffset, yPos - 1, zPos + zOffset), EnumFacing.UP)
+                        && !world.isBlockNormalCube(new BlockPos(xPos + xOffset, yPos, zPos + zOffset), true)
+                        && !world.isBlockNormalCube(new BlockPos(xPos + xOffset, yPos + 1, zPos + zOffset), true)) {
+                    this.host.setLocationAndAngles(((float)(xPos + xOffset) + 0.5F), yPos, ((float)(zPos + zOffset) + 0.5F), this.host.rotationYaw, this.host.rotationPitch);
+                    this.host.clearMovement();
+                    return;
                 }
             }
         }

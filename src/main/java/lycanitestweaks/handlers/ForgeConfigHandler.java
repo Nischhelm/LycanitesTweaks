@@ -80,6 +80,15 @@ public class ForgeConfigHandler {
 		@Config.Comment("Translate Client Text from data that is normally stored in English (such as NBT) instead of displaying the raw string")
 		@Config.Name("Translate Text When Possible")
 		public boolean translateWhenPossible = true;
+
+		@Config.Name("Test Int")
+		public int testInt = 1;
+
+		@Config.Name("Test Float")
+		public float testFloat = 1F;
+
+		@Config.Name("Test Double")
+		public double testDouble = 1D;
 	}
 
 	public static class ServerConfig {
@@ -109,7 +118,7 @@ public class ForgeConfigHandler {
 					"\tInteract Block is Redstone above beacon layers of Obsidian")
 			@Config.Name("Add Feature: Beastiary Altar")
 			@Config.RequiresMcRestart
-			@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureclientbeastiaryaltar.json")
+			@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureclientbeastiaryaltarpacket.json")
 			public boolean beastiaryAltar = true;
 
 			@Config.Comment("Number of Beacon Style Layers required")
@@ -307,6 +316,12 @@ public class ForgeConfigHandler {
 	}
 
 	public static class ClientFeaturesConfig {
+
+		@Config.Comment("Adds Altars Information to Beastiary")
+		@Config.Name("Beastiary Altars")
+		@Config.RequiresMcRestart
+		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureclientbeastiaryaltartab.json")
+		public boolean beastiaryGUIAltars = true;
 
 		@Config.Comment("Adds LycanitesTweaks Information to Beastiary")
 		@Config.Name("Add Feature: LycanitesTweaks Beastiary")

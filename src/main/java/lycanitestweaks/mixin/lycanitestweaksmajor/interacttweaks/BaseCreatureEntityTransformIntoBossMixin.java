@@ -36,7 +36,9 @@ public abstract class BaseCreatureEntityTransformIntoBossMixin extends EntityLiv
     @Shadow(remap = false)
     public abstract boolean isTamed();
     @Shadow(remap = false)
-    public abstract void addLevel(int level);
+    public abstract int getLevel();
+    @Shadow(remap = false)
+    public abstract void setLevel(int level);
     @Shadow(remap = false)
     public abstract void refreshAttributes();
 
@@ -84,7 +86,9 @@ public abstract class BaseCreatureEntityTransformIntoBossMixin extends EntityLiv
             if(ForgeConfigHandler.majorFeaturesConfig.creatureInteractConfig.canTransformBossPML){
                 IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(player);
                 if(pml != null){
-                    this.addLevel(pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.EncounterEvent, (BaseCreatureEntity)(Object)this));
+                    // Different from Encounter Crystals, do not add original spawn boost + boss boost
+                    int levelBoost = pml.getTotalLevelsForCategory(PlayerMobLevelsConfig.BonusCategory.EncounterEvent, (BaseCreatureEntity)(Object)this);
+                    if(levelBoost > this.getLevel()) this.setLevel(levelBoost);
                 }
             }
 

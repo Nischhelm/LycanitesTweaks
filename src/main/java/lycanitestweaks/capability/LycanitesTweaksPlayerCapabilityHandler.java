@@ -17,65 +17,65 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class LycanitesTweaksKeybindsCapabilityHandler {
+public class LycanitesTweaksPlayerCapabilityHandler {
 
-    public static final ResourceLocation LT_KEYBINDS_KEY = new ResourceLocation(LycanitesTweaks.MODID, "keybinds");
+    public static final ResourceLocation LT_PLAYER_KEY = new ResourceLocation(LycanitesTweaks.MODID, "player");
 
-    @CapabilityInject(LycanitesTweaksKeybindsCapability.class)
-    public static Capability<ILycanitesTweaksKeybindsCapability> LT_KEYBINDS;
+    @CapabilityInject(LycanitesTweaksPlayerCapability.class)
+    public static Capability<ILycanitesTweaksPlayerCapability> LT_PLAYER;
 
     public static void registerCapability() {
-        CapabilityManager.INSTANCE.register(LycanitesTweaksKeybindsCapability.class, new Storage(), LycanitesTweaksKeybindsCapability::new);
+        CapabilityManager.INSTANCE.register(LycanitesTweaksPlayerCapability.class, new Storage(), LycanitesTweaksPlayerCapability::new);
     }
 
     public static class AttachCapabilityHandler {
         @SubscribeEvent
         public static void onAttachPlayerCapabilities(AttachCapabilitiesEvent<Entity> event) {
             if(event.getObject() instanceof EntityPlayer) {
-                event.addCapability(LT_KEYBINDS_KEY, new LycanitesTweaksKeybindsCapabilityHandler.Provider((EntityPlayer)event.getObject()));
+                event.addCapability(LT_PLAYER_KEY, new LycanitesTweaksPlayerCapabilityHandler.Provider((EntityPlayer)event.getObject()));
             }
         }
     }
 
     public static class Provider implements ICapabilitySerializable<NBTTagCompound> {
-        private final ILycanitesTweaksKeybindsCapability instance;
+        private final ILycanitesTweaksPlayerCapability instance;
 
         public Provider(EntityPlayer player) {
-            this.instance = new LycanitesTweaksKeybindsCapability(player);
+            this.instance = new LycanitesTweaksPlayerCapability(player);
         }
 
         @Override
         public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-            return capability == LT_KEYBINDS;
+            return capability == LT_PLAYER;
         }
 
         @Nullable
         @Override
         public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-            return capability == LT_KEYBINDS ? LT_KEYBINDS.cast(instance) : null;
+            return capability == LT_PLAYER ? LT_PLAYER.cast(instance) : null;
         }
 
         @Override
         public NBTTagCompound serializeNBT() {
-            return (NBTTagCompound) LT_KEYBINDS.writeNBT(instance, null);
+            return (NBTTagCompound) LT_PLAYER.writeNBT(instance, null);
         }
 
         @Override
         public void deserializeNBT(NBTTagCompound nbt) {
-            LT_KEYBINDS.readNBT(instance, null, nbt);
+            LT_PLAYER.readNBT(instance, null, nbt);
         }
     }
 
-    private static class Storage implements Capability.IStorage<LycanitesTweaksKeybindsCapability> {
+    private static class Storage implements Capability.IStorage<LycanitesTweaksPlayerCapability> {
 
         @Override
-        public NBTBase writeNBT(Capability<LycanitesTweaksKeybindsCapability> capability, LycanitesTweaksKeybindsCapability instance, EnumFacing side) {
+        public NBTBase writeNBT(Capability<LycanitesTweaksPlayerCapability> capability, LycanitesTweaksPlayerCapability instance, EnumFacing side) {
             NBTTagCompound nbt = new NBTTagCompound();
             return nbt;
         }
 
         @Override
-        public void readNBT(Capability<LycanitesTweaksKeybindsCapability> capability, LycanitesTweaksKeybindsCapability instance, EnumFacing side, NBTBase nbt) {
+        public void readNBT(Capability<LycanitesTweaksPlayerCapability> capability, LycanitesTweaksPlayerCapability instance, EnumFacing side, NBTBase nbt) {
         }
     }
 }

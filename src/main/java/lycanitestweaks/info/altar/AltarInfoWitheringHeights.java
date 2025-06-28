@@ -1,37 +1,37 @@
 package lycanitestweaks.info.altar;
 
-import com.lycanitesmobs.core.entity.BaseCreatureEntity;
-import com.lycanitesmobs.core.entity.ExtendedPlayer;
+import com.lycanitesmobs.ExtendedWorld;
 import com.lycanitesmobs.core.info.AltarInfo;
-import com.lycanitesmobs.core.info.CreatureKnowledge;
-import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.client.gui.beastiary.AltarsBeastiaryScreen;
-import lycanitestweaks.handlers.ForgeConfigHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
-public class AltarInfoBeastiary extends AltarInfo implements IAltarNoBoost, IAltarBeastiaryRender{
+public class AltarInfoWitheringHeights extends AltarInfo implements IAltarNoBoost, IAltarBeastiaryRender{
 
     private final Block coreBlock;
     private final Block bodyBlock;
     private final int width;
     private final int height;
 
-    public AltarInfoBeastiary(String name) {
+    public AltarInfoWitheringHeights(String name) {
         super(name);
-        this.coreBlock = Blocks.REDSTONE_BLOCK;
-        this.bodyBlock = Blocks.OBSIDIAN;
-        this.width = this.height = ForgeConfigHandler.server.altarsConfig.beastiaryAltarObsidian;
+        this.coreBlock = Blocks.NETHER_WART_BLOCK;
+        this.bodyBlock = Blocks.SOUL_SAND;
+        this.width = this.height = 2;
+    }
+
+    public static boolean isWitherSkull(World world, BlockPos pos){
+        return (world.getBlockState(pos).getBlock() == Blocks.SKULL)
+                && world.getTileEntity(pos) instanceof TileEntitySkull
+                && ((TileEntitySkull) world.getTileEntity(pos)).getSkullType() == 1;
     }
 
     // ==================================================
@@ -60,11 +60,20 @@ public class AltarInfoBeastiary extends AltarInfo implements IAltarNoBoost, IAlt
 
             for(int checkX = interactX - offset; checkX <= interactX + offset && checkNextLayer; ++checkX){
                 for(int checkZ = interactZ - offset; checkZ <= interactZ + offset; ++checkZ){
-                    Block block = world.getBlockState(new BlockPos(checkX, checkY, checkZ)).getBlock();
+                    BlockPos checkPos = new BlockPos(checkX, checkY, checkZ);
+                    Block block = world.getBlockState(checkPos).getBlock();
 
-                    if(!(block == bodyBlock)){
-                        checkNextLayer = false;
-                        break;
+                    if(checkX == interactX - offset || checkX == interactX + offset || checkZ == interactZ - offset || checkZ == interactZ + offset){
+                        if (!AltarInfoWitheringHeights.isWitherSkull(world, checkPos)) {
+                            checkNextLayer = false;
+                            break;
+                        }
+                    }
+                    else {
+                        if (!(block == bodyBlock)) {
+                            checkNextLayer = false;
+                            break;
+                        }
                     }
                 }
             }
@@ -79,27 +88,21 @@ public class AltarInfoBeastiary extends AltarInfo implements IAltarNoBoost, IAlt
     // ==================================================
     /** Called when this Altar should activate. This will typically destroy the Altar and summon a rare mob or activate an event such as a boss event. If false is returned then the activation did not work, this is the place to check for things like dimensions. **/
     @Override
-    public boolean activate(Entity entity, World world, BlockPos pos, int variant) {
-        if(world.isRemote) return true;
-
-        int x = pos.getX();
-        int y = pos.getY();
-        int z = pos.getZ();
-
-        EntityLivingBase entityCreature = this.createEntity(entity, world);
-        if(entityCreature == null) return false;
-
-        if(entityCreature instanceof BaseCreatureEntity) {
-            this.clearAltar(world, pos);
-
-            // Spawn Mini Boss:
-            entityCreature.setLocationAndAngles(x, y - 2, z, 0, 0);
-
-            world.spawnEntity(entityCreature);
-
+    public boolean activate(Entity activatingEntity, World world, BlockPos pos, int variant) {
+        if (world.isRemote)
             return true;
-        }
-        return false;
+
+        ExtendedWorld worldExt = ExtendedWorld.getForWorld(world);
+        if(worldExt == null)
+            return false;
+        this.clearAltar(world, pos);
+
+        // Offset:
+        pos = new BlockPos(pos.getX(), Math.max(1, pos.getY() - 3), pos.getZ());
+        if(activatingEntity != null)
+            pos = this.getFacingPosition(pos, 10, activatingEntity.rotationYaw);
+
+        return super.activate(activatingEntity, world, pos, variant);
     }
 
     protected void clearAltar(World world, BlockPos pos){
@@ -113,61 +116,12 @@ public class AltarInfoBeastiary extends AltarInfo implements IAltarNoBoost, IAlt
                     BlockPos clearPos = new BlockPos(xTarget, yTarget, zTarget);
                     IBlockState iblockstate = world.getBlockState(clearPos);
                     Block block = iblockstate.getBlock();
-                    if (block == this.bodyBlock || block == this.coreBlock) {
+                    if (block == this.bodyBlock || block == this.coreBlock || AltarInfoWitheringHeights.isWitherSkull(world, clearPos)) {
                         world.setBlockToAir(clearPos);
                     }
                 }
             }
         }
-    }
-
-    protected EntityLivingBase createEntity(Entity entity, World world){
-        ExtendedPlayer extendedPlayer = null;
-
-        if(entity instanceof EntityPlayer) extendedPlayer = ExtendedPlayer.getForPlayer((EntityPlayer) entity);
-
-        if(extendedPlayer == null || extendedPlayer.selectedCreature == null) {
-            if(extendedPlayer != null) extendedPlayer.getPlayer().sendStatusMessage(new TextComponentTranslation("message.altar.beastiary.null"), true);
-            return null;
-        }
-
-        if(extendedPlayer.selectedCreature.isBoss()){
-            extendedPlayer.getPlayer().sendStatusMessage(new TextComponentTranslation("message.altar.beastiary.boss"), true);
-            return null;
-        }
-
-        CreatureKnowledge creatureKnowledge = extendedPlayer.getBeastiary().getCreatureKnowledge(extendedPlayer.selectedCreature.getName());
-        if(creatureKnowledge != null && creatureKnowledge.rank < ForgeConfigHandler.server.altarsConfig.beastiaryAltarKnowledgeRank) {
-            extendedPlayer.getPlayer().sendStatusMessage(new TextComponentTranslation("message.altar.beastiary.rank"), true);
-            return null;
-        }
-
-        EntityLiving selectedEntity = null;
-
-        try {
-            selectedEntity = extendedPlayer.selectedCreature.entityClass.getConstructor(new Class[]{World.class}).newInstance(world);
-        } catch (Exception e) {
-            LycanitesTweaks.LOGGER.error("An exception occurred when trying to create a creature in the AltarInfoBeastiary: {}", e.toString());
-        }
-
-        if(selectedEntity instanceof BaseCreatureEntity){
-            // Spawn Mini Boss:
-            BaseCreatureEntity entityCreature = (BaseCreatureEntity) selectedEntity;
-            // Create Mini Boss:
-            if (checkDimensions && !entityCreature.isNativeDimension(world)) {
-                extendedPlayer.getPlayer().sendStatusMessage(new TextComponentTranslation("message.altar.fail.native"), true);
-                return null;
-            }
-            entityCreature.altarSummoned = true;
-
-            entityCreature.onFirstSpawn();
-            entityCreature.setSubspecies(extendedPlayer.selectedSubspecies);
-            entityCreature.applyVariant(extendedPlayer.selectedVariant);
-
-            return entityCreature;
-        }
-        extendedPlayer.getPlayer().sendStatusMessage(new TextComponentTranslation("message.altar.beastiary.null"), true);
-        return null;
     }
 
     @Override
@@ -192,7 +146,10 @@ public class AltarInfoBeastiary extends AltarInfo implements IAltarNoBoost, IAlt
             drawY = startY;
             for (int z = 0; z < width; z++) {
                 for (int x = 0; x < width; x++) {
-                    altarsBeastiaryScreen.drawItemStack(new ItemStack(bodyBlock), drawX + (x * drawOffsetX), drawY - (x * drawOffsetY / 2), (z + x) * drawOffsetZ, scale);
+                    if(z == 0 || z == width -  1 || x == 0 || x == width - 1)
+                        altarsBeastiaryScreen.drawItemStack(new ItemStack(Items.SKULL, 1, 1), drawX + (x * drawOffsetX), drawY - (x * drawOffsetY / 2), (z + x) * drawOffsetZ, scale);
+                    else
+                        altarsBeastiaryScreen.drawItemStack(new ItemStack(bodyBlock), drawX + (x * drawOffsetX), drawY - (x * drawOffsetY / 2), (z + x) * drawOffsetZ, scale);
                 }
                 drawX -= drawOffsetX;
                 drawY -= drawOffsetY / 2;

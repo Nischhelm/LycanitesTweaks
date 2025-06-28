@@ -2,8 +2,8 @@ package lycanitestweaks.mixin.ddd;
 
 import com.lycanitesmobs.client.gui.beastiary.BeastiaryScreen;
 import com.lycanitesmobs.client.gui.beastiary.SummoningBeastiaryScreen;
-import lycanitestweaks.client.gui.DDDDescriptionList;
-import lycanitestweaks.client.gui.RenderToggleButton;
+import lycanitestweaks.client.gui.beastiary.lists.DDDDescriptionList;
+import lycanitestweaks.client.gui.buttons.RenderToggleButton;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import org.spongepowered.asm.mixin.Mixin;

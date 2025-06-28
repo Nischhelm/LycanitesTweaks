@@ -67,7 +67,7 @@ public class ItemSoulgazerMoreInteractionsHandler {
         if(event.getEntityPlayer() == null) return;
         if(event.getTarget() == null || !(Helpers.hasSoulgazerEquiped(event.getEntityPlayer()))) return;
 
-        ILycanitesTweaksKeybindsCapability playerKeybinds = LycanitesTweaksKeybindsCapability.getForPlayer(event.getEntityPlayer());
+        ILycanitesTweaksPlayerCapability playerKeybinds = LycanitesTweaksPlayerCapability.getForPlayer(event.getEntityPlayer());
         if(playerKeybinds != null){
             if(playerKeybinds.getSoulgazerAutoToggle() == 2) soulgazeAbility(event.getEntityPlayer(), event.getTarget());
         }
@@ -80,7 +80,7 @@ public class ItemSoulgazerMoreInteractionsHandler {
 
         if(event.getSource().getTrueSource() instanceof EntityPlayer && "player".equals(event.getSource().damageType)){
             EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
-            ILycanitesTweaksKeybindsCapability playerKeybinds = LycanitesTweaksKeybindsCapability.getForPlayer(player);
+            ILycanitesTweaksPlayerCapability playerKeybinds = LycanitesTweaksPlayerCapability.getForPlayer(player);
             if(playerKeybinds != null){
                 if(playerKeybinds.getSoulgazerAutoToggle() == 3) soulgazeAbility(player, event.getEntityLiving());
             }
@@ -97,7 +97,7 @@ public class ItemSoulgazerMoreInteractionsHandler {
         }
         else if(event.getHand() == EnumHand.MAIN_HAND && Helpers.hasSoulgazerEquiped(event.getEntityPlayer(), true)){
             hasSoulgazer = true;
-            ILycanitesTweaksKeybindsCapability playerKeybinds = LycanitesTweaksKeybindsCapability.getForPlayer(event.getEntityPlayer());
+            ILycanitesTweaksPlayerCapability playerKeybinds = LycanitesTweaksPlayerCapability.getForPlayer(event.getEntityPlayer());
             if(playerKeybinds != null && playerKeybinds.getSoulgazerManualToggle()) soulgazeAbility(event.getEntityPlayer(), event.getTarget());
         }
 

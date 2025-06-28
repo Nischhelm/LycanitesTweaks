@@ -1,8 +1,8 @@
 package lycanitestweaks.network;
 
 import io.netty.buffer.ByteBuf;
-import lycanitestweaks.capability.ILycanitesTweaksKeybindsCapability;
-import lycanitestweaks.capability.LycanitesTweaksKeybindsCapability;
+import lycanitestweaks.capability.ILycanitesTweaksPlayerCapability;
+import lycanitestweaks.capability.LycanitesTweaksPlayerCapability;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -16,7 +16,7 @@ public class PacketKeybindsSync implements IMessage {
     private boolean soulgazerManual;
 
     public PacketKeybindsSync() {}
-    public PacketKeybindsSync(LycanitesTweaksKeybindsCapability playerKeybinds) {
+    public PacketKeybindsSync(LycanitesTweaksPlayerCapability playerKeybinds) {
         this.soulgazerAuto = playerKeybinds.getSoulgazerAutoToggle();
         this.soulgazerManual = playerKeybinds.getSoulgazerManualToggle();
     }
@@ -48,7 +48,7 @@ public class PacketKeybindsSync implements IMessage {
         @Override
         public IMessage onMessage(PacketKeybindsSync message, MessageContext ctx) {
             Minecraft.getMinecraft().addScheduledTask(() -> {
-                ILycanitesTweaksKeybindsCapability playerKeybinds = LycanitesTweaksKeybindsCapability.getForPlayer(Minecraft.getMinecraft().player);
+                ILycanitesTweaksPlayerCapability playerKeybinds = LycanitesTweaksPlayerCapability.getForPlayer(Minecraft.getMinecraft().player);
                 if(playerKeybinds != null){
                     playerKeybinds.setSoulgazerAutoToggle(message.soulgazerAuto);
                     playerKeybinds.setSoulgazerManualToggle(message.soulgazerManual);

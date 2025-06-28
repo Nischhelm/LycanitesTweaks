@@ -1,8 +1,10 @@
 package lycanitestweaks;
 
 import com.lycanitesmobs.core.info.AltarInfo;
+import com.lycanitesmobs.core.mobevent.MobEventManager;
+import com.lycanitesmobs.core.mobevent.effects.StructureBuilder;
 import lycanitestweaks.capability.EntityStoreCreatureCapabilityHandler;
-import lycanitestweaks.capability.LycanitesTweaksKeybindsCapabilityHandler;
+import lycanitestweaks.capability.LycanitesTweaksPlayerCapabilityHandler;
 import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
 import lycanitestweaks.compat.ModLoadedUtil;
 import lycanitestweaks.handlers.ForgeConfigHandler;
@@ -14,12 +16,16 @@ import lycanitestweaks.compat.RLCombatHandler;
 import lycanitestweaks.handlers.features.item.ItemSoulgazerMoreInteractionsHandler;
 import lycanitestweaks.handlers.features.item.ItemStaffSummingLevelMapHandler;
 import lycanitestweaks.info.altar.AltarInfoBeastiary;
+import lycanitestweaks.info.altar.AltarInfoChargedCreeper;
+import lycanitestweaks.info.altar.AltarInfoWitheringHeights;
 import lycanitestweaks.info.altar.AltarInfoZombieHorse;
+import lycanitestweaks.worldgen.mobevents.WitheringHeightsStructureBuilder;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,9 +48,9 @@ public class LycanitesTweaks {
     public void preInit(FMLPreInitializationEvent event) {
         LycanitesTweaks.PROXY.preInit();
 
-        LycanitesTweaksKeybindsCapabilityHandler.registerCapability();
-        MinecraftForge.EVENT_BUS.register(LycanitesTweaksKeybindsCapabilityHandler.AttachCapabilityHandler.class);
-        MinecraftForge.EVENT_BUS.register(LycanitesTweaksKeybindsCapabilityHandler.class);
+        LycanitesTweaksPlayerCapabilityHandler.registerCapability();
+        MinecraftForge.EVENT_BUS.register(LycanitesTweaksPlayerCapabilityHandler.AttachCapabilityHandler.class);
+        MinecraftForge.EVENT_BUS.register(LycanitesTweaksPlayerCapabilityHandler.class);
         MinecraftForge.EVENT_BUS.register(ItemSoulgazerMoreInteractionsHandler.class);
 
         if(ForgeConfigHandler.majorFeaturesConfig.escConfig.entityStoreCreatureCapability){
@@ -72,12 +78,22 @@ public class LycanitesTweaks {
         if(ForgeConfigHandler.integrationConfig.craftedEquipmentRLCombatSweep && ModLoadedUtil.isRLCombatLoaded())
             MinecraftForge.EVENT_BUS.register(RLCombatHandler.class);
 
-        if(ForgeConfigHandler.server.altarsConfig.beastiaryAltar) AltarInfo.addAltar(new AltarInfoBeastiary("LycanitesTweaks:BeastiaryAltar"));
-        if(ForgeConfigHandler.server.altarsConfig.zombieHorseAltar) AltarInfo.addAltar(new AltarInfoZombieHorse("LycanitesTweaks:ZombieHorseAltar"));
+        if(ForgeConfigHandler.server.altarsConfig.beastiaryAltar) AltarInfo.addAltar(new AltarInfoBeastiary(LycanitesTweaks.MODID + ":beastiaryaltar"));
+        if(ForgeConfigHandler.server.altarsConfig.zombieHorseAltar) {
+            AltarInfo.addAltar(new AltarInfoChargedCreeper(LycanitesTweaks.MODID + ":chargedcreeperaltar"));
+            AltarInfo.addAltar(new AltarInfoZombieHorse(LycanitesTweaks.MODID + ":zombiehorsealtar"));
+            AltarInfo.addAltar(new AltarInfoWitheringHeights(LycanitesTweaks.MODID + ":witheringheights"));
+            StructureBuilder.addStructureBuilder(new WitheringHeightsStructureBuilder());
+        }
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event){
         LycanitesTweaks.PROXY.init();
+    }
+
+    @Mod.EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        MobEventManager.getInstance().reload();
     }
 }
