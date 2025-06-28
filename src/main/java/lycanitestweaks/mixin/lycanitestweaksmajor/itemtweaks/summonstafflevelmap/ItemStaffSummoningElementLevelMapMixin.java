@@ -25,7 +25,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
-import java.util.Locale;
 
 @Mixin(ItemStaffSummoning.class)
 public abstract class ItemStaffSummoningElementLevelMapMixin extends ItemScepter implements IItemStaffSummoningElementLevelMapMixin {

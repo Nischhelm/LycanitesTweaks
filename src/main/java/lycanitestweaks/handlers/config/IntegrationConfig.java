@@ -3,6 +3,21 @@ package lycanitestweaks.handlers.config;
 import net.minecraftforge.common.config.Config;
 
 public class IntegrationConfig {
+
+    // TODO Better bauble config
+    @Config.Comment("SoulgazerSoulgazerSoulgazerSoulgazerSoulgazer")
+    @Config.Name("Mod Compatibility: Soulgazer Bauble (BaublesAPI)")
+    @Config.RequiresMcRestart
+    public boolean soulgazerBauble = true;
+
+    @Config.Comment("Charm Else All")
+    @Config.Name("Mod Compatibility: Soulgazer Bauble Charm")
+    public boolean soulgazerBaubleCharm = true;
+
+    @Config.Comment("Ender Pearl")
+    @Config.Name("Mod Compatibility: Soulgazer Bauble Repair Material")
+    public boolean soulgazerBaubleRepairMaterial = true;
+
     @Config.Comment("Adds Distinct Damage Descriptions Information to Beastiary")
     @Config.Name("Mod Compatibility: Beastiary Info (Distinct Damage Descriptions)")
     @Config.RequiresMcRestart
@@ -47,4 +62,6 @@ public class IntegrationConfig {
 //		@MixinConfig.CompatHandling(modid = "bettercombatmod", reason = "RLCombat not found")
 //		@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.equipmentrlcombatsweep.json")
     public boolean craftedEquipmentRLCombatSweep = true;
+
+    // TODO add either forced rlcombat offhand or optional spam the log option
 }

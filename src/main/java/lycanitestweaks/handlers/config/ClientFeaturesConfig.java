@@ -4,6 +4,12 @@ import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 
 public class ClientFeaturesConfig {
+    @Config.Comment("Adds Altars Information to Beastiary")
+    @Config.Name("Beastiary Altars")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureclientbeastiaryaltartab.json")
+    public boolean beastiaryGUIAltars = true;
+
     @Config.Comment("Adds LycanitesTweaks Information to Beastiary")
     @Config.Name("Add Feature: LycanitesTweaks Beastiary")
     @Config.RequiresMcRestart

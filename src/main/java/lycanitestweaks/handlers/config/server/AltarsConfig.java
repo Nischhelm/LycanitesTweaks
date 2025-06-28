@@ -8,7 +8,7 @@ public class AltarsConfig {
             "\tInteract Block is Redstone above beacon layers of Obsidian")
     @Config.Name("Add Feature: Beastiary Altar")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureclientbeastiaryaltar.json")
+    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureclientbeastiaryaltarpacket.json")
     public boolean beastiaryAltar = true;
 
     @Config.Comment("Number of Beacon Style Layers required")

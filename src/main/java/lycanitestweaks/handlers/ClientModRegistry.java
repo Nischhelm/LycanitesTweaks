@@ -10,8 +10,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import org.lwjgl.input.Keyboard;
-import lycanitestweaks.LycanitesTweaks;
 
 @Mod.EventBusSubscriber(modid = LycanitesTweaks.MODID, value = Side.CLIENT)
 public class ClientModRegistry {

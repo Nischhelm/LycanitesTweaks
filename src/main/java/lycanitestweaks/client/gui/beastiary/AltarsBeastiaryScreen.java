@@ -152,7 +152,7 @@ public class AltarsBeastiaryScreen extends BeastiaryScreen {
 		int rotationOffset = (int) (1 * scale);
 		int startX = xPos - (drawOffsetX * 3 / 4);
 		int startY = yPos + (drawOffsetY * 3 / 4);
-		int drawX = startX - (drawOffsetX * 5 / 2);;
+		int drawX = startX - (drawOffsetX * 5 / 2);
 		int drawY = startY - (drawOffsetY * 3 / 2);
 
 		// TODO Render bottom up instead of top down
