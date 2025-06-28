@@ -73,8 +73,9 @@ public class CripplingEffectsHandler {
         event.getEntityLiving().attackEntityFrom(newSource, event.getAmount());
     }
 
+    // Copies most properties. Death message should remain the same and pass any damageType string matches
     private static DamageSource copyDamageSource(DamageSource source){
-        String damageType = source.damageType; //TODO: could use your own damagetype + deathmsg here, but dmg done to player will skip most SME enchants then (forces "player" or "mob")
+        String damageType = source.damageType;
         Entity immSource = source.getImmediateSource();
         Entity trueSource = source.getTrueSource();
 

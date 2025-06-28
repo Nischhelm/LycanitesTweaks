@@ -24,8 +24,10 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 
-import java.util.*;
-import java.util.stream.Collector;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Helpers {
@@ -109,8 +111,8 @@ public class Helpers {
             Helpers.chargeElementsMap = new HashMap<>();
             ObjectManager.items.forEach((name, item) -> {
                 if(item instanceof ChargeItem){
-                    for(String element : ((ChargeItem) item).getElementNames().split(",")){
-                        String elementString = element.trim().toLowerCase();
+                    ((ChargeItem) item).getElements().forEach(elementInfo -> {
+                        String elementString = elementInfo.name;
                         String chargeString = ((ChargeItem) item).itemName.trim();
                         ArrayList<String> projectiles;
 
@@ -118,7 +120,7 @@ public class Helpers {
                         else projectiles = Helpers.chargeElementsMap.get(elementString);
                         projectiles.add(chargeString);
                         Helpers.chargeElementsMap.put(elementString, projectiles);
-                    }
+                    });
                 }
             });
             if(ForgeConfigHandler.client.debugLoggerAutomatic) LycanitesTweaks.LOGGER.log(Level.INFO, "chargeElementsMap: {}", Helpers.chargeElementsMap);

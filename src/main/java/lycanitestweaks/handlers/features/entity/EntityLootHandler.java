@@ -49,21 +49,17 @@ public class EntityLootHandler {
             }
         }
         if(!ForgeConfigHandler.server.lootConfig.registerBossSoulkeyLootTables){
-            //TODO: nischcomment how will this double check below ever work?
-            // resourceloc.toString will always be modid:whatever, so the first check will always fail
-            if(LycanitesMobs.modid.equals(event.getName().toString())){
-                if (LycanitesMobs.modid.equals(event.getName().getNamespace())) {
-                    switch (event.getName().getPath()) {
-                        case "amalgalich":
-                            event.getTable().removePool("amalgalich_thousand_soulkey");
-                            break;
-                        case "asmodeus":
-                            event.getTable().removePool("asmodeus_thousand_soulkey");
-                            break;
-                        case "rahovart":
-                            event.getTable().removePool("rahovart_thousand_soulkey");
-                            break;
-                    }
+            if (LycanitesMobs.modid.equals(event.getName().getNamespace())) {
+                switch (event.getName().getPath()) {
+                    case "amalgalich":
+                        event.getTable().removePool("amalgalich_thousand_soulkey");
+                        break;
+                    case "asmodeus":
+                        event.getTable().removePool("asmodeus_thousand_soulkey");
+                        break;
+                    case "rahovart":
+                        event.getTable().removePool("rahovart_thousand_soulkey");
+                        break;
                 }
             }
         }
@@ -137,14 +133,13 @@ public class EntityLootHandler {
     private static LootEntry getRandomChargesEntry(String charge, String entryName) {
         return new LootEntryItem(ObjectManager.getItem(charge), 1, 0,
                 new LootFunction[]{
-                        //TODO: rn its [min to max] x moblvl x scale + [0 to loot] x lootLvl
-                        // idk if the looting part should be scaled as well
                         new SetCount(nullCond,new RandomValueRange(
                                 ForgeConfigHandler.server.lootConfig.randomChargeScaledCountMinimum,
                                 ForgeConfigHandler.server.lootConfig.randomChargeScaledCountMaximum)),
                         new ScaleWithMobLevels(nullCond,
                                 ForgeConfigHandler.server.lootConfig.randomChargeLevelScale,
                                 ForgeConfigHandler.server.lootConfig.randomChargeDropLimit),
+                        // Looting is not level scaled
                         new LootingEnchantBonus(nullCond, new RandomValueRange(0,
                                 ForgeConfigHandler.server.lootConfig.randomChargeLootingBonus), 0)},
                 nullCond,
