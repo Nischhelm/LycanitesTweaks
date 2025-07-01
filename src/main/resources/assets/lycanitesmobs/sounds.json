@@ -1,4 +1,8 @@
 {
+  "mobevent.lycanitestweaks_witheringheights": {
+    "category": "record",
+    "sounds": [{"name": "lycanitesmobs:mobevent/lycanitestweaks_witheringheights", "stream": true}]
+  },
   "projectile.demonicchaosorb": {
     "category": "ambient",
     "sounds": [{"name": "lycanitesmobs:projectile/demonicchaosorb", "stream": false}]

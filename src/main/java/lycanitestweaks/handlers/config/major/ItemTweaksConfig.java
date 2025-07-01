@@ -17,7 +17,7 @@ public class ItemTweaksConfig {
     @Config.Comment("Make offhand crafted equipment RMB ability require player to be sneaking")
     @Config.Name("Crafted Equipment Offhand RMB Needs Sneak")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.equipmentrmbneedssneak.json")
+    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureequipmentrmbneedssneak.json")
     public boolean craftedEquipmentOffhandRMBSneak = true;
 
     @Config.Comment("Allows Sword Enchantments and Efficiency")

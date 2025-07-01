@@ -2,6 +2,7 @@ package lycanitestweaks;
 
 import fermiumbooter.FermiumRegistryAPI;
 import lycanitestweaks.handlers.ForgeConfigHandler;
+import lycanitestweaks.handlers.ForgeConfigProvider;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.spongepowered.asm.launch.MixinBootstrap;
 
@@ -29,6 +30,8 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 		FermiumRegistryAPI.isModPresent("reachfix") && ForgeConfigHandler.integrationConfig.craftedEquipmentReachFix);
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.lycanitestweaks.equipmentrlcombatsweep.json",
 		FermiumRegistryAPI.isModPresent("bettercombatmod") && ForgeConfigHandler.integrationConfig.craftedEquipmentRLCombatSweep);
+
+		ForgeConfigProvider.pluginInit();
 	}
 
 	@Override

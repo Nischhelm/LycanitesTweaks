@@ -81,9 +81,11 @@ public class LycanitesTweaks {
 
         // TODO FIX the altars, withering height needs json inject
         if(ForgeConfigHandler.server.altarsConfig.beastiaryAltar) AltarInfo.addAltar(new AltarInfoBeastiary(LycanitesTweaks.MODID + ":beastiaryaltar"));
-        if(ForgeConfigHandler.server.altarsConfig.zombieHorseAltar) {
+        if(ForgeConfigHandler.server.altarsConfig.vanillaEntityAltars) {
             AltarInfo.addAltar(new AltarInfoChargedCreeper(LycanitesTweaks.MODID + ":chargedcreeperaltar"));
             AltarInfo.addAltar(new AltarInfoZombieHorse(LycanitesTweaks.MODID + ":zombiehorsealtar"));
+        }
+        if(ForgeConfigHandler.server.altarsConfig.witheringHeightsAltar){
             AltarInfo.addAltar(new AltarInfoWitheringHeights(LycanitesTweaks.MODID + ":witheringheights"));
             StructureBuilder.addStructureBuilder(new WitheringHeightsStructureBuilder());
         }
@@ -97,6 +99,7 @@ public class LycanitesTweaks {
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
+        // Wither Altar
         MobEventManager.getInstance().reload();
     }
 }

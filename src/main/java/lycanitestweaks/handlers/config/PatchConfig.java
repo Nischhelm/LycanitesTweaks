@@ -124,12 +124,12 @@ public class PatchConfig {
             "Also fixes a minimal bug in Lyca Pet chest inventory where one slot (bottom right in player inventory) was not reachable via quick move.")
     @Config.Name("Fix Container Quick Move")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.containerbettershifting.json")
+    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchescontainerbettershifting.json")
     public boolean fixContainerQuickMove = true;
 
     @Config.Comment("Players can only interact with Lyca crafting blocks from very low distances. This fix instead makes them copy the vanilla block (crafting table, furnace etc) behavior")
     @Config.Name("Fix Tile Entity Interaction Distance")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.tileentityinteractiondistance.json")
+    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchestileentityinteractiondistance.json")
     public boolean fixTileEntityInteractionDistance = true;
 }

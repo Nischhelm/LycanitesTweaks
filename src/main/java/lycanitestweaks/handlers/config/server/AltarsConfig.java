@@ -21,8 +21,13 @@ public class AltarsConfig {
     @Config.Name("Add Feature: Beastiary Altar - Minimum Knowledge Rank")
     public int beastiaryAltarKnowledgeRank = 2;
 
-    @Config.Comment("Test example for a future Pull Request")
-    @Config.Name("Add Feature: Zombie Horse Altar")
+    @Config.Comment("Altars for misc entities (ex Zombie Horse and Charged Creeper). Includes beastiary renders.")
+    @Config.Name("Vanilla Entity Altars")
     @Config.RequiresMcRestart
-    public boolean zombieHorseAltar = true;
+    public boolean vanillaEntityAltars = true;
+
+    @Config.Comment("Altar for JSON configurable lycanitestweaks_witheringheights event. Requires Lycanites JSON loading to work automatically.")
+    @Config.Name("Withering Heights Event Altar")
+    @Config.RequiresMcRestart
+    public boolean witheringHeightsAltar = true;
 }

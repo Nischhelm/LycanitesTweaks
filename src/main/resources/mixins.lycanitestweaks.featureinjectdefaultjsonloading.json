@@ -7,6 +7,9 @@
   "minVersion": "0.8",
   "mixins": [
     "assetload.JSONLoaderLycanitesTweaksMixin",
+    "assetload.JSONDungeonsLycanitesTweaksMixin",
+    "assetload.JSONMobEventsLycanitesTweaksMixin",
+    "assetload.JSONSpawnersLycanitesTweaksMixin",
     "assetload.ProjectileBehaviorAdditionalMixin"
   ],
   "injectors": {

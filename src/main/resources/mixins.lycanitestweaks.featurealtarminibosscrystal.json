@@ -6,14 +6,7 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "entitystorecrystals.altar.AltarInfoCelestialGeonachCrystalMixin",
-    "entitystorecrystals.altar.AltarInfoCrimsonEpionCrystalMixin",
-    "entitystorecrystals.altar.AltarInfoEbonCacodemonCrystalMixin",
-    "entitystorecrystals.altar.AltarInfoLunarGrueCrystalMixin",
-    "entitystorecrystals.altar.AltarInfoMottleAbaiaCrystalMixin",
-    "entitystorecrystals.altar.AltarInfoPhosphorescentChupacabraCrystalMixin",
-    "entitystorecrystals.altar.AltarInfoRoyalArchvileCrystalMixin",
-    "entitystorecrystals.altar.AltarInfoUmberLobberCrystalMixin"
+    "entitystorecrystals.AltarInfoMiniBossCrystalMixin"
   ],
   "injectors": {
     "maxShiftBy": 10
