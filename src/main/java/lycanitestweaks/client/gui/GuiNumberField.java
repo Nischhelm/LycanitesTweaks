@@ -13,6 +13,7 @@ public class GuiNumberField extends GuiTextField {
     // Probably should just use GuiTextField with exact regex
     @Override
     public boolean textboxKeyTyped(char typedChar, int keyCode){
+        if(!(Character.isDigit(typedChar) || typedChar == '-') && this.getText().isEmpty()) return false;
         if(Character.isAlphabetic(typedChar)) return false;
         return super.textboxKeyTyped(typedChar, keyCode);
     }

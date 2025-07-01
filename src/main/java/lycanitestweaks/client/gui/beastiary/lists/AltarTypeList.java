@@ -1,7 +1,6 @@
 package lycanitestweaks.client.gui.beastiary.lists;
 
 import com.lycanitesmobs.client.gui.beastiary.BeastiaryScreen;
-import com.lycanitesmobs.core.info.AltarInfo;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
 
@@ -30,7 +29,6 @@ public class AltarTypeList extends AltarFilterList {
 		this.selectedIndex = this.parentGui.playerExt.selectedPetType;
 		this.altarTypeList.clear();
 
-		// TODO lang keys
 		this.altarTypeList.put(0, "gui.beastiary.altar.challenge");
 		this.altarTypeList.put(1, "gui.beastiary.altar.boss");
 		this.altarTypeList.put(2, "gui.beastiary.altar.nonevent");
@@ -51,7 +49,7 @@ public class AltarTypeList extends AltarFilterList {
 		this.parentGui.playerExt.selectedPetType = index;
 		for(AltarList altarList : this.filteredLists) {
 			if(altarList != null) {
-				this.updateCreatureListType(altarList);
+				this.updateAltarListType(altarList);
 			}
 		}
 	}
@@ -61,7 +59,7 @@ public class AltarTypeList extends AltarFilterList {
 	 * Updates the list type of the provided Creature List to match this filter list.
 	 * @param altarList The Creature List to update.
 	 */
-	public void updateCreatureListType(AltarList altarList) {
+	public void updateAltarListType(AltarList altarList) {
 		AltarList.Type listType = null;
 		if(this.selectedIndex == 0) {
 			listType = AltarList.Type.CHALLENGE;
@@ -84,13 +82,9 @@ public class AltarTypeList extends AltarFilterList {
 	protected boolean isSelected(int index) {
 		return this.selectedIndex == index;
 	}
-	
-
-	@Override
-	protected void drawBackground() {}
 
 
-	@Override
+    @Override
 	protected void drawSlot(int index, int boxRight, int boxTop, int boxBottom, Tessellator tessellator) {
 		String altarListType = this.altarTypeList.get(index);
 		if(altarListType == null) {
@@ -103,27 +97,6 @@ public class AltarTypeList extends AltarFilterList {
 	@Override
 	public void addFilteredList(AltarList altarList) {
 		super.addFilteredList(altarList);
-		this.updateCreatureListType(altarList);
-	}
-
-
-	@Override
-	public boolean canListCreature(AltarInfo altarInfo, AltarList.Type listType) {
-		if(altarInfo == null || listType == null) {
-			return false;
-		}
-		if(this.selectedIndex == 0 && listType == AltarList.Type.CHALLENGE) {
-			return true;
-		}
-		if(this.selectedIndex == 1 && listType == AltarList.Type.BOSS) {
-			return true;
-		}
-		if(this.selectedIndex == 2 && listType == AltarList.Type.NONEVENT) {
-			return true;
-		}
-		if(this.selectedIndex == 3 && listType == AltarList.Type.EVENT) {
-			return true;
-		}
-		return false;
+		this.updateAltarListType(altarList);
 	}
 }

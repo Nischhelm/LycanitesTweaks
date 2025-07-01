@@ -1,7 +1,6 @@
 package lycanitestweaks.client.gui.beastiary.lists;
 
 import com.lycanitesmobs.client.gui.beastiary.BeastiaryScreen;
-import com.lycanitesmobs.core.info.AltarInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraftforge.fml.client.GuiScrollingList;
@@ -9,6 +8,7 @@ import net.minecraftforge.fml.client.GuiScrollingList;
 import java.util.ArrayList;
 import java.util.List;
 
+// Based on CreatureFilterList.class, likely could use gnerics but nah
 public class AltarFilterList extends GuiScrollingList {
 	protected List<AltarList> filteredLists = new ArrayList<>();
 	protected BeastiaryScreen parentGui;
@@ -71,23 +71,12 @@ public class AltarFilterList extends GuiScrollingList {
 
 
 	/**
-	 * Adds a Creature List as a list that should be filtered by this filter list.
-	 * @param altarList The Creature List to add and refresh as this filter list changes.
+	 * Adds a Altar List as a list that should be filtered by this filter list.
+	 * @param altarList The Altar List to add and refresh as this filter list changes.
 	 */
 	public void addFilteredList(AltarList altarList) {
 		if(!this.filteredLists.contains(altarList)) {
 			this.filteredLists.add(altarList);
 		}
-	}
-
-
-	/**
-	 * Returns if this filter list allows the provided Creature Info to be added to the display list.
-	 * @param altarInfo The Creature info to display.
-	 * @param listType The type of Creature List.
-	 * @return True if the Creature Info should be included.
-	 */
-	public boolean canListCreature(AltarInfo altarInfo, AltarList.Type listType) {
-		return true;
 	}
 }

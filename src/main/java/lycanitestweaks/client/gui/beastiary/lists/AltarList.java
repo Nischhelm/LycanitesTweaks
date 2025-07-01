@@ -13,13 +13,16 @@ import net.minecraftforge.fml.client.GuiScrollingList;
 import java.util.HashMap;
 import java.util.Map;
 
+// Based on CreatureList.class
 public class AltarList extends GuiScrollingList {
+
 	public enum Type {
 		CHALLENGE((byte)0), BOSS((byte)1), NONEVENT((byte)2), EVENT((byte)3);
 		public final byte id;
 		Type(byte i) { id = i; }
 	}
 
+	// To the hopeful future that vanilla altars are clear and exposed
 	public static final String[] CORE_BLOCK_PATTERN_STRINGS = new String[]{
 			"#",
 			"#",
@@ -27,27 +30,24 @@ public class AltarList extends GuiScrollingList {
 			"#",
 			"#"
 	};
-
 	public static final String[] PILLAR_BLOCK_PATTERN_STRINGS = new String[]{
 			"^",
 			"#",
 			"#",
 			"#"
 	};
-
 	public final HashMap<String, String[]> challengeAltarBlockPatterns = new HashMap<>();
 	public final HashMap<String, String> bossAltarSoulcubes = new HashMap<>();
 
 	private Type listType;
 	private final BeastiaryScreen parentGui;
-	private final AltarFilterList filterList;
-	private final Map<Integer, AltarInfo> altarList = new HashMap<>();
+    private final Map<Integer, AltarInfo> altarList = new HashMap<>();
 
 	/**
 	 * Constructor
 	 * @param listType The type of contents to show in this list.
 	 * @param parentGui The Beastiary GUI using this list.
-	 * @param filterList A creature filter list to restrict this list by, if null every creature is listed.
+	 * @param filterList A altar filter list to restrict this list by, if null every altar is listed.
 	 * @param width The width of the list.
 	 * @param height The height of the list.
 	 * @param top The y position that the list starts at.
@@ -55,16 +55,14 @@ public class AltarList extends GuiScrollingList {
 	 * @param x The x position of the list.
 	 */
 	public AltarList(Type listType, BeastiaryScreen parentGui, AltarFilterList filterList, int width, int height, int top, int bottom, int x) {
-		super(Minecraft.getMinecraft(), width, height, top, bottom, x, 24, width, height);
+		super(Minecraft.getMinecraft(), width, height, top, bottom, x, 16, width, height);
 		this.listType = listType;
 		this.parentGui = parentGui;
-		this.filterList = filterList;
-		if(this.filterList != null) {
-			this.filterList.addFilteredList(this);
+        if(filterList != null) {
+			filterList.addFilteredList(this);
 		}
 		this.loadVanillaAltars();
 		this.refreshList();
-
 	}
 
 	private void loadVanillaAltars(){
@@ -140,23 +138,22 @@ public class AltarList extends GuiScrollingList {
 		this.altarList.clear();
 		int altarIndex = 0;
 
-//		List<String> altars = new ArrayList<>(AltarInfo.altars.keySet());
-//		altars.sort(Collator.getInstance(new Locale("US")));
-
-		// Creature Knowledge List:
+		// Vanilla Rare Altars
 		if(this.listType == Type.CHALLENGE) {
 			for(String altarName : this.challengeAltarBlockPatterns.keySet()) this.altarList.put(altarIndex++, AltarInfo.getAltar(altarName));
 		}
-		// Pet List:
+		// Vanilla Boss Altars
 		else if(this.listType == Type.BOSS) {
 			for(String altarName : this.bossAltarSoulcubes.keySet()) this.altarList.put(altarIndex++, AltarInfo.getAltar(altarName));
 		}
+		// Most other should be non-event
 		else if(this.listType == Type.NONEVENT) {
 			for(AltarInfo altarInfo : AltarInfo.altars.values()){
 				if(altarInfo.mobEventTrigger == null && altarInfo instanceof IAltarBeastiaryRender)
 					this.altarList.put(altarIndex++, altarInfo);
 			}
 		}
+		// Few remaining will correctly link an event
 		else if(this.listType == Type.EVENT) {
 			for(AltarInfo altarInfo : AltarInfo.altars.values()){
 				if(altarInfo.mobEventTrigger != null && altarInfo instanceof IAltarBeastiaryRender)
@@ -173,7 +170,6 @@ public class AltarList extends GuiScrollingList {
 		}
 		return 0;
 	}
-
 
 	@Override
 	protected void elementClicked(int index, boolean doubleClick) {
@@ -192,7 +188,6 @@ public class AltarList extends GuiScrollingList {
 
 	}
 
-
     @Override
     protected int getContentHeight() {
         return this.getSize() * this.slotHeight;
@@ -201,26 +196,13 @@ public class AltarList extends GuiScrollingList {
 
 	@Override
 	protected void drawSlot(int index, int boxRight, int boxTop, int boxBottom, Tessellator tessellator) {
-		// Knowledge Slot:
 		if(this.listType != null) {
 			// Name:
 			String altarName = this.getAltarTitle(index);
 			if(altarName.isEmpty()) return;
-			int nameY = boxTop + 6;
+			int nameY = boxTop + 2;
 
-			// TODO lang keys
-			this.parentGui.getFontRenderer().drawString(altarName, this.left + 20, nameY, 0xFFFFFF);
-
-			// Level:
-//			if (this.listType == Type.CHALLENGE) {
-//				this.parentGui.getFontRenderer().drawString(altarInfo.name, this.left + 20, nameY, 0xFFFFFF);
-//				this.parentGui.drawLevel(altarInfo, AssetManager.getTexture("GUIPetLevel"), this.left + 18, boxTop + 10);
-//			}
-
-			// Icon:
-//			if (altarInfo.getIcon() != null) {
-//				this.parentGui.drawTexture(altarInfo.getIcon(), this.left + 2, boxTop + 2, 0, 1, 1, 16, 16);
-//			}
+			this.parentGui.getFontRenderer().drawString(altarName, this.left + 2, nameY, 0xFFFFFF);
 		}
 	}
 
@@ -252,26 +234,44 @@ public class AltarList extends GuiScrollingList {
 		return null;
 	}
 
-	// TODO lang keys
 	private String getAltarTitle(int index){
+		AltarInfo altarInfo = this.altarList.get(index);
+		if (altarInfo != null) return I18n.format("altars.altarinfo." + altarInfo.name + ".name");
+
+		return "";
+	}
+
+	/**
+	 *
+	 * @return Translated string of an Altar's relatively short title
+	 */
+	public String getSelectedAltarTitle(){
+		return this.getAltarTitle(this.selectedIndex);
+	}
+
+	private String getAltarDescription(int index){
 		AltarInfo altarInfo = this.altarList.get(index);
 		if (altarInfo != null) {
 			if(this.listType == Type.CHALLENGE || this.listType == Type.NONEVENT){
-				return I18n.format(altarInfo.name);
+				return I18n.format("altars.altarinfo." + altarInfo.name + ".description");
 			}
 			if(this.listType == Type.BOSS || this.listType == Type.EVENT){
-				return I18n.format(altarInfo.mobEventTrigger.mobEvent.name);
+				return I18n.format("mobevent." + altarInfo.mobEventTrigger.mobEvent.name + ".name");
 			}
 		}
 		return "";
 	}
 
-	public String getSelectedAltarTitle(){
-		return this.getAltarTitle(this.selectedIndex);
+	/**
+	 *
+	 * @return Translated string of an Altar's longer description
+	 */
+	public String getSelectedAltarDescription(){
+		return this.getAltarDescription(this.selectedIndex);
 	}
 
 	/**
-	 * Changes the type of creatures that this list should display. Also refreshes this list.
+	 * Changes the type of altars that this list should display. Also refreshes this list.
 	 * @param listType The new list type to use.
 	 */
 	public void changeType(Type listType) {

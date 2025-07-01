@@ -8,27 +8,44 @@ import com.lycanitesmobs.client.gui.beastiary.lists.CreatureList;
 import com.lycanitesmobs.client.gui.beastiary.lists.CreatureTypeList;
 import com.lycanitesmobs.client.gui.beastiary.lists.SubspeciesList;
 import com.lycanitesmobs.client.localisation.LanguageManager;
+import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.info.CreatureInfo;
 import com.lycanitesmobs.core.info.CreatureKnowledge;
+import com.lycanitesmobs.core.info.CreatureManager;
 import com.lycanitesmobs.core.info.Subspecies;
+import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.capability.IPlayerMobLevelCapability;
 import lycanitestweaks.capability.PlayerMobLevelCapability;
 import lycanitestweaks.client.gui.GuiNumberField;
+import lycanitestweaks.handlers.ForgeConfigProvider;
+import lycanitestweaks.handlers.config.major.PlayerMobLevelsConfig;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class PMLBeastiaryScreen extends BeastiaryScreen {
 
 	public IPlayerMobLevelCapability pml;
+	private final HashMap<PlayerMobLevelsConfig.BonusCategory, Integer> pmlBonusCateogories = new HashMap<>();
 
 	public CreatureTypeList creatureTypeList;
 	public CreatureList creatureList;
 	public SubspeciesList subspeciesList;
 	private GuiNumberField commandTextField;
+	private GuiButton setOneButton;
+	private GuiButton setAllButton;
 
+	// bc modifying com.lycanitesmobs.GuiHandler.Beastiary is stupid
 	public static final byte BEASTIARY_PML_ID = 6;
+	public static final int NUMBER_FIELD_ID = 1337;
+	// Lyca Beastiary ID that is unique and also not caught by default handling
+	public static final int ALL_BUTTON_ID = -69;
+	public static final int ONE_BUTTON_ID = -420;
 
 	/**
 	 * Opens this GUI up to the provided player.
@@ -51,7 +68,6 @@ public class PMLBeastiaryScreen extends BeastiaryScreen {
 	public String getTitle() {
 		if(this.creatureList != null && this.playerExt.selectedCreature != null) {
 			return "";
-			//return this.playerExt.selectedCreature.getTitle();
 		}
 		if(this.creatureTypeList != null && this.playerExt.selectedCreatureType != null) {
 			return this.playerExt.selectedCreatureType.getTitle();
@@ -79,13 +95,19 @@ public class PMLBeastiaryScreen extends BeastiaryScreen {
 		int subspeciesListHeight = Math.round((float)this.colRightHeight * 0.4f) - 2;
 		this.subspeciesList = new SubspeciesList(this, false, selectionListsWidth, subspeciesListHeight, subspeciesListY,subspeciesListY + subspeciesListHeight, this.colRightX);
 
-//		int newLine = this.getFontRenderer().getWordWrappedHeight("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA", this.colRightWidth - selectionListsWidth) + 2;
-//		int descriptionListY = this.colRightY + (newLine * 3);
-//		this.descriptionList = new CreatureDescriptionList(this, this.colRightWidth - selectionListsWidth, this.colRightHeight, descriptionListY, this.colRightY + this.colRightHeight, this.colRightX + selectionListsWidth + 2);
-
-		this.commandTextField = new GuiNumberField(33333, this.fontRenderer, this.width / 2 - 150, 50, 300, 20);
-		this.commandTextField.setMaxStringLength(32500);
+		this.commandTextField = new GuiNumberField(PMLBeastiaryScreen.NUMBER_FIELD_ID, this.getFontRenderer(), this.colRightX + selectionListsWidth, subspeciesListY, selectionListsWidth, 20);
+		this.commandTextField.setValidator(s -> s.matches("((0(\\.\\d*)?)|(1(\\.0?)?))|()"));
+		this.commandTextField.setMaxStringLength(8);
+		this.commandTextField.setVisible(false);
 		this.commandTextField.setFocused(true);
+
+		this.setOneButton = new GuiButton(PMLBeastiaryScreen.ONE_BUTTON_ID, this.colRightX + selectionListsWidth, subspeciesListY + this.commandTextField.height , (int) (selectionListsWidth * 1.5F), 20, I18n.format("gui.beastiary.pml.button.one"));
+		this.setOneButton.visible = false;
+		this.buttonList.add(setOneButton);
+
+		this.setAllButton = new GuiButton(PMLBeastiaryScreen.ALL_BUTTON_ID, this.colRightX + selectionListsWidth, subspeciesListY + subspeciesListHeight - 20, (int) (selectionListsWidth * 1.5F), 20, I18n.format("gui.beastiary.pml.button.all"));
+		this.setAllButton.visible = false;
+		this.buttonList.add(setAllButton);
 	}
 
 
@@ -178,8 +200,69 @@ public class PMLBeastiaryScreen extends BeastiaryScreen {
 			}
 
 			// Description:
-//			this.descriptionList.creatureKnowledge = creatureKnowledge;
-//			this.descriptionList.drawScreen(mouseX, mouseY, partialTicks);
+			if(this.creaturePreviewEntity instanceof BaseCreatureEntity) {
+				BaseCreatureEntity creature = (BaseCreatureEntity) this.creaturePreviewEntity;
+				nextY += 4 + this.getFontRenderer().getWordWrappedHeight(text, colRightWidth);
+				int rhNextX = (int) (this.colRightX + this.colRightWidth * 0.75F);
+				int rhNextY = nextY;
+
+				if (this.playerExt.getBeastiary().hasKnowledgeRank(creatureInfo.getName(), 2)) {
+					if (CreatureManager.getInstance().config.startingLevelMax > CreatureManager.getInstance().config.startingLevelMin) {
+						text = I18n.format("gui.beastiary.pml.creatures.range",
+								CreatureManager.getInstance().config.startingLevelMin,
+								CreatureManager.getInstance().config.startingLevelMax);
+					}
+					else {
+						int timeLevel = (int) (CreatureManager.getInstance().config.levelPerLocalDifficulty * 6.75D);
+						if (CreatureManager.getInstance().config.levelPerDay > 0)
+							timeLevel += CreatureManager.getInstance().config.levelPerDayMax;
+						text = I18n.format("gui.beastiary.pml.creatures.time", timeLevel);
+					}
+					nextY += 4 + this.getFontRenderer().getWordWrappedHeight(text, colRightWidth);
+					this.getFontRenderer().drawString(text, nextX, nextY, 0xFFFFFF, true);
+				}
+				IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(this.player);
+				if (pml != null) {
+					if(this.player.ticksExisted % 20 == 0) PlayerMobLevelsConfig.getPmlBonusCategories().keySet()
+							.forEach(bonusCategory -> this.pmlBonusCateogories
+									.put(bonusCategory, pml.getTotalLevelsForCategory(bonusCategory, creature, true)));
+
+					text = I18n.format("gui.beastiary.pml.creatures.elements", pml.getCurrentLevelBestiary(creatureInfo.elements));
+					nextY += 4 + this.getFontRenderer().getWordWrappedHeight(text, colRightWidth);
+					this.getFontRenderer().drawString(text, nextX, nextY, 0xFFFFFF, true);
+
+					text = I18n.format("gui.beastiary.pml.creatures.pet", pml.getHighestLevelPetActive());
+					nextY += 4 + this.getFontRenderer().getWordWrappedHeight(text, colRightWidth);
+					this.getFontRenderer().drawString(text, nextX, nextY, 0xFFFFFF, true);
+
+					text = I18n.format("gui.beastiary.pml.creatures.enchantments", pml.getTotalEnchantmentLevels());
+					nextY += 4 + this.getFontRenderer().getWordWrappedHeight(text, colRightWidth);
+					this.getFontRenderer().drawString(text, nextX, nextY, 0xFFFFFF, true);
+
+					text = I18n.format("gui.beastiary.pml.creatures.modifier", 100 * pml.getPMLModifierForCreature(creature));
+					nextY += 2 * (4 + this.getFontRenderer().getWordWrappedHeight(text, colRightWidth));
+					this.getFontRenderer().drawString(text, nextX, nextY, 0xFFFFFF, true);
+
+					if(pml.getDeathCooldown() > 0){
+						text = I18n.format("gui.beastiary.pml.creatures.death");
+						nextY += 4 + this.getFontRenderer().getWordWrappedHeight(text, colRightWidth);
+						this.getFontRenderer().drawString(text, nextX, nextY, 0xFFFFFF, true);
+					}
+
+					for(PlayerMobLevelsConfig.BonusCategory category : ForgeConfigProvider.getPmlBonusCategoryClientRenderOrder()){
+						if(pmlBonusCateogories.containsKey(category)){
+							rhNextY += 4 + this.getFontRenderer().getWordWrappedHeight("", this.colLeftWidth);
+							if(PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(category))
+								this.drawTexture(new ResourceLocation(LycanitesMobs.modid, "textures/items/soulgazer.png"),rhNextX - 20, rhNextY - 4, 0, 1, 1, 16 ,16);
+							text = I18n.format("gui.beastiary.index.mixin." + category.name(), pmlBonusCateogories.get(category));
+							this.getFontRenderer().drawString(text, rhNextX, rhNextY, 0xFFFFFF, true);
+						}
+					}
+					text = I18n.format("gui.beastiary.index.mixin.deathcooldown", pml.getDeathCooldown() / 20);
+					rhNextY += 4 + this.getFontRenderer().getWordWrappedHeight("", this.colLeftWidth);
+					this.getFontRenderer().drawString(text, rhNextX, rhNextY, 0xFFFFFF, true);
+				}
+			}
 		}
 
 		// Creature Type Display:
@@ -209,11 +292,48 @@ public class PMLBeastiaryScreen extends BeastiaryScreen {
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException{
 		super.mouseClicked(mouseX, mouseY, mouseButton);
-		this.commandTextField.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
 	@Override
 	protected void actionPerformed(GuiButton guiButton) throws IOException {
 		super.actionPerformed(guiButton);
+		if (guiButton != null) {
+			IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(this.player);
+			if(pml != null && this.creaturePreviewEntity instanceof BaseCreatureEntity) {
+				if (guiButton.id == PMLBeastiaryScreen.ONE_BUTTON_ID) {
+					try {
+						pml.setPMLModifierForCreature((BaseCreatureEntity)this.creaturePreviewEntity, Float.parseFloat(this.commandTextField.getText()));
+					} catch (Exception exception) {
+						LycanitesTweaks.LOGGER.error(exception);
+					}
+					this.commandTextField.setText(String.valueOf(pml.getPMLModifierForCreature((BaseCreatureEntity)this.creaturePreviewEntity)));
+				}
+				if (guiButton.id == PMLBeastiaryScreen.ALL_BUTTON_ID) {
+					try {
+						pml.setPMLModifierForAll(Float.parseFloat(this.commandTextField.getText()));
+					} catch (Exception exception) {
+						LycanitesTweaks.LOGGER.error(exception);
+					}
+					this.commandTextField.setText(String.valueOf(pml.getPMLModifierForCreature((BaseCreatureEntity)this.creaturePreviewEntity)));
+				}
+			}
+		}
+	}
+
+	@Override
+	public void onCreateDisplayEntity(CreatureInfo creatureInfo, EntityLivingBase entity) {
+		super.onCreateDisplayEntity(creatureInfo, entity);
+		IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(this.player);
+		if(pml != null && entity instanceof BaseCreatureEntity){
+			this.commandTextField.setText(String.valueOf(pml.getPMLModifierForCreature((BaseCreatureEntity) entity)));
+			this.commandTextField.setVisible(true);
+			this.setOneButton.visible = true;
+			this.setAllButton.visible = true;
+		}
+		else {
+			this.commandTextField.setVisible(false);
+			this.setOneButton.visible = false;
+			this.setAllButton.visible = false;
+		}
 	}
 }

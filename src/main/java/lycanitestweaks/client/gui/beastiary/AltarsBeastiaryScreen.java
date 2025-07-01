@@ -11,6 +11,7 @@ import lycanitestweaks.info.altar.IAltarBeastiaryRender;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -19,6 +20,7 @@ public class AltarsBeastiaryScreen extends BeastiaryScreen {
 	public AltarFilterList altarTypeList;
 	public AltarList altarList;
 
+	// bc modifying com.lycanitesmobs.GuiHandler.Beastiary is stupid
 	public static final byte BEASTIARY_ALTAR_ID = 5;
 
 	/**
@@ -40,12 +42,12 @@ public class AltarsBeastiaryScreen extends BeastiaryScreen {
 	@Override
 	public String getTitle() {
 		if(!AltarInfo.altars.isEmpty()){
-			String altarTitle = this.altarList.getSelectedAltarTitle();
-			if(altarTitle.isEmpty()) return "Select an Altar";
+			String altarTitle = this.altarList.getSelectedAltarDescription();
+			if(altarTitle.isEmpty()) return I18n.format("gui.beastiary.altars.enabled");
 			return altarTitle;
 		}
 		else {
-			return "Altars Disabled";
+			return I18n.format("gui.beastiary.altars.diabled");
 		}
 	}
 
@@ -85,11 +87,13 @@ public class AltarsBeastiaryScreen extends BeastiaryScreen {
 	public void drawForeground(int mouseX, int mouseY, float partialTicks) {
 		super.drawForeground(mouseX, mouseY, partialTicks);
 
+		// ItemStack lightning direction
 		GlStateManager.pushMatrix();
 		GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
 		RenderHelper.enableStandardItemLighting();
 		GlStateManager.rotate(-180.0F, 0.0F, 0.0F, 1.0F);
 
+		// Attempt to render vanilla altars
 		this.renderChallengeAltar(
 				this.altarList.getSelectedChallengeBlockPatternStrings(),
 				this.colRightX + (this.colRightWidth / 2),
@@ -100,6 +104,7 @@ public class AltarsBeastiaryScreen extends BeastiaryScreen {
 				this.colRightX + (this.colRightWidth / 2),
 				this.colRightY + Math.round((float) this.colRightHeight / 3)
 		);
+		// Attempt to render custom altars
 		if(this.altarList.getSelectedCustomAltar() instanceof IAltarBeastiaryRender) ((IAltarBeastiaryRender) this.altarList.getSelectedCustomAltar()).getBeastiaryRender(this, mouseX, mouseY, partialTicks);
 
 		GlStateManager.popMatrix();
@@ -122,12 +127,16 @@ public class AltarsBeastiaryScreen extends BeastiaryScreen {
 		int drawX;
 		int drawY = startY;
 
+		// Item Count:
+		int bodyCount = 0;
+
 		for (int yIndex = 0; yIndex < blockPatternStrings.length; yIndex++) {
 			drawX = startX;
             for (int xIndex = 0; xIndex < blockPatternStrings[yIndex].length(); xIndex++) {
                 switch (blockPatternStrings[yIndex].charAt(xIndex)) {
                     case '#':
                         this.drawItemStack(new ItemStack(Blocks.OBSIDIAN), drawX, drawY - (xIndex * drawOffsetY / 2), (xIndex + yIndex) * drawOffsetZ, scale);
+						bodyCount++;
                         break;
                     case '^':
                         this.drawItemStack(new ItemStack(Blocks.DIAMOND_BLOCK), drawX, drawY - (xIndex * drawOffsetY / 2), (xIndex + yIndex) * drawOffsetZ, scale);
@@ -137,6 +146,11 @@ public class AltarsBeastiaryScreen extends BeastiaryScreen {
             }
             drawY += drawOffsetY;
         }
+
+		// Item Count:
+		this.drawItemStack(new ItemStack(Blocks.DIAMOND_BLOCK), this.colRightX + 2, this.colRightY, 0, scale);
+		this.drawItemStack(new ItemStack(Blocks.OBSIDIAN), this.colRightX + 2, this.colRightY + drawOffsetY, 0, scale);
+		this.getFontRenderer().drawString("[" + bodyCount + "]", this.colRightX + 2 + drawOffsetX * 1.5F, this.colRightY + drawOffsetY * 1.5F, 0xFFFFFF, true);
     }
 	public void renderBossAltar(Block coreBlock, int xPos, int yPos) {
 		Clear:
@@ -203,9 +217,16 @@ public class AltarsBeastiaryScreen extends BeastiaryScreen {
 					break;
 			}
 		}
+
+		// Item Count:
+		this.drawItemStack(new ItemStack(coreBlock), this.colRightX + 2, this.colRightY, 0, scale);
+		this.drawItemStack(new ItemStack(Blocks.DIAMOND_BLOCK), this.colRightX + 2, (int) (this.colRightY + drawOffsetY * 1.5F), 0, scale);
+		this.getFontRenderer().drawString("[4]", this.colRightX + 2 + drawOffsetX * 2F, this.colRightY + drawOffsetY * 2.0F, 0xFFFFFF, true);
+		this.drawItemStack(new ItemStack(Blocks.OBSIDIAN), this.colRightX + 2, (int) (this.colRightY + drawOffsetY * 3.0F), 0, scale);
+		this.getFontRenderer().drawString("[16]", this.colRightX + 2 + drawOffsetX * 2F, this.colRightY + drawOffsetY * 3.5F, 0xFFFFFF, true);
 	}
 
-	// From ice and fire bestiary
+	// From ice and fire bestiary, modified so modified scale uses expected cords
 	public void drawItemStack(ItemStack stack, int x, int y, int z, float scale) {
 		int xScaled = (int)(x / scale);
 		int yScaled = (int)(y / scale);

@@ -6,6 +6,7 @@ import com.lycanitesmobs.core.pets.PetEntry;
 import lycanitestweaks.handlers.config.major.PlayerMobLevelsConfig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -43,4 +44,7 @@ public interface IPlayerMobLevelCapability {
     void setDeathCooldown(int cooldownTicks);
     void setNonMainLevels(ItemStack itemStack, int slotIndex);
     void setMainHandLevels(ItemStack itemStack);
+
+    void readNBT(NBTTagCompound nbtTagCompound);
+    void writeNBT(NBTTagCompound nbtTagCompound);
 }

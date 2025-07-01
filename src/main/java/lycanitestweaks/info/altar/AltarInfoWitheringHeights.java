@@ -25,7 +25,7 @@ public class AltarInfoWitheringHeights extends AltarInfo implements IAltarNoBoos
         super(name);
         this.coreBlock = Blocks.NETHER_WART_BLOCK;
         this.bodyBlock = Blocks.SOUL_SAND;
-        this.width = this.height = 2;
+        this.width = this.height = 1;
     }
 
     public static boolean isWitherSkull(World world, BlockPos pos){
@@ -134,22 +134,29 @@ public class AltarInfoWitheringHeights extends AltarInfo implements IAltarNoBoos
         int drawOffsetX = (int) (12 * scale);
         int drawOffsetY = (int) (12 * scale);
         int drawOffsetZ = (int) (4 * scale);
-        int startX = xPos;
+        int startX = xPos - drawOffsetX / 2;
         int startY = yPos - drawOffsetY * this.height;
         int drawX = startX;
         int drawY = startY;
 
-        altarsBeastiaryScreen.drawItemStack(new ItemStack(coreBlock), drawX, drawY, 0, scale);
+        int skullCount = 0;
+        int bodyCount = 0;
+
+        altarsBeastiaryScreen.drawItemStack(new ItemStack(coreBlock), drawX, drawY, drawOffsetZ, scale);
         int width = 3;
         for(int y = 0; y < this.height; y++) {
             startY += drawOffsetY * 2;
             drawY = startY;
             for (int z = 0; z < width; z++) {
                 for (int x = 0; x < width; x++) {
-                    if(z == 0 || z == width -  1 || x == 0 || x == width - 1)
-                        altarsBeastiaryScreen.drawItemStack(new ItemStack(Items.SKULL, 1, 1), drawX + (x * drawOffsetX), drawY - (x * drawOffsetY / 2), (z + x) * drawOffsetZ, scale);
-                    else
-                        altarsBeastiaryScreen.drawItemStack(new ItemStack(bodyBlock), drawX + (x * drawOffsetX), drawY - (x * drawOffsetY / 2), (z + x) * drawOffsetZ, scale);
+                    if(z == 0 || z == width -  1 || x == 0 || x == width - 1) {
+                        altarsBeastiaryScreen.drawItemStack(new ItemStack(Items.SKULL, 1, 1), drawX + (x * drawOffsetX), drawY - (x * drawOffsetY / 2), (z + x + 1) * drawOffsetZ, scale);
+                        skullCount++;
+                    }
+                    else {
+                        altarsBeastiaryScreen.drawItemStack(new ItemStack(bodyBlock), drawX + (x * drawOffsetX), drawY - (x * drawOffsetY / 2), (z + x + 1) * drawOffsetZ, scale);
+                        bodyCount++;
+                    }
                 }
                 drawX -= drawOffsetX;
                 drawY -= drawOffsetY / 2;
@@ -157,5 +164,11 @@ public class AltarInfoWitheringHeights extends AltarInfo implements IAltarNoBoos
             drawX = startX;
             width += 2;
         }
+
+        altarsBeastiaryScreen.drawItemStack(new ItemStack(this.coreBlock), altarsBeastiaryScreen.colRightX + 2, altarsBeastiaryScreen.colRightY, drawOffsetZ, scale);
+        altarsBeastiaryScreen.drawItemStack(new ItemStack(Items.SKULL, 1, 1), altarsBeastiaryScreen.colRightX + 2, altarsBeastiaryScreen.colRightY + drawOffsetY, drawOffsetZ, scale);
+        altarsBeastiaryScreen.getFontRenderer().drawString("[" + skullCount + "]", altarsBeastiaryScreen.colRightX + 2 + drawOffsetX * 1.5F, altarsBeastiaryScreen.colRightY + drawOffsetY * 1.5F, 0xFFFFFF, true);
+        altarsBeastiaryScreen.drawItemStack(new ItemStack(this.bodyBlock), altarsBeastiaryScreen.colRightX + 2, altarsBeastiaryScreen.colRightY + drawOffsetY * 2, drawOffsetZ, scale);
+        altarsBeastiaryScreen.getFontRenderer().drawString("[" + bodyCount + "]", altarsBeastiaryScreen.colRightX + 2 + drawOffsetX * 1.5F, altarsBeastiaryScreen.colRightY + drawOffsetY * 2.5F, 0xFFFFFF, true);
     }
 }

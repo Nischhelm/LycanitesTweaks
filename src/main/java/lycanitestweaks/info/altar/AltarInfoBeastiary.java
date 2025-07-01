@@ -180,10 +180,12 @@ public class AltarInfoBeastiary extends AltarInfo implements IAltarNoBoost, IAlt
         int drawOffsetX = (int) (12 * scale);
         int drawOffsetY = (int) (12 * scale);
         int drawOffsetZ = (int) (4 * scale);
-        int startX = xPos;
+        int startX = xPos - drawOffsetX / 2;
         int startY = yPos - drawOffsetY * this.height;
         int drawX = startX;
         int drawY = startY;
+
+        int bodyCount = 0;
 
         altarsBeastiaryScreen.drawItemStack(new ItemStack(coreBlock), drawX, drawY, 0, scale);
         int width = 3;
@@ -192,7 +194,8 @@ public class AltarInfoBeastiary extends AltarInfo implements IAltarNoBoost, IAlt
             drawY = startY;
             for (int z = 0; z < width; z++) {
                 for (int x = 0; x < width; x++) {
-                    altarsBeastiaryScreen.drawItemStack(new ItemStack(bodyBlock), drawX + (x * drawOffsetX), drawY - (x * drawOffsetY / 2), (z + x) * drawOffsetZ, scale);
+                    altarsBeastiaryScreen.drawItemStack(new ItemStack(bodyBlock), drawX + (x * drawOffsetX), drawY - (x * drawOffsetY / 2), (z + x + 1) * drawOffsetZ, scale);
+                    bodyCount++;
                 }
                 drawX -= drawOffsetX;
                 drawY -= drawOffsetY / 2;
@@ -200,5 +203,9 @@ public class AltarInfoBeastiary extends AltarInfo implements IAltarNoBoost, IAlt
             drawX = startX;
             width += 2;
         }
+
+        altarsBeastiaryScreen.drawItemStack(new ItemStack(this.coreBlock), altarsBeastiaryScreen.colRightX + 2, altarsBeastiaryScreen.colRightY, drawOffsetZ, scale);
+        altarsBeastiaryScreen.drawItemStack(new ItemStack(this.bodyBlock), altarsBeastiaryScreen.colRightX + 2, altarsBeastiaryScreen.colRightY + drawOffsetY, drawOffsetZ, scale);
+        altarsBeastiaryScreen.getFontRenderer().drawString("[" + bodyCount + "]", altarsBeastiaryScreen.colRightX + 2 + drawOffsetX * 1.5F, altarsBeastiaryScreen.colRightY + drawOffsetY * 1.5F, 0xFFFFFF, true);
     }
 }

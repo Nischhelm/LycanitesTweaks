@@ -166,12 +166,15 @@ public abstract class AltarInfoTemplate extends AltarInfo implements IAltarBeast
         int drawX;
         int drawY = startY;
 
+        int bodyCount = 0;
+
         for (int yIndex = 0; yIndex < blockPatternStrings.length; yIndex++) {
             drawX = startX;
             for (int xIndex = 0; xIndex < blockPatternStrings[yIndex].length(); xIndex++) {
                 switch (blockPatternStrings[yIndex].charAt(xIndex)) {
                     case '#':
                         altarsBeastiaryScreen.drawItemStack(new ItemStack(this.bodyBlock), drawX, drawY - (xIndex * drawOffsetY / 2), (xIndex + yIndex) * drawOffsetZ, scale);
+                        bodyCount++;
                         break;
                     case '^':
                         altarsBeastiaryScreen.drawItemStack(new ItemStack(this.coreBlock), drawX, drawY - (xIndex * drawOffsetY / 2), (xIndex + yIndex) * drawOffsetZ, scale);
@@ -181,5 +184,9 @@ public abstract class AltarInfoTemplate extends AltarInfo implements IAltarBeast
             }
             drawY += drawOffsetY;
         }
+
+        altarsBeastiaryScreen.drawItemStack(new ItemStack(this.coreBlock), altarsBeastiaryScreen.colRightX + 2, altarsBeastiaryScreen.colRightY, 0, scale);
+        altarsBeastiaryScreen.drawItemStack(new ItemStack(this.bodyBlock), altarsBeastiaryScreen.colRightX + 2, altarsBeastiaryScreen.colRightY + drawOffsetY, 0, scale);
+        altarsBeastiaryScreen.getFontRenderer().drawString("[" + bodyCount + "]", altarsBeastiaryScreen.colRightX + 2 + drawOffsetX * 1.5F, altarsBeastiaryScreen.colRightY + drawOffsetY * 1.5F, 0xFFFFFF, true);
     }
 }

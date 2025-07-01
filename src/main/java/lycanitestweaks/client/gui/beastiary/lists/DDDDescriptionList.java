@@ -15,7 +15,7 @@ import yeelp.distinctdamagedescriptions.integration.hwyla.client.HwylaMobResista
 
 public class DDDDescriptionList extends GuiScrollingList{
 
-    RenderToggleButton renderToggleButton;
+    public RenderToggleButton renderToggleButton;
 
     protected BeastiaryScreen parentGui;
     public CreatureKnowledge creatureKnowledge;

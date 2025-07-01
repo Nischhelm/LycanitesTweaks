@@ -1,5 +1,6 @@
 package lycanitestweaks.capability;
 
+import com.lycanitesmobs.core.entity.ExtendedPlayer;
 import lycanitestweaks.LycanitesTweaks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +18,8 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import javax.annotation.Nonnull;
@@ -75,13 +78,18 @@ public class PlayerMobLevelCapabilityHandler {
 
         @Override
         public NBTBase writeNBT(Capability<PlayerMobLevelCapability> capability, PlayerMobLevelCapability instance, EnumFacing side) {
-            NBTTagCompound nbt = new NBTTagCompound();
-            return nbt;
+            if(instance == null) return null;
+
+            NBTTagCompound extTagCompound = new NBTTagCompound();
+            instance.writeNBT(extTagCompound);
+            return extTagCompound;
         }
 
         @Override
         public void readNBT(Capability<PlayerMobLevelCapability> capability, PlayerMobLevelCapability instance, EnumFacing side, NBTBase nbt) {
-            NBTTagCompound tags = (NBTTagCompound) nbt;
+            if((instance == null) || !(nbt instanceof NBTTagCompound)) return;
+
+            instance.readNBT((NBTTagCompound)nbt);
         }
     }
     
@@ -124,7 +132,29 @@ public class PlayerMobLevelCapabilityHandler {
     public static void onPlayerClone(PlayerEvent.Clone event) {
         IPlayerMobLevelCapability original = PlayerMobLevelCapability.getForPlayer(event.getOriginal());
         IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(event.getEntityPlayer());
+        NBTTagCompound nbt = new NBTTagCompound();
+        original.writeNBT(nbt);
+        pml.readNBT(nbt);
 
         pml.setDeathCooldown(original.getDeathCooldown());
+    }
+
+    // ==================================================
+    //                    Player Changed Dimension
+    // ==================================================
+    @SubscribeEvent
+    public static void onPlayerChangedDimensionEvent(PlayerChangedDimensionEvent event) {
+        IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(event.player);
+        if(pml instanceof PlayerMobLevelCapability) ((PlayerMobLevelCapability) pml).needsFullSync = true;
+    }
+
+
+    // ==================================================
+    //                    Player Respawn
+    // ==================================================
+    @SubscribeEvent
+    public static void onPlayerRespawnEvent(PlayerRespawnEvent event) {
+        IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(event.player);
+        if(pml instanceof PlayerMobLevelCapability) ((PlayerMobLevelCapability) pml).needsFullSync = true;
     }
 }

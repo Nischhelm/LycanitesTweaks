@@ -1,22 +1,31 @@
 package lycanitestweaks.capability;
 
+import com.lycanitesmobs.LycanitesMobs;
+import com.lycanitesmobs.client.localisation.LanguageManager;
+import com.lycanitesmobs.core.VersionChecker;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.ExtendedPlayer;
 import com.lycanitesmobs.core.info.CreatureKnowledge;
 import com.lycanitesmobs.core.info.ElementInfo;
+import com.lycanitesmobs.core.network.MessageSummonSetSelection;
 import com.lycanitesmobs.core.pets.PetEntry;
+import com.lycanitesmobs.core.pets.SummonSet;
 import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.config.major.PlayerMobLevelsConfig;
 import lycanitestweaks.network.PacketHandler;
+import lycanitestweaks.network.PacketPlayerMobLevelsModifiers;
 import lycanitestweaks.network.PacketPlayerMobLevelsStats;
 import lycanitestweaks.util.Helpers;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextComponentString;
 import org.apache.logging.log4j.Level;
 
 import javax.annotation.Nonnull;
@@ -33,6 +42,7 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
 
     private EntityPlayer player;
     public static final int MAINHAND_CHECK_SIZE = 8;
+    public boolean needsFullSync = true;
 
     private int deathCooldown = 0;
     public int[] nonMainLevels = new int[5];
@@ -42,7 +52,7 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
     public int highestActivePetLevels = 0; // cache value, only used with mixin enabled, clearHighestLevelPetActive flags dirty
     private boolean highestActivePetDirty = true;
     public HashMap<String, Float> pmlModifiers = new HashMap<>();
-    private float defaultModifier = 1F;
+    public float defaultModifier = 1.0F;
 
     PlayerMobLevelCapability(){}
 
@@ -76,16 +86,32 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
     @Override
     public void updateTick() {
         if(this.deathCooldown > 0) this.deathCooldown--;
+
+        // Initial Network Sync:
+        if(!this.player.getEntityWorld().isRemote && this.needsFullSync) {
+            PacketPlayerMobLevelsModifiers packet = new PacketPlayerMobLevelsModifiers(this);
+            EntityPlayerMP playerMP = (EntityPlayerMP) this.player;
+            PacketHandler.instance.sendTo(packet, playerMP);
+
+            this.needsFullSync = false;
+        }
     }
 
     @Override
     public void sync() {
-        PacketPlayerMobLevelsStats packet = new PacketPlayerMobLevelsStats(this);
-        if(!this.player.world.isRemote) {
-            EntityPlayerMP playerMP = (EntityPlayerMP) this.player;
-            PacketHandler.instance.sendTo(packet, playerMP);
+        if(this.player.world.isRemote) {
+            PacketPlayerMobLevelsModifiers packet = new PacketPlayerMobLevelsModifiers(this);
+            PacketHandler.instance.sendToServer(packet);
+            LycanitesTweaks.LOGGER.log(Level.INFO, "CLIENT: " + this.pmlModifiers);
         }
-        // TODO sync modifiers map
+        else {
+            PacketPlayerMobLevelsStats levelPacket = new PacketPlayerMobLevelsStats(this);
+            PacketPlayerMobLevelsModifiers modifierPacket = new PacketPlayerMobLevelsModifiers(this);
+            EntityPlayerMP playerMP = (EntityPlayerMP) this.player;
+            PacketHandler.instance.sendTo(levelPacket, playerMP);
+            PacketHandler.instance.sendTo(modifierPacket, playerMP);
+            LycanitesTweaks.LOGGER.log(Level.INFO, "SEVER: " + this.pmlModifiers);
+        }
     }
 
     @Override
@@ -105,7 +131,8 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
 
         if(PlayerMobLevelsConfig.getPmlBonusCategories().containsKey(category)){
             for(PlayerMobLevelsConfig.Bonus bonus : PlayerMobLevelsConfig.Bonus.values()) {
-                double modifier = 0.0D;
+                Double modifier = null;
+
                 switch (PlayerMobLevelsConfig.getPmlBonusCategories().get(category).getLeft()) {
                     case WILD:
                         if(PlayerMobLevelsConfig.getPmlBonusUsagesWild().containsKey(bonus)) {
@@ -116,14 +143,15 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
                     case TAMED:
                         if(PlayerMobLevelsConfig.getPmlBonusUsagesTamed().containsKey(bonus))
                             modifier = PlayerMobLevelsConfig.getPmlBonusUsagesTamed().get(bonus);
+                        break;
                     case ALL:
-                        if(bonus == PlayerMobLevelsConfig.Bonus.PlayerDeath && PlayerMobLevelsConfig.getPmlBonusUsagesAll().containsKey(bonus)) {
+                        if(PlayerMobLevelsConfig.getPmlBonusUsagesAll().containsKey(bonus)) {
                             modifier = PlayerMobLevelsConfig.getPmlBonusUsagesAll().get(bonus);
                             modifier *= this.getPMLModifierForCreature(creature);
                         }
                 }
-                if(modifier == 0.0D && bonus != PlayerMobLevelsConfig.Bonus.PlayerDeath && PlayerMobLevelsConfig.getPmlBonusUsagesAll().containsKey(bonus)){
-                    modifier = PlayerMobLevelsConfig.getPmlBonusUsagesAll().get(bonus);
+                if(modifier == null){
+                    modifier = PlayerMobLevelsConfig.getPmlBonusUsagesAll().getOrDefault(bonus, 0.0D);
                 }
 
                 switch (bonus){
@@ -161,13 +189,14 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
 
             return this.defaultModifier;
         }
-        return 1F;
+        return 1.0F;
     }
 
     @Override
     public void setPMLModifierForCreature(BaseCreatureEntity creature, float modifier) {
         if(creature != null) {
             this.pmlModifiers.put(creature.creatureInfo.getName(), MathHelper.clamp(modifier, 0F, 1F));
+            this.sync();
         }
     }
 
@@ -175,6 +204,7 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
     public void setPMLModifierForAll(float modifier) {
         this.defaultModifier = MathHelper.clamp(modifier, 0F, 1F);
         this.pmlModifiers.clear();
+        this.sync();
     }
 
     @Override
@@ -371,5 +401,41 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
         this.mainHandLevels.add(getItemStackLevels(itemStack));
         while(this.mainHandLevels.size() > PlayerMobLevelCapability.MAINHAND_CHECK_SIZE) this.mainHandLevels.poll();
         this.sync();
+    }
+
+    @Override
+    public void readNBT(NBTTagCompound nbtTagCompound) {
+        NBTTagCompound extTagCompound = nbtTagCompound.getCompoundTag("LycanitesTweaksPML");
+
+        if(extTagCompound.hasKey("DefaultModifier")){
+            this.defaultModifier = extTagCompound.getFloat("DefaultModifier");
+        }
+
+        if(extTagCompound.hasKey("CreatureModifiers")){
+            NBTTagList perCreatureModifiers = extTagCompound.getTagList("CreatureModifiers", 10);
+            perCreatureModifiers.forEach((nbtEntry) -> {
+                if (nbtEntry instanceof NBTTagCompound) this.pmlModifiers.put(
+                        ((NBTTagCompound) nbtEntry).getString("CreatureName"),
+                        ((NBTTagCompound) nbtEntry).getFloat("Modifier")
+                );
+            });
+        }
+    }
+
+    @Override
+    public void writeNBT(NBTTagCompound nbtTagCompound) {
+        NBTTagCompound extTagCompound = new NBTTagCompound();
+
+        extTagCompound.setFloat("DefaultModifier", this.defaultModifier);
+        NBTTagList perCreatureModifiers = new NBTTagList();
+        this.pmlModifiers.forEach((creatureName, modifier) -> {
+            NBTTagCompound nbtEntry = new NBTTagCompound();
+            nbtEntry.setString("CreatureName", creatureName);
+            nbtEntry.setFloat("Modifier", modifier);
+            perCreatureModifiers.appendTag(nbtEntry);
+        });
+        extTagCompound.setTag("CreatureModifiers", perCreatureModifiers);
+
+        nbtTagCompound.setTag("LycanitesTweaksPML", extTagCompound);
     }
 }

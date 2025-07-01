@@ -37,7 +37,7 @@ public abstract class BeastiaryScreenAltarTabMixin extends BaseScreen {
         // TODO use locals and turn this into configurable set of client
         int menuPadding = 6;
         int menuX = this.centerX - Math.round((float)this.windowWidth / 2.0F) + menuPadding;
-        int menuY = 2 * this.windowY + menuPadding;
+        int menuY = this.windowY + menuPadding + 20 + 10;
         int menuWidth = this.windowWidth - menuPadding * 2;
         int buttonCount = 5;
         int buttonPadding = 2;
