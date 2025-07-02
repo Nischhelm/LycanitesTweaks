@@ -31,7 +31,7 @@ public class CreatureInteractConfig {
 
     @Config.Comment("Add Encounter Category Player Mob Levels upon transformation")
     @Config.Name("Can Transform Into Boss Flag - Encounter PML")
-    public boolean canTransformBossPML = true;
+    public boolean canTransformBossPML = false;
 
     @Config.Comment("Inject handling for flagging JSON Can Transform Into Boss JSON Spawners by whitelist")
     @Config.Name("JSON Spawner Flag Transform Boss")

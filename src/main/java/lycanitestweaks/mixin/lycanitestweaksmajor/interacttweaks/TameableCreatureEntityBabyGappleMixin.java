@@ -31,6 +31,8 @@ public abstract class TameableCreatureEntityBabyGappleMixin extends AgeableCreat
     @Shadow(remap = false)
     public abstract EntityPlayer getPlayerOwner();
     @Shadow(remap = false)
+    public abstract boolean isSitting();
+    @Shadow(remap = false)
     public abstract void playEatSound();
 
     @Inject(
@@ -39,7 +41,7 @@ public abstract class TameableCreatureEntityBabyGappleMixin extends AgeableCreat
             remap = false
     )
     public void lycanitesTweaks_lycanitesTameableCreatureEntity_getInteractCommandsSize(EntityPlayer player, EnumHand hand, ItemStack itemStack, CallbackInfoReturnable<HashMap<Integer, String>> cir, @Local() HashMap<Integer, String> commands) {
-        if(player.isSneaking() && hand == EnumHand.OFF_HAND &&itemStack.getItem() instanceof ItemAppleGold && itemStack.getMetadata() > 0 && lycanitesTweaks$canPlayerModify(player)){
+        if(this.isSitting() && lycanitesTweaks$canPlayerModify(player) && itemStack.getItem() instanceof ItemAppleGold && itemStack.getMetadata() > 0){
             commands.put(BaseCreatureEntity.COMMAND_PIORITIES.ITEM_USE.id, COMMAND_AGE_BABY);
         }
     }

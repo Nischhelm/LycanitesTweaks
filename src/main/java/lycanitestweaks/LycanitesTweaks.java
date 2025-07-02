@@ -3,9 +3,9 @@ package lycanitestweaks;
 import com.lycanitesmobs.core.info.AltarInfo;
 import com.lycanitesmobs.core.mobevent.MobEventManager;
 import com.lycanitesmobs.core.mobevent.effects.StructureBuilder;
-import lycanitestweaks.capability.EntityStoreCreatureCapabilityHandler;
-import lycanitestweaks.capability.LycanitesTweaksPlayerCapabilityHandler;
-import lycanitestweaks.capability.PlayerMobLevelCapabilityHandler;
+import lycanitestweaks.capability.EntityStoreCreature.EntityStoreCreatureCapabilityHandler;
+import lycanitestweaks.capability.LycanitesTweaksPlayer.LycanitesTweaksPlayerCapabilityHandler;
+import lycanitestweaks.capability.PlayerMobLevel.PlayerMobLevelCapabilityHandler;
 import lycanitestweaks.compat.ModLoadedUtil;
 import lycanitestweaks.compat.RLCombatHandler;
 import lycanitestweaks.handlers.ForgeConfigHandler;
@@ -79,7 +79,6 @@ public class LycanitesTweaks {
         if(ForgeConfigHandler.integrationConfig.craftedEquipmentRLCombatSweep && ModLoadedUtil.isRLCombatLoaded())
             MinecraftForge.EVENT_BUS.register(RLCombatHandler.class);
 
-        // TODO FIX the altars, withering height needs json inject
         if(ForgeConfigHandler.server.altarsConfig.beastiaryAltar) AltarInfo.addAltar(new AltarInfoBeastiary(LycanitesTweaks.MODID + ":beastiaryaltar"));
         if(ForgeConfigHandler.server.altarsConfig.vanillaEntityAltars) {
             AltarInfo.addAltar(new AltarInfoChargedCreeper(LycanitesTweaks.MODID + ":chargedcreeperaltar"));

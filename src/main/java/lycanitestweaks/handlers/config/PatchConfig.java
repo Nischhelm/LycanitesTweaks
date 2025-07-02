@@ -10,22 +10,35 @@ public class PatchConfig {
      *
      */
 
+    /*
+     * Could manually check and find, known culprits are:
+     *  Food Effects
+     *  Fire Blocks
+     *  ElementInfo (Melee/Ranged)
+     */
+    @Config.Comment("Lycanites Mobs has many instances of applying potion effects on client and is prone to desyncs.\n" +
+            "This will broadly fix this and for other mods. Fix taken from RLMixins.")
+    @Config.Name("Cancel Applying Potions on Client")
+    @Config.RequiresMcRestart
+    @MixinConfig.EarlyMixin(name = "mixins.lycanitestweaks.vanillacancelclientpotionadd.json")
+    public boolean cancelClientPotionAdding = true;
+
     // Preferring this approach as injecting pickup behavior into the vanilla bucket is silly
-    @Config.Comment("Register Forge's Fluid Buckets for Lycanites Fluids. Fixes dispensers not being able to pick up Lycanites Fluids.\n" +
-            "Keeps the original buckets loaded, the forge bucket item will appear where Lycanites Custom Bucket has no handling.")
+    @Config.Comment("Register Forge's fluid buckets for Lycanites fluids. Fixes dispensers not being able to pick up Lycanites fluids.\n" +
+            "Keeps the original buckets loaded, the forge bucket item will appear where Lycanites custom bucket has no handling.")
     @Config.Name("Add Forge Universal Fluid Buckets")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesforgebucket.json")
     public boolean forgeFluidBuckets = true;
 
-    @Config.Comment("Altars post LivingDestroyBlockEvent for every call to setBlockToAir")
-    @Config.Name("Altar Posts Forge Event")
+    @Config.Comment("Altars post LivingDestroyBlockEvent for every call to setBlockToAir. This fixes custom structure cheeses through griefing.")
+    @Config.Name("Mini Boss Altar Posts Forge Event")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesaltarforgeevent.json")
     public boolean altarPostsForgeEvent = true;
 
-    @Config.Comment("PlaceBlockGoal post LivingDestroyBlockEvent for every call to canPlaceBlock")
-    @Config.Name("Can Place Block Goal Forge Event")
+    @Config.Comment("PlaceBlockGoal post LivingDestroyBlockEvent for every call to canPlaceBlock. This fixes griefing protected blocks.")
+    @Config.Name("Vespids Posts Forge Event")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesplaceblockgoalforgeevent.json")
     public boolean canPlaceBlockGoalForgeEvent = true;
@@ -37,7 +50,7 @@ public class PatchConfig {
     public boolean soulBoundNoPortal = true;
 
     @Config.Comment("Fix hostile AgeableCreature babies not dropping loot")
-    @Config.Name("Fix AgeableCreature baby drops")
+    @Config.Name("Fix Baby Mobs Dropping No Loot")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesageablebabydrops.json")
     public boolean fixAgeableBabyDrops = true;
@@ -64,7 +77,7 @@ public class PatchConfig {
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchespetentrydesync.json")
     public boolean fixClientPetEntryVisual = true;
 
-    @Config.Comment("Fix divide by zero crash in FireProjectilesGoal and RangedSpeed of zero preventing attacks")
+    @Config.Comment("Fix divide by zero crash in FireProjectilesGoal and high RangedSpeed preventing attacks")
     @Config.Name("Fix Creature Ranged Speed")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesrangedspeeddividebyzero.json")

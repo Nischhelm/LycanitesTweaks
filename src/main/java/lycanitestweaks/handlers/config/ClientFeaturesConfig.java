@@ -4,30 +4,25 @@ import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 
 public class ClientFeaturesConfig {
-    @Config.Comment("Adds Altars Information to Beastiary")
-    @Config.Name("Beastiary Altars")
-    @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureclientbeastiaryaltartab.json")
-    public boolean beastiaryGUIAltars = true;
 
-    @Config.Comment("Adds LycanitesTweaks Information to Beastiary")
-    @Config.Name("Add Feature: LycanitesTweaks Beastiary")
+    @Config.Comment("Dependency for adding new/hiding Beastiary information. Required for server-side to know what Creature players have selected.")
+    @Config.Name("Modify Beastiary Information")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureclientbeastiarylt.json")
     public boolean beastiaryGUILT = true;
 
-    @Config.Comment("Show Imperfect Summoning Information")
-    @Config.Name("Add Feature: LycanitesTweaks Beastiary - Imperfect Summoning")
-    public boolean beastiaryGUIImperfectSummon = true;
+    @Config.Comment("Adds a tab for Lycanites Altar renders and block counts")
+    @Config.Name("Lycanites Mobs Altar Beastiary Tab")
+    public boolean beastiaryGUIAltars = true;
 
-    @Config.Comment("Show Player Mob Levels Information")
-    @Config.Name("Add Feature: LycanitesTweaks Beastiary - Player Mob Levels")
+    @Config.Comment("Adds a tab to show Player Mob Levels information")
+    @Config.Name("LycanitesTweaks Player Mob Levels Beastiary Tab")
     public boolean beastiaryGUIPML = true;
 
-    @Config.Comment("Beastiary Render order is determined by the order of this list\n" +
+    @Config.Comment("PML Beastiary Render order is determined by the order of this list.\n" +
             "\tcategoryName - Spelling must match 'Bonus Categories' entries else hidden\n" +
             "This will be compared to the existence of 'Bonus Categories' entries in the PML config")
-    @Config.Name("Add Feature: LycanitesTweaks Beastiary - PML Category Display Order")
+    @Config.Name("Player Mob Levels Category Display Order")
     public String[] pmlBeastiaryOrder = {
             "AltarBossMain",
             "AltarBossMini",
@@ -38,5 +33,36 @@ public class ClientFeaturesConfig {
             "EncounterEvent_",
             "SoulboundTame_",
             "SummonMinion"
+    };
+
+    @Config.Comment("Adds stats on Summoning tab that shows Imperfect Summoning information")
+    @Config.Name("LycanitesTweaks Imperfect Summoning Tab")
+    public boolean beastiaryGUIImperfectSummon = true;
+
+    @Config.Comment("Case sensitive blacklist for hiding any Altar by name. Does not affect gameplay.")
+    @Config.Name("Altar Display Blacklist")
+    public String[] altarInfoBeastiaryBlacklist = {
+
+    };
+
+    @Config.Comment("Case sensitive blacklist for hiding any Creature by name. Does not affect gameplay.\n" +
+            "Used by Lycanites Tweaks to hide easter eggs.")
+    @Config.Name("Creature Display Blacklist")
+    public String[] creatureInfoBeastiaryBlacklist = {
+            "sonofamalgalich"
+    };
+
+    @Config.Comment("Case sensitive blacklist for hiding any Creature Subspecies by name. Does not affect gameplay.\n" +
+            "Used by Lycanites Tweaks to hide easter eggs.")
+    @Config.Name("Creature Subspecies Display Blacklist")
+    public String[] creatureSubspeciesInfoBeastiaryBlacklist = {
+            "darkling: 111"
+    };
+
+    @Config.Comment("Case sensitive blacklist for hiding any Element by name. Does not affect gameplay.")
+    @Config.Name("Element Display Blacklist")
+    public String[] elementInfoBeastiaryBlacklist = {
+            "nightmare",
+            "viral"
     };
 }

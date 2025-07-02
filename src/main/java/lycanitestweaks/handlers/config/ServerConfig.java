@@ -9,6 +9,7 @@ import net.minecraftforge.common.config.Config;
 
 public class ServerConfig {
 
+    @Config.Comment("Manage various Soulkey Altars provided by LycanitesTweaks. They are functional examples of custom Altars with rendering in the Beastiary.")
     @Config.Name("Additional Altars")
     @MixinConfig.SubInstance
     public final AltarsConfig altarsConfig = new AltarsConfig();
@@ -32,8 +33,9 @@ public class ServerConfig {
     @MixinConfig.SubInstance
     public final EnchantedSoulkeyConfig enchSoulkeyConfig = new EnchantedSoulkeyConfig();
 
-    @Config.Comment("Here you could explain that you added vanilla loot tables (accessible via resourcepacks or loottweaker) for all lyca mobs\n" +
-            "and what kinda loot tables you added for what kinda mobs")
+    @Config.Comment("Manage the ability to use vanilla loot tables (accessible via resource packs or loottweaker) for Lycanite entities.\n" +
+            "Toggles the use of JSON loot tables for Bosses meant to provide Emeralds, XP Bottles, and Enchanted Book that reflect Boss' Levels.\n" +
+            "Adjust a dynamic loot table that allows mobs to drop any charge from the entities' set of element properties.")
     @Config.Name("Additional Loot")
     @MixinConfig.SubInstance
     public final LootConfig lootConfig = new LootConfig();

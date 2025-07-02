@@ -2,8 +2,8 @@ package lycanitestweaks.client.keybinds;
 
 import com.lycanitesmobs.core.entity.RideableCreatureEntity;
 import lycanitestweaks.LycanitesTweaks;
-import lycanitestweaks.capability.ILycanitesTweaksPlayerCapability;
-import lycanitestweaks.capability.LycanitesTweaksPlayerCapability;
+import lycanitestweaks.capability.LycanitesTweaksPlayer.ILycanitesTweaksPlayerCapability;
+import lycanitestweaks.capability.LycanitesTweaksPlayer.LycanitesTweaksPlayerCapability;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.network.PacketHandler;
 import lycanitestweaks.network.PacketKeybindSoulgazerAutoNext;

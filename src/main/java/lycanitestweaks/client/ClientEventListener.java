@@ -1,16 +1,20 @@
 package lycanitestweaks.client;
 
+import com.lycanitesmobs.core.item.GenericFoodItem;
 import com.lycanitesmobs.core.item.ItemBase;
 import com.lycanitesmobs.core.item.special.ItemSoulgazer;
+import com.lycanitesmobs.core.item.special.ItemSoulkey;
 import com.lycanitesmobs.core.item.temp.ItemStaffSummoning;
-import lycanitestweaks.capability.ILycanitesTweaksPlayerCapability;
-import lycanitestweaks.capability.IPlayerMobLevelCapability;
-import lycanitestweaks.capability.LycanitesTweaksPlayerCapability;
-import lycanitestweaks.capability.PlayerMobLevelCapability;
+import lycanitestweaks.capability.LycanitesTweaksPlayer.ILycanitesTweaksPlayerCapability;
+import lycanitestweaks.capability.PlayerMobLevel.IPlayerMobLevelCapability;
+import lycanitestweaks.capability.LycanitesTweaksPlayer.LycanitesTweaksPlayerCapability;
+import lycanitestweaks.capability.PlayerMobLevel.PlayerMobLevelCapability;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.config.major.PlayerMobLevelsConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemAppleGold;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -19,8 +23,10 @@ public class ClientEventListener {
     @SubscribeEvent
     public static void onItemTooltip(ItemTooltipEvent event) {
         IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(event.getEntityPlayer());
+        Item item = event.getItemStack().getItem();
+
         if(pml != null) {
-            if (event.getItemStack().getItem() instanceof ItemSoulgazer) {
+            if (item instanceof ItemSoulgazer) {
                 if(!PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().isEmpty()) {
                     event.getToolTip().addAll(Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(
                             I18n.format("item.soulgazer.description.pmlsoulgazer"), ItemBase.DESCRIPTION_WIDTH));
@@ -33,7 +39,7 @@ public class ClientEventListener {
                 }
 
             }
-            else if (event.getItemStack().getItem() instanceof ItemStaffSummoning) {
+            else if (item instanceof ItemStaffSummoning) {
                 if(PlayerMobLevelsConfig.getPmlBonusCategories().containsKey(PlayerMobLevelsConfig.BonusCategory.SummonMinion)) {
                     event.getToolTip().addAll(Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(
                             I18n.format("item.summonstaff.description.pmlsummon"), ItemBase.DESCRIPTION_WIDTH));
@@ -42,7 +48,7 @@ public class ClientEventListener {
         }
 
         if(ForgeConfigHandler.integrationConfig.soulgazerBauble){
-            if (event.getItemStack().getItem() instanceof ItemSoulgazer) {
+            if (item instanceof ItemSoulgazer) {
                 ILycanitesTweaksPlayerCapability playerKeybinds = LycanitesTweaksPlayerCapability.getForPlayer(event.getEntityPlayer());
                 if (playerKeybinds != null) {
                     int autoID = playerKeybinds.getSoulgazerAutoToggle();
@@ -50,6 +56,29 @@ public class ClientEventListener {
                     event.getToolTip().add(I18n.format("item.soulgazer.description.keybind.auto." + autoID));
                     event.getToolTip().add(I18n.format("item.soulgazer.description.keybind.manual." + manualID));
                 }
+            }
+        }
+
+        if(ForgeConfigHandler.majorFeaturesConfig.creatureInteractConfig.babyAgeGapple){
+            if(item instanceof ItemAppleGold && event.getItemStack().getMetadata() > 0){
+                event.getToolTip().add(I18n.format("item.appleGold.description.baby"));
+            }
+        }
+
+        if(ForgeConfigHandler.majorFeaturesConfig.creatureInteractConfig.sizeChangeFoods){
+            if(item instanceof GenericFoodItem){
+                if(((GenericFoodItem) item).itemName.equals("battle_burrito")){
+                    event.getToolTip().add(I18n.format("item.battle_burrito.description.sizechange"));
+                }
+                else if (((GenericFoodItem) item).itemName.equals("explorers_risotto")) {
+                    event.getToolTip().add(I18n.format("item.explorers_risotto.description.sizechange"));
+                }
+            }
+        }
+
+        if(ForgeConfigHandler.majorFeaturesConfig.creatureInteractConfig.soulkeysSetVariant){
+            if(item instanceof ItemSoulkey){
+                event.getToolTip().add(I18n.format("item.soulkey.description.setvariant"));
             }
         }
     }

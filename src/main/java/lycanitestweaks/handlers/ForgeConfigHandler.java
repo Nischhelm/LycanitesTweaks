@@ -19,8 +19,25 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@Config(modid = LycanitesTweaks.MODID)
+@Config(modid = LycanitesTweaks.MODID, category = "general&unsorted")
 public class ForgeConfigHandler {
+
+	@Config.Comment("Modify the sorting behavior of main configs whose @Config annotated category is appended with \"&unsorted\".\n" +
+			"Makes LycanitesTweaks' config be written to disk in the order it was read in instead of sorting alphabetically.\n" +
+			"Forge can not perfectly fix partial or update old configs and will append new config entries.")
+	@Config.Name("Modify Forge Config Write Order")
+	@Config.RequiresMcRestart
+	@MixinConfig.EarlyMixin(name = "mixins.lycanitestweaks.forgeconfigsort.json")
+	public static boolean writeForgeConfigUnsorted = true;
+
+	@Config.Comment("LycanitesTweaks has features that rely on being loaded by Lycanites Mobs.\n" +
+			"Makes Lycanites Mobs check and load JSON resources from LycanitesTweaks.\n" +
+			"JSONs modifications include default config rebalancing and custom additions.\n" +
+			"If disabled, there are no automatic replacements for resources provided by LycanitesTweaks")
+	@Config.Name("LycanitesTweaks Default JSON")
+	@Config.RequiresMcRestart
+	@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureinjectdefaultjsonloading.json")
+	public static boolean addLycanitesTweaksDefaultJSON = true;
 
 	@Config.Comment("Client-Side Options")
 	@Config.Name("Client Options")
@@ -55,14 +72,6 @@ public class ForgeConfigHandler {
 	@Config.Name("Toggle Patches")
 	@MixinConfig.SubInstance
 	public static final PatchConfig mixinPatchesConfig = new PatchConfig();
-
-	@Config.Comment("Dependency for various features when using default config values that use LycanitesTweaks resources\n" +
-			"Makes Lycanites Mobs check and load resources from LycanitesTweaks\n" +
-			"If disabled, there are no automatic replacements for resources provided by LycanitesTweaks")
-	@Config.Name("Add Feature: LycanitesTweaks default JSON")
-	@Config.RequiresMcRestart
-	@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureinjectdefaultjsonloading.json")
-	public static boolean addLycanitesTweaksDefaultJSON = true;
 
 	@Mod.EventBusSubscriber(modid = LycanitesTweaks.MODID)
 	private static class EventHandler{

@@ -2,8 +2,8 @@ package lycanitestweaks.mixin.lycanitestweaksmajor.interacttweaks;
 
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.info.ExtraMobBehaviour;
-import lycanitestweaks.capability.IPlayerMobLevelCapability;
-import lycanitestweaks.capability.PlayerMobLevelCapability;
+import lycanitestweaks.capability.PlayerMobLevel.IPlayerMobLevelCapability;
+import lycanitestweaks.capability.PlayerMobLevel.PlayerMobLevelCapability;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.config.major.PlayerMobLevelsConfig;
 import lycanitestweaks.util.IBaseCreatureEntityTransformIntoBossMixin;

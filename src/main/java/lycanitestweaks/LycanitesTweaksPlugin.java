@@ -28,8 +28,11 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 		//
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.lycanitestweaks.equipmentreachfix.json",
 		FermiumRegistryAPI.isModPresent("reachfix") && ForgeConfigHandler.integrationConfig.craftedEquipmentReachFix);
-		FermiumRegistryAPI.enqueueMixin(true, "mixins.lycanitestweaks.equipmentrlcombatsweep.json",
+		// TODO Proper version checker
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.lycanitestweaks.rlcombatequipmentsweep.json",
 		FermiumRegistryAPI.isModPresent("bettercombatmod") && ForgeConfigHandler.integrationConfig.craftedEquipmentRLCombatSweep);
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.lycanitestweaks.rlcombatequipmentoffhandforce.json",
+		FermiumRegistryAPI.isModPresent("bettercombatmod") && ForgeConfigHandler.integrationConfig.craftedEquipmentForceRLCombatOffhand);
 
 		ForgeConfigProvider.pluginInit();
 	}

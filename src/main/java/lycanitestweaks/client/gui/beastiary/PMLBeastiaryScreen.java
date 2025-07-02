@@ -14,8 +14,8 @@ import com.lycanitesmobs.core.info.CreatureKnowledge;
 import com.lycanitesmobs.core.info.CreatureManager;
 import com.lycanitesmobs.core.info.Subspecies;
 import lycanitestweaks.LycanitesTweaks;
-import lycanitestweaks.capability.IPlayerMobLevelCapability;
-import lycanitestweaks.capability.PlayerMobLevelCapability;
+import lycanitestweaks.capability.PlayerMobLevel.IPlayerMobLevelCapability;
+import lycanitestweaks.capability.PlayerMobLevel.PlayerMobLevelCapability;
 import lycanitestweaks.client.gui.GuiNumberField;
 import lycanitestweaks.handlers.ForgeConfigProvider;
 import lycanitestweaks.handlers.config.major.PlayerMobLevelsConfig;
@@ -254,11 +254,11 @@ public class PMLBeastiaryScreen extends BeastiaryScreen {
 							rhNextY += 4 + this.getFontRenderer().getWordWrappedHeight("", this.colLeftWidth);
 							if(PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(category))
 								this.drawTexture(new ResourceLocation(LycanitesMobs.modid, "textures/items/soulgazer.png"),rhNextX - 20, rhNextY - 4, 0, 1, 1, 16 ,16);
-							text = I18n.format("gui.beastiary.index.mixin." + category.name(), pmlBonusCateogories.get(category));
+							text = I18n.format("gui.beastiary.pml.category." + category.name(), pmlBonusCateogories.get(category));
 							this.getFontRenderer().drawString(text, rhNextX, rhNextY, 0xFFFFFF, true);
 						}
 					}
-					text = I18n.format("gui.beastiary.index.mixin.deathcooldown", pml.getDeathCooldown() / 20);
+					text = I18n.format("gui.beastiary.pml.category.deathcooldown", pml.getDeathCooldown() / 20);
 					rhNextY += 4 + this.getFontRenderer().getWordWrappedHeight("", this.colLeftWidth);
 					this.getFontRenderer().drawString(text, rhNextX, rhNextY, 0xFFFFFF, true);
 				}

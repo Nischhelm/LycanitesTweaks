@@ -1,6 +1,8 @@
 package lycanitestweaks.client.gui.beastiary.lists;
 
 import com.lycanitesmobs.client.gui.beastiary.BeastiaryScreen;
+import com.lycanitesmobs.core.info.AltarInfo;
+import lycanitestweaks.handlers.ForgeConfigProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraftforge.fml.client.GuiScrollingList;
@@ -78,5 +80,15 @@ public class AltarFilterList extends GuiScrollingList {
 		if(!this.filteredLists.contains(altarList)) {
 			this.filteredLists.add(altarList);
 		}
+	}
+
+	/**
+	 * Returns if this filter list allows the provided Altar Info to be added to the display list.
+	 * @param altarInfo The Altar info to display.
+	 * @param listType The type of Altar List.
+	 * @return True if the Altar Info should be included.
+	 */
+	public boolean canListAltar(AltarInfo altarInfo, AltarList.Type listType) {
+		return !ForgeConfigProvider.getAltarBeastiaryBlacklist().contains(altarInfo.name);
 	}
 }

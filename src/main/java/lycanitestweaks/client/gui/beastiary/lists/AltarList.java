@@ -41,6 +41,7 @@ public class AltarList extends GuiScrollingList {
 
 	private Type listType;
 	private final BeastiaryScreen parentGui;
+	private final AltarFilterList filterList;
     private final Map<Integer, AltarInfo> altarList = new HashMap<>();
 
 	/**
@@ -58,8 +59,9 @@ public class AltarList extends GuiScrollingList {
 		super(Minecraft.getMinecraft(), width, height, top, bottom, x, 16, width, height);
 		this.listType = listType;
 		this.parentGui = parentGui;
-        if(filterList != null) {
-			filterList.addFilteredList(this);
+		this.filterList = filterList;
+        if(this.filterList != null) {
+			this.filterList.addFilteredList(this);
 		}
 		this.loadVanillaAltars();
 		this.refreshList();
@@ -140,23 +142,27 @@ public class AltarList extends GuiScrollingList {
 
 		// Vanilla Rare Altars
 		if(this.listType == Type.CHALLENGE) {
-			for(String altarName : this.challengeAltarBlockPatterns.keySet()) this.altarList.put(altarIndex++, AltarInfo.getAltar(altarName));
+			for(String altarName : this.challengeAltarBlockPatterns.keySet())
+				if(this.filterList.canListAltar(AltarInfo.getAltar(altarName), this.listType))
+					this.altarList.put(altarIndex++, AltarInfo.getAltar(altarName));
 		}
 		// Vanilla Boss Altars
 		else if(this.listType == Type.BOSS) {
-			for(String altarName : this.bossAltarSoulcubes.keySet()) this.altarList.put(altarIndex++, AltarInfo.getAltar(altarName));
+			for(String altarName : this.bossAltarSoulcubes.keySet())
+				if(this.filterList.canListAltar(AltarInfo.getAltar(altarName), this.listType))
+					this.altarList.put(altarIndex++, AltarInfo.getAltar(altarName));
 		}
 		// Most other should be non-event
 		else if(this.listType == Type.NONEVENT) {
 			for(AltarInfo altarInfo : AltarInfo.altars.values()){
-				if(altarInfo.mobEventTrigger == null && altarInfo instanceof IAltarBeastiaryRender)
+				if(altarInfo.mobEventTrigger == null && this.filterList.canListAltar(altarInfo, this.listType) && altarInfo instanceof IAltarBeastiaryRender)
 					this.altarList.put(altarIndex++, altarInfo);
 			}
 		}
 		// Few remaining will correctly link an event
 		else if(this.listType == Type.EVENT) {
 			for(AltarInfo altarInfo : AltarInfo.altars.values()){
-				if(altarInfo.mobEventTrigger != null && altarInfo instanceof IAltarBeastiaryRender)
+				if(altarInfo.mobEventTrigger != null && this.filterList.canListAltar(altarInfo, this.listType) && altarInfo instanceof IAltarBeastiaryRender)
 					this.altarList.put(altarIndex++, altarInfo);
 			}
 		}

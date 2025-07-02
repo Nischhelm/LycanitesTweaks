@@ -35,6 +35,8 @@ public abstract class TameableCreatureEntitySizeFoodMixin extends AgeableCreatur
     @Shadow(remap = false)
     public abstract EntityPlayer getPlayerOwner();
     @Shadow(remap = false)
+    public abstract boolean isSitting();
+    @Shadow(remap = false)
     public abstract void playEatSound();
 
     @Inject(
@@ -43,7 +45,7 @@ public abstract class TameableCreatureEntitySizeFoodMixin extends AgeableCreatur
             remap = false
     )
     public void lycanitesTweaks_lycanitesTameableCreatureEntity_getInteractCommandsSize(EntityPlayer player, EnumHand hand, ItemStack itemStack, CallbackInfoReturnable<HashMap<Integer, String>> cir, @Local() HashMap<Integer, String> commands){
-        if(hand == EnumHand.OFF_HAND && player.isSneaking()){
+        if(this.isSitting()){
             if(lycanitesTweaks$canPlayerSetSize(player, true) && itemStack.getItem() instanceof GenericFoodItem && ((GenericFoodItem) itemStack.getItem()).itemName.equals("battle_burrito")){
                 commands.put(BaseCreatureEntity.COMMAND_PIORITIES.ITEM_USE.id, COMMAND_SIZE_UP);
             }

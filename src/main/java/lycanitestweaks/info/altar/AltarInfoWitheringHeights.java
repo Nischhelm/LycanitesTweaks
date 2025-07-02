@@ -3,6 +3,7 @@ package lycanitestweaks.info.altar;
 import com.lycanitesmobs.ExtendedWorld;
 import com.lycanitesmobs.core.info.AltarInfo;
 import lycanitestweaks.client.gui.beastiary.AltarsBeastiaryScreen;
+import lycanitestweaks.handlers.ForgeConfigHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -25,7 +26,7 @@ public class AltarInfoWitheringHeights extends AltarInfo implements IAltarNoBoos
         super(name);
         this.coreBlock = Blocks.NETHER_WART_BLOCK;
         this.bodyBlock = Blocks.SOUL_SAND;
-        this.width = this.height = 1;
+        this.width = this.height = ForgeConfigHandler.server.altarsConfig.witheringHeightsAltarObsidian;
     }
 
     public static boolean isWitherSkull(World world, BlockPos pos){

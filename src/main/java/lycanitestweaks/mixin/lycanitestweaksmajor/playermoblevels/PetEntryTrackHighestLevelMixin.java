@@ -2,8 +2,8 @@ package lycanitestweaks.mixin.lycanitestweaksmajor.playermoblevels;
 
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.pets.PetEntry;
-import lycanitestweaks.capability.IPlayerMobLevelCapability;
-import lycanitestweaks.capability.PlayerMobLevelCapability;
+import lycanitestweaks.capability.PlayerMobLevel.IPlayerMobLevelCapability;
+import lycanitestweaks.capability.PlayerMobLevel.PlayerMobLevelCapability;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import org.spongepowered.asm.mixin.Mixin;

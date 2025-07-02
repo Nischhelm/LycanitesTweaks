@@ -1,12 +1,9 @@
 package lycanitestweaks.network;
 
-import com.lycanitesmobs.LycanitesMobs;
 import io.netty.buffer.ByteBuf;
 import lycanitestweaks.LycanitesTweaks;
-import lycanitestweaks.capability.ILycanitesTweaksPlayerCapability;
-import lycanitestweaks.capability.IPlayerMobLevelCapability;
-import lycanitestweaks.capability.LycanitesTweaksPlayerCapability;
-import lycanitestweaks.capability.PlayerMobLevelCapability;
+import lycanitestweaks.capability.PlayerMobLevel.IPlayerMobLevelCapability;
+import lycanitestweaks.capability.PlayerMobLevel.PlayerMobLevelCapability;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -17,9 +14,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
 
 public class PacketPlayerMobLevelsModifiers implements IMessage {
 

@@ -13,15 +13,16 @@ import lycanitestweaks.handlers.config.major.PlayerMobLevelsConfig;
 import net.minecraftforge.common.config.Config;
 
 public class MajorFeaturesConfig {
-    @Config.Name("Additional Creature Interactions")
+
+    @Config.Name("Creature Interactions")
     @MixinConfig.SubInstance
     public final CreatureInteractConfig creatureInteractConfig = new CreatureInteractConfig();
 
-    @Config.Name("Capability: Crystal Stored Creature Bosses")
+    @Config.Name("Crystal Stored Creature Entities")
     @MixinConfig.SubInstance
     public final EntityStoreCreatureConfig escConfig = new EntityStoreCreatureConfig();
 
-    @Config.Name("Capability: Player Mob Levels Bonus")
+    @Config.Name("Player Mob Levels Bonus")
     @MixinConfig.SubInstance
     public final PlayerMobLevelsConfig pmlConfig = new PlayerMobLevelsConfig();
 
@@ -37,7 +38,7 @@ public class MajorFeaturesConfig {
     @MixinConfig.SubInstance
     public final BossRahovartConfig rahovartConfig = new BossRahovartConfig();
 
-    @Config.Name("Rework Summoning")
+    @Config.Name("Imperfect Summoning")
     @MixinConfig.SubInstance
     public final ImperfectSummoningConfig imperfectSummoningConfig = new ImperfectSummoningConfig();
 
@@ -45,7 +46,7 @@ public class MajorFeaturesConfig {
     @MixinConfig.SubInstance
     public final CreatureStatsConfig creatureStatsConfig = new CreatureStatsConfig();
 
-    @Config.Name("Tweak Lycanites Item")
+    @Config.Name("Vanilla Lycanites Item Tweaks")
     @MixinConfig.SubInstance
     public final ItemTweaksConfig itemTweaksConfig = new ItemTweaksConfig();
 }

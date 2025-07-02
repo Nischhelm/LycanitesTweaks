@@ -43,9 +43,7 @@ public abstract class BaseCreatureEntitySoulKeyVariantMixin extends EntityLiving
             remap = false
     )
     public void lycanitesTweaks_lycanitesBaseCreatureEntity_getInteractCommandsSoulkey(EntityPlayer player, EnumHand hand, ItemStack itemStack, CallbackInfoReturnable<HashMap<Integer, String>> cir, @Local() HashMap<Integer, String> commands){
-        if(itemStack.getItem() instanceof ItemSoulkey
-                && hand == EnumHand.OFF_HAND && player.isSneaking()
-                && CreatureManager.getInstance().creatureGroups.get("animal").hasEntity(this)){
+        if(itemStack.getItem() instanceof ItemSoulkey && CreatureManager.getInstance().creatureGroups.get("animal").hasEntity(this)){
             commands.put(BaseCreatureEntity.COMMAND_PIORITIES.ITEM_USE.id, COMMAND_VARIANT_ANIMAL);
         }
     }

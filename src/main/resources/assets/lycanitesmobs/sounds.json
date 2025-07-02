@@ -38,5 +38,29 @@
   "projectile.sigilwraithskull.impact": {
     "category": "ambient",
     "sounds": [{"name": "lycanitesmobs:projectile/sigilwraithskull_impact", "stream": false}]
+  },
+  "entity.sonofamalgalich.say": {
+    "category": "hostile",
+    "sounds": [{"name": "lycanitesmobs:entity/sonofamalgalich/say", "pitch": 3.0, "stream": false}]
+  },
+  "entity.sonofamalgalich.hurt": {
+    "category": "hostile",
+    "sounds": [{"name": "lycanitesmobs:entity/sonofamalgalich/hurt", "pitch": 3.0, "stream": false}]
+  },
+  "entity.sonofamalgalich.death": {
+    "category": "hostile",
+    "sounds": [{"name": "lycanitesmobs:entity/sonofamalgalich/death", "pitch": 3.0, "stream": false}]
+  },
+  "entity.sonofamalgalich.attack": {
+    "category": "hostile",
+    "sounds": [{"name": "lycanitesmobs:entity/sonofamalgalich/attack", "pitch": 3.0, "stream": false}]
+  },
+  "entity.sonofamalgalich.step": {
+    "category": "hostile",
+    "sounds": [{"name": "lycanitesmobs:entity/sonofamalgalich/step", "pitch": 3.0, "stream": false}]
+  },
+  "entity.sonofamalgalich.phase": {
+    "category": "hostile",
+    "sounds": [{"name": "lycanitesmobs:entity/sonofamalgalich/phase", "pitch": 3.0, "stream": false}]
   }
 }

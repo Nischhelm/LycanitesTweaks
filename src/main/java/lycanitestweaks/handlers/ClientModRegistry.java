@@ -14,8 +14,6 @@ import net.minecraftforge.fml.relauncher.Side;
 @Mod.EventBusSubscriber(modid = LycanitesTweaks.MODID, value = Side.CLIENT)
 public class ClientModRegistry {
 
-    public static KeyBinding mount_change_view;
-
     public static void init() {
         KeyHandler.init();
         MinecraftForge.EVENT_BUS.register(KeyHandler.class);

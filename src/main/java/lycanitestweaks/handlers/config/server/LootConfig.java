@@ -10,6 +10,11 @@ public class LootConfig {
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurecreaturevanillaloottables.json")
     public boolean vanillaBaseCreatureLootTable = true;
 
+    @Config.Comment("Register Loot Tables for creatures dropping random charges of their element (This LootTable is dynamic)")
+    @Config.Name("Register Random Charges Loot Tables")
+    @Config.RequiresMcRestart
+    public boolean registerRandomChargesLootTable = true;
+
     @Config.Comment("Minimum Creature Level for the lycanite mob to drop Random Charges")
     @Config.Name("Random Charge Loot Minimum Mob Level")
     @Config.RequiresMcRestart
@@ -49,11 +54,6 @@ public class LootConfig {
     @Config.Name("Register Boss Soulkey Loot Tables")
     @Config.RequiresMcRestart
     public boolean registerBossSoulkeyLootTables = true;
-
-    @Config.Comment("Register Loot Tables for creatures dropping random charges of their element (This LootTable is dynamic)")
-    @Config.Name("Register Random Charges Loot Tables")
-    @Config.RequiresMcRestart
-    public boolean registerRandomChargesLootTable = true;
 
     @Config.Comment("Register Loot Tables for any creature tagged as SpawnedAsBoss (ex Dungeon/Altar)")
     @Config.Name("Register SpawnedAsBoss With Levels Loot Tables")

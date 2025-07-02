@@ -54,28 +54,18 @@ public abstract class ItemStaffSummoningElementLevelMapMixin extends ItemScepter
         NBTTagCompound nbt = this.getTagCompound(stack);
 
         rawStrings.append(I18n.format("item.summoningstaff.description.mixin"));
-        if(nbt.hasKey("ChargeItem"))
-            if(ForgeConfigHandler.client.translateWhenPossible) {
-                ChargeItem chargeItem = (ChargeItem)ObjectManager.getItem(nbt.getString("ChargeItem"));
-                if(chargeItem != null)
-                    rawStrings.append("\n").append(I18n.format("item.summoningstaff.description.mixin.chargeitem", chargeItem.getProjectileName()));
-            }
-            else{
-                rawStrings.append("\n").append(I18n.format("item.summoningstaff.description.mixin.chargeitem", nbt.getString("ChargeItem")));
-            }
+        if(nbt.hasKey("ChargeItem")) {
+            ChargeItem chargeItem = (ChargeItem) ObjectManager.getItem(nbt.getString("ChargeItem"));
+            if (chargeItem != null)
+                rawStrings.append("\n").append(I18n.format("item.summoningstaff.description.mixin.chargeitem", chargeItem.getProjectileName()));
+        }
         if(nbt.hasKey("ElementsLevel"))
             for(String element : nbt.getCompoundTag("ElementsLevel").getKeySet()) {
-                if(ForgeConfigHandler.client.translateWhenPossible) {
-                    ElementInfo elementInfo = ElementManager.getInstance().getElement(element);
-                    if(elementInfo != null)
-                        rawStrings.append("\n").append(I18n.format("item.summoningstaff.description.mixin.element",
-                                elementInfo.getTitle())
-                        );
-                }
-                else
+                ElementInfo elementInfo = ElementManager.getInstance().getElement(element);
+                if(elementInfo != null)
                     rawStrings.append("\n").append(I18n.format("item.summoningstaff.description.mixin.element",
-                            element)
-                    );
+                            elementInfo.getTitle())
+                );
                 rawStrings.append("\n").append(I18n.format("item.summoningstaff.description.mixin.level",
                         this.lycanitesTweaks$getLevel(stack, element),
                         this.lycanitesTweaks$getExperience(stack, element),

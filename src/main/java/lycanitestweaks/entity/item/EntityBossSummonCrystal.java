@@ -1,8 +1,8 @@
 package lycanitestweaks.entity.item;
 
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
-import lycanitestweaks.capability.EntityStoreCreatureCapabilityHandler;
-import lycanitestweaks.capability.IEntityStoreCreatureCapability;
+import lycanitestweaks.capability.EntityStoreCreature.EntityStoreCreatureCapabilityHandler;
+import lycanitestweaks.capability.EntityStoreCreature.IEntityStoreCreatureCapability;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.storedcreatureentity.StoredCreatureEntity;
 import net.minecraft.block.Block;
