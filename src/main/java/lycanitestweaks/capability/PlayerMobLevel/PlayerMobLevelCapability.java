@@ -174,7 +174,7 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
 
     @Override
     public float getPMLModifierForCreature(BaseCreatureEntity creature) {
-        if(creature != null) {
+        if(creature != null && ForgeConfigHandler.majorFeaturesConfig.pmlConfig.setPMLModifiersBeastiary) {
             String creatureName = creature.creatureInfo.getName();
             if (this.pmlModifiers.containsKey(creatureName)) return this.pmlModifiers.get(creatureName);
 

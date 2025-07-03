@@ -9,9 +9,6 @@ import lycanitestweaks.handlers.config.MajorFeaturesConfig;
 import lycanitestweaks.handlers.config.MinorFeaturesConfig;
 import lycanitestweaks.handlers.config.PatchConfig;
 import lycanitestweaks.handlers.config.ServerConfig;
-import lycanitestweaks.handlers.config.major.CreatureInteractConfig;
-import lycanitestweaks.handlers.config.major.CreatureStatsConfig;
-import lycanitestweaks.handlers.config.major.ItemTweaksConfig;
 import lycanitestweaks.handlers.config.major.PlayerMobLevelsConfig;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
@@ -49,17 +46,17 @@ public class ForgeConfigHandler {
 	public static final ServerConfig server = new ServerConfig();
 
 	@Config.Comment("Mixins based Client Tweaks")
-	@Config.Name("Toggle Client Mixins")
+	@Config.Name("Client Mixins")
 	@MixinConfig.SubInstance
 	public static final ClientFeaturesConfig clientFeaturesMixinConfig = new ClientFeaturesConfig();
 
 	@Config.Comment("Mixins based Tweaks with highly configurable features")
-	@Config.Name("Toggle Major Features Mixins")
+	@Config.Name("Major Features Mixins")
 	@MixinConfig.SubInstance
 	public static final MajorFeaturesConfig majorFeaturesConfig = new MajorFeaturesConfig();
 
 	@Config.Comment("Mixins based Tweaks with very basic options")
-	@Config.Name("Toggle Minor Features Mixins")
+	@Config.Name("Minor Features Mixins")
 	@MixinConfig.SubInstance
 	public static final MinorFeaturesConfig minorFeaturesConfig = new MinorFeaturesConfig();
 
@@ -79,9 +76,6 @@ public class ForgeConfigHandler {
 		@SubscribeEvent
 		public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
 			if(event.getModID().equals(LycanitesTweaks.MODID)) {
-				ItemTweaksConfig.reset();
-				CreatureInteractConfig.reset();
-				CreatureStatsConfig.reset();
 				PlayerMobLevelsConfig.reset();
 				ForgeConfigProvider.reset();
 				ConfigManager.sync(LycanitesTweaks.MODID, Config.Type.INSTANCE);

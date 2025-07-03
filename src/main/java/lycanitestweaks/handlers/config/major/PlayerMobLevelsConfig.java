@@ -7,11 +7,14 @@ import lycanitestweaks.util.Pair;
 import net.minecraftforge.common.config.Config;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class PlayerMobLevelsConfig {
+
+    private static List<BonusCategory> pmlBonusCategoryClientRenderOrder = null;
 
     private static Map<BonusCategory, Pair<BonusUsage, Double>> pmlBonusCategories = null;
     private static Set<BonusCategory> pmlBonusCategorySoulgazer = null;
@@ -21,18 +24,23 @@ public class PlayerMobLevelsConfig {
     private static Set<String> pmlSpawnerNames = null;
 
     @Config.Comment("Enable Capability to calculate a Mob Level associated to a player")
-    @Config.Name("Capability: Player Mob Levels")
+    @Config.Name("Player Mob Levels")
     @Config.RequiresMcRestart
     public boolean playerMobLevelCapability = true;
 
+    @Config.Comment("The primary opt-out option, allows players to set final total 0-100% modifiers for a single or every creature.\n " +
+            "This affects the server-side calculation and removes the client-side Beastiary buttons.")
+    @Config.Name("Set Creature Modifiers In Beastiary")
+    public boolean setPMLModifiersBeastiary = true;
+
     @Config.Comment("Format: [categoryName, soulgazer, bonusGroup, multiplier]\n" +
             "\tcategoryName - The case player mob levels is added, do not change from the defaults\n" +
-            "\tsoulgazer - If a mainhand Soulgazer is required to apply level boost\n" +
+            "\tsoulgazer - If a mainhand/bauble Soulgazer is required to apply level boost\n" +
             "\tbonusGroup - [All,TAMED,WILD], specifies the list of multipliers to use when calculating bonus levels\n" +
             "\tmultiplier - Multiplier to use on the total bonus before it is used\n\n" +
             "Removing an entry fully disables associated features compared to zero'ing the multiplier\n" +
             "\tex. 'SpawnerTrigger' will still flag first-time spawns with 0.0 multiplier")
-    @Config.Name("Capability: PML - Bonus Categories")
+    @Config.Name("Bonus Categories")
     public String[] pmlCategories = {
             "AltarBossMain, true, WILD, 1.0",
             "AltarBossMini, true, WILD, 0.75",
@@ -49,7 +57,7 @@ public class PlayerMobLevelsConfig {
             "Format: [bonusName, multiplier]\n" +
             "\tbonusName - The Source of the bonus, do not change from the defaults\n" +
             "\tmultiplier - Multiplier to use on the total bonus before it is used")
-    @Config.Name("Capability: PML - Bonus Source Multipliers - ALL")
+    @Config.Name("Bonus Source Multipliers - ALL")
     public String[] pmlBonusAll = {
             "ActivePet, 0.75",
             "BestiaryCreature, 1.0",
@@ -62,7 +70,7 @@ public class PlayerMobLevelsConfig {
             "Format: [bonusName,multiplier]\n" +
             "\tbonusName - The Source of the bonus, do not change from the defaults\n" +
             "\tmultiplier - Multiplier to use on the total bonus before it is used")
-    @Config.Name("Capability: PML - Bonus Source Multipliers - TAMED")
+    @Config.Name("Bonus Source Multipliers - TAMED")
     public String[] pmlBonusTamed = {
             "ActivePet, 0.25",
             "BestiaryCreature, 2.0",
@@ -75,7 +83,7 @@ public class PlayerMobLevelsConfig {
             "Format: [bonusName,multiplier]\n" +
             "\tbonusName - The Source of the bonus, do not change from the defaults\n" +
             "\tmultiplier - Multiplier to use on the total bonus before it is used")
-    @Config.Name("Capability: PML - Bonus Source Multipliers - WILD")
+    @Config.Name("Bonus Source Multipliers - WILD")
     public String[] pmlBonusWild = {
             "ActivePet, 1.0",
             "BestiaryCreature, 1.0",
@@ -85,105 +93,118 @@ public class PlayerMobLevelsConfig {
     };
 
     @Config.Comment("Used to lower bloated Minimum Enchantibility values via Rarity {COMMON, UNCOMMON, RARE, VERY_RARE}")
-    @Config.Name("Capability: PML - Enchantment Rarity Divisors")
+    @Config.Name("Enchantment Rarity Divisors")
     @Config.RequiresMcRestart
     public int[] enchRarityDivisors = {1, 2, 5, 10};
 
-    @Config.Comment("Whether Highest Level Pet Entry should try to be calculated, unsorted levels are still stored, false always returns 0")
-    @Config.Name("Capability: PML - Calculate Highest Level Pet Entry")
+    @Config.Comment("Whether highest level Pet Entry should try to be calculated, unsorted levels are still stored, false always returns 0.\n" +
+            "This is different from the level of the currently active pets.")
+    @Config.Name("Calculate Highest Level Pet Entry")
     public boolean pmlCalcHighestLevelPet = true;
 
     @Config.Comment("Inject handling for Player Mob Levels affecting the main Bosses")
-    @Config.Name("Feature: Main Boss Bonus")
+    @Config.Name("Main Boss Bonus")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossesplayermoblevels.json")
     public boolean playerMobLevelMainBosses = true;
 
     @Config.Comment("Inject handling for Player Mob Level affecting JSON Spawners by whitelist")
-    @Config.Name("Feature: JSON Spawner Bonus")
+    @Config.Name("JSON Spawner Bonus")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurejsonspawnerplayermoblevels.json")
     public boolean playerMobLevelJSONSpawner = true;
 
     @Config.Comment("Flags JSON entities to not be affected by the Natural Spawn Boost whether or not an entity was boosted.\n" +
             "This can make every event provide a smaller boost or make a few events stack a large boost")
-    @Config.Name("Feature: JSON Spawner Bonus - Calls First Spawn")
+    @Config.Name("JSON Spawner Bonus - Calls First Spawn")
     public boolean pmlSpawnerNameFirstSpawn = false;
 
     @Config.Comment("JSON Spawner Names is a blacklist instead of whitelist")
-    @Config.Name("Feature: JSON Spawner Bonus - Blacklist")
+    @Config.Name("JSON Spawner Bonus - Blacklist")
     public boolean pmlSpawnerNameStringsIsBlacklist = false;
 
     @Config.Comment("List of Lycanites Spawner Names to attempt to apply Player Mob Levels")
-    @Config.Name("Feature: JSON Spawner Bonus - Spawner Names")
+    @Config.Name("JSON Spawner Bonus - Spawner Names")
     public String[] pmlSpawnerNameStrings = {
             "chaos",
             "disruption",
             "sleep"
     };
 
-    @Config.Comment("Inject handling for Player Mob Level to limit soulbounds in specified dimensions")
-    @Config.Name("Feature: Soulbound Limit Dimensions")
+    @Config.Comment("Inject handling for soulbounds to have limited Player Mob Level bonuses in specified dimensions.\n" +
+            "Prone to desyncs without 'Fix Client Pet Stat Desync'\n" +
+            "Will fail without 'Fix Properties Set After Stat Calculation'")
+    @Config.Name("Soulbounds Weakened In Specific Dimensions")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurelimitedbounddimensions.json")
     public boolean playerMobLevelSoulboundLimitedDimensions = true;
 
-    @Config.Comment("Dimension IDs where soulbounds are level capped to Player Mob Level")
-    @Config.Name("Feature: Soulbound Limit Dimensions - IDs")
+    @Config.Comment("Dimension IDs where soulbounds are level capped at Player Mob Level")
+    @Config.Name("Soulbound Weakened Dimensions - IDs")
     public int[] pmlMinionLimitDimIds = {
             111,
             3
     };
 
-    @Config.Comment("Player Mob Level Dimensions is Whitelist")
-    @Config.Name("Feature: Soulbound Limit Dimensions - Whitelist")
+    @Config.Comment("Soulbound Weakened Dimensions is Whitelist")
+    @Config.Name("Soulbound Weakened Dimensions - Whitelist")
     public boolean pmlMinionLimitDimIdsWhitelist = true;
 
-    @Config.Comment("Whether limited soulbounds can spawn in dimensions blacklisted by vanilla Lycanites")
-    @Config.Name("Feature: Soulbound Limit Dimensions - Overrules Blacklist")
+    @Config.Comment("Whether weakened soulbounds can spawn in dimensions blacklisted by vanilla Lycanites")
+    @Config.Name("Soulbound Weakened Dimensions - Overrules Blacklist")
     public boolean pmlMinionLimitDimOverruleBlacklist = true;
 
-    @Config.Comment("Whether limited soulbound inventories can not have items put inside")
-    @Config.Name("Feature: Soulbound Limit Dimensions - No Inventory")
+    @Config.Comment("Whether weakened soulbound inventories can not have items be put inside")
+    @Config.Name("Soulbound Weakened Dimensions - No Inventory")
     public boolean pmlMinionLimitDimNoInventory = true;
 
-    @Config.Comment("Whether limited soulbounds can be mounted")
-    @Config.Name("Feature: Soulbound Limit Dimensions - Not Mountable")
+    @Config.Comment("Whether weakened soulbounds can be mounted")
+    @Config.Name("Soulbound Weakened Dimensions - Not Mountable")
     public boolean pmlMinionLimitDimNoMount = true;
 
-    @Config.Comment("Whether limited dimensions prevent soulbound spirit recharge")
-    @Config.Name("Feature: Soulbound Limit Dimensions - No Spirit Recharge")
+    @Config.Comment("Whether weakened dimensions prevent soulbound spirit recharge")
+    @Config.Name("Soulbound Weakened Dimensions - No Spirit Recharge")
     public boolean pmlMinionLimitDimNoSpiritRecharge = true;
 
     @Config.Comment("Inject handling for Player Mob Level to affect summon staff minions")
-    @Config.Name("Feature: Player Mob Level Summon Staff")
+    @Config.Name("Player Mob Level Summon Staff")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresummonstaffplayermoblevel.json")
     public boolean playerMobLevelSummonStaff = true;
 
     @Config.Comment("Lycanites Pet Manager updates Player Mob Level Capability with pet entry information")
-    @Config.Name("Feature: Pet Manager Tracks Pet Levels")
+    @Config.Name("Pet Manager Tracks Pet Levels")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurepetmanagerpmltrackspetlevels.json")
     public boolean petManagerTracksHighestLevelPet = true;
 
     @Config.Comment("Remove treat pacifying and lower reputation gain when taming high leveled creatures")
-    @Config.Name("Feature: Over Leveled Penalty")
+    @Config.Name("Over Leveled Penalty")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuretameoverlevelpenalty.json")
     public boolean tamedOverLeveledPenalty = true;
 
     @Config.Comment("Creature level to compare to PML highest pet entry level, set to 0 to disable")
-    @Config.Name("Feature: Over Leveled Penalty - Start")
+    @Config.Name("Over Leveled Penalty - Start")
     public int pmlTamedOverLevelStartLevel = 20;
 
     @Config.Comment("Whether treat reputation will be penalized if creature is over leveled.")
-    @Config.Name("Feature: Over Leveled Penalty - Treat Point Penalty")
+    @Config.Name("Over Leveled Penalty - Treat Point Penalty")
     public boolean pmlTamedOverLevelTreatPointPenalty = false;
 
     @Config.Comment("If creature could be tempted, will it remain able to be tempted if over leveled")
-    @Config.Name("Feature: Over Leveled Penalty - Treat Tempt")
+    @Config.Name("Over Leveled Penalty - Treat Tempt")
     public boolean pmlTamedOverLevelTreatTempt = false;
+
+    public static List<PlayerMobLevelsConfig.BonusCategory> getPmlBonusCategoryClientRenderOrder(){
+        if(PlayerMobLevelsConfig.pmlBonusCategoryClientRenderOrder == null){
+            pmlBonusCategoryClientRenderOrder = Arrays
+                    .stream(ForgeConfigHandler.clientFeaturesMixinConfig.pmlBeastiaryOrder)
+                    .map(PlayerMobLevelsConfig.BonusCategory::get)
+                    .collect(Collectors.toList());
+        }
+        return PlayerMobLevelsConfig.pmlBonusCategoryClientRenderOrder;
+    }
 
     public static Map<BonusCategory, Pair<BonusUsage, Double>> getPmlBonusCategories(){
         if(pmlBonusCategories == null)
@@ -205,8 +226,6 @@ public class PlayerMobLevelsConfig {
         return pmlBonusCategories;
     }
 
-    // SoulboundTame and SummonMinion don't check this atm
-    // Condition is currently still mainhand soulgazer, if it was something else then perhaps
     public static Set<BonusCategory> getPmlBonusCategorySoulgazer(){
         if(pmlBonusCategorySoulgazer == null)
             pmlBonusCategorySoulgazer = Arrays
@@ -240,7 +259,7 @@ public class PlayerMobLevelsConfig {
         return pmlBonusUsagesWild;
     }
 
-    public static Map<Bonus, Double> getPmlBonusUsageMap(String[] config, String errormsg) {
+    private static Map<Bonus, Double> getPmlBonusUsageMap(String[] config, String errormsg) {
         return Arrays
                 .stream(config)
                 .map(s -> s.split(","))
@@ -327,6 +346,8 @@ public class PlayerMobLevelsConfig {
     }
 
     public static void reset(){
+        PlayerMobLevelsConfig.pmlBonusCategoryClientRenderOrder = null;
+
         pmlBonusCategories = null;
         pmlBonusCategorySoulgazer = null;
         pmlBonusUsagesAll = null;

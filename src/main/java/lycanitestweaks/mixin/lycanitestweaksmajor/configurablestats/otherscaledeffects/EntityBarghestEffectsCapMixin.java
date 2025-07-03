@@ -3,7 +3,7 @@ package lycanitestweaks.mixin.lycanitestweaksmajor.configurablestats.otherscaled
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.creature.EntityBarghest;
-import lycanitestweaks.handlers.config.major.CreatureStatsConfig;
+import lycanitestweaks.handlers.ForgeConfigProvider;
 import lycanitestweaks.util.Helpers;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,8 +16,8 @@ public abstract class EntityBarghestEffectsCapMixin {
             at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/core/entity/creature/EntityBarghest;getEffectDuration(I)I", remap = false)
     )
     public int lycanitesTweaks_lycanitesMobsEntityBarghest_onLivingUpdateEffectLevelLimit(int original){
-        if(CreatureStatsConfig.getLevelLimitedEffects().containsKey("barghest")){
-            return Helpers.getEffectDurationLevelLimited((BaseCreatureEntity)(Object)this, 5, CreatureStatsConfig.getLevelLimitedEffects().get("barghest"));
+        if(ForgeConfigProvider.getLevelLimitedEffects().containsKey("barghest")){
+            return Helpers.getEffectDurationLevelLimited((BaseCreatureEntity)(Object)this, 5, ForgeConfigProvider.getLevelLimitedEffects().get("barghest"));
         }
         return original;
     }

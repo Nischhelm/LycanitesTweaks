@@ -3,7 +3,6 @@ package lycanitestweaks.handlers;
 import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.client.keybinds.KeyHandler;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;

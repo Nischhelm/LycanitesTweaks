@@ -109,7 +109,7 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             remap = false
     )
     public int lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesDevilstarUpTime(int original){
-        return ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.devilstarStreamUpTime;
+        return ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.devilstarStreamTickLength;
     }
 
     @ModifyExpressionValue(

@@ -1,36 +1,30 @@
 package lycanitestweaks.handlers.config.major;
 
 import fermiumbooter.annotations.MixinConfig;
-import lycanitestweaks.handlers.ForgeConfigHandler;
 import net.minecraftforge.common.config.Config;
-
-import java.util.Arrays;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class CreatureInteractConfig {
 
-    private static Set<String> transformBossSpawnerNames = null;
-
     @Config.Comment("Giving an Enchanted Golden Apple to a tamed creature will turn it into a baby")
-    @Config.Name("Baby Age Gapple")
+    @Config.Name("Enchanted Golden Apple Turns Lycanites Pet Into a Baby")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuretamedbabygapple.json")
     public boolean babyAgeGapple = true;
 
-    @Config.Comment("Allows non boss and non SpawnedAsBoss creatures to be flagged for SpawnedAsBoss transformations.\n" +
-            "This does not automatically enable Persistence, if they could despawn before they still can despawn.")
+    @Config.Comment("Allows non-boss and non-SpawnedAsBoss Lycanites to be flagged for SpawnedAsBoss transformations.\n" +
+            "This does not automatically enable Persistence, if they could despawn before they still can despawn.\n" +
+            "Currently the only provided transformation method is a 100% chance when entering a boat.")
     @Config.Name("Can Transform Into Boss Flag")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurecantransformbossflag.json")
     public boolean canTransformIntoBossFlag = true;
 
     @Config.Comment("Sets the Boss Damage Limit upon transformation")
-    @Config.Name("Can Transform Into Boss Flag - Boss Damage Limit")
+    @Config.Name("Transform Flag Sets Boss Damage Limit")
     public boolean canTransformBossDamageLimit = true;
 
-    @Config.Comment("Add Encounter Category Player Mob Levels upon transformation")
-    @Config.Name("Can Transform Into Boss Flag - Encounter PML")
+    @Config.Comment("Adds Encounter Category Player Mob Levels upon transformation")
+    @Config.Name("Transform Flag Adds PML Encounter Bonus")
     public boolean canTransformBossPML = false;
 
     @Config.Comment("Inject handling for flagging JSON Can Transform Into Boss JSON Spawners by whitelist")
@@ -74,7 +68,7 @@ public class CreatureInteractConfig {
     @Config.Name("Mount with Vanilla Saddles - Allow Flying")
     public boolean vanillaSaddleAllowFlying = false;
 
-    @Config.Comment("Allow the pet perch position to be modifiable")
+    @Config.Comment("Allow the pet perch position to be modifiable. Intended to fix large perching pets blocking mouse actions.")
     @Config.Name("Perch Position Modifiable")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureperchposition.json")
@@ -90,7 +84,7 @@ public class CreatureInteractConfig {
     @Config.RangeDouble(min = 0)
     public double perchDistance = 1.0D;
 
-    @Config.Comment("Modify distance checks to pickup mobs teleporting victims")
+    @Config.Comment("Modify distance checks of pickup mobs teleporting victims")
     @Config.Name("Pickup Checks Distances")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureentitypickupfix.json")
@@ -116,7 +110,7 @@ public class CreatureInteractConfig {
     @Config.RangeDouble(min = 0.0)
     public double sizeChangeDegree = 0.1D;
 
-    @Config.Comment("Make Soul Gazing a creature riding an entity dismount and attack the player")
+    @Config.Comment("Make Soul Gazing a creature riding an entity dismount and attack the player. Counters boat trapping a mob to gaze it.")
     @Config.Name("Soul Gazer Dismounts")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresoulgazerdismounts.json")
@@ -128,8 +122,8 @@ public class CreatureInteractConfig {
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresoulkeyvariantset.json")
     public boolean soulkeysSetVariant = true;
 
-    @Config.Comment("Allow creatures to be tamed/studied with their healing foods")
-    @Config.Name("Tame Creatures with Diet")
+    @Config.Comment("Allow creatures to be tamed/studied with their healing foods described in the Beastiary/set in JSONs")
+    @Config.Name("Tame Creatures with Beastiary Diet")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuretamewithhealingfood.json")
     public boolean tameWithHealingFood = true;
@@ -149,10 +143,10 @@ public class CreatureInteractConfig {
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuretameabletreatpersistence.json")
     public boolean treatSetsPersistence = true;
 
-    @Config.Comment("Blacklist automatically entering riding boats and other vehicles when creature has particular properties\n" +
-            "Creatures are still capable of entering through data or force option with startRiding method\n" +
-            "The default toggled properties targets Sleep Reapers and Mineshaft Banshees\n" +
-            "Nymph is still allowed by default")
+    @Config.Comment("Blacklist automatically entering riding boats and other vehicles when creature has particular properties.\n" +
+            "Creatures are still capable of entering through data or force option with startRiding method.\n" +
+            "The default toggled properties targets Sleep Reapers and Mineshaft Banshees.\n" +
+            "Nymph is still allowed by default.")
     @Config.Name("Vehicle Anti Cheese")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuremountcheesefix.json")
@@ -162,7 +156,7 @@ public class CreatureInteractConfig {
     @Config.Name("Vehicle Anti Cheese - Flying")
     public boolean mountCheeseFixFlying = false;
 
-    @Config.Comment("Prevent creatures who are mounted")
+    @Config.Comment("Prevent creatures who are mounted. Fixes player mounts entering another vehicle.")
     @Config.Name("Vehicle Anti Cheese - Mounted")
     public boolean mountCheeseFixMounted = true;
 
@@ -174,15 +168,4 @@ public class CreatureInteractConfig {
     @Config.Name("Vehicle Anti Cheese - Transform Into Boss")
     public boolean mountCheeseFixTransform = true;
 
-    public static Set<String> getCanTransformIntoBossSpawnerNames(){
-        if(CreatureInteractConfig.transformBossSpawnerNames == null)
-            CreatureInteractConfig.transformBossSpawnerNames = Arrays
-                    .stream(ForgeConfigHandler.majorFeaturesConfig.creatureInteractConfig.transformBossSpawnerNameStrings)
-                    .collect(Collectors.toSet());
-        return CreatureInteractConfig.transformBossSpawnerNames;
-    }
-
-    public static void reset(){
-        CreatureInteractConfig.transformBossSpawnerNames = null;
-    }
 }

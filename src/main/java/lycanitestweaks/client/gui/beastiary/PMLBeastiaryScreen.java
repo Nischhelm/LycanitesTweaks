@@ -17,7 +17,7 @@ import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.capability.PlayerMobLevel.IPlayerMobLevelCapability;
 import lycanitestweaks.capability.PlayerMobLevel.PlayerMobLevelCapability;
 import lycanitestweaks.client.gui.GuiNumberField;
-import lycanitestweaks.handlers.ForgeConfigProvider;
+import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.config.major.PlayerMobLevelsConfig;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.resources.I18n;
@@ -249,7 +249,7 @@ public class PMLBeastiaryScreen extends BeastiaryScreen {
 						this.getFontRenderer().drawString(text, nextX, nextY, 0xFFFFFF, true);
 					}
 
-					for(PlayerMobLevelsConfig.BonusCategory category : ForgeConfigProvider.getPmlBonusCategoryClientRenderOrder()){
+					for(PlayerMobLevelsConfig.BonusCategory category : PlayerMobLevelsConfig.getPmlBonusCategoryClientRenderOrder()){
 						if(pmlBonusCateogories.containsKey(category)){
 							rhNextY += 4 + this.getFontRenderer().getWordWrappedHeight("", this.colLeftWidth);
 							if(PlayerMobLevelsConfig.getPmlBonusCategorySoulgazer().contains(category))
@@ -324,7 +324,7 @@ public class PMLBeastiaryScreen extends BeastiaryScreen {
 	public void onCreateDisplayEntity(CreatureInfo creatureInfo, EntityLivingBase entity) {
 		super.onCreateDisplayEntity(creatureInfo, entity);
 		IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(this.player);
-		if(pml != null && entity instanceof BaseCreatureEntity){
+		if(pml != null && ForgeConfigHandler.majorFeaturesConfig.pmlConfig.setPMLModifiersBeastiary && entity instanceof BaseCreatureEntity){
 			this.commandTextField.setText(String.valueOf(pml.getPMLModifierForCreature((BaseCreatureEntity) entity)));
 			this.commandTextField.setVisible(true);
 			this.setOneButton.visible = true;

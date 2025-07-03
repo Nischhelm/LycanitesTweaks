@@ -1,27 +1,38 @@
 package lycanitestweaks.handlers;
 
-import lycanitestweaks.handlers.config.major.PlayerMobLevelsConfig;
+import lycanitestweaks.LycanitesTweaks;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ForgeConfigProvider {
-    // TODO move everything here
-    private static final Map<String, Set<String>> assetPaths = new HashMap<>();
-    private static final Set<ResourceLocation> flowersaurBiomes = new HashSet<>();
-    private static final List<PlayerMobLevelsConfig.BonusCategory> pmlBonusCategoryClientRenderOrder = new ArrayList<>();
 
+    // Any larger and fully disableable configs are not provided here
+    // Instead provided by the respective config class itself
+
+    // Core
+    private static final Map<String, Set<String>> assetPaths = new HashMap<>();
+
+    // Client
     private static final Set<String> altarBeastiaryBlacklist = new HashSet<>();
     private static final Set<String> creatureBeastiaryBlacklist = new HashSet<>();
     private static final Map<String, Set<Integer>> creatureSubspeciesBeastiaryBlacklist = new HashMap<>();
     private static final Set<String> elementBeastiaryBlacklist = new HashSet<>();
+
+    // Minor
+    private static final Set<ResourceLocation> flowersaurBiomes = new HashSet<>();
+
+    // Major
+    private static final Set<String> transformBossSpawnerNames = new HashSet<>();
+    private static final Map<String, Integer> effectsApplyScaleLevelLimited = new HashMap<>();
+    private static final Map<String, Integer> elementsApplyScaleLevelLimitedDebuffs = new HashMap<>();
+    private static final Set<ResourceLocation> cleansedCureEffects = new HashSet<>();
+    private static final Set<ResourceLocation> immunizationCureEffects = new HashSet<>();
 
     public static void pluginInit(){
         // initialise earlier for mixins that run on startup
@@ -61,56 +72,45 @@ public class ForgeConfigProvider {
 
     public static void reset() {
         ForgeConfigProvider.flowersaurBiomes.clear();
-        ForgeConfigProvider.pmlBonusCategoryClientRenderOrder.clear();
         ForgeConfigProvider.altarBeastiaryBlacklist.clear();
         ForgeConfigProvider.creatureBeastiaryBlacklist.clear();
         ForgeConfigProvider.creatureSubspeciesBeastiaryBlacklist.clear();
         ForgeConfigProvider.elementBeastiaryBlacklist.clear();
+        ForgeConfigProvider.transformBossSpawnerNames.clear();
+        ForgeConfigProvider.effectsApplyScaleLevelLimited.clear();
+        ForgeConfigProvider.elementsApplyScaleLevelLimitedDebuffs.clear();
+        ForgeConfigProvider.cleansedCureEffects.clear();
+        ForgeConfigProvider.immunizationCureEffects.clear();
         init();
     }
 
     public static Set<String> getAssetPathSetFor(String lycanitesAssetPath){
-        if(assetPaths.containsKey(lycanitesAssetPath)) return assetPaths.get(lycanitesAssetPath);
+        if(ForgeConfigProvider.assetPaths.containsKey(lycanitesAssetPath)) return ForgeConfigProvider.assetPaths.get(lycanitesAssetPath);
         return null;
     }
 
-    public static Set<ResourceLocation> getFlowersaurBiomes(){
-        if(flowersaurBiomes.isEmpty() && ForgeConfigHandler.minorFeaturesConfig.flowersaurSpawningBiomes.length > 0)
-            flowersaurBiomes.addAll(Arrays
-                    .stream(ForgeConfigHandler.minorFeaturesConfig.flowersaurSpawningBiomes)
-                    .map(ResourceLocation::new)
-                    .collect(Collectors.toSet()));
-        return flowersaurBiomes;
-    }
-
-    public static List<PlayerMobLevelsConfig.BonusCategory> getPmlBonusCategoryClientRenderOrder(){
-        if(pmlBonusCategoryClientRenderOrder.isEmpty() && ForgeConfigHandler.clientFeaturesMixinConfig.pmlBeastiaryOrder.length > 0)
-            pmlBonusCategoryClientRenderOrder.addAll(Arrays
-                    .stream(ForgeConfigHandler.clientFeaturesMixinConfig.pmlBeastiaryOrder)
-                    .map(PlayerMobLevelsConfig.BonusCategory::get)
-                    .collect(Collectors.toList()));
-        return pmlBonusCategoryClientRenderOrder;
-    }
-
     public static Set<String> getAltarBeastiaryBlacklist(){
-        if(altarBeastiaryBlacklist.isEmpty() && ForgeConfigHandler.clientFeaturesMixinConfig.altarInfoBeastiaryBlacklist.length > 0)
-            altarBeastiaryBlacklist.addAll(Arrays
+        if(ForgeConfigProvider.altarBeastiaryBlacklist.isEmpty()
+                && ForgeConfigHandler.clientFeaturesMixinConfig.altarInfoBeastiaryBlacklist.length > 0)
+            ForgeConfigProvider.altarBeastiaryBlacklist.addAll(Arrays
                     .stream(ForgeConfigHandler.clientFeaturesMixinConfig.altarInfoBeastiaryBlacklist)
                     .collect(Collectors.toList()));
-        return altarBeastiaryBlacklist;
+        return ForgeConfigProvider.altarBeastiaryBlacklist;
     }
 
     public static Set<String> getCreatureBeastiaryBlacklist(){
-        if(creatureBeastiaryBlacklist.isEmpty() && ForgeConfigHandler.clientFeaturesMixinConfig.creatureInfoBeastiaryBlacklist.length > 0)
-            creatureBeastiaryBlacklist.addAll(Arrays
+        if(ForgeConfigProvider.creatureBeastiaryBlacklist.isEmpty()
+                && ForgeConfigHandler.clientFeaturesMixinConfig.creatureInfoBeastiaryBlacklist.length > 0)
+            ForgeConfigProvider.creatureBeastiaryBlacklist.addAll(Arrays
                     .stream(ForgeConfigHandler.clientFeaturesMixinConfig.creatureInfoBeastiaryBlacklist)
                     .collect(Collectors.toList()));
-        return creatureBeastiaryBlacklist;
+        return ForgeConfigProvider.creatureBeastiaryBlacklist;
     }
 
     public static Map<String, Set<Integer>> getCreatureSubspeciesBeastiaryBlacklist(){
-        if(creatureSubspeciesBeastiaryBlacklist.isEmpty() && ForgeConfigHandler.clientFeaturesMixinConfig.creatureSubspeciesInfoBeastiaryBlacklist.length > 0)
-            creatureSubspeciesBeastiaryBlacklist.putAll(Arrays
+        if(ForgeConfigProvider.creatureSubspeciesBeastiaryBlacklist.isEmpty()
+                && ForgeConfigHandler.clientFeaturesMixinConfig.creatureSubspeciesInfoBeastiaryBlacklist.length > 0)
+            ForgeConfigProvider.creatureSubspeciesBeastiaryBlacklist.putAll(Arrays
                     .stream(ForgeConfigHandler.clientFeaturesMixinConfig.creatureSubspeciesInfoBeastiaryBlacklist)
                     .map(s -> s.split(":"))
                     .collect(Collectors.toMap(
@@ -123,14 +123,91 @@ public class ForgeConfigProvider {
                                 }
                             }
                     )));
-        return creatureSubspeciesBeastiaryBlacklist;
+        return ForgeConfigProvider.creatureSubspeciesBeastiaryBlacklist;
     }
 
     public static Set<String> getElementBeastiaryBlacklist(){
-        if(elementBeastiaryBlacklist.isEmpty() && ForgeConfigHandler.clientFeaturesMixinConfig.elementInfoBeastiaryBlacklist.length > 0)
-            elementBeastiaryBlacklist.addAll(Arrays
+        if(ForgeConfigProvider.elementBeastiaryBlacklist.isEmpty()
+                && ForgeConfigHandler.clientFeaturesMixinConfig.elementInfoBeastiaryBlacklist.length > 0)
+            ForgeConfigProvider.elementBeastiaryBlacklist.addAll(Arrays
                     .stream(ForgeConfigHandler.clientFeaturesMixinConfig.elementInfoBeastiaryBlacklist)
                     .collect(Collectors.toList()));
-        return elementBeastiaryBlacklist;
+        return ForgeConfigProvider.elementBeastiaryBlacklist;
+    }
+
+    public static Set<ResourceLocation> getFlowersaurBiomes(){
+        if(ForgeConfigProvider.flowersaurBiomes.isEmpty()
+                && ForgeConfigHandler.minorFeaturesConfig.flowersaurSpawningBiomes.length > 0)
+            ForgeConfigProvider.flowersaurBiomes.addAll(Arrays
+                    .stream(ForgeConfigHandler.minorFeaturesConfig.flowersaurSpawningBiomes)
+                    .map(ResourceLocation::new)
+                    .collect(Collectors.toSet()));
+        return ForgeConfigProvider.flowersaurBiomes;
+    }
+
+    public static Set<String> getCanTransformIntoBossSpawnerNames(){
+        if(ForgeConfigProvider.transformBossSpawnerNames.isEmpty()
+                && ForgeConfigHandler.majorFeaturesConfig.creatureInteractConfig.transformBossSpawnerNameStrings.length > 0)
+            ForgeConfigProvider.transformBossSpawnerNames.addAll(Arrays
+                    .stream(ForgeConfigHandler.majorFeaturesConfig.creatureInteractConfig.transformBossSpawnerNameStrings)
+                    .collect(Collectors.toSet()));
+        return ForgeConfigProvider.transformBossSpawnerNames;
+    }
+
+    public static Map<String, Integer> getLevelLimitedEffects() {
+        if (ForgeConfigProvider.effectsApplyScaleLevelLimited.isEmpty())
+            ForgeConfigProvider.effectsApplyScaleLevelLimited.putAll(Arrays
+                    .stream(ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.effectsLevelLimited)
+                    .map(s -> s.split(","))
+                    .filter(split -> split[2].equals("true"))
+                    .collect(Collectors.toMap(
+                            split -> split[0].trim(), //Key
+                            split -> {                //Value
+                                try {
+                                    return Integer.valueOf(split[1].trim());
+                                } catch (Exception e) {
+                                    LycanitesTweaks.LOGGER.error("Failed to parse {} in effectsLevelLimited", split[1].trim());
+                                }
+                                return 0;
+                            }
+                    )));
+        return ForgeConfigProvider.effectsApplyScaleLevelLimited;
+    }
+
+    public static Map<String, Integer> getLevelLimitedElementDebuffs(){
+        if(ForgeConfigProvider.elementsApplyScaleLevelLimitedDebuffs.isEmpty())
+            ForgeConfigProvider.elementsApplyScaleLevelLimitedDebuffs.putAll(Arrays
+                    .stream(ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.elementsLevelLimitedDebuffs)
+                    .map(s -> s.split(","))
+                    .collect(Collectors.toMap(
+                            split -> split[0].trim(), //Key
+                            split -> {                //Value
+                                try {
+                                    return Integer.valueOf(split[1].trim());
+                                } catch (Exception e) {
+                                    LycanitesTweaks.LOGGER.error("Failed to parse {} in elementsLevelLimitedDebuffs", split[1].trim());
+                                }
+                                return 0;
+                            }
+                    )));
+        return ForgeConfigProvider.elementsApplyScaleLevelLimitedDebuffs;
+    }
+
+    public static Set<ResourceLocation> getCleansedCureEffects(){
+        if(ForgeConfigProvider.cleansedCureEffects.isEmpty())
+            ForgeConfigProvider.cleansedCureEffects.addAll(Arrays
+                    .stream(ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.cleansedEffectsToCure)
+                    .map(ResourceLocation::new)
+                    .collect(Collectors.toSet()));
+        return ForgeConfigProvider.cleansedCureEffects;
+    }
+
+    public static Set<ResourceLocation> getImmunizationCureEffects(){
+        if(ForgeConfigProvider.immunizationCureEffects.isEmpty())
+            ForgeConfigProvider.immunizationCureEffects.addAll(Arrays
+                    .stream(ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.immunizationEffectsToCure)
+                    .map(ResourceLocation::new)
+                    .collect(Collectors.toSet()));
+        return ForgeConfigProvider.immunizationCureEffects;
     }
 }

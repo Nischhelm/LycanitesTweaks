@@ -5,32 +5,31 @@ import net.minecraftforge.common.config.Config;
 
 public class EntityStoreCreatureConfig {
 
-    @Config.Comment("Enable Capability to replicate LycanitesMobs PetEntry for non players\n" +
-            "Intended to be used by Ender Crystal Reskins")
-    @Config.Name("Add Capability: Entity Store Creature")
+    @Config.Comment("Enable Capability to replicate Lycanites Mobs PetEntry for non players")
+    @Config.Name("Entity Store Creature")
     @Config.RequiresMcRestart
     public boolean entityStoreCreatureCapability = true;
 
-    @Config.Comment("Store Altar Mini Bosses in a Summon Crystal Entity")
-    @Config.Name("Add Feature: Altar Mini Boss Spawn Summon Crystal")
+    @Config.Comment("Store Altar mini bosses in a summon crystal entity")
+    @Config.Name("Altar Mini Boss Summon Crystal")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurealtarminibosscrystal.json")
     public boolean altarMiniBossSpawnCrystal = true;
 
-    @Config.Comment("Store Dungeon Bosses in a Summon Crystal Entity")
-    @Config.Name("Add Feature: Dungeon Boss Spawn Summon Crystal")
+    @Config.Comment("Store Dungeon bosses in a summon crystal entity")
+    @Config.Name("Dungeon Boss Summon Crystal")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuredungeonbosscrystal.json")
     public boolean dungeonBossSpawnCrystal = true;
 
     @Config.Comment("Randomly store some Mob Event spawns in an Encounter Crystal, will flag entity as SpawnedAsBoss")
-    @Config.Name("Add Feature: Encounter Crystal Mob Event")
+    @Config.Name("Encounter Crystal Mob Event")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuremobeventencountercrystal.json")
     public boolean encounterCrystalMobEvent = true;
 
     @Config.Comment("1/n chance store a Mob Event spawned entity inside an Encounter Crystal")
-    @Config.Name("Add Feature: Encounter Crystal Mob Event - Spawn Chance")
+    @Config.Name("Encounter Crystal Mob Event - Spawn Chance")
     @Config.RangeInt(min = 1)
     public int encounterCrystalSpawnChance = 50;
 

@@ -5,7 +5,7 @@ import com.lycanitesmobs.core.spawner.Spawner;
 import com.lycanitesmobs.core.spawner.trigger.SpawnTrigger;
 import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.handlers.ForgeConfigHandler;
-import lycanitestweaks.handlers.config.major.CreatureInteractConfig;
+import lycanitestweaks.handlers.ForgeConfigProvider;
 import lycanitestweaks.util.IBaseCreatureEntityTransformIntoBossMixin;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,7 +32,7 @@ public abstract class SpawnerByNameTransformIntoBossMixin {
     public void lycanitesTweaks_lycanitesMobsSpawner_doSpawnTransformIntoBoss(World world, EntityPlayer player, SpawnTrigger spawnTrigger, BlockPos triggerPos, int level, int chain, CallbackInfoReturnable<Boolean> cir, @Local EntityLiving entityLiving){
         if(entityLiving instanceof IBaseCreatureEntityTransformIntoBossMixin){
 
-            boolean isInList = CreatureInteractConfig.getCanTransformIntoBossSpawnerNames().contains(this.name);
+            boolean isInList = ForgeConfigProvider.getCanTransformIntoBossSpawnerNames().contains(this.name);
 
             isInList = ForgeConfigHandler.majorFeaturesConfig.creatureInteractConfig.transformBossSpawnerNameStringsIsBlacklist != isInList;
 

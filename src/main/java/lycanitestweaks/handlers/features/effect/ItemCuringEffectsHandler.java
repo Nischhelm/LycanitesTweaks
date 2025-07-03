@@ -4,7 +4,7 @@ import com.lycanitesmobs.ObjectManager;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.ExtendedEntity;
 import lycanitestweaks.handlers.ForgeConfigHandler;
-import lycanitestweaks.handlers.config.major.ItemTweaksConfig;
+import lycanitestweaks.handlers.ForgeConfigProvider;
 import lycanitestweaks.util.Helpers;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.MobEffects;
@@ -43,20 +43,20 @@ public class ItemCuringEffectsHandler {
 
         if(ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.customItemCureEffectList) {
             if (entity.isPotionActive(ObjectManager.getEffect("cleansed")) &&
-                    ItemTweaksConfig.getCleansedCureEffects().contains(appliedPotion.getRegistryName())) {
+                    ForgeConfigProvider.getCleansedCureEffects().contains(appliedPotion.getRegistryName())) {
                 event.setResult(Event.Result.DENY);
                 return;
             } else if (entity.isPotionActive(ObjectManager.getEffect("immunization")) &&
-                    ItemTweaksConfig.getImmunizationCureEffects().contains(appliedPotion.getRegistryName())) {
+                    ForgeConfigProvider.getImmunizationCureEffects().contains(appliedPotion.getRegistryName())) {
                 event.setResult(Event.Result.DENY);
                 return;
             }
 
 
             if (appliedPotion == ObjectManager.getEffect("cleansed"))
-                Helpers.cureActiveEffectsFromResourceSet(entity, ItemTweaksConfig.getCleansedCureEffects());
+                Helpers.cureActiveEffectsFromResourceSet(entity, ForgeConfigProvider.getCleansedCureEffects());
             else if (appliedPotion == ObjectManager.getEffect("immunization"))
-                Helpers.cureActiveEffectsFromResourceSet(entity, ItemTweaksConfig.getImmunizationCureEffects());
+                Helpers.cureActiveEffectsFromResourceSet(entity, ForgeConfigProvider.getImmunizationCureEffects());
         }
     }
 }
