@@ -6,14 +6,7 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "core.AltarInfoCelestialGeonachCrystalForgeEventMixin",
-    "core.AltarInfoCrimsonEpionCrystalForgeEventMixin",
-    "core.AltarInfoEbonCacodemonCrystalForgeEventMixin",
-    "core.AltarInfoLunarGrueCrystalForgeEventMixin",
-    "core.AltarInfoMottleAbaiaCrystalForgeEventMixin",
-    "core.AltarInfoPhosphorescentChupacabraCrystalForgeEventMixin",
-    "core.AltarInfoRoyalArchvileCrystalForgeEventMixin",
-    "core.AltarInfoUmberLobberCrystalForgeEventMixin"
+    "core.AltarInfoMiniBossMixin_DestroyPostsForgeEvent"
   ],
   "injectors": {
     "maxShiftBy": 10

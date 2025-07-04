@@ -1,9 +1,9 @@
-package lycanitestweaks.mixin.lycanitestweaksmajor.entitystorecrystals.altar;
+package lycanitestweaks.mixin.lycanitestweaksmajor.entitystorecrystals;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
-import com.lycanitesmobs.core.info.altar.AltarInfoUmberLobber;
+import com.lycanitesmobs.core.info.altar.*;
 import lycanitestweaks.entity.item.EntityBossSummonCrystal;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -13,15 +13,24 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-@Mixin(AltarInfoUmberLobber.class)
-public abstract class AltarInfoUmberLobberCrystalMixin {
+@Mixin(value = {
+        AltarInfoCelestialGeonach.class,
+        AltarInfoCrimsonEpion.class,
+        AltarInfoEbonCacodemon.class,
+        AltarInfoLunarGrue.class,
+        AltarInfoMottleAbaia.class,
+        AltarInfoPhosphorescentChupacabra.class,
+        AltarInfoRoyalArchvile.class,
+        AltarInfoUmberLobber.class
+})
+public abstract class AltarInfoMiniBossMixin_Crystal {
 
     @WrapWithCondition(
             method = "activate",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;setBlockToAir(Lnet/minecraft/util/math/BlockPos;)Z", remap = true),
             remap = false
     )
-    public boolean lycanitesTweaks_lycanitesMobsAltarInfoUmberLobber_activateAltarBlocks(World instance, BlockPos pos){
+    public boolean lycanitesTweaks_lycanitesMobsAltarInfoMiniBoss_activateAltarBlocks(World instance, BlockPos pos){
         return instance.getBlockState(pos).getBlock() == Blocks.OBSIDIAN || instance.getBlockState(pos).getBlock() == Blocks.DIAMOND_BLOCK;
     }
 
@@ -30,7 +39,7 @@ public abstract class AltarInfoUmberLobberCrystalMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z", remap = true),
             remap = false
     )
-    public boolean lycanitesTweaks_lycanitesMobsAltarInfoUmberLobber_activateSpawnCrystal(World instance, Entity entity, @Local(argsOnly = true) World world, @Local(argsOnly = true) BlockPos blockPos){
+    public boolean lycanitesTweaks_lycanitesMobsAltarInfoMiniBoss_activateSpawnCrystal(World instance, Entity entity, @Local(argsOnly = true) World world, @Local(argsOnly = true) BlockPos blockPos){
         return world.spawnEntity(EntityBossSummonCrystal.storeAltarBoss(instance, (BaseCreatureEntity)entity, blockPos));
     }
 }
