@@ -1,6 +1,7 @@
 package lycanitestweaks.mixin.forge;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import lycanitestweaks.LycanitesTweaks;
 import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,11 +26,11 @@ public abstract class GuiConfigMixin {
         //This constructor is only called once per opening a mods config gui, not for sub configs
         //If it has entries, categories are listed before fields
         //the lang key will always be modid.general(or whatever is set in category).configname, we grab the modid
-        if(!instance.isEmpty()){
-            String[] langKey = instance.get(0).getLanguageKey().split("\\.");
-            if(langKey.length > 1 && langKey[1].split("&")[0].equals("unsorted"))
-                return false;
-        }
-        return true;
+        System.out.println("GuiConfig Lang" + instance.get(0).toString());
+        System.out.println("GuiConfig Lang" + instance.get(0).getLanguageKey());
+        System.out.println("GuiConfig QName" + instance.get(0).getQualifiedName());
+        // TODO This approached failed
+        String name = instance.isEmpty() ? "" : instance.get(0).getLanguageKey().split("\\.")[0];
+        return !name.equals(LycanitesTweaks.MODID);
     }
 }

@@ -30,7 +30,7 @@ public class ProjectileBehaviorDrainEffect extends ProjectileBehaviour {
 
     @Override
     public void onProjectileDamage(BaseProjectileEntity projectile, World world, EntityLivingBase target, float damage) {
-        if(projectile.getEntityWorld().isRemote || projectile.getThrower() == null || target == null) {
+        if(projectile.getThrower() == null || target == null) {
             return;
         }
 

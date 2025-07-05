@@ -49,7 +49,7 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
      */
 
     @Unique
-    private boolean lycanitesTweaks$phaseTransition = false;
+    private boolean lycanitesTweaks$phaseTransition = true;
 
     @Shadow(remap = false)
     public List<EntityAstaroth> astarothMinions;
@@ -98,8 +98,8 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
         if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.chupacabraSummon)
             this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("chupacabra").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(2)));
         if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.additionalProjectileAdd) {
-            this.tasks.addTask(this.nextIdleGoalIndex, (new FireProjectilesGoal(this)).setProjectile(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.additionalProjectileAll).setFireRate(640).setVelocity(0.8F).setScale(8.0F).setAllPlayers(true));
-            this.tasks.addTask(this.nextIdleGoalIndex, (new FireProjectilesGoal(this)).setProjectile(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.additionalProjectileTarget).setFireRate(960).setVelocity(0.8F).setScale(8.0F));
+            this.tasks.addTask(this.nextIdleGoalIndex, (new FireProjectilesGoal(this)).setProjectile(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.additionalProjectileAll).setFireRate(2560).setVelocity(0.8F).setScale(4.0F).setAllPlayers(true));
+            this.tasks.addTask(this.nextIdleGoalIndex, (new FireProjectilesGoal(this)).setProjectile(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.additionalProjectileTarget).setFireRate(3840).setVelocity(0.8F).setScale(4.0F));
         }
     }
 
@@ -127,6 +127,7 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             remap = false
     )
     public int lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesAstarothsRespawnP2(int original){
+        this.lycanitesTweaks$phaseTransition = false;
         return ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsRespawnTimePhase2;
     }
 
@@ -136,6 +137,7 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             remap = false
     )
     public int lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesAstarothsRespawnP3(int original){
+        this.lycanitesTweaks$phaseTransition = false;
         return ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsRespawnTimePhase3;
     }
 
@@ -197,8 +199,9 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             remap = false
     )
     public int lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesPhaseTwoAstarothSummonAll(int original){
-        if(this.lycanitesTweaks$phaseTransition && ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsSummonAllPhase2)
+        if(this.lycanitesTweaks$phaseTransition && ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsSummonAllPhase2) {
             return ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsSummonCapPhase2;
+        }
         return 1;
     }
 
@@ -242,9 +245,10 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             constant = @Constant(intValue = 0, ordinal = 1),
             remap = false
     )
-    public int lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesPhaseThreeAstarothSummonAll(int original, @Local int playerCount){
-        if(this.lycanitesTweaks$phaseTransition && ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsSummonAllPhase3)
+    public int lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesPhaseThreeAstarothSummonAll(int original, @Local(ordinal = 0) int playerCount){
+        if(this.lycanitesTweaks$phaseTransition && ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsSummonAllPhase3) {
             return 1 - (ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.astarothsSummonCapPhase3 * playerCount);
+        }
         return original;
     }
 

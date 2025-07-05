@@ -16,12 +16,37 @@ public class PatchConfig {
      *  Fire Blocks
      *  ElementInfo (Melee/Ranged)
      */
-    @Config.Comment("Lycanites Mobs has many instances of applying potion effects on client and is prone to desyncs.\n" +
-            "This will broadly fix this and for other mods. Fix taken from RLMixins.")
+//    @Config.Comment("Lycanites Mobs has many instances of applying potion effects on client and is prone to desyncs.\n" +
+//            "This will broadly fix this and for other mods. Fix taken from RLMixins.")
+//    @Config.Name("Cancel Applying Potions on Client")
+//    @Config.RequiresMcRestart
+//    @MixinConfig.EarlyMixin(name = "mixins.lycanitestweaks.vanillacancelclientpotionadd.json")
+//    public boolean cancelClientPotionAdding = false;
+
+    /*
+     * Addressed
+     * Block onEntityCollision
+     * EntityIgnibus riderEffects
+     * EntityIoray riderEffects onDismounted
+     * EntityRoa riderEffects onDismounted
+     * EntitySalamander riderEffects onDismounted
+     * EntityThresher riderEffects onDismounted
+     * GenericFoodItem onFoodEaten
+     */
+    @Config.Comment("Lycanites Mobs has multiple instances of applying potion effects on client.\n" +
+            "This will fix known cases such as fire blocks, eating foods, and mounting interactions.")
     @Config.Name("Cancel Applying Potions on Client")
     @Config.RequiresMcRestart
-    @MixinConfig.EarlyMixin(name = "mixins.lycanitestweaks.vanillacancelclientpotionadd.json")
+    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchescancelclientpotionadd.json")
     public boolean cancelClientPotionAdding = true;
+
+    @Config.Comment("Fix an inconsistency in Rare/Boss entity audio where firing projectile used 1/2 and 1/4 the volume of other sound effects.\n" +
+            "Volume in these instances affected audible distance instead of actual audio volume.\n" +
+            "For example Rahovart's Hellfire Balls were muted at the edge of his arena while Asmodeus' Chaingun could be heard at further distances.")
+    @Config.Name("Fix Boss Entity Projectile Volume")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesbossprojectilevolume.json")
+    public boolean bossProjectileVolume = true;
 
     // Preferring this approach as injecting pickup behavior into the vanilla bucket is silly
     @Config.Comment("Register Forge's fluid buckets for Lycanites fluids. Fixes dispensers not being able to pick up Lycanites fluids.\n" +

@@ -16,11 +16,12 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+// TODO This approached failed
 @Config(modid = LycanitesTweaks.MODID, category = "general&unsorted")
 public class ForgeConfigHandler {
 
-	@Config.Comment("Modify the sorting behavior of main configs whose @Config annotated category is appended with \"&unsorted\".\n" +
-			"Makes LycanitesTweaks' config be written to disk in the order it was read in instead of sorting alphabetically.\n" +
+	@Config.Comment("Modify the sorting behavior of LycanitesTweaks' Config.\n" +
+			"Makes config be written to disk in the order it was read in instead of sorting alphabetically.\n" +
 			"Forge can not perfectly fix partial or update old configs and will append new config entries.")
 	@Config.Name("Modify Forge Config Write Order")
 	@Config.RequiresMcRestart

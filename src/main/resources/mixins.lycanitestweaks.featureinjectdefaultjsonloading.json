@@ -10,6 +10,7 @@
     "assetload.JSONLoaderLycanitesTweaksMixin",
     "assetload.JSONMobEventsLycanitesTweaksMixin",
     "assetload.JSONSpawnersLycanitesTweaksMixin",
+    "assetload.MobSpawnAdditionalMixin",
     "assetload.ProjectileBehaviorAdditionalMixin"
   ],
   "injectors": {

@@ -11,17 +11,21 @@
     "category": "ambient",
     "sounds": [{"name": "lycanitesmobs:projectile/demonicchaosorb_impact", "stream": false}]
   },
+  "projectile.demonicchaoslaser": {
+    "category": "ambient",
+    "sounds": [{"name": "lycanitesmobs:projectile/demonicchaoslaser", "stream": false, "volume": 0.25}]
+  },
   "projectile.demonicshockspark": {
     "category": "ambient",
     "sounds": [{"name": "lycanitesmobs:projectile/demonicshockspark", "stream": false}]
   },
   "projectile.lichshadowfire": {
     "category": "ambient",
-    "sounds": [{"name": "lycanitesmobs:projectile/lichshadowfire", "stream": false}]
+    "sounds": [{"name": "lycanitesmobs:projectile/lichshadowfire", "volume": 0.75, "stream": false}]
   },
   "projectile.lichshadowfire.impact": {
     "category": "ambient",
-    "sounds": [{"name": "lycanitesmobs:projectile/lichshadowfire_impact", "stream": false}]
+    "sounds": [{"name": "lycanitesmobs:projectile/lichshadowfire_impact", "volume": 0.75, "stream": false}]
   },
   "projectile.lichspectralbolt": {
     "category": "ambient",
@@ -39,28 +43,56 @@
     "category": "ambient",
     "sounds": [{"name": "lycanitesmobs:projectile/sigilwraithskull_impact", "stream": false}]
   },
+  "entity.darkling.assimilated.say": {
+    "category": "hostile",
+    "sounds": [{"name": "lycanitesmobs:entity/darkling/say", "stream": false}]
+  },
+  "entity.darkling.assimilated.hurt": {
+    "category": "hostile",
+    "sounds": [{"name": "lycanitesmobs:entity/darkling/hurt", "stream": false}]
+  },
+  "entity.darkling.assimilated.death": {
+    "category": "hostile",
+    "sounds": [{"name": "lycanitesmobs:entity/darkling/death", "stream": false}]
+  },
+  "entity.darkling.assimilated.attack": {
+    "category": "hostile",
+    "sounds": [{"name": "lycanitesmobs:entity/darkling/attack", "stream": false}]
+  },
+  "entity.darkling.assimilated.step": {
+    "category": "hostile",
+    "sounds": [{"name": "lycanitesmobs:entity/darkling/step", "stream": false}]
+  },
+  "entity.darkling.assimilated.beg": {
+    "category": "hostile",
+    "sounds": [{"name": "lycanitesmobs:entity/darkling/beg", "stream": false}]
+  },
+  "entity.darkling.assimilated.tame": {
+    "category": "hostile",
+    "sounds": [{"name": "lycanitesmobs:entity/darkling/tame", "stream": false}]
+  },
   "entity.sonofamalgalich.say": {
     "category": "hostile",
-    "sounds": [{"name": "lycanitesmobs:entity/sonofamalgalich/say", "pitch": 3.0, "stream": false}]
+    "sounds": [{"name": "lycanitesmobs:entity/amalgalich/say", "volume": 0.5, "pitch": 2.0, "stream": false}]
   },
   "entity.sonofamalgalich.hurt": {
     "category": "hostile",
-    "sounds": [{"name": "lycanitesmobs:entity/sonofamalgalich/hurt", "pitch": 3.0, "stream": false}]
+    "sounds": [{"name": "lycanitesmobs:entity/amalgalich/hurt", "volume": 0.5, "pitch": 2.0, "stream": false}]
   },
   "entity.sonofamalgalich.death": {
     "category": "hostile",
-    "sounds": [{"name": "lycanitesmobs:entity/sonofamalgalich/death", "pitch": 3.0, "stream": false}]
+    "sounds": [{"name": "lycanitesmobs:entity/amalgalich/death", "volume": 0.5, "pitch": 2.0, "stream": false}]
   },
   "entity.sonofamalgalich.attack": {
     "category": "hostile",
-    "sounds": [{"name": "lycanitesmobs:entity/sonofamalgalich/attack", "pitch": 3.0, "stream": false}]
+    "sounds": [{"name": "lycanitesmobs:entity/amalgalich/attack", "volume": 0.5, "pitch": 2.0, "stream": false}]
   },
   "entity.sonofamalgalich.step": {
     "category": "hostile",
-    "sounds": [{"name": "lycanitesmobs:entity/sonofamalgalich/step", "pitch": 3.0, "stream": false}]
+    "sounds": [{"name": "lycanitesmobs:entity/amalgalich/step", "volume": 0.5, "pitch": 2.0, "stream": false}]
   },
   "entity.sonofamalgalich.phase": {
     "category": "hostile",
-    "sounds": [{"name": "lycanitesmobs:entity/sonofamalgalich/phase", "pitch": 3.0, "stream": false}]
+    "sounds": [{"name": "lycanitesmobs:entity/amalgalich/phase", "volume": 0.5, "pitch": 2.0, "stream": false}]
   }
 }
