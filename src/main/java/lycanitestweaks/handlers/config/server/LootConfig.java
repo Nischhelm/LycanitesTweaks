@@ -5,7 +5,7 @@ import net.minecraftforge.common.config.Config;
 
 public class LootConfig {
     @Config.Comment("Lycanites Creatures can use JSON loot tables alongside Lycanites Mobs drop list - required for the added loot tables here")
-    @Config.Name("Add Feature")
+    @Config.Name("Add Feature: Vanilla Lootables for Lycanites Mobs")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurecreaturevanillaloottables.json")
     public boolean vanillaBaseCreatureLootTable = true;

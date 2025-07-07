@@ -1,4 +1,4 @@
-package lycanitestweaks.capability.LycanitesTweaksPlayer;
+package lycanitestweaks.capability.lycanitestweaksplayer;
 
 import lycanitestweaks.LycanitesTweaks;
 import net.minecraft.entity.Entity;
@@ -70,8 +70,7 @@ public class LycanitesTweaksPlayerCapabilityHandler {
 
         @Override
         public NBTBase writeNBT(Capability<LycanitesTweaksPlayerCapability> capability, LycanitesTweaksPlayerCapability instance, EnumFacing side) {
-            NBTTagCompound nbt = new NBTTagCompound();
-            return nbt;
+            return new NBTTagCompound();
         }
 
         @Override

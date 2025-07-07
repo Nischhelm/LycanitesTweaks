@@ -11,19 +11,6 @@ public class PatchConfig {
      */
 
     /*
-     * Could manually check and find, known culprits are:
-     *  Food Effects
-     *  Fire Blocks
-     *  ElementInfo (Melee/Ranged)
-     */
-//    @Config.Comment("Lycanites Mobs has many instances of applying potion effects on client and is prone to desyncs.\n" +
-//            "This will broadly fix this and for other mods. Fix taken from RLMixins.")
-//    @Config.Name("Cancel Applying Potions on Client")
-//    @Config.RequiresMcRestart
-//    @MixinConfig.EarlyMixin(name = "mixins.lycanitestweaks.vanillacancelclientpotionadd.json")
-//    public boolean cancelClientPotionAdding = false;
-
-    /*
      * Addressed
      * Block onEntityCollision
      * EntityIgnibus riderEffects
@@ -40,13 +27,25 @@ public class PatchConfig {
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchescancelclientpotionadd.json")
     public boolean cancelClientPotionAdding = true;
 
-    @Config.Comment("Fix an inconsistency in Rare/Boss entity audio where firing projectile used 1/2 and 1/4 the volume of other sound effects.\n" +
+    @Config.Comment("Fix an inconsistency in Rare/Boss entity audio where firing projectile, was 1/2 and 1/4 the volume of other sound effects.\n" +
             "Volume in these instances affected audible distance instead of actual audio volume.\n" +
             "For example Rahovart's Hellfire Balls were muted at the edge of his arena while Asmodeus' Chaingun could be heard at further distances.")
     @Config.Name("Fix Boss Entity Projectile Volume")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesbossprojectilevolume.json")
     public boolean bossProjectileVolume = true;
+
+    @Config.Comment("Removes the floor/ceiling rounding with Rejuvenation and Decay. Rejuv will not have a minimum healing boost and Decay will not nullify low healing.")
+    @Config.Name("Remove Healing Rejuv/Decay Rounding")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurerejuvdecayroundingbegone.json")
+    public boolean removeHealEffectsRounding = true;
+
+    @Config.Comment("Fix Lycanites Entities spawning their minions in walls. If collision is detected, spawn on top of host instead.")
+    @Config.Name("Fix Minions Spawning in Walls")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patcheswallminions.json")
+    public boolean fixWallMinion = true;
 
     // Preferring this approach as injecting pickup behavior into the vanilla bucket is silly
     @Config.Comment("Register Forge's fluid buckets for Lycanites fluids. Fixes dispensers not being able to pick up Lycanites fluids.\n" +

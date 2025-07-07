@@ -1,4 +1,4 @@
-package lycanitestweaks.capability.EntityStoreCreature;
+package lycanitestweaks.capability.entitystorecreature;
 
 import lycanitestweaks.storedcreatureentity.StoredCreatureEntity;
 import net.minecraft.entity.Entity;

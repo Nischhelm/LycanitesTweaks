@@ -15,7 +15,11 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 	public LycanitesTweaksPlugin() {
 		MixinBootstrap.init();
 
+		// TODO Test FermiumBooter 1.3.0 for duplicate/non-unique Forge Config field names
+		// In 1.2.0 using non-unique between different Sub Instances caused toggle handling to fail and always use defaults
+		// Forge Config allows Sub Instances to use non-unique names
 		FermiumRegistryAPI.registerAnnotatedMixinConfig(ForgeConfigHandler.class, null);
+		FermiumRegistryAPI.enqueueMixin(false, "mixins.lycanitestweaks.forgeconfigsort.json", () -> ForgeConfigHandler.writeForgeConfigUnsorted);
 
 		// Mod Compat - This way doesn't render the error message if people use the default
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.lycanitestweaks.featureclientbeastiaryddd.json",
@@ -25,7 +29,7 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.lycanitestweaks.potioncorejumpfix.json",
 		FermiumRegistryAPI.isModPresent("potioncore") && ForgeConfigHandler.integrationConfig.potionCoreJumpFix);
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.lycanitestweaks.baublessoulgazer.json",
-		FermiumRegistryAPI.isModPresent("baubles") && ForgeConfigHandler.integrationConfig.soulgazerBauble);
+			() -> ModLoadedUtil.isBaublesLoaded() && ForgeConfigHandler.integrationConfig.soulgazerBauble);
 		//
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.lycanitestweaks.equipmentreachfix.json",
 		FermiumRegistryAPI.isModPresent("reachfix") && ForgeConfigHandler.integrationConfig.craftedEquipmentReachFix);

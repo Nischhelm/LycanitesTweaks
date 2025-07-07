@@ -2,8 +2,8 @@ package lycanitestweaks.mixin.lycanitestweaksmajor.interacttweaks;
 
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.info.ExtraMobBehaviour;
-import lycanitestweaks.capability.PlayerMobLevel.IPlayerMobLevelCapability;
-import lycanitestweaks.capability.PlayerMobLevel.PlayerMobLevelCapability;
+import lycanitestweaks.capability.playermoblevel.IPlayerMobLevelCapability;
+import lycanitestweaks.capability.playermoblevel.PlayerMobLevelCapability;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.config.major.PlayerMobLevelsConfig;
 import lycanitestweaks.util.IBaseCreatureEntityTransformIntoBossMixin;
@@ -111,6 +111,13 @@ public abstract class BaseCreatureEntityTransformIntoBossMixin extends EntityLiv
         else{
             return false;
         }
+    }
+
+    @Unique
+    @Override
+    public void onStruckByLightning(EntityLightningBolt lightningBolt){
+        super.onStruckByLightning(lightningBolt);
+        this.lycanitesTweaks$transformIntoBoss();
     }
 
     @Inject(

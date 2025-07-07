@@ -1,8 +1,8 @@
 package lycanitestweaks.network;
 
 import io.netty.buffer.ByteBuf;
-import lycanitestweaks.capability.LycanitesTweaksPlayer.ILycanitesTweaksPlayerCapability;
-import lycanitestweaks.capability.LycanitesTweaksPlayer.LycanitesTweaksPlayerCapability;
+import lycanitestweaks.capability.lycanitestweaksplayer.ILycanitesTweaksPlayerCapability;
+import lycanitestweaks.capability.lycanitestweaksplayer.LycanitesTweaksPlayerCapability;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;

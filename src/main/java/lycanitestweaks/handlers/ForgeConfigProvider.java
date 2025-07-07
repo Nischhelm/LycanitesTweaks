@@ -55,6 +55,9 @@ public class ForgeConfigProvider {
         ForgeConfigProvider.assetPaths.get("elements").add("jsons/bosselements");
         ForgeConfigProvider.assetPaths.get("projectiles").add("jsons/bossprojectiles");
 
+        if(ForgeConfigHandler.majorFeaturesConfig.creatureInteractConfig.canTransformIntoBossFlagExamples)
+            ForgeConfigProvider.assetPaths.get("spawners").add("jsons/examples/bosstransformtag");
+
         if(ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.spawnedAsBossRareBoost)
             ForgeConfigProvider.assetPaths.get("dungeons/schematics").add("jsons/rebalancedungeons/schematics");
         if(ForgeConfigHandler.server.altarsConfig.witheringHeightsAltar)

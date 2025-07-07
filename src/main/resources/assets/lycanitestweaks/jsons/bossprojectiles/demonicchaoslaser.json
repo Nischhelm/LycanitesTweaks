@@ -22,7 +22,7 @@
 			"type": "laser",
 			"speed": 1,
 			"width": 4,
-			"range": 4
+			"range": 8
 		}
 	],
 	"waterproof": true,

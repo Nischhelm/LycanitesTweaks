@@ -98,8 +98,8 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
         if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.chupacabraSummon)
             this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("chupacabra").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(2)));
         if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.additionalProjectileAdd) {
-            this.tasks.addTask(this.nextIdleGoalIndex, (new FireProjectilesGoal(this)).setProjectile(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.additionalProjectileAll).setFireRate(2560).setVelocity(0.8F).setScale(4.0F).setAllPlayers(true));
-            this.tasks.addTask(this.nextIdleGoalIndex, (new FireProjectilesGoal(this)).setProjectile(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.additionalProjectileTarget).setFireRate(3840).setVelocity(0.8F).setScale(4.0F));
+            this.tasks.addTask(this.nextIdleGoalIndex, (new FireProjectilesGoal(this)).setProjectile(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.additionalProjectileAll).setFireRate(2560).setVelocity(0.8F).setScale(6.0F).setAllPlayers(true));
+            this.tasks.addTask(this.nextIdleGoalIndex, (new FireProjectilesGoal(this)).setProjectile(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.additionalProjectileTarget).setFireRate(3840).setVelocity(0.8F).setScale(6.0F));
         }
     }
 

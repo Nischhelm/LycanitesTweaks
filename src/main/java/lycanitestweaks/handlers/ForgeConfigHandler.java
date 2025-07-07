@@ -16,22 +16,31 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-// TODO This approached failed
-@Config(modid = LycanitesTweaks.MODID, category = "general&unsorted")
+@Config(modid = LycanitesTweaks.MODID)
 public class ForgeConfigHandler {
 
-	@Config.Comment("Modify the sorting behavior of LycanitesTweaks' Config.\n" +
-			"Makes config be written to disk in the order it was read in instead of sorting alphabetically.\n" +
+	@Config.Comment("Modify the sorting behavior of only LycanitesTweaks' Config.\n" +
+			"Makes the order be the read-in order instead of sorting alphabetically.\n" +
+			"Configs are organized with dependencies at the top and modifiers right under.\n" +
 			"Forge can not perfectly fix partial or update old configs and will append new config entries.")
-	@Config.Name("Modify Forge Config Write Order")
+	@Config.Name("Modify LycanitesTweaks Config Order")
 	@Config.RequiresMcRestart
-	@MixinConfig.EarlyMixin(name = "mixins.lycanitestweaks.forgeconfigsort.json")
 	public static boolean writeForgeConfigUnsorted = true;
 
+	/*
+	 * Projectile "behaviours"
+	 * "lycanitestweaks:advancedFireProjectiles" - lycanitestweaks/info/projectile/behaviours/ProjectileBehaviourAdvancedFireProjectiles.java
+	 * "lycanitestweaks:targetedForce" - lycanitestweaks/info/projectile/behaviours/ProjectileBehaviourTargetedForce.java
+	 * "lycanitestweaks:drainEffect" - lycanitestweaks/info/projectile/behaviours/ProjectileBehaviorDrainEffect.java
+	 *
+	 * "mobSpawns" Entries
+	 * "lycanitestweaks:setNBT" - Set any NBT like /entitydata or /summon commands
+	 */
 	@Config.Comment("LycanitesTweaks has features that rely on being loaded by Lycanites Mobs.\n" +
 			"Makes Lycanites Mobs check and load JSON resources from LycanitesTweaks.\n" +
 			"JSONs modifications include default config rebalancing and custom additions.\n" +
-			"If disabled, there are no automatic replacements for resources provided by LycanitesTweaks")
+			"LycanitesTweaks custom additions are prefixed with a '!' in their file names.\n" +
+			"Provides additional ProjectileBehaviors and JSON options used by custom additions.")
 	@Config.Name("LycanitesTweaks Default JSON")
 	@Config.RequiresMcRestart
 	@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureinjectdefaultjsonloading.json")

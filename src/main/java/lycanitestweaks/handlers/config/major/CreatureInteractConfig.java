@@ -13,11 +13,17 @@ public class CreatureInteractConfig {
 
     @Config.Comment("Allows non-boss and non-SpawnedAsBoss Lycanites to be flagged for SpawnedAsBoss transformations.\n" +
             "This does not automatically enable Persistence, if they could despawn before they still can despawn.\n" +
-            "Currently the only provided transformation method is a 100% chance when entering a boat.")
+            "Will always trigger a transformation if struck by Lightning.\n")
     @Config.Name("Can Transform Into Boss Flag")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurecantransformbossflag.json")
     public boolean canTransformIntoBossFlag = true;
+
+    @Config.Comment("Load replacement 'flower' and 'village' JSON spawners that add a rare chance to apply this tag.\n" +
+            "1/9 chance for the tag, see generated file as a \"lycanitestweaks:setNBT\" example usage.")
+    @Config.Name("Transform Into Boss - Examples")
+    @Config.RequiresMcRestart
+    public boolean canTransformIntoBossFlagExamples = true;
 
     @Config.Comment("Sets the Boss Damage Limit upon transformation")
     @Config.Name("Transform Flag Sets Boss Damage Limit")
@@ -38,20 +44,11 @@ public class CreatureInteractConfig {
     public boolean transformBossSpawnerNameStringsIsBlacklist = false;
 
     @Config.Comment("List of Lycanites Spawner Names to attempt to flag Transform Boss\n" +
-            "Somewhat Easter Eggs but intended to apply when boat trapping certain mobs\n" +
-            "Add 'flower' when using 'Vehicle Anti Cheese - Transform Into Boss' if you want to be evil")
+            "Somewhat Easter Eggs but intended to apply when boat trapping certain mobs")
     @Config.Name("JSON Spawner Flag Transform Boss - Spawner Names")
     public String[] transformBossSpawnerNameStrings = {
-            "gem",
-            "glowstone",
             "mineshaft",
-            "mushroom",
-            "ore",
-            "portal",
-            "pumpkin",
-            "sleep",
-            "tree",
-            "village"
+            "sleep"
     };
 
     @Config.Comment("Allow mounts to be use vanilla saddles based on levels")

@@ -1,4 +1,4 @@
-package lycanitestweaks.capability.PlayerMobLevel;
+package lycanitestweaks.capability.playermoblevel;
 
 import lycanitestweaks.LycanitesTweaks;
 import net.minecraft.entity.Entity;

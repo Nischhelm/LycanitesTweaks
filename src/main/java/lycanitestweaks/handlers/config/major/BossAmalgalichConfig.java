@@ -6,7 +6,7 @@ import net.minecraftforge.common.config.Config;
 public class BossAmalgalichConfig {
 
     @Config.Comment("Main toggle to enable this feature and its configs")
-    @Config.Name("Enable")
+    @Config.Name("Enable Amalgalich Modifications")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossamalgalich.json")
     public boolean bossTweaksAmalgalich = true;

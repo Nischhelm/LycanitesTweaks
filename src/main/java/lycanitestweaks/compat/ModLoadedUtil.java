@@ -5,8 +5,14 @@ import net.minecraftforge.fml.common.Loader;
 
 public abstract class ModLoadedUtil {
 
+    private static Boolean baublesLoaded = null;
     private static Boolean rlCombatLoaded = null;
     private static Boolean rltweakerLoaded = null;
+
+    public static boolean isBaublesLoaded() {
+        if(baublesLoaded == null) baublesLoaded = Loader.isModLoaded("baubles");
+        return baublesLoaded;
+    }
 
     public static boolean isRLCombatLoaded() {
         if(rlCombatLoaded == null){

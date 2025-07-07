@@ -65,7 +65,11 @@ public abstract class JSONLoaderLycanitesTweaksMixin {
                 break;
             }
         }
-        if(isAddon) lycanitesTweaks$ADDON_PREFIX_JSONS.add(json.get(mapKey).getAsString());
+
+        // Only prepend if custom addition, keep replacement file names the same
+        if(isAddon && !jsonObjectMap.containsKey(json.get(mapKey).getAsString())) {
+            lycanitesTweaks$ADDON_PREFIX_JSONS.add(json.get(mapKey).getAsString());
+        }
     }
 
     @Inject(

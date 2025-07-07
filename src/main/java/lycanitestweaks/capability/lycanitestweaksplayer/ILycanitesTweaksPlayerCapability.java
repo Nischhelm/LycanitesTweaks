@@ -1,4 +1,4 @@
-package lycanitestweaks.capability.LycanitesTweaksPlayer;
+package lycanitestweaks.capability.lycanitestweaksplayer;
 
 import net.minecraft.entity.player.EntityPlayer;
 

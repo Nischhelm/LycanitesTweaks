@@ -6,7 +6,7 @@ import net.minecraftforge.common.config.Config;
 public class BossRahovartConfig {
 
     @Config.Comment("Main toggle to enable this feature and its configs")
-    @Config.Name("Enable")
+    @Config.Name("Enable Rahovart Modifications")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossrahovarttweaks.json")
     public boolean bossTweaksRahovart = true;

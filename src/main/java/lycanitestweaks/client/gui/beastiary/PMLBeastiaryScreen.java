@@ -14,8 +14,8 @@ import com.lycanitesmobs.core.info.CreatureKnowledge;
 import com.lycanitesmobs.core.info.CreatureManager;
 import com.lycanitesmobs.core.info.Subspecies;
 import lycanitestweaks.LycanitesTweaks;
-import lycanitestweaks.capability.PlayerMobLevel.IPlayerMobLevelCapability;
-import lycanitestweaks.capability.PlayerMobLevel.PlayerMobLevelCapability;
+import lycanitestweaks.capability.playermoblevel.IPlayerMobLevelCapability;
+import lycanitestweaks.capability.playermoblevel.PlayerMobLevelCapability;
 import lycanitestweaks.client.gui.GuiNumberField;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.handlers.config.major.PlayerMobLevelsConfig;
@@ -36,7 +36,7 @@ public class PMLBeastiaryScreen extends BeastiaryScreen {
 	public CreatureTypeList creatureTypeList;
 	public CreatureList creatureList;
 	public SubspeciesList subspeciesList;
-	private GuiNumberField commandTextField;
+	private GuiNumberField numberField;
 	private GuiButton setOneButton;
 	private GuiButton setAllButton;
 
@@ -95,17 +95,17 @@ public class PMLBeastiaryScreen extends BeastiaryScreen {
 		int subspeciesListHeight = Math.round((float)this.colRightHeight * 0.4f) - 2;
 		this.subspeciesList = new SubspeciesList(this, false, selectionListsWidth, subspeciesListHeight, subspeciesListY,subspeciesListY + subspeciesListHeight, this.colRightX);
 
-		this.commandTextField = new GuiNumberField(PMLBeastiaryScreen.NUMBER_FIELD_ID, this.getFontRenderer(), this.colRightX + selectionListsWidth, subspeciesListY, selectionListsWidth, 20);
-		this.commandTextField.setValidator(s -> s.matches("((0(\\.\\d*)?)|(1(\\.0?)?))|()"));
-		this.commandTextField.setMaxStringLength(8);
-		this.commandTextField.setVisible(false);
-		this.commandTextField.setFocused(true);
+		this.numberField = new GuiNumberField(PMLBeastiaryScreen.NUMBER_FIELD_ID, this.getFontRenderer(), this.colRightX + selectionListsWidth + 2, subspeciesListY, selectionListsWidth, 20);
+		this.numberField.setValidator(s -> s.matches("((0(\\.\\d*)?)|(1(\\.0?)?))|()")); // All to limit a float between 0.0 and 1.0, could have used in 0-100 int
+		this.numberField.setMaxStringLength(8);
+		this.numberField.setVisible(false);
+		this.numberField.setFocused(true);
 
-		this.setOneButton = new GuiButton(PMLBeastiaryScreen.ONE_BUTTON_ID, this.colRightX + selectionListsWidth, subspeciesListY + this.commandTextField.height , (int) (selectionListsWidth * 1.5F), 20, I18n.format("gui.beastiary.pml.button.one"));
+		this.setOneButton = new GuiButton(PMLBeastiaryScreen.ONE_BUTTON_ID, this.colRightX + selectionListsWidth + 2, subspeciesListY + this.numberField.height + 2 , (int) (selectionListsWidth * 1.5F), 20, I18n.format("gui.beastiary.pml.button.one"));
 		this.setOneButton.visible = false;
 		this.buttonList.add(setOneButton);
 
-		this.setAllButton = new GuiButton(PMLBeastiaryScreen.ALL_BUTTON_ID, this.colRightX + selectionListsWidth, subspeciesListY + subspeciesListHeight - 20, (int) (selectionListsWidth * 1.5F), 20, I18n.format("gui.beastiary.pml.button.all"));
+		this.setAllButton = new GuiButton(PMLBeastiaryScreen.ALL_BUTTON_ID, this.colRightX + selectionListsWidth + 2, subspeciesListY + subspeciesListHeight - 20, (int) (selectionListsWidth * 1.5F), 20, I18n.format("gui.beastiary.pml.button.all"));
 		this.setAllButton.visible = false;
 		this.buttonList.add(setAllButton);
 	}
@@ -129,7 +129,7 @@ public class PMLBeastiaryScreen extends BeastiaryScreen {
 		if(this.playerExt.selectedCreatureType != null) {
 			this.creatureList.drawScreen(mouseX, mouseY, partialTicks);
 			this.subspeciesList.drawScreen(mouseX, mouseY, partialTicks);
-			this.commandTextField.drawTextBox();
+			this.numberField.drawTextBox();
 		}
 	}
 
@@ -160,19 +160,19 @@ public class PMLBeastiaryScreen extends BeastiaryScreen {
 			CreatureKnowledge creatureKnowledge = this.playerExt.beastiary.getCreatureKnowledge(this.playerExt.selectedCreature.getName());
 
 			// Element:
-			String text = "\u00A7l" + LanguageManager.translate("creature.stat.element") + ": " + "\u00A7r";
+			String text = "§l" + LanguageManager.translate("creature.stat.element") + ": " + "§r";
 			text += creatureInfo.elements != null ? creatureInfo.getElementNames(subspecies) : "None";
 			this.getFontRenderer().drawString(text, nextX, nextY, 0xFFFFFF, true);
 
 			// Level:
 			nextY += 2 + this.getFontRenderer().getWordWrappedHeight(text, width);
-			text = "\u00A7l" + LanguageManager.translate("creature.stat.cost") + ": " + "\u00A7r";
+			text = "§l" + LanguageManager.translate("creature.stat.cost") + ": " + "§r";
 			this.getFontRenderer().drawString(text, nextX, nextY, 0xFFFFFF, true);
 			this.drawLevel(creatureInfo, AssetManager.getTexture("GUIPetLevel"),nextX + this.getFontRenderer().getStringWidth(text), nextY);
 
 			// Knowledge Rank:
 			nextY += 2 + this.getFontRenderer().getWordWrappedHeight(text, width);
-			text = "\u00A7l" + LanguageManager.translate("creature.stat.knowledge") + ": " + "\u00A7r";
+			text = "§l" + LanguageManager.translate("creature.stat.knowledge") + ": " + "§r";
 			int rankX = nextX + this.getFontRenderer().getStringWidth(text);
 			int barX = rankX + 29;
 			int barWidth = (256 / 4) + 16;
@@ -286,7 +286,7 @@ public class PMLBeastiaryScreen extends BeastiaryScreen {
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) throws IOException{
 		super.keyTyped(typedChar, keyCode);
-		this.commandTextField.textboxKeyTyped(typedChar, keyCode);
+		this.numberField.textboxKeyTyped(typedChar, keyCode);
 	}
 
 	@Override
@@ -302,19 +302,19 @@ public class PMLBeastiaryScreen extends BeastiaryScreen {
 			if(pml != null && this.creaturePreviewEntity instanceof BaseCreatureEntity) {
 				if (guiButton.id == PMLBeastiaryScreen.ONE_BUTTON_ID) {
 					try {
-						pml.setPMLModifierForCreature((BaseCreatureEntity)this.creaturePreviewEntity, Float.parseFloat(this.commandTextField.getText()));
+						pml.setPMLModifierForCreature((BaseCreatureEntity)this.creaturePreviewEntity, Float.parseFloat(this.numberField.getText()));
 					} catch (Exception exception) {
 						LycanitesTweaks.LOGGER.error(exception);
 					}
-					this.commandTextField.setText(String.valueOf(pml.getPMLModifierForCreature((BaseCreatureEntity)this.creaturePreviewEntity)));
+					this.numberField.setText(String.valueOf(pml.getPMLModifierForCreature((BaseCreatureEntity)this.creaturePreviewEntity)));
 				}
 				if (guiButton.id == PMLBeastiaryScreen.ALL_BUTTON_ID) {
 					try {
-						pml.setPMLModifierForAll(Float.parseFloat(this.commandTextField.getText()));
+						pml.setPMLModifierForAll(Float.parseFloat(this.numberField.getText()));
 					} catch (Exception exception) {
 						LycanitesTweaks.LOGGER.error(exception);
 					}
-					this.commandTextField.setText(String.valueOf(pml.getPMLModifierForCreature((BaseCreatureEntity)this.creaturePreviewEntity)));
+					this.numberField.setText(String.valueOf(pml.getPMLModifierForCreature((BaseCreatureEntity)this.creaturePreviewEntity)));
 				}
 			}
 		}
@@ -325,13 +325,13 @@ public class PMLBeastiaryScreen extends BeastiaryScreen {
 		super.onCreateDisplayEntity(creatureInfo, entity);
 		IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(this.player);
 		if(pml != null && ForgeConfigHandler.majorFeaturesConfig.pmlConfig.setPMLModifiersBeastiary && entity instanceof BaseCreatureEntity){
-			this.commandTextField.setText(String.valueOf(pml.getPMLModifierForCreature((BaseCreatureEntity) entity)));
-			this.commandTextField.setVisible(true);
+			this.numberField.setText(String.valueOf(pml.getPMLModifierForCreature((BaseCreatureEntity) entity)));
+			this.numberField.setVisible(true);
 			this.setOneButton.visible = true;
 			this.setAllButton.visible = true;
 		}
 		else {
-			this.commandTextField.setVisible(false);
+			this.numberField.setVisible(false);
 			this.setOneButton.visible = false;
 			this.setAllButton.visible = false;
 		}

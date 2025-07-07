@@ -6,7 +6,7 @@ import net.minecraftforge.common.config.Config;
 public class BossAsmodeusConfig {
 
     @Config.Comment("Main toggle to enable this feature and its configs")
-    @Config.Name("Enable")
+    @Config.Name("Enable Asmodeus Modifications")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossasmodeustweaks.json")
     public boolean bossTweaksAsmodeus = true;
@@ -110,7 +110,7 @@ public class BossAsmodeusConfig {
     @Config.Comment("Astaroth respawn time in seconds (Lycanites uses 40)")
     @Config.Name("Astaroths Phase 3 Respawn Time")
     @Config.RangeInt(min = 0)
-    public int astarothsRespawnTimePhase3 = 120;
+    public int astarothsRespawnTimePhase3 = 90;
 
     @Config.Comment("Astaroth Summon Cap per player (Lycanites uses 4)")
     @Config.Name("Astaroths Phase 3 Summon Cap")

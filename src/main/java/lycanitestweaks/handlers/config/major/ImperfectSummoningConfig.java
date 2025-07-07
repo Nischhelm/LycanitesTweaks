@@ -6,7 +6,7 @@ import net.minecraftforge.common.config.Config;
 public class ImperfectSummoningConfig {
 
     @Config.Comment("Main toggle to enabled this feature and its configs")
-    @Config.Name("Add Feature")
+    @Config.Name("Add Feature: Imperfect Summoning")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresummonrework.json")
     public boolean summonProgressionRework = true;

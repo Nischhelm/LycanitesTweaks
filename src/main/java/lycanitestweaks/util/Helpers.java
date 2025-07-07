@@ -1,6 +1,5 @@
 package lycanitestweaks.util;
 
-import baubles.api.BaublesApi;
 import com.lycanitesmobs.ObjectManager;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.ExtendedPlayer;
@@ -16,7 +15,9 @@ import com.lycanitesmobs.core.item.equipment.features.ProjectileEquipmentFeature
 import com.lycanitesmobs.core.item.equipment.features.SummonEquipmentFeature;
 import com.lycanitesmobs.core.item.special.ItemSoulgazer;
 import lycanitestweaks.LycanitesTweaks;
+import lycanitestweaks.compat.ModLoadedUtil;
 import lycanitestweaks.handlers.ForgeConfigHandler;
+import lycanitestweaks.wrapper.BaublesWrapper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -71,11 +72,9 @@ public class Helpers {
     public static boolean hasSoulgazerEquiped(EntityLivingBase target, boolean ignoreHand){
         if(!ignoreHand && target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer) return true;
 
-        if(target instanceof EntityPlayer) {
-            int baubleFound = BaublesApi.isBaubleEquipped((EntityPlayer) target, ObjectManager.getItem("soulgazer"));
-            if (baubleFound != -1) return true;
+        if(ModLoadedUtil.isBaublesLoaded()) {
+            if (target instanceof EntityPlayer) return BaublesWrapper.hasSoulgazerBauble((EntityPlayer) target);
         }
-
         return false;
     }
 

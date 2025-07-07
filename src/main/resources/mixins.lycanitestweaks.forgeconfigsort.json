@@ -6,7 +6,8 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "forge.ConfigCategoryMixin"
+    "forge.ConfigCategoryMixin",
+    "forge.ConfigurationMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

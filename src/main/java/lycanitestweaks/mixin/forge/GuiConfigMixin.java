@@ -22,14 +22,10 @@ public abstract class GuiConfigMixin {
             at = @At(value = "INVOKE", target = "Ljava/util/List;sort(Ljava/util/Comparator;)V"),
             remap = false
     )
-    private static boolean aaam_dontSortConfig(List<IConfigElement> instance, Comparator unused){
+    private static boolean lycanitesTweaks_forgeGuiConfig_collectConfigElementsUnsortedProperties(List<IConfigElement> instance, Comparator unused){
         //This constructor is only called once per opening a mods config gui, not for sub configs
         //If it has entries, categories are listed before fields
         //the lang key will always be modid.general(or whatever is set in category).configname, we grab the modid
-        System.out.println("GuiConfig Lang" + instance.get(0).toString());
-        System.out.println("GuiConfig Lang" + instance.get(0).getLanguageKey());
-        System.out.println("GuiConfig QName" + instance.get(0).getQualifiedName());
-        // TODO This approached failed
         String name = instance.isEmpty() ? "" : instance.get(0).getLanguageKey().split("\\.")[0];
         return !name.equals(LycanitesTweaks.MODID);
     }

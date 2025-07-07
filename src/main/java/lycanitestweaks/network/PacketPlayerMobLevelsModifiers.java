@@ -2,8 +2,8 @@ package lycanitestweaks.network;
 
 import io.netty.buffer.ByteBuf;
 import lycanitestweaks.LycanitesTweaks;
-import lycanitestweaks.capability.PlayerMobLevel.IPlayerMobLevelCapability;
-import lycanitestweaks.capability.PlayerMobLevel.PlayerMobLevelCapability;
+import lycanitestweaks.capability.playermoblevel.IPlayerMobLevelCapability;
+import lycanitestweaks.capability.playermoblevel.PlayerMobLevelCapability;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.common.FMLCommonHandler;

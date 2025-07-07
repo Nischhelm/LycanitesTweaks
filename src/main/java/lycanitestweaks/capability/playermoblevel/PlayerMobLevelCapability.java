@@ -1,4 +1,4 @@
-package lycanitestweaks.capability.PlayerMobLevel;
+package lycanitestweaks.capability.playermoblevel;
 
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.ExtendedPlayer;

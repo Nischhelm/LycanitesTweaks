@@ -1,4 +1,4 @@
-package lycanitestweaks.capability.LycanitesTweaksPlayer;
+package lycanitestweaks.capability.lycanitestweaksplayer;
 
 import lycanitestweaks.network.PacketHandler;
 import lycanitestweaks.network.PacketKeybindsSync;
