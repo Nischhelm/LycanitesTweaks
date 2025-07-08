@@ -6,7 +6,7 @@ import net.minecraftforge.common.config.Config;
 public class BossAmalgalichConfig {
 
     @Config.Comment("Main toggle to enable this feature and its configs")
-    @Config.Name("Enable Amalgalich Modifications")
+    @Config.Name("0. Enable Amalgalich Modifications")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossamalgalich.json")
     public boolean bossTweaksAmalgalich = true;
@@ -15,6 +15,17 @@ public class BossAmalgalichConfig {
     @Config.Name("Heal Portion When No Nearby Players")
     @Config.RequiresMcRestart
     public boolean healPortionNoPlayers = true;
+
+    @Config.Comment("Player detection range where if there are no players nearby, start healing. (Lycanites uses 64)\n" +
+            "LycanitesTweaks uses 48, which is inside the arena.")
+    @Config.Name("Heal Portion - Range")
+    @Config.RequiresMcRestart
+    public int healPortionNoPlayersRange = 48;
+
+    @Config.Comment("If minions have no target and are at least this distance away, teleport to host.")
+    @Config.Name("Minion Teleport Range")
+    @Config.RequiresMcRestart
+    public int minionTeleportRange = 40;
 
     @Config.Comment("Whether Amalgalich attacks players hiding in arena walls")
     @Config.Name("Player Xray Target")

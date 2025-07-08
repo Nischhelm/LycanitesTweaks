@@ -24,13 +24,13 @@ public class PlayerMobLevelsConfig {
     private static Set<String> pmlSpawnerNames = null;
 
     @Config.Comment("Enable Capability to calculate a Mob Level associated to a player")
-    @Config.Name("Player Mob Levels")
+    @Config.Name("0. Player Mob Levels")
     @Config.RequiresMcRestart
     public boolean playerMobLevelCapability = true;
 
     @Config.Comment("The primary opt-out option, allows players to set final total 0-100% modifiers for a single or every creature.\n " +
             "This affects the server-side calculation and removes the client-side Beastiary buttons.")
-    @Config.Name("Set Creature Modifiers In Beastiary")
+    @Config.Name("0.a Set Creature Modifiers In Beastiary")
     public boolean setPMLModifiersBeastiary = true;
 
     @Config.Comment("Format: [categoryName, soulgazer, bonusGroup, multiplier]\n" +
@@ -40,7 +40,7 @@ public class PlayerMobLevelsConfig {
             "\tmultiplier - Multiplier to use on the total bonus before it is used\n\n" +
             "Removing an entry fully disables associated features compared to zero'ing the multiplier\n" +
             "\tex. 'SpawnerTrigger' will still flag first-time spawns with 0.0 multiplier")
-    @Config.Name("Bonus Categories")
+    @Config.Name("0.b Bonus Categories")
     public String[] pmlCategories = {
             "AltarBossMain, true, WILD, 1.0",
             "AltarBossMini, true, WILD, 0.75",
@@ -57,7 +57,7 @@ public class PlayerMobLevelsConfig {
             "Format: [bonusName, multiplier]\n" +
             "\tbonusName - The Source of the bonus, do not change from the defaults\n" +
             "\tmultiplier - Multiplier to use on the total bonus before it is used")
-    @Config.Name("Bonus Source Multipliers - ALL")
+    @Config.Name("0.b Bonus Source Multipliers - ALL")
     public String[] pmlBonusAll = {
             "ActivePet, 0.75",
             "BestiaryCreature, 1.0",
@@ -70,7 +70,7 @@ public class PlayerMobLevelsConfig {
             "Format: [bonusName,multiplier]\n" +
             "\tbonusName - The Source of the bonus, do not change from the defaults\n" +
             "\tmultiplier - Multiplier to use on the total bonus before it is used")
-    @Config.Name("Bonus Source Multipliers - TAMED")
+    @Config.Name("0.b Bonus Source Multipliers - TAMED")
     public String[] pmlBonusTamed = {
             "ActivePet, 0.25",
             "BestiaryCreature, 2.0",
@@ -83,7 +83,7 @@ public class PlayerMobLevelsConfig {
             "Format: [bonusName,multiplier]\n" +
             "\tbonusName - The Source of the bonus, do not change from the defaults\n" +
             "\tmultiplier - Multiplier to use on the total bonus before it is used")
-    @Config.Name("Bonus Source Multipliers - WILD")
+    @Config.Name("0.b Bonus Source Multipliers - WILD")
     public String[] pmlBonusWild = {
             "ActivePet, 1.0",
             "BestiaryCreature, 1.0",
@@ -93,7 +93,7 @@ public class PlayerMobLevelsConfig {
     };
 
     @Config.Comment("Used to lower bloated Minimum Enchantibility values via Rarity {COMMON, UNCOMMON, RARE, VERY_RARE}")
-    @Config.Name("Enchantment Rarity Divisors")
+    @Config.Name("0.b Enchantment Rarity Divisors")
     @Config.RequiresMcRestart
     public int[] enchRarityDivisors = {1, 2, 5, 10};
 
@@ -154,7 +154,7 @@ public class PlayerMobLevelsConfig {
     @Config.Name("Soulbound Weakened Dimensions - Overrules Blacklist")
     public boolean pmlMinionLimitDimOverruleBlacklist = true;
 
-    @Config.Comment("Whether weakened soulbound inventories can not have items be put inside")
+    @Config.Comment("Whether weakened soulbound inventory GUIs can be opened")
     @Config.Name("Soulbound Weakened Dimensions - No Inventory")
     public boolean pmlMinionLimitDimNoInventory = true;
 

@@ -63,9 +63,14 @@ public class ForgeConfigProvider {
         if(ForgeConfigHandler.server.altarsConfig.witheringHeightsAltar)
             ForgeConfigProvider.assetPaths.get("mobevents_events").add("jsons/witheraltar");
 
+        if(ForgeConfigHandler.integrationConfig.infLightingDragonSpawner)
+            ForgeConfigProvider.assetPaths.get("spawners").add("jsons/iceandfire");
+
+        // Need special handling, maybe mixins to handle these guys
         if(false) {
             ForgeConfigProvider.assetPaths.get("creatures").add("jsons/sonoftitans");
-            ForgeConfigProvider.assetPaths.get("creatures").add("jsons/srp");
+            ForgeConfigProvider.assetPaths.get("creatures").add("jsons/srp/creatures");
+            ForgeConfigProvider.assetPaths.get("elements").add("jsons/srp/elements");
         }
     }
 

@@ -145,6 +145,7 @@ message.enchantedkey.active=The Soulkey activates the Altar! The boss is empower
 message.event.boss.playermoblevels=The Soulgazer has unleashed a reflection of your soul!
 message.mount.fail.noflying=This mount flies, it can not be ridden with a basic saddle
 message.mount.fail.saddlelevel=Your mount must be level: %s, in order to be ridden with a basic saddle
+message.soulbound.limited.inventory=You can't access your bound creature's inventory here.
 message.soulbound.limited.levels=Your bound creature has limited power here, it is level: %s!
 message.soulgazer.playermoblevels.bosscrystal=The Crystal contains, Level: %s - %s, break with the Soulgazer to challenge Level: %s
 message.soulgazer.playermoblevels.bosscrystal.nogazer=The Crystal contains, Level: %s - %s

@@ -72,6 +72,8 @@
             "name": "assimilated",
             "modelClass": "lycanitestweaks.client.model.creature.ModelDarklingAssimilated",
             "elements": [
+                "nightmare",
+                "viral",
                 "voiding"
             ],
             "conditions": [

@@ -26,28 +26,28 @@ public class CreatureStatsConfig {
     public boolean spawnedAsBossRareBoost = true;
 
     @Config.Comment("Dependency for usings caps on bonus stats per level. Does not affect variant/NBT bonuses.")
-    @Config.Name("Cap Specific Stats")
+    @Config.Name("0. Cap Specific Stats")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurecreaturestatbonuscap.json")
     public boolean capSpecificStats = true;
 
     @Config.Comment("Ratio of max bonus defense, set to 0 to disable the cap")
-    @Config.Name("Defense Ratio")
+    @Config.Name("0.a Defense Ratio")
     @Config.RangeDouble(min = 0)
     public double capDefenseRatio = 4.0D;
 
     @Config.Comment("Ratio of max bonus effect duration, set to 0 to disable the cap")
-    @Config.Name("Effect Duration Ratio")
+    @Config.Name("0.a Effect Duration Ratio")
     @Config.RangeDouble(min = 0)
     public double capEffectDurationRatio = 5.0D;
 
     @Config.Comment("Ratio of max bonus movement speed, set to 0 to disable the cap")
-    @Config.Name("Movement Speed Ratio")
+    @Config.Name("0.a Movement Speed Ratio")
     @Config.RangeDouble(min = 0)
     public double capSpeedRatio = 3.0D;
 
     @Config.Comment("Ratio of max bonus pierce, set to 0 to disable the cap")
-    @Config.Name("Pierce Ratio")
+    @Config.Name("0.a Pierce Ratio")
     @Config.RangeDouble(min = 0)
     public double capPierceRatio = 3.0D;
 
@@ -55,7 +55,7 @@ public class CreatureStatsConfig {
             "Format:[elementName, maxScaleLevel]\n" +
             "\telementName - Name of the element to limit, must be all lowercase\n" +
             "\tmaxScaleLevel - Final Level before duration and amplifier stop increasing")
-    @Config.Name("Elements' Debuffs Level Limit")
+    @Config.Name("0.b Elements' Debuffs Level Limit")
     public String[] elementsLevelLimitedDebuffs = {
             "arcane, 15",
             "chaos, 15",
@@ -79,7 +79,7 @@ public class CreatureStatsConfig {
             "\tthing - Do not change from defaults\n" +
             "\tmaxScaleLevel - Final Level before duration and amplifier stop increasing\n" +
             "\tenable - 'true' Will use the level limit")
-    @Config.Name("Misc Effects Level Limit")
+    @Config.Name("0.b Misc Effects Level Limit")
     public String[] effectsLevelLimited = {
             "barghest, 15, false",
             "cockatrice, 15, true",
@@ -93,29 +93,29 @@ public class CreatureStatsConfig {
     };
 
     @Config.Comment("Dependency for toggles. Only affects per level bonus, does not modify variant or nbt bonuses.")
-    @Config.Name("Swap Health & Damage Per Level Bonus")
+    @Config.Name("1. Swap Health & Damage Per Level Bonus")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureswapdamagehealthscale.json")
     public boolean swapHealthDamageLevelBonus = true;
 
     @Config.Comment("Any Hostile Minions, such as those of the main bosses and rare variants")
-    @Config.Name("Hostile Minions")
+    @Config.Name("1.a Hostile Minions")
     public boolean swapHealthDamageHostileMinion = true;
 
     @Config.Comment("Rahovart, Asmodeus, and Amalgalich")
-    @Config.Name("Main Bosses")
+    @Config.Name("1.a Main Bosses")
     public boolean swapHealthDamageMainBoss = true;
 
     @Config.Comment("Anything tagged with SpawnedAsBoss such as Dungeon Bosses")
-    @Config.Name("Tagged Boss")
+    @Config.Name("1.a Tagged Boss")
     public boolean swapHealthDamageSpawnedAsBoss = true;
 
     @Config.Comment("Any Tamed Mobs. Intended for all players' mobs to feel more impactful but still trade 1 for 1.")
-    @Config.Name("Tamed Mobs")
+    @Config.Name("1.a Tamed Mobs")
     public boolean swapHealthDamageTamed = true;
 
     @Config.Comment("Dependency for modifying. Only affects per level bonus, does not modify variant or nbt bonuses.")
-    @Config.Name("Modify Total Boss Health Per Level Bonus")
+    @Config.Name("2. Modify Total Boss Health Per Level Bonus")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossbonushealthmodifier.json")
     public boolean bossLowerHealthScale = true;
@@ -133,17 +133,17 @@ public class CreatureStatsConfig {
      */
 
     @Config.Comment("Rahovart, Asmodeus, and Amalgalich. Intended to balance the Boss Damage Limit.")
-    @Config.Name("Main Boss Total Ratio")
+    @Config.Name("2.a Main Boss Total Ratio")
     @Config.RangeDouble(min = 0)
     public double bossHealthBonusRatio = 0.25D;
 
     @Config.Comment("Anything tagged with SpawnedAsBoss such as Dungeon Bosses. Intended to balance when the Boss Damage Limit is applied.")
-    @Config.Name("Tagged Boss Excluding Rare Total Ratio")
+    @Config.Name("2.a Tagged Boss Excluding Rare Total Ratio")
     @Config.RangeDouble(min = 0)
     public double spawnedAsBossHealthBonusRatio = 0.5D;
 
     @Config.Comment("Intended when Dungeon Bosses only have the Boss Damage Limit when Rare.")
-    @Config.Name("Tagged Boss Exclusively Rare Total Ratio")
+    @Config.Name("2.a Tagged Boss Exclusively Rare Total Ratio")
     @Config.RangeDouble(min = 0)
     public double spawnedAsBossRareHealthBonusRatio = 0.5D;
 
@@ -154,15 +154,15 @@ public class CreatureStatsConfig {
     public boolean variantStatReceivers = true;
 
     @Config.Comment("Any mob summoned via staff or pedestal. Used as a reward for rank 2 knowledge with the imperfect summoning rework.")
-    @Config.Name("Player Summoned Minions")
+    @Config.Name("Stat Bonus Receivers - Player Summoned Minions")
     public boolean variantStatsSummoned = true;
 
     @Config.Comment("Any mob given a Soulstone or from one")
-    @Config.Name("Soulbounded Pets")
+    @Config.Name("Stat Bonus Receivers - Soulbounded Pets")
     public boolean variantStatsSoulbound = true;
 
     @Config.Comment("Any mob tamed with treats")
-    @Config.Name("Tamed With Treats")
+    @Config.Name("Stat Bonus Receivers - Tamed With Treats")
     public boolean variantStatsTamed = true;
 
 }

@@ -5,7 +5,7 @@ import net.minecraftforge.common.config.Config;
 
 public class LootConfig {
     @Config.Comment("Lycanites Creatures can use JSON loot tables alongside Lycanites Mobs drop list - required for the added loot tables here")
-    @Config.Name("Add Feature: Vanilla Lootables for Lycanites Mobs")
+    @Config.Name("0. Vanilla Lootables for Lycanites Mobs")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurecreaturevanillaloottables.json")
     public boolean vanillaBaseCreatureLootTable = true;
@@ -38,7 +38,7 @@ public class LootConfig {
     @Config.Comment("Limit the number of items to drop, set to 0 to have no limit")
     @Config.Name("Random Charge Loot Drop Limit")
     @Config.RequiresMcRestart
-    public int randomChargeDropLimit = 0;
+    public int randomChargeDropLimit = 1728;
 
     @Config.Comment("How many charges per looting lvl to add on top at max (will roll a random amount between 0 and this number times looting lvl). Set to 0 to disable")
     @Config.Name("Random Charge Looting Bonus")

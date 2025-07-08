@@ -1,16 +1,16 @@
 {
   "required": true,
-  "package": "lycanitestweaks.mixin.lycanitesmobspatches.core.containers",
+  "package": "lycanitestweaks.mixin.lycanitesmobspatches.core",
   "refmap": "mixins.lycanitestweaks.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "BaseContainerMixin",
-    "EquipmentForgeContainerMixin",
-    "EquipmentInfuserContainerMixin",
-    "EquipmentStationContainerMixin",
-    "SummoningPedestalContainerMixin"
+    "containers.BaseContainerMixin",
+    "containers.EquipmentForgeContainerMixin",
+    "containers.EquipmentInfuserContainerMixin",
+    "containers.EquipmentStationContainerMixin",
+    "containers.SummoningPedestalContainerMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

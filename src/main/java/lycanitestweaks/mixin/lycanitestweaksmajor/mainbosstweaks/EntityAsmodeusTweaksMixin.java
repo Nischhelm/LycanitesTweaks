@@ -66,7 +66,7 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             index = 1
     )
     public EntityAIBase lycanitesTweaks_lycanitesMobsEntityAsmodeus_initEntityAIHeal(EntityAIBase task){
-        if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.healPortionNoPlayers) return new HealPortionWhenNoPlayersGoal(this).setCheckRange(96);
+        if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.healPortionNoPlayers) return new HealPortionWhenNoPlayersGoal(this).setCheckRange(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.healPortionNoPlayersRange);
         else return task;
     }
 
@@ -76,7 +76,7 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             index = 1
     )
     public EntityAIBase lycanitesTweaks_lycanitesMobsEntityAsmodeus_initEntityAIGrigori(EntityAIBase task){
-        return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("grigori").setSummonRate(200).setPerPlayer(true);
+        return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true, ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.minionTeleportRange, 0).setMinionInfo("grigori").setSummonRate(200).setPerPlayer(true);
     }
 
     @ModifyArg(
@@ -85,7 +85,7 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             index = 1
     )
     public EntityAIBase lycanitesTweaks_lycanitesMobsEntityAsmodeus_initEntityAITriteNormal(EntityAIBase task){
-        return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("trite").setSummonRate(60).setSummonCap(6).setPerPlayer(true).setConditions((new GoalConditions()).setBattlePhase(0));
+        return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true, ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.minionTeleportRange, 0).setMinionInfo("trite").setSummonRate(60).setSummonCap(6).setPerPlayer(true).setConditions((new GoalConditions()).setBattlePhase(0));
     }
 
     @Inject(
@@ -93,10 +93,10 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             at = @At(value = "HEAD")
     )
     public void lycanitesTweaks_lycanitesMobsEntityAsmodeus_initEntityAIAdditionalGoals(CallbackInfo ci){
-        this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("grell").setSummonRate(200).setSummonCap(6).setPerPlayer(true).setConditions(new ExtendedGoalConditions().setMinimumBattlePhase(1)));
-        this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("trite").setSummonRate(40).setSummonCap(9).setPerPlayer(true).setSubSpeciesIndex(1).setConditions(new ExtendedGoalConditions().setMinimumBattlePhase(1)));
+        this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setBossMechanic(true, ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.minionTeleportRange, 0).setMinionInfo("grell").setSummonRate(200).setSummonCap(6).setPerPlayer(true).setConditions(new ExtendedGoalConditions().setMinimumBattlePhase(1)));
+        this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setBossMechanic(true, ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.minionTeleportRange, 0).setMinionInfo("trite").setSummonRate(40).setSummonCap(9).setPerPlayer(true).setSubSpeciesIndex(1).setConditions(new ExtendedGoalConditions().setMinimumBattlePhase(1)));
         if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.chupacabraSummon)
-            this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("chupacabra").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(2)));
+            this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setBossMechanic(true, ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.minionTeleportRange, 0).setMinionInfo("chupacabra").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(2)));
         if(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.additionalProjectileAdd) {
             this.tasks.addTask(this.nextIdleGoalIndex, (new FireProjectilesGoal(this)).setProjectile(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.additionalProjectileAll).setFireRate(2560).setVelocity(0.8F).setScale(6.0F).setAllPlayers(true));
             this.tasks.addTask(this.nextIdleGoalIndex, (new FireProjectilesGoal(this)).setProjectile(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.additionalProjectileTarget).setFireRate(3840).setVelocity(0.8F).setScale(6.0F));

@@ -5,8 +5,9 @@ import net.minecraftforge.common.config.Config;
 public class AltarsConfig {
 
     @Config.Comment("Select any non boss creature from Beastiary to summon.\n" +
-            "Interact block is Redstone above beacon layers of Obsidian.")
-    @Config.Name("Enable Beastiary Altar")
+            "Interact block is Redstone above beacon layers of Obsidian.\n" +
+            "Requires 'Modify Beastiary Information' for server-side to recognize a selected creature.")
+    @Config.Name("Beastiary Altar")
     @Config.RequiresMcRestart
     public boolean beastiaryAltar = true;
 

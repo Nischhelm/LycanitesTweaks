@@ -19,7 +19,10 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 		// In 1.2.0 using non-unique between different Sub Instances caused toggle handling to fail and always use defaults
 		// Forge Config allows Sub Instances to use non-unique names
 		FermiumRegistryAPI.registerAnnotatedMixinConfig(ForgeConfigHandler.class, null);
-		FermiumRegistryAPI.enqueueMixin(false, "mixins.lycanitestweaks.forgeconfigsort.json", () -> ForgeConfigHandler.writeForgeConfigUnsorted);
+
+		// dsurround is a known early loader of the mixin target
+//		FermiumRegistryAPI.enqueueMixin(false, "mixins.lycanitestweaks.forgeconfigsort.json",
+//			() -> !FermiumRegistryAPI.isModPresent("dsurround") && ForgeConfigHandler.writeForgeConfigUnsorted);
 
 		// Mod Compat - This way doesn't render the error message if people use the default
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.lycanitestweaks.featureclientbeastiaryddd.json",

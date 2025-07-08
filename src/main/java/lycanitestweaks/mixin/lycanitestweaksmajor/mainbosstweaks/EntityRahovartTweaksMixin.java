@@ -74,7 +74,7 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
             index = 1
     )
     public EntityAIBase lycanitesTweaks_lycanitesMobsEntityRahovart_initEntityAIHeal(EntityAIBase task){
-        if(ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.healPortionNoPlayers) return new HealPortionWhenNoPlayersGoal(this).setCheckRange(48);
+        if(ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.healPortionNoPlayers) return new HealPortionWhenNoPlayersGoal(this).setCheckRange(ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.healPortionNoPlayersRange);
         else return task;
     }
 
@@ -84,7 +84,7 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
             index = 1
     )
     public EntityAIBase lycanitesTweaks_lycanitesMobsEntityRahovart_initEntityAIWraith(EntityAIBase task){
-        return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("wraith").setSummonRate(200).setPerPlayer(true);
+        return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true, ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.minionTeleportRange, 0).setMinionInfo("wraith").setSummonRate(200).setPerPlayer(true);
     }
 
     @ModifyArg(
@@ -94,8 +94,8 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
     )
     public EntityAIBase lycanitesTweaks_lycanitesMobsEntityRahovart_initEntityAIArchville(EntityAIBase task){
         if(ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.royalArchvile)
-            return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("archvile").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(1));
-        return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("archvile").setSummonRate(200).setSummonCap(3).setPerPlayer(true).setSizeScale(2.0D).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(1));
+            return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true, ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.minionTeleportRange, 0).setMinionInfo("archvile").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(1));
+        return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true, ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.minionTeleportRange, 0).setMinionInfo("archvile").setSummonRate(200).setSummonCap(3).setPerPlayer(true).setSizeScale(2.0D).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(1));
     }
 
     @Inject(
@@ -104,7 +104,7 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
     )
     public void lycanitesTweaks_lycanitesMobsEntityRahovart_initEntityAIAdditionalGoals(CallbackInfo ci){
         if(ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.cacodemonSummon)
-            this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setBossMechanic(true).setMinionInfo("cacodemon").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(2)));
+            this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setBossMechanic(true, ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.minionTeleportRange, 0).setMinionInfo("cacodemon").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(2)));
     }
 
     @ModifyArg(

@@ -6,7 +6,7 @@ import net.minecraftforge.common.config.Config;
 public class BossAsmodeusConfig {
 
     @Config.Comment("Main toggle to enable this feature and its configs")
-    @Config.Name("Enable Asmodeus Modifications")
+    @Config.Name("0. Enable Asmodeus Modifications")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossasmodeustweaks.json")
     public boolean bossTweaksAsmodeus = true;
@@ -15,6 +15,18 @@ public class BossAsmodeusConfig {
     @Config.Name("Heal Portion When No Nearby Players")
     @Config.RequiresMcRestart
     public boolean healPortionNoPlayers = true;
+
+    @Config.Comment("Player detection range where if there are no players nearby, start healing. (Lycanites uses 64)\n" +
+            "LycanitesTweaks uses 96, which covers the entire arena if Asmodeus is in the center.")
+    @Config.Name("Heal Portion - Range")
+    @Config.RequiresMcRestart
+    public int healPortionNoPlayersRange = 96;
+
+    @Config.Comment("If minions have no target and are at least this distance away, teleport to host.\n" +
+            "40 allows minions to check behind pillars and still follow Asmodeus when at another node.")
+    @Config.Name("Minion Teleport Range")
+    @Config.RequiresMcRestart
+    public int minionTeleportRange = 40;
 
     @Config.Comment("Whether Asmodeus targets players behind walls. This fixes the cheese strat of hiding behind a pillar.")
     @Config.Name("Player Xray Target")
@@ -85,17 +97,17 @@ public class BossAsmodeusConfig {
     public boolean astarothsSpawnedAsBoss = true;
 
     @Config.Comment("Astaroth respawn time in seconds (Lycanites uses 30)")
-    @Config.Name("Astaroths Phase 2 Respawn Time")
+    @Config.Name("Hellshield Astaroths Phase 2 Respawn Time")
     @Config.RangeInt(min = 0)
     public int astarothsRespawnTimePhase2 = 90;
 
     @Config.Comment("Astaroth summon cap per player (Lycanites uses 2)")
-    @Config.Name("Astaroths Phase 2 Summon Cap")
+    @Config.Name("Hellshield Astaroths Phase 2 Summon Cap")
     @Config.RangeInt(min = 0)
     public int astarothsSummonCapPhase2 = 2;
 
     @Config.Comment("Transitioning to Phase 2 will spawn the maximum cap of Astaroths instead of one (Vanilla Lycanites does this)")
-    @Config.Name("Astaroths Phase 2 Transition Summon All")
+    @Config.Name("Hellshield Astaroths Phase 2 Transition Summon All")
     public boolean astarothsSummonAllPhase2 = true;
 
     @Config.Comment("Hellshield is active whenever an Astaroth is alive instead of only phase 2")
@@ -108,17 +120,17 @@ public class BossAsmodeusConfig {
     public float hellshieldDamageReduction = 0.5F;
 
     @Config.Comment("Astaroth respawn time in seconds (Lycanites uses 40)")
-    @Config.Name("Astaroths Phase 3 Respawn Time")
+    @Config.Name("Rebuild Astaroths Phase 3 Respawn Time")
     @Config.RangeInt(min = 0)
     public int astarothsRespawnTimePhase3 = 90;
 
     @Config.Comment("Astaroth Summon Cap per player (Lycanites uses 4)")
-    @Config.Name("Astaroths Phase 3 Summon Cap")
+    @Config.Name("Rebuild Astaroths Phase 3 Summon Cap")
     @Config.RangeInt(min = 0)
     public int astarothsSummonCapPhase3 = 4;
 
     @Config.Comment("Transitioning to Phase 3 will spawn the maximum cap of Astaroths instead of one (Vanilla Lycanites only summons one)")
-    @Config.Name("Astaroths Phase 3 Transition Summon All")
+    @Config.Name("Rebuild Astaroths Phase 3 Transition Summon All")
     public boolean astarothsSummonAllPhase3 = true;
 
     @Config.Comment("Rebuild Healing is active whenever an Astaroth is alive instead of only phase 3")

@@ -1,0 +1,16 @@
+{
+	"name": "nightmare",
+	"loadDefault": true,
+	"debuffDurationMultiplier": 0.5,
+	"buffs": [
+		"minecraft:speed"
+	],
+	"debuffs": [
+		"lycanitesmobs:fear",
+		"srparasites:fear"
+	],
+	"components": [
+		"earth",
+		"air"
+	]
+}

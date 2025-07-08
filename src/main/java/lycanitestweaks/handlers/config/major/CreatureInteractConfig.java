@@ -14,7 +14,7 @@ public class CreatureInteractConfig {
     @Config.Comment("Allows non-boss and non-SpawnedAsBoss Lycanites to be flagged for SpawnedAsBoss transformations.\n" +
             "This does not automatically enable Persistence, if they could despawn before they still can despawn.\n" +
             "Will always trigger a transformation if struck by Lightning.\n")
-    @Config.Name("Can Transform Into Boss Flag")
+    @Config.Name("Transform Into Boss NBT Flag")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurecantransformbossflag.json")
     public boolean canTransformIntoBossFlag = true;
@@ -26,26 +26,26 @@ public class CreatureInteractConfig {
     public boolean canTransformIntoBossFlagExamples = true;
 
     @Config.Comment("Sets the Boss Damage Limit upon transformation")
-    @Config.Name("Transform Flag Sets Boss Damage Limit")
+    @Config.Name("Transform Flag Boss - Damage Limit")
     public boolean canTransformBossDamageLimit = true;
 
     @Config.Comment("Adds Encounter Category Player Mob Levels upon transformation")
-    @Config.Name("Transform Flag Adds PML Encounter Bonus")
+    @Config.Name("Transform Flag Boss - PML Encounter Bonus")
     public boolean canTransformBossPML = false;
 
-    @Config.Comment("Inject handling for flagging JSON Can Transform Into Boss JSON Spawners by whitelist")
-    @Config.Name("JSON Spawner Flag Transform Boss")
+    @Config.Comment("Inject handling for ALWAYS flagging Can Transform Into Boss for JSON Spawners by whitelist")
+    @Config.Name("Transform Flag Boss - JSON Spawner")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurejsonspawnertransformbossflag.json")
     public boolean canTransformBossJSONSpawner = true;
 
     @Config.Comment("JSON Spawner Names is a blacklist instead of whitelist")
-    @Config.Name("JSON Spawner Flag Transform Boss - Blacklist")
+    @Config.Name("Transform Flag Boss - JSON Spawner - Blacklist")
     public boolean transformBossSpawnerNameStringsIsBlacklist = false;
 
     @Config.Comment("List of Lycanites Spawner Names to attempt to flag Transform Boss\n" +
             "Somewhat Easter Eggs but intended to apply when boat trapping certain mobs")
-    @Config.Name("JSON Spawner Flag Transform Boss - Spawner Names")
+    @Config.Name("Transform Flag Boss - JSON Spawner - Spawner Names")
     public String[] transformBossSpawnerNameStrings = {
             "mineshaft",
             "sleep"

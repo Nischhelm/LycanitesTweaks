@@ -21,7 +21,7 @@ public abstract class HealWhenNoPlayersGoalCheckMixin extends EntityAIBase {
 
     @ModifyExpressionValue(
             method = "updateTask",
-            at = @At(value = "FIELD", target = "Lcom/lycanitesmobs/core/entity/BaseCreatureEntity;updateTick:J", remap = false)
+            at = @At(value = "FIELD", target = "Lcom/lycanitesmobs/core/entity/BaseCreatureEntity;updateTick:J", ordinal = 0, remap = false)
     )
     public long lycanitesTweaks_lycanitesMobsHealWhenNoPlayersGoal_updateTaskTickTrue(long original){
         return 200L;

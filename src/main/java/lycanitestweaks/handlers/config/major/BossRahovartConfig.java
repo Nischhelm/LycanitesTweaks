@@ -6,7 +6,7 @@ import net.minecraftforge.common.config.Config;
 public class BossRahovartConfig {
 
     @Config.Comment("Main toggle to enable this feature and its configs")
-    @Config.Name("Enable Rahovart Modifications")
+    @Config.Name("0. Enable Rahovart Modifications")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossrahovarttweaks.json")
     public boolean bossTweaksRahovart = true;
@@ -15,6 +15,17 @@ public class BossRahovartConfig {
     @Config.Name("Heal Portion When No Nearby Players")
     @Config.RequiresMcRestart
     public boolean healPortionNoPlayers = true;
+
+    @Config.Comment("Player detection range where if there are no players nearby, start healing. (Lycanites uses 64)\n" +
+            "LycanitesTweaks uses 48, which is inside the arena.")
+    @Config.Name("Heal Portion - Range")
+    @Config.RequiresMcRestart
+    public int healPortionNoPlayersRange = 48;
+
+    @Config.Comment("If minions have no target and are at least this distance away, teleport to host.")
+    @Config.Name("Minion Teleport Range")
+    @Config.RequiresMcRestart
+    public int minionTeleportRange = 40;
 
     @Config.Comment("Should Rahovart try attacking players hiding in arena walls")
     @Config.Name("Player Xray Target")
@@ -35,7 +46,8 @@ public class BossRahovartConfig {
     @Config.RequiresMcRestart
     public String mainProjectileAll = "sigilhellfireball";
 
-    @Config.Comment("Maximum Lifespan in ticks for Belphs and Behemoths. Set to 0 to not use a temporary timer")
+    @Config.Comment("Maximum Lifespan in ticks for Belphs and Behemoths as they have persistence. Set to 0 to not use a temporary timer.\n" +
+            "Vanilla Rahovart has cases where minions are not sacrificed and infinitely summons more.")
     @Config.Name("Minion Temporary Duration")
     @Config.RangeInt(min = 0)
     public int minionTemporaryDuration = 1200;

@@ -15,9 +15,9 @@ import com.lycanitesmobs.core.item.equipment.features.ProjectileEquipmentFeature
 import com.lycanitesmobs.core.item.equipment.features.SummonEquipmentFeature;
 import com.lycanitesmobs.core.item.special.ItemSoulgazer;
 import lycanitestweaks.LycanitesTweaks;
+import lycanitestweaks.compat.BaublesHandler;
 import lycanitestweaks.compat.ModLoadedUtil;
 import lycanitestweaks.handlers.ForgeConfigHandler;
-import lycanitestweaks.wrapper.BaublesWrapper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -60,6 +60,19 @@ public class Helpers {
         return true;
     }
 
+    // Assimilated Darkling
+    /** Utility to test if a custom addition via json replacement is loaded **/
+    public static boolean isCustomCreatureLoaded(boolean config, String creatureName, int subspeciesIndex, int variantIndex){
+        if(config){
+            CreatureInfo creatureInfo = CreatureManager.getInstance().getCreature(creatureName);
+            if(creatureInfo == null) return false;
+            if(creatureInfo.getSubspecies(subspeciesIndex).index != subspeciesIndex) return false;
+            if(creatureInfo.getSubspecies(subspeciesIndex).getVariant(variantIndex).index != variantIndex) return false;
+            return true;
+        }
+        return false;
+    }
+
     // mfw Lycanites config for no flying mount doesn't catch mobs whose flight check considers landed state
     public static boolean isPracticallyFlying(BaseCreatureEntity entity){
         return (entity.isFlying() || entity.flySoundSpeed > 0);
@@ -73,7 +86,7 @@ public class Helpers {
         if(!ignoreHand && target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer) return true;
 
         if(ModLoadedUtil.isBaublesLoaded()) {
-            if (target instanceof EntityPlayer) return BaublesWrapper.hasSoulgazerBauble((EntityPlayer) target);
+            if (target instanceof EntityPlayer) return BaublesHandler.hasSoulgazerBauble((EntityPlayer) target);
         }
         return false;
     }

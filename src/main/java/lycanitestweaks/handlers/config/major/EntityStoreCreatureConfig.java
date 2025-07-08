@@ -6,7 +6,7 @@ import net.minecraftforge.common.config.Config;
 public class EntityStoreCreatureConfig {
 
     @Config.Comment("Enable Capability to replicate Lycanites Mobs PetEntry for non players")
-    @Config.Name("Entity Store Creature")
+    @Config.Name("0. Entity Store Creature")
     @Config.RequiresMcRestart
     public boolean entityStoreCreatureCapability = true;
 

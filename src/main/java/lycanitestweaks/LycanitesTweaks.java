@@ -1,8 +1,12 @@
 package lycanitestweaks;
 
+import com.lycanitesmobs.core.dungeon.DungeonManager;
 import com.lycanitesmobs.core.info.AltarInfo;
+import com.lycanitesmobs.core.info.CreatureManager;
+import com.lycanitesmobs.core.item.equipment.EquipmentPartManager;
 import com.lycanitesmobs.core.mobevent.MobEventManager;
 import com.lycanitesmobs.core.mobevent.effects.StructureBuilder;
+import com.lycanitesmobs.core.spawner.SpawnerManager;
 import lycanitestweaks.capability.entitystorecreature.EntityStoreCreatureCapabilityHandler;
 import lycanitestweaks.capability.lycanitestweaksplayer.LycanitesTweaksPlayerCapabilityHandler;
 import lycanitestweaks.capability.playermoblevel.PlayerMobLevelCapabilityHandler;
@@ -98,7 +102,11 @@ public class LycanitesTweaks {
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        // Wither Altar
+        // Reload these for any custom assets added
+        CreatureManager.getInstance().reload();
+        DungeonManager.getInstance().reload();
+        EquipmentPartManager.getInstance().reload();
         MobEventManager.getInstance().reload();
+        SpawnerManager.getInstance().reload();
     }
 }

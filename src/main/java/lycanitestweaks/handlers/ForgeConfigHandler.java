@@ -22,10 +22,13 @@ public class ForgeConfigHandler {
 	@Config.Comment("Modify the sorting behavior of only LycanitesTweaks' Config.\n" +
 			"Makes the order be the read-in order instead of sorting alphabetically.\n" +
 			"Configs are organized with dependencies at the top and modifiers right under.\n" +
-			"Forge can not perfectly fix partial or update old configs and will append new config entries.")
+			"Forge can not perfectly fix partial or update old configs and will append new config entries.\n" +
+			"This will not run with Dynamic Surroundings installed and should be disabled if it is installed.")
 	@Config.Name("Modify LycanitesTweaks Config Order")
 	@Config.RequiresMcRestart
-	public static boolean writeForgeConfigUnsorted = true;
+	@MixinConfig.CompatHandling(modid = "dsurround", desired = false, reason = "mod known to early load mixin target in pre-init")
+	@MixinConfig.EarlyMixin(name = "mixins.lycanitestweaks.forgeconfigsort.json")
+	public static boolean writeForgeConfigUnsorted = false;
 
 	/*
 	 * Projectile "behaviours"

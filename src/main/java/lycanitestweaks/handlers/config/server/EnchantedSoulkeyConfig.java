@@ -5,19 +5,19 @@ import net.minecraftforge.common.config.Config;
 
 public class EnchantedSoulkeyConfig {
     @Config.Comment("Holding the key in mainhand will add Creature Levels to Altar Mini Bosses")
-    @Config.Name("Add Feature: Works for Altar Mini Bosses")
+    @Config.Name("0. Works for Altar Mini Bosses")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureenchantedsoulkeyaltarminiboss.json")
     public boolean altarMiniBoss = true;
 
     @Config.Comment("Holding the key in mainhand will add Creature Levels to Altar Main Bosses")
-    @Config.Name("Add Feature: Works for Altar Main Bosses")
+    @Config.Name("0. Works for Altar Main Bosses")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureenchantedsoulkeymainboss.json")
     public boolean altarMainBoss = true;
 
     @Config.Comment("Allow keys to be put inside Equipment Infuser to level up, and inside Equipment Station to recharge")
-    @Config.Name("Add Feature: Allow on Equipment Station and Infuser")
+    @Config.Name("0. Allow in Equipment Station and Infuser")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureenchantedsoulkeyequipmenttiles.json")
     public boolean allowStationAndInfuser = true;

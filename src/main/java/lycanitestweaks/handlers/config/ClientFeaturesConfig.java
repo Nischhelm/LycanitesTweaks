@@ -6,17 +6,17 @@ import net.minecraftforge.common.config.Config;
 public class ClientFeaturesConfig {
 
     @Config.Comment("Dependency for adding new/hiding Beastiary information. Required for server-side to know what Creature players have selected.")
-    @Config.Name("Modify Beastiary Information")
+    @Config.Name("0. Modify Beastiary Information")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureclientbeastiarylt.json")
     public boolean beastiaryGUILT = true;
 
     @Config.Comment("Adds a tab for Lycanites Altar renders and block counts")
-    @Config.Name("Lycanites Mobs Altar Beastiary Tab")
+    @Config.Name("0.a Lycanites Mobs Altar Beastiary Tab")
     public boolean beastiaryGUIAltars = true;
 
     @Config.Comment("Adds a tab to show Player Mob Levels information")
-    @Config.Name("LycanitesTweaks Player Mob Levels Beastiary Tab")
+    @Config.Name("0.a LycanitesTweaks Player Mob Levels Beastiary Tab")
     public boolean beastiaryGUIPML = true;
 
     @Config.Comment("PML Beastiary Render order is determined by the order of this list.\n" +

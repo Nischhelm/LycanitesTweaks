@@ -29,6 +29,8 @@ public abstract class MobSpawnAdditionalMixin {
     @Unique
     private final static String SET_NBT = LycanitesTweaks.MODID + ":setNBT";
     @Unique
+    private final static String DO_INITIAL_SPAWN_TAG = LycanitesTweaks.MODID + "DoInitialSpawn";
+    @Unique
     private String lycanitesTweaks$nbtString = "";
 
     @Inject(
@@ -70,6 +72,10 @@ public abstract class MobSpawnAdditionalMixin {
             }
             else {
                 entityLiving.readFromNBT(entityNBT);
+                if (entityNBT.hasKey(DO_INITIAL_SPAWN_TAG) && entityNBT.getBoolean(DO_INITIAL_SPAWN_TAG)) {
+                    entityLiving.onInitialSpawn(entityLiving.getEntityWorld().getDifficultyForLocation(new BlockPos(entityLiving)), null);
+                    entityLiving.setHealth(entityLiving.getMaxHealth());
+                }
                 if (entityNBT.hasKey("Passengers", 9)) {
                     NBTTagList nbttaglist = entityNBT.getTagList("Passengers", 10);
 

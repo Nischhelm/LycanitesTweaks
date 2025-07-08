@@ -1,0 +1,15 @@
+{
+	"name": "viral",
+	"loadDefault": true,
+	"buffs": [
+		"lycanitesmobs:envenom"
+	],
+	"debuffs": [
+		"lycanitesmobs:penetration",
+		"srparasites:viral"
+	],
+	"components": [
+		"water",
+		"chaos"
+	]
+}

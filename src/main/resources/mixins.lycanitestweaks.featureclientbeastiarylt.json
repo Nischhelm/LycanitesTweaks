@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "lycanitestweaks.mixin.lycanitestweaksmajor.beastiaryclient",
+  "package": "lycanitestweaks.mixin.lycanitestweaksmajor",
   "refmap": "mixins.lycanitestweaks.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
@@ -9,14 +9,14 @@
 
   ],
   "client": [
-    "BeastiaryScreenLTNavigationMixin",
-    "CreatureDescriptionListMixin",
-    "CreatureTypeListMixin",
-    "ElementDescriptionListMixin",
-    "ElementListMixin",
-    "GuiHandlerLTNavigationMixin",
-    "SubspeciesListMixin",
-    "SummoningBeastiaryScreenMixin"
+    "beastiaryclient.BeastiaryScreenLTNavigationMixin",
+    "beastiaryclient.CreatureDescriptionListMixin",
+    "beastiaryclient.CreatureTypeListMixin",
+    "beastiaryclient.ElementDescriptionListMixin",
+    "beastiaryclient.ElementListMixin",
+    "beastiaryclient.GuiHandlerLTNavigationMixin",
+    "beastiaryclient.SubspeciesListMixin",
+    "beastiaryclient.SummoningBeastiaryScreenMixin"
   ],
     "injectors": {
     "maxShiftBy": 10
