@@ -48,15 +48,13 @@ public class MinorFeaturesConfig {
     @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurebossdeathminionprojectiles.json")
     public boolean bossDeathKillMinionProjectile = true;
 
-    @Config.Comment("Move the Damage Limit DPS calc from attackEntityFrom to the slightly earlier LivingDamageEvent LOWEST, moving it to BEFORE death check. Required to properly limit the dealt dmg.")
+    @Config.Comment("Move the Damage Limit DPS calc from attackEntityFrom to the slightly earlier LivingDamageEvent LOWEST, moving it to BEFORE death check.\n" +
+            "Required to properly limit the dealt dmg.\n" +
+            "Additionally limits damage amount on LivingDamageEvent LOWEST, this will fix one-shots dropping mob loot early.")
     @Config.Name("Boss DPS Limit Recalc")
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurebossdamagelimitdpsrecalc.json")
     public boolean bossDPSLimitRecalc = true;
-
-    @Config.Comment("Additionally limits damage amount on LivingDamageEvent LOWEST, this will fix one-shots dropping mob loot early")
-    @Config.Name("Boss DPS Limit Recalc Modify - Reduces Amount")
-    public boolean bossDamageLimitReducesAmount = true;
 
     @Config.Comment("When reading familiars from URL, Set Spawning Active to false to not automatically spawn them on login")
     @Config.Name("Familiars Inactive On Join")
