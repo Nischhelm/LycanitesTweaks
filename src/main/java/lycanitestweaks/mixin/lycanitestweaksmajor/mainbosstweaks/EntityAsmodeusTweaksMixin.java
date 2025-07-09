@@ -103,6 +103,15 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
         }
     }
 
+    // FermiumMixins
+    @ModifyExpressionValue(
+            method = "onLivingUpdate",
+            at = @At(value = "FIELD", target = "Lnet/minecraft/world/World;isRemote:Z", ordinal = 1)
+    )
+    public boolean lycanitesTweaks_lycanitesMobsEntityAsmodeus_onLivingUpdateSeverCleanMinions(boolean isClient){
+        return !isClient;
+    }
+
     @ModifyExpressionValue(
             method = "updatePhases",
             at = @At(value = "FIELD", target = "Lcom/lycanitesmobs/core/entity/creature/EntityAsmodeus;devilstarStreamTimeMax:I"),
@@ -179,7 +188,7 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             minion.motionX = (this.world.rand.nextDouble() - (double)0.5F);
             minion.motionZ = (this.world.rand.nextDouble() - (double)0.5F);
         }
-        else minion.tasks.addTask(minion.nextTravelGoalIndex++, new TeleportToHostGoal(minion));
+        else minion.tasks.addTask(minion.nextTravelGoalIndex++, new TeleportToHostGoal(minion).setLostDistance(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.minionTeleportRange));
     }
 
     @ModifyExpressionValue(
@@ -228,7 +237,7 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
             minion.motionX = (this.world.rand.nextDouble() - (double)0.5F);
             minion.motionZ = (this.world.rand.nextDouble() - (double)0.5F);
         }
-        else minion.tasks.addTask(minion.nextTravelGoalIndex++, new TeleportToHostGoal(minion));
+        else minion.tasks.addTask(minion.nextTravelGoalIndex++, new TeleportToHostGoal(minion).setLostDistance(ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.minionTeleportRange));
     }
 
     @ModifyConstant(
@@ -310,20 +319,17 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
     public void lycanitesTweaks_lycanitesMobsEntityAsmodeus_updatePhasesAnyPhaseRepair(CallbackInfo ci){
         if(this.updateTick % 20 == 0L){
             // Heal:
-            float healthNormalLimit;
-            if(this.getBattlePhase() == 1 && ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairAllPhases) healthNormalLimit = 0.6F;
+            float healthNormalLimit = 0F;
+            if(this.getBattlePhase() == 0 && ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairAllPhases) healthNormalLimit = 1.0F;
+            else if(this.getBattlePhase() == 1 && ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairAllPhases) healthNormalLimit = 0.6F;
             else if(this.getBattlePhase() == 2) healthNormalLimit = 0.2F;
-            else healthNormalLimit = 0F;
 
-            if(healthNormalLimit != 0F && !this.astarothMinions.isEmpty()) {
-                this.astarothMinions.forEach(astaroth -> {
-                    if(astaroth.isEntityAlive()) {
-                        float healAmount = (ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHealPortion) ?
-                                (ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHeal * this.getMaxHealth()) :
-                                (ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHeal);
-                        if (((this.getHealth() + healAmount) / this.getMaxHealth()) < healthNormalLimit) this.heal(healAmount);
-                    }
-                });
+            if(!this.astarothMinions.isEmpty()) {
+                float healAmount = (ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHealPortion) ?
+                        (ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHeal * this.getMaxHealth()) :
+                        (ForgeConfigHandler.majorFeaturesConfig.asmodeusConfig.repairHeal);
+                healAmount *= this.astarothMinions.size();
+                if (((this.getHealth() + healAmount) / this.getMaxHealth()) <= healthNormalLimit) this.heal(healAmount);
             }
         }
     }
@@ -349,20 +355,20 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
         return original;
     }
 
-    @ModifyExpressionValue(
-            method = "isBlocking",
-            at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z"),
-            remap = false
-    )
-    public boolean lycanitesTweaks_lycanitesMobsEntityAsmodeus_isBlockingMinionAlive(boolean original){
-        // compared value is inverted due to !
-        if (!this.astarothMinions.isEmpty()) {
-            for(EntityAstaroth minion : this.astarothMinions){
-                if(minion.isEntityAlive()) return false;
-            }
-        }
-        return true;
-    }
+//    @ModifyExpressionValue(
+//            method = "isBlocking",
+//            at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z"),
+//            remap = false
+//    )
+//    public boolean lycanitesTweaks_lycanitesMobsEntityAsmodeus_isBlockingMinionAlive(boolean original){
+//        // compared value is inverted due to !
+//        if (!this.astarothMinions.isEmpty()) {
+//            for(EntityAstaroth minion : this.astarothMinions){
+//                if(minion.isEntityAlive()) return false;
+//            }
+//        }
+//        return true;
+//    }
 
     @ModifyExpressionValue(
             method = "isDamageTypeApplicable",

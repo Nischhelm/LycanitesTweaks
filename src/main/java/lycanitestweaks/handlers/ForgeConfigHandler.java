@@ -31,7 +31,7 @@ public class ForgeConfigHandler {
 	@Config.RequiresMcRestart
 	@MixinConfig.CompatHandling(modid = ModLoadedUtil.DYNAMICSURROUNDINGS_MODID, desired = false, reason = "Known conflict, early loads mixin target in pre-init")
 	@MixinConfig.MixinToggle(defaultValue = true, earlyMixin = "mixins.lycanitestweaks.forgeconfigsort.json")
-	public static boolean writeForgeConfigUnsorted = !FermiumRegistryAPI.isModPresent(ModLoadedUtil.DYNAMICSURROUNDINGS_MODID);;
+	public static boolean writeForgeConfigUnsorted = !FermiumRegistryAPI.isModPresent(ModLoadedUtil.DYNAMICSURROUNDINGS_MODID);
 
 	/*
 	 * Projectile "behaviours"
@@ -74,8 +74,7 @@ public class ForgeConfigHandler {
 	public static final MinorFeaturesConfig minorFeaturesConfig = new MinorFeaturesConfig();
 
 	@Config.Comment("Mod Compatibility\n" +
-			"On first load, toggles will be enabled based on if the required mods are installed.\n" +
-			"Will flag FermiumBooter errors pointing out toggles that should be turned off.")
+			"On first load toggle configs are set based on if the required mods are installed.")
 	@Config.Name("Mod Compatibility")
 	public static final IntegrationConfig integrationConfig = new IntegrationConfig();
 
