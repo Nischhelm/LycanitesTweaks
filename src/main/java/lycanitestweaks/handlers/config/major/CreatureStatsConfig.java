@@ -1,20 +1,22 @@
 package lycanitestweaks.handlers.config.major;
 
 import fermiumbooter.annotations.MixinConfig;
+import lycanitestweaks.LycanitesTweaks;
 import net.minecraftforge.common.config.Config;
 
+@MixinConfig(name = LycanitesTweaks.MODID)
 public class CreatureStatsConfig {
 
     @Config.Comment("Rahovart/Asmodeus mechanic based minions match the boss' levels")
     @Config.Name("Minion Level Matches Host - Boss Mechanics")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebasecreatureminionhostlevelmatch.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurebasecreatureminionhostlevelmatch.json")
     public boolean levelMatchMinionsHostMethod = true;
 
     @Config.Comment("Summon minion goal matches levels (AI Goal/Most Mobs). Amalgalich minions use this.")
     @Config.Name("Minion Level Matches Host - Entity Summon Goal")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureaiminionhostlevelmatch.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featureaiminionhostlevelmatch.json")
     public boolean levelMatchMinionsGoal = true;
 
     @Config.Comment("Grant all lycanites tagged as SpawnedAsBoss the Rare variant stat multipliers instead of the Common/Uncommon.\n" +
@@ -22,13 +24,13 @@ public class CreatureStatsConfig {
             "Default Lycanites distributes Bosses between level 10-250. This will result in 10 levels per config dungeonLevel, between 20-50")
     @Config.Name("Spawned As Boss Tagged Uses Rare Stats")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurespawnedasbossrareboost.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurespawnedasbossrareboost.json")
     public boolean spawnedAsBossRareBoost = true;
 
     @Config.Comment("Dependency for usings caps on bonus stats per level. Does not affect variant/NBT bonuses.")
     @Config.Name("0. Cap Specific Stats")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurecreaturestatbonuscap.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurecreaturestatbonuscap.json")
     public boolean capSpecificStats = true;
 
     @Config.Comment("Ratio of max bonus defense, set to 0 to disable the cap")
@@ -95,7 +97,7 @@ public class CreatureStatsConfig {
     @Config.Comment("Dependency for toggles. Only affects per level bonus, does not modify variant or nbt bonuses.")
     @Config.Name("1. Swap Health & Damage Per Level Bonus")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureswapdamagehealthscale.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featureswapdamagehealthscale.json")
     public boolean swapHealthDamageLevelBonus = true;
 
     @Config.Comment("Any Hostile Minions, such as those of the main bosses and rare variants")
@@ -117,7 +119,7 @@ public class CreatureStatsConfig {
     @Config.Comment("Dependency for modifying. Only affects per level bonus, does not modify variant or nbt bonuses.")
     @Config.Name("2. Modify Total Boss Health Per Level Bonus")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossbonushealthmodifier.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurebossbonushealthmodifier.json")
     public boolean bossLowerHealthScale = true;
 
     /*
@@ -150,7 +152,7 @@ public class CreatureStatsConfig {
     @Config.Comment("Dependency for toggles. Vanilla Lycanites erroneously allowed Soulbounds via oversight.")
     @Config.Name("Variant/NBT Stat Bonus Receivers")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurealltamedvariantstats.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurealltamedvariantstats.json")
     public boolean variantStatReceivers = true;
 
     @Config.Comment("Any mob summoned via staff or pedestal. Used as a reward for rank 2 knowledge with the imperfect summoning rework.")

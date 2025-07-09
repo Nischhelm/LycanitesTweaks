@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@MixinConfig(name = LycanitesTweaks.MODID)
 public class PlayerMobLevelsConfig {
 
     private static List<BonusCategory> pmlBonusCategoryClientRenderOrder = null;
@@ -105,13 +106,13 @@ public class PlayerMobLevelsConfig {
     @Config.Comment("Inject handling for Player Mob Levels affecting the main Bosses")
     @Config.Name("Main Boss Bonus")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossesplayermoblevels.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurebossesplayermoblevels.json")
     public boolean playerMobLevelMainBosses = true;
 
     @Config.Comment("Inject handling for Player Mob Level affecting JSON Spawners by whitelist")
     @Config.Name("JSON Spawner Bonus")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurejsonspawnerplayermoblevels.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurejsonspawnerplayermoblevels.json")
     public boolean playerMobLevelJSONSpawner = true;
 
     @Config.Comment("Flags JSON entities to not be affected by the Natural Spawn Boost whether or not an entity was boosted.\n" +
@@ -136,7 +137,7 @@ public class PlayerMobLevelsConfig {
             "Will fail without 'Fix Properties Set After Stat Calculation'")
     @Config.Name("Soulbounds Weakened In Specific Dimensions")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurelimitedbounddimensions.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurelimitedbounddimensions.json")
     public boolean playerMobLevelSoulboundLimitedDimensions = true;
 
     @Config.Comment("Dimension IDs where soulbounds are level capped at Player Mob Level")
@@ -169,19 +170,19 @@ public class PlayerMobLevelsConfig {
     @Config.Comment("Inject handling for Player Mob Level to affect summon staff minions")
     @Config.Name("Player Mob Level Summon Staff")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresummonstaffplayermoblevel.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featuresummonstaffplayermoblevel.json")
     public boolean playerMobLevelSummonStaff = true;
 
     @Config.Comment("Lycanites Pet Manager updates Player Mob Level Capability with pet entry information")
     @Config.Name("Pet Manager Tracks Pet Levels")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurepetmanagerpmltrackspetlevels.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurepetmanagerpmltrackspetlevels.json")
     public boolean petManagerTracksHighestLevelPet = true;
 
     @Config.Comment("Remove treat pacifying and lower reputation gain when taming high leveled creatures")
     @Config.Name("Over Leveled Penalty")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuretameoverlevelpenalty.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featuretameoverlevelpenalty.json")
     public boolean tamedOverLeveledPenalty = true;
 
     @Config.Comment("Creature level to compare to PML highest pet entry level, set to 0 to disable")

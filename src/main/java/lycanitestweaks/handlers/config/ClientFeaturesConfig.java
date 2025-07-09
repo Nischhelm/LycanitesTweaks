@@ -1,14 +1,16 @@
 package lycanitestweaks.handlers.config;
 
 import fermiumbooter.annotations.MixinConfig;
+import lycanitestweaks.LycanitesTweaks;
 import net.minecraftforge.common.config.Config;
 
+@MixinConfig(name = LycanitesTweaks.MODID)
 public class ClientFeaturesConfig {
 
     @Config.Comment("Dependency for adding new/hiding Beastiary information. Required for server-side to know what Creature players have selected.")
     @Config.Name("0. Modify Beastiary Information")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureclientbeastiarylt.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featureclientbeastiarylt.json")
     public boolean beastiaryGUILT = true;
 
     @Config.Comment("Adds a tab for Lycanites Altar renders and block counts")

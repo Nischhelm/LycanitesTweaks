@@ -1,8 +1,10 @@
 package lycanitestweaks.handlers.config;
 
 import fermiumbooter.annotations.MixinConfig;
+import lycanitestweaks.LycanitesTweaks;
 import net.minecraftforge.common.config.Config;
 
+@MixinConfig(name = LycanitesTweaks.MODID)
 public class PatchConfig {
     /*
      *
@@ -24,7 +26,7 @@ public class PatchConfig {
             "This will fix known cases such as fire blocks, eating foods, and mounting interactions.")
     @Config.Name("Cancel Applying Potions on Client")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchescancelclientpotionadd.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patchescancelclientpotionadd.json")
     public boolean cancelClientPotionAdding = true;
 
     @Config.Comment("Fix an inconsistency in Rare/Boss entity audio where firing projectile, was 1/2 and 1/4 the volume of other sound effects.\n" +
@@ -32,19 +34,19 @@ public class PatchConfig {
             "For example Rahovart's Hellfire Balls were muted at the edge of his arena while Asmodeus' Chaingun could be heard at further distances.")
     @Config.Name("Fix Boss Entity Projectile Volume")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesbossprojectilevolume.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patchesbossprojectilevolume.json")
     public boolean bossProjectileVolume = true;
 
     @Config.Comment("Removes the floor/ceiling rounding with Rejuvenation and Decay. Rejuv will not have a minimum healing boost and Decay will not nullify low healing.")
     @Config.Name("Remove Healing Rejuv/Decay Rounding")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurerejuvdecayroundingbegone.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurerejuvdecayroundingbegone.json")
     public boolean removeHealEffectsRounding = true;
 
     @Config.Comment("Fix Lycanites Entities spawning their minions in walls. If collision is detected, spawn on top of host instead.")
     @Config.Name("Fix Minions Spawning in Walls")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patcheswallminions.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patcheswallminions.json")
     public boolean fixWallMinion = true;
 
     // Preferring this approach as injecting pickup behavior into the vanilla bucket is silly
@@ -52,31 +54,31 @@ public class PatchConfig {
             "Keeps the original buckets loaded, the forge bucket item will appear where Lycanites custom bucket has no handling.")
     @Config.Name("Add Forge Universal Fluid Buckets")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesforgebucket.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patchesforgebucket.json")
     public boolean forgeFluidBuckets = true;
 
     @Config.Comment("Altars post LivingDestroyBlockEvent for every call to setBlockToAir. This fixes custom structure cheeses through griefing.")
     @Config.Name("Mini Boss Altar Posts Forge Event")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesaltarforgeevent.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patchesaltarforgeevent.json")
     public boolean altarPostsForgeEvent = true;
 
     @Config.Comment("PlaceBlockGoal post LivingDestroyBlockEvent for every call to canPlaceBlock. This fixes griefing protected blocks.")
     @Config.Name("Vespids Posts Forge Event")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesplaceblockgoalforgeevent.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patchesplaceblockgoalforgeevent.json")
     public boolean canPlaceBlockGoalForgeEvent = true;
 
     @Config.Comment("Disables Soul Bounds using portals, which would kill them and set respawn cooldown")
     @Config.Name("Disable Soul Bounds Using Portals")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchessoulboundnoportal.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patchessoulboundnoportal.json")
     public boolean soulBoundNoPortal = true;
 
     @Config.Comment("Fix hostile AgeableCreature babies not dropping loot")
     @Config.Name("Fix Baby Mobs Dropping No Loot")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesageablebabydrops.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patchesageablebabydrops.json")
     public boolean fixAgeableBabyDrops = true;
 
     // Rahovart is an example with oversight and can spawn infinite minions regardless of this
@@ -86,49 +88,49 @@ public class PatchConfig {
             "Default is false as LycanitesTweaks boss enhancements directly addresses")
     @Config.Name("Fix Boss Mechanics Minion Persistence")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesbasecreatureminionpersistence.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patchesbasecreatureminionpersistence.json")
     public boolean fixBaseCreatureSummonPersistence = false;
 
     @Config.Comment("Add a call to super in BaseCreature's isPotionApplicable method, restores vanilla parity for Undead mobs")
     @Config.Name("Fix BaseCreature Potion Applicable")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesbasecreaturepotionapplicable.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patchesbasecreaturepotionapplicable.json")
     public boolean fixBaseCreaturePotionApplicableSuper = true;
 
     @Config.Comment("Fix client side showing incorrect stats in the beastiary, interact gui, and other mods")
     @Config.Name("Fix Client Pet Stat Desync")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchespetentrydesync.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patchespetentrydesync.json")
     public boolean fixClientPetEntryVisual = true;
 
     @Config.Comment("Fix divide by zero crash in FireProjectilesGoal and high RangedSpeed preventing attacks")
     @Config.Name("Fix Creature Ranged Speed")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesrangedspeeddividebyzero.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patchesrangedspeeddividebyzero.json")
     public boolean fixRangedSpeedDivideZero = true;
 
     @Config.Comment("Fix Ettin checking for inverted griefing flag")
     @Config.Name("Fix Ettin grief flag")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesettingriefflag.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patchesettingriefflag.json")
     public boolean fixEttinBlockBreak = true;
 
     @Config.Comment("Fix Fear checking for creative capabilities instead of flight")
     @Config.Name("Fix Fear Survival Flying")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesfearsurvivalflying.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patchesfearsurvivalflying.json")
     public boolean fixFearSurvivalFlying = true;
 
     @Config.Comment("Fix HealWhenNoPlayersGoal trigger check using AND instead of OR therefore bricking in most cases")
     @Config.Name("Fix Heal Goal Check")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patcheshealgoalcheck.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patcheshealgoalcheck.json")
     public boolean fixHealGoalCheck = true;
 
     @Config.Comment("Fix Mounting when trying to Heal a tamed creature with food, will no longer mount when trying to heal the creature")
     @Config.Name("Fix Mounting With Heal Food")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchesnomountwithfood.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patchesnomountwithfood.json")
     public boolean fixMountingWithHealFood = true;
 
 
@@ -141,32 +143,32 @@ public class PatchConfig {
     @Config.Comment("Fix Pickup host entity losing track of target such as when holding inside a wall")
     @Config.Name("Fix Pickup Target")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchespickuptarget.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patchespickuptarget.json")
     public boolean fixPickupTargetAlways = true;
 
     // Better fix https://gitlab.com/Lycanite/LycanitesMobs/-/merge_requests/461
     @Config.Comment("Fix properties, such as tamed state, being set after stat calculation. This fix adds a late additional recalculation.")
     @Config.Name("Fix Properties Set After Stat Calculation")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patcheslatestatcalc.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patcheslatestatcalc.json")
     public boolean fixLateSettingProperties = true;
 
     @Config.Comment("Fix Serpix Blizzard projectile spawning in the ground")
     @Config.Name("Fix Serpix Blizzard Offset")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patcheserpixblizzardoffset.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patcheserpixblizzardoffset.json")
     public boolean fixSerpixBlizzardOffset = true;
 
     @Config.Comment("All Lyc containers (Equipment Forges, Infuser, Station, Summoning Pedestal) have no Item Quick Move implementation (via shift clicking). This fix makes them use newer mc quick move mechanics where the crafting slots are preferred over the player inventory+hotbar.\n" +
             "Also fixes a minimal bug in Lyca Pet chest inventory where one slot (bottom right in player inventory) was not reachable via quick move.")
     @Config.Name("Fix Container Quick Move")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchescontainerbettershifting.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patchescontainerbettershifting.json")
     public boolean fixContainerQuickMove = true;
 
     @Config.Comment("Players can only interact with Lyca crafting blocks from very low distances. This fix instead makes them copy the vanilla block (crafting table, furnace etc) behavior")
     @Config.Name("Fix Tile Entity Interaction Distance")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.patchestileentityinteractiondistance.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patchestileentityinteractiondistance.json")
     public boolean fixTileEntityInteractionDistance = true;
 }

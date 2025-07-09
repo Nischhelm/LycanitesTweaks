@@ -1,8 +1,10 @@
 package lycanitestweaks.handlers.config.major;
 
 import fermiumbooter.annotations.MixinConfig;
+import lycanitestweaks.LycanitesTweaks;
 import net.minecraftforge.common.config.Config;
 
+@MixinConfig(name = LycanitesTweaks.MODID)
 public class EntityStoreCreatureConfig {
 
     @Config.Comment("Enable Capability to replicate Lycanites Mobs PetEntry for non players")
@@ -13,19 +15,19 @@ public class EntityStoreCreatureConfig {
     @Config.Comment("Store Altar mini bosses in a summon crystal entity")
     @Config.Name("Altar Mini Boss Summon Crystal")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurealtarminibosscrystal.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurealtarminibosscrystal.json")
     public boolean altarMiniBossSpawnCrystal = true;
 
     @Config.Comment("Store Dungeon bosses in a summon crystal entity")
     @Config.Name("Dungeon Boss Summon Crystal")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuredungeonbosscrystal.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featuredungeonbosscrystal.json")
     public boolean dungeonBossSpawnCrystal = true;
 
     @Config.Comment("Randomly store some Mob Event spawns in an Encounter Crystal, will flag entity as SpawnedAsBoss")
     @Config.Name("Encounter Crystal Mob Event")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuremobeventencountercrystal.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featuremobeventencountercrystal.json")
     public boolean encounterCrystalMobEvent = true;
 
     @Config.Comment("1/n chance store a Mob Event spawned entity inside an Encounter Crystal")

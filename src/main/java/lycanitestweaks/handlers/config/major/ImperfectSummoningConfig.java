@@ -1,14 +1,16 @@
 package lycanitestweaks.handlers.config.major;
 
 import fermiumbooter.annotations.MixinConfig;
+import lycanitestweaks.LycanitesTweaks;
 import net.minecraftforge.common.config.Config;
 
+@MixinConfig(name = LycanitesTweaks.MODID)
 public class ImperfectSummoningConfig {
 
     @Config.Comment("Main toggle to enabled this feature and its configs")
     @Config.Name("0. Imperfect Summoning")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresummonrework.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featuresummonrework.json")
     public boolean summonProgressionRework = true;
 
     @Config.Comment("Knowledge Rank to summon normal minions, updates client visuals except for lang files")

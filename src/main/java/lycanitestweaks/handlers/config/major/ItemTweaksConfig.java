@@ -1,20 +1,22 @@
 package lycanitestweaks.handlers.config.major;
 
 import fermiumbooter.annotations.MixinConfig;
+import lycanitestweaks.LycanitesTweaks;
 import net.minecraftforge.common.config.Config;
 
+@MixinConfig(name = LycanitesTweaks.MODID)
 public class ItemTweaksConfig {
 
     @Config.Comment("Make offhand crafted equipment RMB ability require player to be sneaking")
     @Config.Name("Crafted Equipment Offhand RMB Needs Sneak")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureequipmentrmbneedssneak.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featureequipmentrmbneedssneak.json")
     public boolean craftedEquipmentOffhandRMBSneak = true;
 
     @Config.Comment("Allows Sword Enchantments and Efficiency")
     @Config.Name("Crafted Equipment Enchantments")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureequipmentswordenchantments.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featureequipmentswordenchantments.json")
     public boolean craftedEquipmentEnchantments = true;
 
     @Config.Comment("Minimum level all parts of equipment must be in order to apply enchantments")
@@ -24,7 +26,7 @@ public class ItemTweaksConfig {
     @Config.Comment("Enable customizable effect list and handling for the cleansed/immunization effect")
     @Config.Name("Customizable Curing Item")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurescustomcureitemlist.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurescustomcureitemlist.json")
     public boolean customItemCureEffectList = true;
 
     @Config.Comment("List of potion resource locations cleansed will cure")
@@ -55,13 +57,13 @@ public class ItemTweaksConfig {
     @Config.Comment("Save and use NBT stored Element Level Map to spawn higher level minions")
     @Config.Name("Summon Staff Level Map")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresummonstafflevelmap.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featuresummonstafflevelmap.json")
     public boolean summonStaffLevelMap = true;
 
     @Config.Comment("Summon Staffs can use the Equipment Infuser in order to gain experience")
     @Config.Name("Summon Staff Equipment Infuser")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresummonstaffequipmenttiles.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featuresummonstaffequipmenttiles.json")
     public boolean summonStaffLevelMapEquipmentTiles = true;
 
     @Config.Comment("Base EXP Required to level up, scales with level, Lycanites Charge EXP is 50")

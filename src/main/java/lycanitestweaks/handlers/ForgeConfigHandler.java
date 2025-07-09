@@ -17,17 +17,19 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Config(modid = LycanitesTweaks.MODID)
+@MixinConfig(name = LycanitesTweaks.MODID)
 public class ForgeConfigHandler {
 
 	@Config.Comment("Modify the sorting behavior of only LycanitesTweaks' Config.\n" +
 			"Makes the order be the read-in order instead of sorting alphabetically.\n" +
 			"Configs are organized with dependencies at the top and modifiers right under.\n" +
 			"Forge can not perfectly fix partial or update old configs and will append new config entries.\n" +
-			"This will not run with Dynamic Surroundings installed and should be disabled if it is installed.")
+			"This will not run with Dynamic Surroundings installed and should be disabled if it is installed.\n" +
+			"This will attempt to run on first startup, then defaults to off.")
 	@Config.Name("Modify LycanitesTweaks Config Order")
 	@Config.RequiresMcRestart
-	@MixinConfig.CompatHandling(modid = "dsurround", desired = false, reason = "mod known to early load mixin target in pre-init")
-	@MixinConfig.EarlyMixin(name = "mixins.lycanitestweaks.forgeconfigsort.json")
+	@MixinConfig.CompatHandling(modid = "dsurround", desired = false, reason = "mod known to early load mixin target in pre-init. If this is the first launch, restart and the toggle is automatically off.")
+	@MixinConfig.MixinToggle(defaultValue = true, earlyMixin = "mixins.lycanitestweaks.forgeconfigsort.json")
 	public static boolean writeForgeConfigUnsorted = false;
 
 	/*
@@ -46,7 +48,7 @@ public class ForgeConfigHandler {
 			"Provides additional ProjectileBehaviors and JSON options used by custom additions.")
 	@Config.Name("LycanitesTweaks Default JSON")
 	@Config.RequiresMcRestart
-	@MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureinjectdefaultjsonloading.json")
+	@MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featureinjectdefaultjsonloading.json")
 	public static boolean addLycanitesTweaksDefaultJSON = true;
 
 	@Config.Comment("Client-Side Options")
@@ -55,22 +57,18 @@ public class ForgeConfigHandler {
 
 	@Config.Comment("Server-Side Options")
 	@Config.Name("Server Options")
-	@MixinConfig.SubInstance
 	public static final ServerConfig server = new ServerConfig();
 
 	@Config.Comment("Mixins based Client Tweaks")
 	@Config.Name("Client Mixins")
-	@MixinConfig.SubInstance
 	public static final ClientFeaturesConfig clientFeaturesMixinConfig = new ClientFeaturesConfig();
 
 	@Config.Comment("Mixins based Tweaks with highly configurable features")
 	@Config.Name("Major Features Mixins")
-	@MixinConfig.SubInstance
 	public static final MajorFeaturesConfig majorFeaturesConfig = new MajorFeaturesConfig();
 
 	@Config.Comment("Mixins based Tweaks with very basic options")
 	@Config.Name("Minor Features Mixins")
-	@MixinConfig.SubInstance
 	public static final MinorFeaturesConfig minorFeaturesConfig = new MinorFeaturesConfig();
 
 	@Config.Comment("Mod Compatibility\n" +
@@ -80,7 +78,6 @@ public class ForgeConfigHandler {
 
 	@Config.Comment("Enable/Disable Patches for Lycanites Mobs")
 	@Config.Name("Toggle Patches")
-	@MixinConfig.SubInstance
 	public static final PatchConfig mixinPatchesConfig = new PatchConfig();
 
 	@Mod.EventBusSubscriber(modid = LycanitesTweaks.MODID)

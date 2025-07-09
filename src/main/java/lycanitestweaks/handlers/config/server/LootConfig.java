@@ -1,13 +1,15 @@
 package lycanitestweaks.handlers.config.server;
 
 import fermiumbooter.annotations.MixinConfig;
+import lycanitestweaks.LycanitesTweaks;
 import net.minecraftforge.common.config.Config;
 
+@MixinConfig(name = LycanitesTweaks.MODID)
 public class LootConfig {
     @Config.Comment("Lycanites Creatures can use JSON loot tables alongside Lycanites Mobs drop list - required for the added loot tables here")
     @Config.Name("0. Vanilla Lootables for Lycanites Mobs")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurecreaturevanillaloottables.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurecreaturevanillaloottables.json")
     public boolean vanillaBaseCreatureLootTable = true;
 
     @Config.Comment("Register Loot Tables for creatures dropping random charges of their element (This LootTable is dynamic)")

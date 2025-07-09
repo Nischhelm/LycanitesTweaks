@@ -15,14 +15,8 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 	public LycanitesTweaksPlugin() {
 		MixinBootstrap.init();
 
-		// TODO Test FermiumBooter 1.3.0 for duplicate/non-unique Forge Config field names
+		// FermiumBooter 1.3.0 can use non-unique @Config.Name fields
 		// In 1.2.0 using non-unique between different Sub Instances caused toggle handling to fail and always use defaults
-		// Forge Config allows Sub Instances to use non-unique names
-		FermiumRegistryAPI.registerAnnotatedMixinConfig(ForgeConfigHandler.class, null);
-
-		// dsurround is a known early loader of the mixin target
-//		FermiumRegistryAPI.enqueueMixin(false, "mixins.lycanitestweaks.forgeconfigsort.json",
-//			() -> !FermiumRegistryAPI.isModPresent("dsurround") && ForgeConfigHandler.writeForgeConfigUnsorted);
 
 		// Mod Compat - This way doesn't render the error message if people use the default
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.lycanitestweaks.featureclientbeastiaryddd.json",

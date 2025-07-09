@@ -1,7 +1,10 @@
 package lycanitestweaks.handlers.config.server;
 
+import fermiumbooter.annotations.MixinConfig;
+import lycanitestweaks.LycanitesTweaks;
 import net.minecraftforge.common.config.Config;
 
+@MixinConfig(name = LycanitesTweaks.MODID)
 public class AltarsConfig {
 
     @Config.Comment("Select any non boss creature from Beastiary to summon.\n" +

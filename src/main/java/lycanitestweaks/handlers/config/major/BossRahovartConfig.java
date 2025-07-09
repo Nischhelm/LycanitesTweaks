@@ -1,14 +1,16 @@
 package lycanitestweaks.handlers.config.major;
 
 import fermiumbooter.annotations.MixinConfig;
+import lycanitestweaks.LycanitesTweaks;
 import net.minecraftforge.common.config.Config;
 
+@MixinConfig(name = LycanitesTweaks.MODID)
 public class BossRahovartConfig {
 
     @Config.Comment("Main toggle to enable this feature and its configs")
     @Config.Name("0. Enable Rahovart Modifications")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossrahovarttweaks.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurebossrahovarttweaks.json")
     public boolean bossTweaksRahovart = true;
 
     @Config.Comment("Replace the 50hp/sec heal with a 2% Max HP/sec heal")

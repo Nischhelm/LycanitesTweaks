@@ -1,14 +1,16 @@
 package lycanitestweaks.handlers.config.major;
 
 import fermiumbooter.annotations.MixinConfig;
+import lycanitestweaks.LycanitesTweaks;
 import net.minecraftforge.common.config.Config;
 
+@MixinConfig(name = LycanitesTweaks.MODID)
 public class CreatureInteractConfig {
 
     @Config.Comment("Giving an Enchanted Golden Apple to a tamed creature will turn it into a baby")
     @Config.Name("Enchanted Golden Apple Turns Lycanites Pet Into a Baby")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuretamedbabygapple.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featuretamedbabygapple.json")
     public boolean babyAgeGapple = true;
 
     @Config.Comment("Allows non-boss and non-SpawnedAsBoss Lycanites to be flagged for SpawnedAsBoss transformations.\n" +
@@ -16,7 +18,7 @@ public class CreatureInteractConfig {
             "Will always trigger a transformation if struck by Lightning.\n")
     @Config.Name("Transform Into Boss NBT Flag")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurecantransformbossflag.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurecantransformbossflag.json")
     public boolean canTransformIntoBossFlag = true;
 
     @Config.Comment("Load replacement 'flower' and 'village' JSON spawners that add a rare chance to apply this tag.\n" +
@@ -36,7 +38,7 @@ public class CreatureInteractConfig {
     @Config.Comment("Inject handling for ALWAYS flagging Can Transform Into Boss for JSON Spawners by whitelist")
     @Config.Name("Transform Flag Boss - JSON Spawner")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurejsonspawnertransformbossflag.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurejsonspawnertransformbossflag.json")
     public boolean canTransformBossJSONSpawner = true;
 
     @Config.Comment("JSON Spawner Names is a blacklist instead of whitelist")
@@ -54,7 +56,7 @@ public class CreatureInteractConfig {
     @Config.Comment("Allow mounts to be use vanilla saddles based on levels")
     @Config.Name("Mount with Vanilla Saddles")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurelimitedvanillasaddle.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurelimitedvanillasaddle.json")
     public boolean mountVanillaSaddleLimited = true;
 
     @Config.Comment("In order to use a vanilla saddle, the mount must be at least this level")
@@ -68,7 +70,7 @@ public class CreatureInteractConfig {
     @Config.Comment("Allow the pet perch position to be modifiable. Intended to fix large perching pets blocking mouse actions.")
     @Config.Name("Perch Position Modifiable")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureperchposition.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featureperchposition.json")
     public boolean perchPositionModifiable = true;
 
     @Config.Comment("Pet Perch Angle In Radians, Default Lycanites is 90")
@@ -84,7 +86,7 @@ public class CreatureInteractConfig {
     @Config.Comment("Modify distance checks of pickup mobs teleporting victims")
     @Config.Name("Pickup Checks Distances")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureentitypickupfix.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featureentitypickupfix.json")
     public boolean pickupChecksDistance = true;
 
     @Config.Comment("Additionally have Darklings run the check for latch target")
@@ -99,7 +101,7 @@ public class CreatureInteractConfig {
     @Config.Comment("Feeding tamed creatures Burritos and Risottos will increase/decrease size scale")
     @Config.Name("Size Change Foods")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuretamedsizechangefood.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featuretamedsizechangefood.json")
     public boolean sizeChangeFoods = true;
 
     @Config.Comment("Max size change amount based on lycanitesmobs config range, default is 0.1, or 10% of config range")
@@ -110,19 +112,19 @@ public class CreatureInteractConfig {
     @Config.Comment("Make Soul Gazing a creature riding an entity dismount and attack the player. Counters boat trapping a mob to gaze it.")
     @Config.Name("Soul Gazer Dismounts")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresoulgazerdismounts.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featuresoulgazerdismounts.json")
     public boolean soulGazerDismounts = true;
 
     @Config.Comment("Enable setting owned creature and animal variant status with Soul Keys")
     @Config.Name("Soulkeys Set Variant")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuresoulkeyvariantset.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featuresoulkeyvariantset.json")
     public boolean soulkeysSetVariant = true;
 
     @Config.Comment("Allow creatures to be tamed/studied with their healing foods described in the Beastiary/set in JSONs")
     @Config.Name("Tame Creatures with Beastiary Diet")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuretamewithhealingfood.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featuretamewithhealingfood.json")
     public boolean tameWithHealingFood = true;
 
     @Config.Comment("Chance for a successful attempt to tame with healing food")
@@ -137,7 +139,7 @@ public class CreatureInteractConfig {
     @Config.Comment("Feeding Treats will prevent natural despawning, set temporary duration will still despawn")
     @Config.Name("Treat Sets Persistence")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuretameabletreatpersistence.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featuretameabletreatpersistence.json")
     public boolean treatSetsPersistence = true;
 
     @Config.Comment("Blacklist automatically entering riding boats and other vehicles when creature has particular properties.\n" +
@@ -146,7 +148,7 @@ public class CreatureInteractConfig {
             "Nymph is still allowed by default.")
     @Config.Name("Vehicle Anti Cheese")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featuremountcheesefix.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featuremountcheesefix.json")
     public boolean mountCheeseFix = true;
 
     @Config.Comment("Prevent flying creatures")

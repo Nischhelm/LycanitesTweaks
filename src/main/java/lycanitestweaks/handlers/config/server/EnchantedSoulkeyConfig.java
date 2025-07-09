@@ -1,25 +1,27 @@
 package lycanitestweaks.handlers.config.server;
 
 import fermiumbooter.annotations.MixinConfig;
+import lycanitestweaks.LycanitesTweaks;
 import net.minecraftforge.common.config.Config;
 
+@MixinConfig(name = LycanitesTweaks.MODID)
 public class EnchantedSoulkeyConfig {
     @Config.Comment("Holding the key in mainhand will add Creature Levels to Altar Mini Bosses")
     @Config.Name("0. Works for Altar Mini Bosses")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureenchantedsoulkeyaltarminiboss.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featureenchantedsoulkeyaltarminiboss.json")
     public boolean altarMiniBoss = true;
 
     @Config.Comment("Holding the key in mainhand will add Creature Levels to Altar Main Bosses")
     @Config.Name("0. Works for Altar Main Bosses")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureenchantedsoulkeymainboss.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featureenchantedsoulkeymainboss.json")
     public boolean altarMainBoss = true;
 
     @Config.Comment("Allow keys to be put inside Equipment Infuser to level up, and inside Equipment Station to recharge")
     @Config.Name("0. Allow in Equipment Station and Infuser")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featureenchantedsoulkeyequipmenttiles.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featureenchantedsoulkeyequipmenttiles.json")
     public boolean allowStationAndInfuser = true;
 
     @Config.Comment("Base charge experience required to level up the key. Increases by 25% per level of the key until the max is reached. Each Lycanites Charge gives 50 experience")

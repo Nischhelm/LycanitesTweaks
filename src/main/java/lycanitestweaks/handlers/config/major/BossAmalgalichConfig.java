@@ -1,14 +1,16 @@
 package lycanitestweaks.handlers.config.major;
 
 import fermiumbooter.annotations.MixinConfig;
+import lycanitestweaks.LycanitesTweaks;
 import net.minecraftforge.common.config.Config;
 
+@MixinConfig(name = LycanitesTweaks.MODID)
 public class BossAmalgalichConfig {
 
     @Config.Comment("Main toggle to enable this feature and its configs")
     @Config.Name("0. Enable Amalgalich Modifications")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.lycanitestweaks.featurebossamalgalich.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurebossamalgalich.json")
     public boolean bossTweaksAmalgalich = true;
 
     @Config.Comment("Replace the 50hp/sec heal with a 2% Max HP/sec heal")

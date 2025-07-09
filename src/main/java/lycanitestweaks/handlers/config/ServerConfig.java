@@ -1,17 +1,18 @@
 package lycanitestweaks.handlers.config;
 
 import fermiumbooter.annotations.MixinConfig;
+import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.handlers.config.server.AltarsConfig;
 import lycanitestweaks.handlers.config.server.EnchantedSoulkeyConfig;
 import lycanitestweaks.handlers.config.server.LootConfig;
 import lycanitestweaks.handlers.config.server.PotionEffectsConfig;
 import net.minecraftforge.common.config.Config;
 
+@MixinConfig(name = LycanitesTweaks.MODID)
 public class ServerConfig {
 
     @Config.Comment("Manage various Soulkey Altars provided by LycanitesTweaks. They are functional examples of custom Altars with rendering in the Beastiary.")
     @Config.Name("Additional Altars")
-    @MixinConfig.SubInstance
     public final AltarsConfig altarsConfig = new AltarsConfig();
 
     @Config.Comment("LycanitesTweaks adds two new Potion Effects (Voided and Consumed) that are only intended for the main boss fights. \n" +
@@ -30,14 +31,12 @@ public class ServerConfig {
             "Variant Soulkeys will need two Gem Blocks for one usage, while normal soulkeys only need one. Both need one Nether Star per usage.\n" +
             "The Creature Level that this key summons can be increased inside the Equipment Infuser using Lycanites Charges")
     @Config.Name("Enchanted Soulkey")
-    @MixinConfig.SubInstance
     public final EnchantedSoulkeyConfig enchSoulkeyConfig = new EnchantedSoulkeyConfig();
 
     @Config.Comment("Manage the ability to use vanilla loot tables (accessible via resource packs or loottweaker) for Lycanite entities.\n" +
             "Toggles the use of JSON loot tables for Bosses meant to provide Emeralds, XP Bottles, and Enchanted Book that reflect Boss' Levels.\n" +
             "Adjust a dynamic loot table that allows mobs to drop any charge from the entities' set of element properties.")
     @Config.Name("Additional Loot")
-    @MixinConfig.SubInstance
     public final LootConfig lootConfig = new LootConfig();
 
     @Config.Comment("Whether Lycanites Block Protection protects against any Living Entity, not just players")
