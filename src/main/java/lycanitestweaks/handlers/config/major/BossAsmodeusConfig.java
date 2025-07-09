@@ -143,8 +143,10 @@ public class BossAsmodeusConfig {
     @Config.Name("Rebuild Heal Portion")
     public boolean repairHealPortion = false;
 
-    @Config.Comment("HP healed per phase 3 Astaroth")
+    @Config.Comment("HP healed per phase 3 Astaroth\n" +
+            "Flat amounts can be any number while portions should be between 0.0 and 1.0")
     @Config.Name("Rebuild Heal Amount")
+    @Config.RangeDouble(min = 0)
     public float repairHeal = 10;
 
     @Config.Comment("Should Phase 3 Summon a Phosphorescent Chupacabra")

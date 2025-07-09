@@ -56,7 +56,7 @@ public abstract class PortalEntityReworkMixin {
         ExtendedPlayer extendedPlayer = ExtendedPlayer.getForPlayer(player);
         if (extendedPlayer == null) return true;
 
-        if (ForgeConfigHandler.majorFeaturesConfig.imperfectSummoningConfig.imperfectSummoning &&
+        if (ForgeConfigHandler.majorFeaturesConfig.imperfectSummoningConfig.imperfectMinionNerfs &&
                 !extendedPlayer.getBeastiary().hasKnowledgeRank(instance.creatureInfo.getName(), ForgeConfigHandler.majorFeaturesConfig.imperfectSummoningConfig.variantSummonRank)) {
             lycanitesTweaks$isHostileToPlayer = player.getEntityWorld().rand.nextDouble() < Helpers.getImperfectHostileChance(extendedPlayer, instance.creatureInfo);
             if(lycanitesTweaks$isHostileToPlayer) {
@@ -81,7 +81,7 @@ public abstract class PortalEntityReworkMixin {
         ExtendedPlayer extendedPlayer = ExtendedPlayer.getForPlayer(player);
 
         if(extendedPlayer != null
-                && ForgeConfigHandler.majorFeaturesConfig.imperfectSummoningConfig.imperfectSummoning
+                && ForgeConfigHandler.majorFeaturesConfig.imperfectSummoningConfig.imperfectMinionNerfs
                 && !lycanitesTweaks$isHostileToPlayer
                 && !extendedPlayer.getBeastiary().hasKnowledgeRank(entityCreature.creatureInfo.getName(), ForgeConfigHandler.majorFeaturesConfig.imperfectSummoningConfig.variantSummonRank)
         ){

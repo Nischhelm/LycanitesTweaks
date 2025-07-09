@@ -49,7 +49,8 @@
 {Slot:1b,id:\"iceandfire:dragonarmor_copper\",Count:1b,Damage:1s},
 {Slot:2b,id:\"iceandfire:dragonarmor_copper\",Count:1b,Damage:2s},
 {Slot:3b,id:\"iceandfire:dragonarmor_copper\",Count:1b,Damage:3s}],
-ArmorNeck:5,ArmorBody:5,ArmorHead:5,ArmorTail:5,AgeTicks:3000000,AgingDisabled:1b,Hovering:1b,lycanitestweaksDoInitialSpawn:1b}",
+ArmorNeck:5,ArmorBody:5,ArmorHead:5,ArmorTail:5,AgeTicks:3000000,AgingDisabled:1b,Hovering:1b}",
+      "lycanitestweaks:doInitialSpawn": true,
       "weight": 8
     }
   ]

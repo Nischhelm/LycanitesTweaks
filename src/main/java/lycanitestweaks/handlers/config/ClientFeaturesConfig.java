@@ -55,7 +55,8 @@ public class ClientFeaturesConfig {
     };
 
     @Config.Comment("Case sensitive blacklist for hiding any Creature Subspecies by name. Does not affect gameplay.\n" +
-            "Used by Lycanites Tweaks to hide easter eggs.")
+            "Used by Lycanites Tweaks to hide easter eggs.\n" +
+            "\tFormat: [creatureName: subspeciesIndex]")
     @Config.Name("Creature Subspecies Display Blacklist")
     public String[] creatureSubspeciesInfoBeastiaryBlacklist = {
             "darkling: 111"

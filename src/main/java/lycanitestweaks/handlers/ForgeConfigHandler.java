@@ -1,7 +1,9 @@
 package lycanitestweaks.handlers;
 
+import fermiumbooter.FermiumRegistryAPI;
 import fermiumbooter.annotations.MixinConfig;
 import lycanitestweaks.LycanitesTweaks;
+import lycanitestweaks.compat.ModLoadedUtil;
 import lycanitestweaks.handlers.config.ClientConfig;
 import lycanitestweaks.handlers.config.ClientFeaturesConfig;
 import lycanitestweaks.handlers.config.IntegrationConfig;
@@ -24,13 +26,12 @@ public class ForgeConfigHandler {
 			"Makes the order be the read-in order instead of sorting alphabetically.\n" +
 			"Configs are organized with dependencies at the top and modifiers right under.\n" +
 			"Forge can not perfectly fix partial or update old configs and will append new config entries.\n" +
-			"This will not run with Dynamic Surroundings installed and should be disabled if it is installed.\n" +
-			"This will attempt to run on first startup, then defaults to off.")
+			"This will not work with Dynamic Surroundings installed.")
 	@Config.Name("Modify LycanitesTweaks Config Order")
 	@Config.RequiresMcRestart
-	@MixinConfig.CompatHandling(modid = "dsurround", desired = false, reason = "mod known to early load mixin target in pre-init. If this is the first launch, restart and the toggle is automatically off.")
+	@MixinConfig.CompatHandling(modid = ModLoadedUtil.DYNAMICSURROUNDINGS_MODID, desired = false, reason = "Known conflict, early loads mixin target in pre-init")
 	@MixinConfig.MixinToggle(defaultValue = true, earlyMixin = "mixins.lycanitestweaks.forgeconfigsort.json")
-	public static boolean writeForgeConfigUnsorted = false;
+	public static boolean writeForgeConfigUnsorted = !FermiumRegistryAPI.isModPresent(ModLoadedUtil.DYNAMICSURROUNDINGS_MODID);;
 
 	/*
 	 * Projectile "behaviours"
@@ -40,6 +41,7 @@ public class ForgeConfigHandler {
 	 *
 	 * "mobSpawns" Entries
 	 * "lycanitestweaks:setNBT" - Set any NBT like /entitydata or /summon commands
+	 * "lycanitestweaks:doInitialSpawn" - Call onInitialSpawn on EntityLiving, useful for mods like Ice And Fire
 	 */
 	@Config.Comment("LycanitesTweaks has features that rely on being loaded by Lycanites Mobs.\n" +
 			"Makes Lycanites Mobs check and load JSON resources from LycanitesTweaks.\n" +
@@ -72,7 +74,8 @@ public class ForgeConfigHandler {
 	public static final MinorFeaturesConfig minorFeaturesConfig = new MinorFeaturesConfig();
 
 	@Config.Comment("Mod Compatibility\n" +
-			"Toggles are enabled by default and will flag Fermium Booter errors, disable when associated mod is not installed")
+			"On first load, toggles will be enabled based on if the required mods are installed.\n" +
+			"Will flag FermiumBooter errors pointing out toggles that should be turned off.")
 	@Config.Name("Mod Compatibility")
 	public static final IntegrationConfig integrationConfig = new IntegrationConfig();
 

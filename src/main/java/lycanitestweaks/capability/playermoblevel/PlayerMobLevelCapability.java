@@ -243,9 +243,10 @@ public class PlayerMobLevelCapability implements IPlayerMobLevelCapability {
         if (extendedPlayer != null) {
             for(ElementInfo elementInfo : elements){
                 int elementTotal = 0;
-                for(String creatureName : Helpers.getCreatureElementsMap().get(elementInfo.name)){
-                    if(extendedPlayer.getBeastiary().hasKnowledgeRank(creatureName, 2)) elementTotal++;
-                }
+                if(Helpers.getCreatureElementsMap().containsKey(elementInfo.name))
+                    for(String creatureName : Helpers.getCreatureElementsMap().get(elementInfo.name)){
+                        if(extendedPlayer.getBeastiary().hasKnowledgeRank(creatureName, 2)) elementTotal++;
+                    }
                 total = Math.max(total, elementTotal);
             }
         }

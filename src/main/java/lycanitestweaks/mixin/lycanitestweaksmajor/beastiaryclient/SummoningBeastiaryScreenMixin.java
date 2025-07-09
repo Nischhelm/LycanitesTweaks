@@ -46,7 +46,7 @@ public abstract class SummoningBeastiaryScreenMixin extends BeastiaryScreen {
             }
 
             if(ForgeConfigHandler.clientFeaturesMixinConfig.beastiaryGUIImperfectSummon
-                    && ForgeConfigHandler.majorFeaturesConfig.imperfectSummoningConfig.imperfectSummoning
+                    && ForgeConfigHandler.majorFeaturesConfig.imperfectSummoningConfig.imperfectMinionNerfs
                     && !this.playerExt.getBeastiary().hasKnowledgeRank(selectedCreature.getName(), ForgeConfigHandler.majorFeaturesConfig.imperfectSummoningConfig.variantSummonRank)) {
                 this.getFontRenderer().drawString(I18n.format("gui.beastiary.summoning.mixin.imperfect"), nextX, nextY, 0xFFFFFF, true);
                 nextY += 4 + this.getFontRenderer().getWordWrappedHeight(text, this.colRightWidth);

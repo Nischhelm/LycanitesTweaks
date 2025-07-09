@@ -30,7 +30,7 @@ public class ItemTweaksConfig {
     public boolean customItemCureEffectList = true;
 
     @Config.Comment("List of potion resource locations cleansed will cure")
-    @Config.Name("Customizable Curing Item - Cleaning Crystal")
+    @Config.Name("Customizable Curing Item - Cleansing Crystal")
     public String[] cleansedEffectsToCure = {
             "minecraft:wither",
             "minecraft:unluck",

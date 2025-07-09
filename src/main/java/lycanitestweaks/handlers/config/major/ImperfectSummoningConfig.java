@@ -11,7 +11,7 @@ public class ImperfectSummoningConfig {
     @Config.Name("0. Imperfect Summoning")
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featuresummonrework.json")
-    public boolean summonProgressionRework = true;
+    public boolean imperfectSummoning = true;
 
     @Config.Comment("Knowledge Rank to summon normal minions, updates client visuals except for lang files")
     @Config.Name("Summoning Normal Rank")
@@ -24,8 +24,8 @@ public class ImperfectSummoningConfig {
     public int variantSummonRank = 2;
 
     @Config.Comment("Nerfs minions who are summoned without variant summoning knowledge")
-    @Config.Name("Imperfect Summoning")
-    public boolean imperfectSummoning = true;
+    @Config.Name("Imperfect Minion Nerfs")
+    public boolean imperfectMinionNerfs = true;
 
     @Config.Comment("Chance for an imperfect minion to be hostile to the host. Default is 0.1 or 10% chance.")
     @Config.Name("Imperfect Hostile Summon Base Chance")

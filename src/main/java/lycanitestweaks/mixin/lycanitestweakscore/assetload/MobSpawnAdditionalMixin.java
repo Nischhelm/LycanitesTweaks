@@ -29,9 +29,11 @@ public abstract class MobSpawnAdditionalMixin {
     @Unique
     private final static String SET_NBT = LycanitesTweaks.MODID + ":setNBT";
     @Unique
-    private final static String DO_INITIAL_SPAWN_TAG = LycanitesTweaks.MODID + "DoInitialSpawn";
+    private final static String DO_INITIAL_SPAWN = LycanitesTweaks.MODID + ":doInitialSpawn";
     @Unique
     private String lycanitesTweaks$nbtString = "";
+    @Unique
+    private boolean lycanitesTweaks$doInitialSpawn = false;
 
     @Inject(
             method = "loadFromJSON",
@@ -41,6 +43,9 @@ public abstract class MobSpawnAdditionalMixin {
     public void lycanitesTweaks_lycanitesMobsMobSpawn_loadFromJSONSetNBT(JsonObject json, CallbackInfo ci){
         if (json.has(SET_NBT)) {
             this.lycanitesTweaks$nbtString = json.get(SET_NBT).getAsString();
+        }
+        if (json.has(DO_INITIAL_SPAWN)) {
+            this.lycanitesTweaks$doInitialSpawn = json.get(DO_INITIAL_SPAWN).getAsBoolean();
         }
     }
 
@@ -72,10 +77,6 @@ public abstract class MobSpawnAdditionalMixin {
             }
             else {
                 entityLiving.readFromNBT(entityNBT);
-                if (entityNBT.hasKey(DO_INITIAL_SPAWN_TAG) && entityNBT.getBoolean(DO_INITIAL_SPAWN_TAG)) {
-                    entityLiving.onInitialSpawn(entityLiving.getEntityWorld().getDifficultyForLocation(new BlockPos(entityLiving)), null);
-                    entityLiving.setHealth(entityLiving.getMaxHealth());
-                }
                 if (entityNBT.hasKey("Passengers", 9)) {
                     NBTTagList nbttaglist = entityNBT.getTagList("Passengers", 10);
 
@@ -89,6 +90,10 @@ public abstract class MobSpawnAdditionalMixin {
                     }
                 }
             }
+        }
+        if (this.lycanitesTweaks$doInitialSpawn) {
+            entityLiving.onInitialSpawn(entityLiving.getEntityWorld().getDifficultyForLocation(new BlockPos(entityLiving)), null);
+            entityLiving.setHealth(entityLiving.getMaxHealth());
         }
     }
 }

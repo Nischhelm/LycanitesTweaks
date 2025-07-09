@@ -41,7 +41,7 @@ public class PlayerMobLevelsConfig {
             "\tmultiplier - Multiplier to use on the total bonus before it is used\n\n" +
             "Removing an entry fully disables associated features compared to zero'ing the multiplier\n" +
             "\tex. 'SpawnerTrigger' will still flag first-time spawns with 0.0 multiplier")
-    @Config.Name("0.b Bonus Categories")
+    @Config.Name("Bonus Categories")
     public String[] pmlCategories = {
             "AltarBossMain, true, WILD, 1.0",
             "AltarBossMini, true, WILD, 0.75",
@@ -58,7 +58,7 @@ public class PlayerMobLevelsConfig {
             "Format: [bonusName, multiplier]\n" +
             "\tbonusName - The Source of the bonus, do not change from the defaults\n" +
             "\tmultiplier - Multiplier to use on the total bonus before it is used")
-    @Config.Name("0.b Bonus Source Multipliers - ALL")
+    @Config.Name("Bonus Source Multipliers - ALL")
     public String[] pmlBonusAll = {
             "ActivePet, 0.75",
             "BestiaryCreature, 1.0",
@@ -71,7 +71,7 @@ public class PlayerMobLevelsConfig {
             "Format: [bonusName,multiplier]\n" +
             "\tbonusName - The Source of the bonus, do not change from the defaults\n" +
             "\tmultiplier - Multiplier to use on the total bonus before it is used")
-    @Config.Name("0.b Bonus Source Multipliers - TAMED")
+    @Config.Name("Bonus Source Multipliers - TAMED")
     public String[] pmlBonusTamed = {
             "ActivePet, 0.25",
             "BestiaryCreature, 2.0",
@@ -84,7 +84,7 @@ public class PlayerMobLevelsConfig {
             "Format: [bonusName,multiplier]\n" +
             "\tbonusName - The Source of the bonus, do not change from the defaults\n" +
             "\tmultiplier - Multiplier to use on the total bonus before it is used")
-    @Config.Name("0.b Bonus Source Multipliers - WILD")
+    @Config.Name("Bonus Source Multipliers - WILD")
     public String[] pmlBonusWild = {
             "ActivePet, 1.0",
             "BestiaryCreature, 1.0",
@@ -94,9 +94,15 @@ public class PlayerMobLevelsConfig {
     };
 
     @Config.Comment("Used to lower bloated Minimum Enchantibility values via Rarity {COMMON, UNCOMMON, RARE, VERY_RARE}")
-    @Config.Name("0.b Enchantment Rarity Divisors")
+    @Config.Name("Enchantment Rarity Divisors")
     @Config.RequiresMcRestart
     public int[] enchRarityDivisors = {1, 2, 5, 10};
+
+    @Config.Comment("Lycanites Pet Manager updates Player Mob Level Capability with pet entry information")
+    @Config.Name("Pet Manager Tracks Pet Levels")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurepetmanagerpmltrackspetlevels.json")
+    public boolean petManagerTracksHighestLevelPet = true;
 
     @Config.Comment("Whether highest level Pet Entry should try to be calculated, unsorted levels are still stored, false always returns 0.\n" +
             "This is different from the level of the currently active pets.")
@@ -151,20 +157,21 @@ public class PlayerMobLevelsConfig {
     @Config.Name("Soulbound Weakened Dimensions - Whitelist")
     public boolean pmlMinionLimitDimIdsWhitelist = true;
 
-    @Config.Comment("Whether weakened soulbounds can spawn in dimensions blacklisted by vanilla Lycanites")
+    @Config.Comment("Whether weakened soulbounds can spawn in dimensions blacklisted by vanilla Lycanites.\n" +
+            "Lazy option that can be hot swapped in game.")
     @Config.Name("Soulbound Weakened Dimensions - Overrules Blacklist")
     public boolean pmlMinionLimitDimOverruleBlacklist = true;
 
-    @Config.Comment("Whether weakened soulbound inventory GUIs can be opened")
-    @Config.Name("Soulbound Weakened Dimensions - No Inventory")
+    @Config.Comment("Whether weakened soulbound inventory GUIs are unable to be accessed")
+    @Config.Name("Soulbound Weakened Dimensions - Disable Inventory")
     public boolean pmlMinionLimitDimNoInventory = true;
 
-    @Config.Comment("Whether weakened soulbounds can be mounted")
-    @Config.Name("Soulbound Weakened Dimensions - Not Mountable")
+    @Config.Comment("Whether weakened soulbounds are unable to be mounted")
+    @Config.Name("Soulbound Weakened Dimensions - Disable Mounting")
     public boolean pmlMinionLimitDimNoMount = true;
 
     @Config.Comment("Whether weakened dimensions prevent soulbound spirit recharge")
-    @Config.Name("Soulbound Weakened Dimensions - No Spirit Recharge")
+    @Config.Name("Soulbound Weakened Dimensions - Disable Spirit Recharge")
     public boolean pmlMinionLimitDimNoSpiritRecharge = true;
 
     @Config.Comment("Inject handling for Player Mob Level to affect summon staff minions")
@@ -172,12 +179,6 @@ public class PlayerMobLevelsConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featuresummonstaffplayermoblevel.json")
     public boolean playerMobLevelSummonStaff = true;
-
-    @Config.Comment("Lycanites Pet Manager updates Player Mob Level Capability with pet entry information")
-    @Config.Name("Pet Manager Tracks Pet Levels")
-    @Config.RequiresMcRestart
-    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurepetmanagerpmltrackspetlevels.json")
-    public boolean petManagerTracksHighestLevelPet = true;
 
     @Config.Comment("Remove treat pacifying and lower reputation gain when taming high leveled creatures")
     @Config.Name("Over Leveled Penalty")

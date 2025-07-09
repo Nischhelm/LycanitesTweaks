@@ -101,7 +101,8 @@ public class BossAmalgalichConfig {
     @Config.Name("Consumption Kill Heal Portion")
     public boolean consumptionKillHealPortion = false;
 
-    @Config.Comment("HP healed on minion kill")
+    @Config.Comment("HP healed on minion kill\n" +
+            "Flat amounts can be any number while portions should be between 0.0 and 1.0")
     @Config.Name("Consumption Kill Heal Amount")
     public float consumptionKillHeal = 25F;
 
@@ -118,7 +119,8 @@ public class BossAmalgalichConfig {
     @Config.Name("Epion Extinguish Width")
     public int customEpionExtinguishWidth = 16;
 
-    @Config.Comment("Replace Lob Darkling with Summon Goal. These Darklings are always level 1 and there is no limit to spamming the attack.")
+    @Config.Comment("Replace Lob Darkling with Summon Goal. Lob Darklings are always level 1 and there is no limit to spamming the attack.\n" +
+            "Amalgalich limits the number of Summon Goal Darklings and has them match his level.")
     @Config.Name("Lob Darklings Replace With Summon Goal")
     @Config.RequiresMcRestart
     public boolean replaceLobDarkling = true;
