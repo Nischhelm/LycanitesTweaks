@@ -22,16 +22,16 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @MixinConfig(name = LycanitesTweaks.MODID)
 public class ForgeConfigHandler {
 
-	@Config.Comment("Modify the sorting behavior of only LycanitesTweaks' Config.\n" +
-			"Makes the order be the read-in order instead of sorting alphabetically.\n" +
-			"Configs are organized with dependencies at the top and modifiers right under.\n" +
-			"Forge can not perfectly fix partial or update old configs and will append new config entries.\n" +
-			"This will not work with Dynamic Surroundings installed.")
-	@Config.Name("Modify LycanitesTweaks Config Order")
-	@Config.RequiresMcRestart
-	@MixinConfig.CompatHandling(modid = ModLoadedUtil.DYNAMICSURROUNDINGS_MODID, desired = false, reason = "Known conflict, early loads mixin target in pre-init")
-	@MixinConfig.MixinToggle(defaultValue = true, earlyMixin = "mixins.lycanitestweaks.forgeconfigsort.json")
-	public static boolean writeForgeConfigUnsorted = !FermiumRegistryAPI.isModPresent(ModLoadedUtil.DYNAMICSURROUNDINGS_MODID);
+//	@Config.Comment("Modify the sorting behavior of only LycanitesTweaks' Config.\n" +
+//			"Makes the order be the read-in order instead of sorting alphabetically.\n" +
+//			"Configs are organized with dependencies at the top and modifiers right under.\n" +
+//			"Forge can not perfectly fix partial or update old configs and will append new config entries.\n" +
+//			"This will not work with Dynamic Surroundings installed.")
+//	@Config.Name("Modify LycanitesTweaks Config Order")
+//	@Config.RequiresMcRestart
+//	@MixinConfig.CompatHandling(modid = ModLoadedUtil.DYNAMICSURROUNDINGS_MODID, desired = false, reason = "Known conflict, early loads mixin target in pre-init")
+//	@MixinConfig.MixinToggle(defaultValue = true, earlyMixin = "mixins.lycanitestweaks.forgeconfigsort.json")
+//	public static boolean writeForgeConfigUnsorted = !FermiumRegistryAPI.isModPresent(ModLoadedUtil.DYNAMICSURROUNDINGS_MODID);
 
 	/*
 	 * Projectile "behaviours"

@@ -1,7 +1,9 @@
 package lycanitestweaks.handlers;
 
 import lycanitestweaks.LycanitesTweaks;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,6 +30,7 @@ public class ForgeConfigProvider {
     private static final Set<ResourceLocation> flowersaurBiomes = new HashSet<>();
 
     // Major
+    private static final Set<Enchantment> craftedEquipmentEnchantsBlacklist = new HashSet<>();
     private static final Set<String> transformBossSpawnerNames = new HashSet<>();
     private static final Map<String, Integer> effectsApplyScaleLevelLimited = new HashMap<>();
     private static final Map<String, Integer> elementsApplyScaleLevelLimitedDebuffs = new HashMap<>();
@@ -84,6 +87,7 @@ public class ForgeConfigProvider {
         ForgeConfigProvider.creatureBeastiaryBlacklist.clear();
         ForgeConfigProvider.creatureSubspeciesBeastiaryBlacklist.clear();
         ForgeConfigProvider.elementBeastiaryBlacklist.clear();
+        ForgeConfigProvider.craftedEquipmentEnchantsBlacklist.clear();
         ForgeConfigProvider.transformBossSpawnerNames.clear();
         ForgeConfigProvider.effectsApplyScaleLevelLimited.clear();
         ForgeConfigProvider.elementsApplyScaleLevelLimitedDebuffs.clear();
@@ -151,6 +155,18 @@ public class ForgeConfigProvider {
                     .map(ResourceLocation::new)
                     .collect(Collectors.toSet()));
         return ForgeConfigProvider.flowersaurBiomes;
+    }
+
+    public static Set<Enchantment> getEquipmentEnchantmentBlacklist() {
+        if(ForgeConfigProvider.craftedEquipmentEnchantsBlacklist.isEmpty()
+                && ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.blacklistedCraftedEquipmentEnchants.length > 0)
+            ForgeConfigProvider.craftedEquipmentEnchantsBlacklist.addAll(Arrays
+                    .stream(ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.blacklistedCraftedEquipmentEnchants)
+                    .map(ResourceLocation::new)
+                    .map(ForgeRegistries.ENCHANTMENTS::getValue)
+                    .collect(Collectors.toSet())
+            );
+        return ForgeConfigProvider.craftedEquipmentEnchantsBlacklist;
     }
 
     public static Set<String> getCanTransformIntoBossSpawnerNames(){

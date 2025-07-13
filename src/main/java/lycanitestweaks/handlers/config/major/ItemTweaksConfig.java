@@ -13,7 +13,9 @@ public class ItemTweaksConfig {
     @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featureequipmentrmbneedssneak.json")
     public boolean craftedEquipmentOffhandRMBSneak = true;
 
-    @Config.Comment("Allows Sword Enchantments and Efficiency")
+    @Config.Comment("Allows Lycanites Equipment to be enchanted with all Weapon type enchantments except Sweeping Edge.\n" +
+            "Additionally allows Efficiency as the only tool enchantment.\n" +
+            "Breakable type enchantments, such as Unbreaking and Mending, are not allowed.")
     @Config.Name("Crafted Equipment Enchantments")
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featureequipmentswordenchantments.json")
@@ -21,7 +23,22 @@ public class ItemTweaksConfig {
 
     @Config.Comment("Minimum level all parts of equipment must be in order to apply enchantments")
     @Config.Name("Crafted Equipment Enchantments - Minimum Part Level")
-    public int equipmentMinLevelEnchantable = 3;
+    public int craftedEquipmentEnchantmentsMinLevelParts = 3;
+
+    @Config.Comment("If enabled, the Equipment item shows a tooltip describing part level requirements. Else it is hidden and will only reveal enchantability when it is possible.")
+    @Config.Name("Crafted Equipment Enchantments - Minimum Part Level Tooltips")
+    public boolean craftedEquipmentEnchantmentsMinLevelTooltips = true;
+
+    @Config.Comment("If enabled, the Equipment Forge will prevent Equipment from being disassembled into its individual parts. Else disassembly can be done at the cost of clearing enchantments.")
+    @Config.Name("Crafted Equipment Enchantments - Prevent Disassembling")
+    public boolean craftedEquipEnchDisassembleLock = true;
+
+    @Config.Comment("Lycanites Equipment will not be able receive any enchantments in this list (of Resource Locations).\n" +
+            "\tFormat: [namespace: path]")
+    @Config.Name("Crafted Equipment Enchantments Blacklist")
+    public String[] blacklistedCraftedEquipmentEnchants = {
+
+    };
 
     @Config.Comment("Enable customizable effect list and handling for the cleansed/immunization effect")
     @Config.Name("Customizable Curing Item")

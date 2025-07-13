@@ -6,21 +6,22 @@
             "entries": [
                 {
                     "type": "item",
-                    "name": "minecraft:emerald_block",
+                    "name": "minecraft:emerald",
                     "weight": 1,
                     "functions": [
-                        {
-                          "function": "set_count",
-                          "count": {
-                            "min": 0,
-                            "max": 1
-                          }
-                        },
-						{
-							"function": "lycanitesTweaks:scale_with_mob_levels",
-							"scale": 2.0,
-							"limit": 512
-						}
+                      {
+                        "function": "set_count",
+                        "count": {
+                          "min": 8,
+                          "max": 24
+                        }
+                      },
+                      {
+                        "function": "lycanitesTweaks:add_count_from_mob_levels",
+                        "minLevelScale": 0.1,
+                        "maxLevelScale": 1.0,
+                        "itemLimit": 128
+                      }
                     ]
                 }
             ],

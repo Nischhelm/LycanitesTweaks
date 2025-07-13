@@ -7,6 +7,7 @@ import com.lycanitesmobs.core.info.CreatureManager;
 import com.lycanitesmobs.core.info.ElementInfo;
 import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.handlers.ForgeConfigHandler;
+import lycanitestweaks.loot.AddCountFromMobLevels;
 import lycanitestweaks.loot.EnchantWithMobLevels;
 import lycanitestweaks.loot.HasMobLevels;
 import lycanitestweaks.loot.IsVariant;
@@ -66,6 +67,7 @@ public class EntityLootHandler {
     }
 
     // LootTableLoadEvent examples
+    // Using new/split lycanitestweaks:add_count_from_mob_levels
     @SubscribeEvent
     public static void addDefaultBossLoot(LootTableLoadEvent event){
         if (!LycanitesMobs.modid.equals(event.getName().getNamespace())) return;
@@ -95,8 +97,7 @@ public class EntityLootHandler {
                     new LootEntry[]{
                             new LootEntryItem(Items.EXPERIENCE_BOTTLE, 1, 0,
                                     new LootFunction[]{
-                                            new SetCount(nullCond, new RandomValueRange(0, 1)),
-                                            new ScaleWithMobLevels(nullCond, 0.5F, 128)
+                                            new AddCountFromMobLevels(nullCond, 0.5F, 0.0F, 128)
                                     },
                                     nullCond,
                                     LycanitesTweaks.MODID + ":scale_with_mob_levels_xp")},
@@ -130,6 +131,7 @@ public class EntityLootHandler {
         }
     }
 
+    // Using only nisch rewrite lycanitestweaks:scale_with_mob_levels
     private static LootEntry getRandomChargesEntry(String charge, String entryName) {
         return new LootEntryItem(ObjectManager.getItem(charge), 1, 0,
                 new LootFunction[]{
@@ -138,6 +140,8 @@ public class EntityLootHandler {
                                 ForgeConfigHandler.server.lootConfig.randomChargeScaledCountMaximum)),
                         new ScaleWithMobLevels(nullCond,
                                 ForgeConfigHandler.server.lootConfig.randomChargeLevelScale,
+                                false,
+                                false,
                                 ForgeConfigHandler.server.lootConfig.randomChargeDropLimit),
                         // Looting is not level scaled
                         new LootingEnchantBonus(nullCond, new RandomValueRange(0,

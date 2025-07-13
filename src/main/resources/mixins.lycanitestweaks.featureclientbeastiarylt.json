@@ -15,6 +15,7 @@
     "beastiaryclient.ElementDescriptionListMixin",
     "beastiaryclient.ElementListMixin",
     "beastiaryclient.GuiHandlerLTNavigationMixin",
+    "beastiaryclient.PetsBeastiaryScreenMixin",
     "beastiaryclient.SubspeciesListMixin",
     "beastiaryclient.SummoningBeastiaryScreenMixin"
   ],

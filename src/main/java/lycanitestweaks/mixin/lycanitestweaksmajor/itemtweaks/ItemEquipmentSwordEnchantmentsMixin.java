@@ -4,6 +4,7 @@ import com.lycanitesmobs.core.item.ItemBase;
 import com.lycanitesmobs.core.item.equipment.ItemEquipment;
 import com.lycanitesmobs.core.item.equipment.ItemEquipmentPart;
 import lycanitestweaks.handlers.ForgeConfigHandler;
+import lycanitestweaks.handlers.ForgeConfigProvider;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
@@ -38,30 +39,43 @@ public abstract class ItemEquipmentSwordEnchantmentsMixin extends ItemBase {
             at = @At("TAIL")
     )
     public void lycanitesTweaks_lycanitesMobsItemEquipment_addInformation(ItemStack itemStack, World world, List<String> tooltip, ITooltipFlag tooltipFlag, CallbackInfo ci){
-        if(lycanitesTweaks$getLowestLevel(itemStack)>= ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.equipmentMinLevelEnchantable){
-            tooltip.add(I18n.format("item.equipment.description.mixin"));
+        if(lycanitesTweaks$getLowestPartLevel(itemStack) < ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.craftedEquipmentEnchantmentsMinLevelParts){
+            if(ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.craftedEquipmentEnchantmentsMinLevelTooltips)
+                tooltip.add(I18n.format("item.equipment.description.mixin.enchrequirement", ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.craftedEquipmentEnchantmentsMinLevelParts));
+        }
+        else {
+            if(itemStack.isItemEnchanted()){
+                if(ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.craftedEquipEnchDisassembleLock) tooltip.add(I18n.format("item.equipment.description.mixin.enchlock"));
+                else tooltip.add(I18n.format("item.equipment.description.mixin.enchremove"));
+            }
+            else tooltip.add(I18n.format("item.equipment.description.mixin.enchantable"));
         }
     }
 
     @Override
     @Unique
-    public boolean isEnchantable(@Nonnull ItemStack stack)
-    {
+    public boolean isEnchantable(@Nonnull ItemStack stack) {
         return true;
     }
 
-    public int getItemEnchantability()
-    {
+    // Enchantment Table
+    @Override
+    @Unique
+    public int getItemEnchantability() {
         return 1;
     }
 
+    // Used by both Enchantment Table and Anvil
+    /** Checks part level -> black list -> if Weapon enchantment OR check modded enchantment conditions. Super call is important for SME **/
     @Override
     @Unique
     public boolean canApplyAtEnchantingTable(@Nonnull ItemStack stack, @Nonnull Enchantment enchantment){
-        if(lycanitesTweaks$getLowestLevel(stack) < ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.equipmentMinLevelEnchantable) return false;
+        if(lycanitesTweaks$getLowestPartLevel(stack) < ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.craftedEquipmentEnchantmentsMinLevelParts) return false;
+        if(ForgeConfigProvider.getEquipmentEnchantmentBlacklist().contains(enchantment)) return false;
+
         if(enchantment != Enchantments.SWEEPING &&
                 ((enchantment.type == EnumEnchantmentType.WEAPON) ||
-                (enchantment == Enchantments.EFFICIENCY))){
+                        (enchantment == Enchantments.EFFICIENCY))){
             return true;
         }
         else{
@@ -70,8 +84,8 @@ public abstract class ItemEquipmentSwordEnchantmentsMixin extends ItemBase {
     }
 
     @Unique
-    public int lycanitesTweaks$getLowestLevel(ItemStack equipmentStack) {
-        int lowestLevel = ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.equipmentMinLevelEnchantable;
+    public int lycanitesTweaks$getLowestPartLevel(ItemStack equipmentStack) {
+        int lowestLevel = ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.craftedEquipmentEnchantmentsMinLevelParts;
 
         for(ItemStack equipmentPartStack : this.getEquipmentPartStacks(equipmentStack)) {
             ItemEquipmentPart equipmentPart = this.getEquipmentPart(equipmentPartStack);

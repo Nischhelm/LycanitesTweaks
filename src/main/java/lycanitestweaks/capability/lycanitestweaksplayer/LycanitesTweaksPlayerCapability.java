@@ -1,5 +1,7 @@
 package lycanitestweaks.capability.lycanitestweaksplayer;
 
+import com.lycanitesmobs.core.entity.ExtendedPlayer;
+import com.lycanitesmobs.core.pets.PetEntry;
 import lycanitestweaks.network.PacketHandler;
 import lycanitestweaks.network.PacketKeybindsSync;
 import net.minecraft.entity.player.EntityPlayer;
@@ -8,6 +10,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
+import java.util.UUID;
 
 public class LycanitesTweaksPlayerCapability implements ILycanitesTweaksPlayerCapability {
 
@@ -16,6 +19,7 @@ public class LycanitesTweaksPlayerCapability implements ILycanitesTweaksPlayerCa
     private EntityPlayer player;
     private SOULGAZER_AUTO_ID soulgazerAuto = SOULGAZER_AUTO_ID.NONE;
     private boolean soulgazerManual = true;
+    public PetEntry keyboundPetEntry;
 
     public enum SOULGAZER_AUTO_ID {
         NONE((byte)1), DAMAGE((byte)2), KILL((byte)3);
@@ -38,11 +42,11 @@ public class LycanitesTweaksPlayerCapability implements ILycanitesTweaksPlayerCa
         if (player == null) {
             return null;
         }
-        ILycanitesTweaksPlayerCapability playerKeybinds = player.getCapability(LycanitesTweaksPlayerCapabilityHandler.LT_PLAYER, null);
-        if (playerKeybinds != null && playerKeybinds.getPlayer() != player) {
-            playerKeybinds.setPlayer(player);
+        ILycanitesTweaksPlayerCapability ltp = player.getCapability(LycanitesTweaksPlayerCapabilityHandler.LT_PLAYER, null);
+        if (ltp != null && ltp.getPlayer() != player) {
+            ltp.setPlayer(player);
         }
-        return playerKeybinds;
+        return ltp;
     }
 
     @Override
@@ -63,6 +67,43 @@ public class LycanitesTweaksPlayerCapability implements ILycanitesTweaksPlayerCa
             PacketHandler.instance.sendTo(packet, playerMP);
         }
     }
+
+    // Used only by client using Vanilla Lycanites packets
+    @Override
+    public void setKeyboundPet(PetEntry petEntry) {
+        if(this.player.getEntityWorld().isRemote) this.keyboundPetEntry = petEntry;
+    }
+
+    // Used only by client using Vanilla Lycanites packets
+    @Override
+    public void setKeyboundPetSpawning() {
+        if(this.player.getEntityWorld().isRemote) {
+            if(this.keyboundPetEntry != null) {
+                this.keyboundPetEntry.setSpawningActive(!this.keyboundPetEntry.spawningActive);
+
+                if(this.keyboundPetEntry.spawningActive){
+                    if(this.keyboundPetEntry.isRespawning) this.player.sendStatusMessage(new TextComponentTranslation("message.keybound.active.respawning", this.keyboundPetEntry.respawnTime / 20), true);
+                    else this.player.sendStatusMessage(new TextComponentTranslation("message.keybound.active.spawning"), true);
+                }
+                else{
+                    this.player.sendStatusMessage(new TextComponentTranslation("message.keybound.active.nospawning"), true);
+                }
+
+                ExtendedPlayer extendedPlayer = ExtendedPlayer.getForPlayer(this.player);
+                extendedPlayer.sendPetEntryToServer(this.keyboundPetEntry);
+            }
+            else {
+                this.player.sendStatusMessage(new TextComponentTranslation("message.keybound.active.none"), true);
+            }
+        }
+    }
+
+    @Override
+    public UUID getKeyboundPetID() {
+        if(this.keyboundPetEntry != null) return this.keyboundPetEntry.petEntryID;
+        return null;
+    }
+
 
     @Override
     public byte getSoulgazerAutoToggle() {

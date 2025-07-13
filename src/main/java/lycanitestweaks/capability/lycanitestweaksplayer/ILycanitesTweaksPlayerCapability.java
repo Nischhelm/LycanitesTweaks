@@ -1,6 +1,9 @@
 package lycanitestweaks.capability.lycanitestweaksplayer;
 
+import com.lycanitesmobs.core.pets.PetEntry;
 import net.minecraft.entity.player.EntityPlayer;
+
+import java.util.UUID;
 
 public interface ILycanitesTweaksPlayerCapability {
 
@@ -8,6 +11,10 @@ public interface ILycanitesTweaksPlayerCapability {
     void setPlayer(EntityPlayer player);
 
     void sync();
+
+    void setKeyboundPet(PetEntry petEntry);
+    void setKeyboundPetSpawning();
+    UUID getKeyboundPetID();
 
     byte getSoulgazerAutoToggle();
     void setSoulgazerAutoToggle(byte id);

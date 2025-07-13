@@ -49,10 +49,10 @@ public class ClientEventListener {
 
         if(ForgeConfigHandler.integrationConfig.soulgazerBauble){
             if (item instanceof ItemSoulgazer) {
-                ILycanitesTweaksPlayerCapability playerKeybinds = LycanitesTweaksPlayerCapability.getForPlayer(event.getEntityPlayer());
-                if (playerKeybinds != null) {
-                    int autoID = playerKeybinds.getSoulgazerAutoToggle();
-                    int manualID = playerKeybinds.getSoulgazerManualToggle() ? 1 : 2;
+                ILycanitesTweaksPlayerCapability ltp = LycanitesTweaksPlayerCapability.getForPlayer(event.getEntityPlayer());
+                if (ltp != null) {
+                    int autoID = ltp.getSoulgazerAutoToggle();
+                    int manualID = ltp.getSoulgazerManualToggle() ? 1 : 2;
                     event.getToolTip().add(I18n.format("item.soulgazer.description.keybind.auto." + autoID));
                     event.getToolTip().add(I18n.format("item.soulgazer.description.keybind.manual." + manualID));
                 }

@@ -4,6 +4,7 @@ import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.entity.item.EntityBossSummonCrystal;
 import lycanitestweaks.entity.item.EntityEncounterSummonCrystal;
 import lycanitestweaks.item.ItemEnchantedSoulkey;
+import lycanitestweaks.loot.AddCountFromMobLevels;
 import lycanitestweaks.loot.EnchantWithMobLevels;
 import lycanitestweaks.loot.HasMobLevels;
 import lycanitestweaks.loot.IsVariant;
@@ -41,6 +42,7 @@ public class LycanitesTweaksRegistry {
         public static void init() {
                 LootConditionManager.registerCondition(new HasMobLevels.Serializer());
                 LootConditionManager.registerCondition(new IsVariant.Serializer());
+                LootFunctionManager.registerFunction(new AddCountFromMobLevels.Serializer());
                 LootFunctionManager.registerFunction(new EnchantWithMobLevels.Serializer());
                 LootFunctionManager.registerFunction(new ScaleWithMobLevels.Serializer());
 

@@ -23,10 +23,16 @@ import org.lwjgl.input.Keyboard;
 public class KeyHandler {
 
 	public static KeyBinding MOUNT_CHANGE_VIEW = new KeyBinding("key.mount_change_view.lycanitestweaks",
-														 KeyConflictContext.IN_GAME,
-														 KeyModifier.SHIFT,
-														 Keyboard.KEY_F5,
-                "key.categories.misc.lycanitestweaks");
+			 KeyConflictContext.IN_GAME,
+			 KeyModifier.SHIFT,
+			 Keyboard.KEY_F5,
+			"key.categories.misc.lycanitestweaks");
+
+	public static KeyBinding SET_FAVORITE_PET = new KeyBinding("key.set_favorite_pet.lycanitestweaks",
+			KeyConflictContext.IN_GAME,
+			KeyModifier.SHIFT,
+			Keyboard.KEY_B,
+			"key.categories.misc.lycanitestweaks");
 
 	public static KeyBinding TOGGLE_SOULGAZER_AUTO = new KeyBinding("key.toggle_soulgazer_auto.lycanitestweaks",
 			KeyConflictContext.IN_GAME,
@@ -42,6 +48,7 @@ public class KeyHandler {
 
 	public static void init() {
 		ClientRegistry.registerKeyBinding(MOUNT_CHANGE_VIEW);
+		ClientRegistry.registerKeyBinding(SET_FAVORITE_PET);
 		if(ForgeConfigHandler.integrationConfig.soulgazerBauble) {
 			ClientRegistry.registerKeyBinding(TOGGLE_SOULGAZER_AUTO);
 			ClientRegistry.registerKeyBinding(TOGGLE_SOULGAZER_MANUAL);
@@ -81,17 +88,17 @@ public class KeyHandler {
 					else currentView++;
 					LycanitesTweaks.PROXY.setMount3rdPersonView(currentView);
 				}
+				if(KeyHandler.SET_FAVORITE_PET.isPressed()){
+					ILycanitesTweaksPlayerCapability lpt = LycanitesTweaksPlayerCapability.getForPlayer(player);
+					if(lpt != null) lpt.setKeyboundPetSpawning();
+				}
 				if(KeyHandler.TOGGLE_SOULGAZER_AUTO.isPressed()) {
-					ILycanitesTweaksPlayerCapability playerKeybinds = LycanitesTweaksPlayerCapability.getForPlayer(player);
-					if (playerKeybinds != null) {
-						PacketHandler.instance.sendToServer(new PacketKeybindSoulgazerAutoNext());
-					}
+					ILycanitesTweaksPlayerCapability ltp = LycanitesTweaksPlayerCapability.getForPlayer(player);
+					if (ltp != null) PacketHandler.instance.sendToServer(new PacketKeybindSoulgazerAutoNext());
 				}
 				if(KeyHandler.TOGGLE_SOULGAZER_MANUAL.isPressed()) {
-					ILycanitesTweaksPlayerCapability playerKeybinds = LycanitesTweaksPlayerCapability.getForPlayer(player);
-					if (playerKeybinds != null) {
-						PacketHandler.instance.sendToServer(new PacketKeybindSoulgazerManualNext());
-					}
+					ILycanitesTweaksPlayerCapability ltp = LycanitesTweaksPlayerCapability.getForPlayer(player);
+					if (ltp != null) PacketHandler.instance.sendToServer(new PacketKeybindSoulgazerManualNext());
 				}
 			}
 		}
