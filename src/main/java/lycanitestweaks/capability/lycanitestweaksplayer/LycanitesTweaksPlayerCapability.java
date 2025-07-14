@@ -81,14 +81,51 @@ public class LycanitesTweaksPlayerCapability implements ILycanitesTweaksPlayerCa
             if(this.keyboundPetEntry != null) {
                 this.keyboundPetEntry.setSpawningActive(!this.keyboundPetEntry.spawningActive);
 
-                if(this.keyboundPetEntry.spawningActive){
-                    if(this.keyboundPetEntry.isRespawning) this.player.sendStatusMessage(new TextComponentTranslation("message.keybound.active.respawning", this.keyboundPetEntry.respawnTime / 20), true);
-                    else this.player.sendStatusMessage(new TextComponentTranslation("message.keybound.active.spawning"), true);
+                if(this.keyboundPetEntry.isRespawning) {
+                    this.player.sendStatusMessage(new TextComponentTranslation(
+                                    "message.keybound.active.respawning",
+                                    this.keyboundPetEntry.respawnTime / 20),
+                            true);
                 }
-                else{
-                    this.player.sendStatusMessage(new TextComponentTranslation("message.keybound.active.nospawning"), true);
+                else {
+                    if (this.keyboundPetEntry.spawningActive) {
+                        if(this.keyboundPetEntry.entity == null || !this.keyboundPetEntry.entity.isEntityAlive()) {
+                            this.player.sendStatusMessage(new TextComponentTranslation(
+                                    "message.keybound.active.cooldown"),
+                                    true);
+                        }
+                        else {
+                            this.player.sendStatusMessage(new TextComponentTranslation(
+                                    "message.keybound.active.spawning"),
+                                    true);
+                        }
+                    }
+                    else {
+                        this.player.sendStatusMessage(new TextComponentTranslation(
+                                "message.keybound.active.nospawning"),
+                                true);
+                    }
                 }
 
+                ExtendedPlayer extendedPlayer = ExtendedPlayer.getForPlayer(this.player);
+                extendedPlayer.sendPetEntryToServer(this.keyboundPetEntry);
+            }
+            else {
+                this.player.sendStatusMessage(new TextComponentTranslation("message.keybound.active.none"), true);
+            }
+        }
+    }
+
+    @Override
+    public void setKeyboundPetTeleport() {
+        if(this.player.getEntityWorld().isRemote) {
+            if(this.keyboundPetEntry != null) {
+                if(this.keyboundPetEntry.entity == null || !this.keyboundPetEntry.entity.isEntityAlive()) {
+                    this.player.sendStatusMessage(new TextComponentTranslation(
+                            "message.keybound.teleport.none"),
+                            true);
+                }
+                this.keyboundPetEntry.teleportEntity = true;
                 ExtendedPlayer extendedPlayer = ExtendedPlayer.getForPlayer(this.player);
                 extendedPlayer.sendPetEntryToServer(this.keyboundPetEntry);
             }

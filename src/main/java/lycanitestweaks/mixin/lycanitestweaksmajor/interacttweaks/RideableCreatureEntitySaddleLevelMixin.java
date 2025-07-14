@@ -3,8 +3,8 @@ package lycanitestweaks.mixin.lycanitestweaksmajor.interacttweaks;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.lycanitesmobs.core.entity.AgeableCreatureEntity;
 import com.lycanitesmobs.core.entity.RideableCreatureEntity;
+import com.lycanitesmobs.core.entity.TameableCreatureEntity;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.util.Helpers;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,10 +13,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(RideableCreatureEntity.class)
-public abstract class RideableCreatureEntitySaddleLevelMixin extends AgeableCreatureEntity {
+public abstract class RideableCreatureEntitySaddleLevelMixin extends TameableCreatureEntity {
+
+    @Unique
+    private boolean lycanitesTweaks$hasVanillaSaddle = false;
 
     public RideableCreatureEntitySaddleLevelMixin(World world) {
         super(world);
@@ -27,10 +31,14 @@ public abstract class RideableCreatureEntitySaddleLevelMixin extends AgeableCrea
             at = @At("RETURN"),
             remap = false
     )
-    public boolean lycanitesTweaks_lycanitesMobsRideableCreatureEntity_hasSaddleVanillaLimited(boolean original, @Local ItemStack saddleStack){
-        if(!original){
-            if(!saddleStack.isEmpty() && saddleStack.getItem() == Items.SADDLE) return true;
+    public boolean lycanitesTweaks_lycanitesMobsRideableCreatureEntity_hasSaddleVanillaLimited(boolean original, @Local ItemStack saddleStack) {
+        if (!original) {
+            if (!saddleStack.isEmpty() && saddleStack.getItem() == Items.SADDLE) {
+                lycanitesTweaks$hasVanillaSaddle = true;
+                return true;
+            }
         }
+        lycanitesTweaks$hasVanillaSaddle = false;
         return original;
     }
 
@@ -40,8 +48,8 @@ public abstract class RideableCreatureEntitySaddleLevelMixin extends AgeableCrea
             method = "getInteractCommands",
             at = @At(value = "FIELD", target = "Lnet/minecraft/world/World;isRemote:Z")
     )
-    public boolean lycanitesTweaks_lycanitesMobsRideableCreatureEntity_getInteractCommandsVanillaLimited(boolean original, @Local(argsOnly = true) EntityPlayer player){
-        if(!original) {
+    public boolean lycanitesTweaks_lycanitesMobsRideableCreatureEntity_getInteractCommandsVanillaLimited(boolean original, @Local(argsOnly = true) EntityPlayer player) {
+        if (!original) {
             if (!this.inventory.getEquipmentStack("saddle").isEmpty() &&
                     this.inventory.getEquipmentStack("saddle").getItem() == Items.SADDLE) {
                 if (Helpers.isPracticallyFlying(this) && !ForgeConfigHandler.majorFeaturesConfig.creatureInteractConfig.vanillaSaddleAllowFlying) {
@@ -57,4 +65,12 @@ public abstract class RideableCreatureEntitySaddleLevelMixin extends AgeableCrea
         }
         return original;
     }
+
+    @Unique
+    @Override
+    public float getStamina() {
+        if(lycanitesTweaks$hasVanillaSaddle && !ForgeConfigHandler.majorFeaturesConfig.creatureInteractConfig.vanillaSaddleAllowAbilities) return 0;
+        return super.getStamina();
+    }
+
 }

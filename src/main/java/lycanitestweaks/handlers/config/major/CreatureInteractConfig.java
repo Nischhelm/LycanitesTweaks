@@ -63,6 +63,10 @@ public class CreatureInteractConfig {
     @Config.Name("Mount with Vanilla Saddles - Level Requirement")
     public int vanillaSaddleLevelRequirement = 16;
 
+    @Config.Comment("Creatures with the vanilla saddle can use their abilities")
+    @Config.Name("Mount with Vanilla Saddles - Allow Abilities")
+    public boolean vanillaSaddleAllowAbilities = false;
+
     @Config.Comment("Allow flying creatures use the vanilla saddle")
     @Config.Name("Mount with Vanilla Saddles - Allow Flying")
     public boolean vanillaSaddleAllowFlying = false;

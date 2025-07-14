@@ -28,10 +28,16 @@ public class KeyHandler {
 			 Keyboard.KEY_F5,
 			"key.categories.misc.lycanitestweaks");
 
-	public static KeyBinding SET_FAVORITE_PET = new KeyBinding("key.set_favorite_pet.lycanitestweaks",
+	public static KeyBinding SPAWN_KEYBOUND_PET = new KeyBinding("key.spawn_keybound_pet.lycanitestweaks",
 			KeyConflictContext.IN_GAME,
 			KeyModifier.SHIFT,
 			Keyboard.KEY_B,
+			"key.categories.misc.lycanitestweaks");
+
+	public static KeyBinding TELEPORT_KEYBOUND_PET = new KeyBinding("key.teleport_keybound_pet.lycanitestweaks",
+			KeyConflictContext.IN_GAME,
+			KeyModifier.CONTROL,
+			-99, // Right Mouse
 			"key.categories.misc.lycanitestweaks");
 
 	public static KeyBinding TOGGLE_SOULGAZER_AUTO = new KeyBinding("key.toggle_soulgazer_auto.lycanitestweaks",
@@ -48,7 +54,8 @@ public class KeyHandler {
 
 	public static void init() {
 		ClientRegistry.registerKeyBinding(MOUNT_CHANGE_VIEW);
-		ClientRegistry.registerKeyBinding(SET_FAVORITE_PET);
+		ClientRegistry.registerKeyBinding(SPAWN_KEYBOUND_PET);
+		ClientRegistry.registerKeyBinding(TELEPORT_KEYBOUND_PET);
 		if(ForgeConfigHandler.integrationConfig.soulgazerBauble) {
 			ClientRegistry.registerKeyBinding(TOGGLE_SOULGAZER_AUTO);
 			ClientRegistry.registerKeyBinding(TOGGLE_SOULGAZER_MANUAL);
@@ -88,9 +95,13 @@ public class KeyHandler {
 					else currentView++;
 					LycanitesTweaks.PROXY.setMount3rdPersonView(currentView);
 				}
-				if(KeyHandler.SET_FAVORITE_PET.isPressed()){
+				if(KeyHandler.SPAWN_KEYBOUND_PET.isPressed()){
 					ILycanitesTweaksPlayerCapability lpt = LycanitesTweaksPlayerCapability.getForPlayer(player);
 					if(lpt != null) lpt.setKeyboundPetSpawning();
+				}
+				if(KeyHandler.TELEPORT_KEYBOUND_PET.isPressed()){
+					ILycanitesTweaksPlayerCapability lpt = LycanitesTweaksPlayerCapability.getForPlayer(player);
+					if(lpt != null) lpt.setKeyboundPetTeleport();
 				}
 				if(KeyHandler.TOGGLE_SOULGAZER_AUTO.isPressed()) {
 					ILycanitesTweaksPlayerCapability ltp = LycanitesTweaksPlayerCapability.getForPlayer(player);
