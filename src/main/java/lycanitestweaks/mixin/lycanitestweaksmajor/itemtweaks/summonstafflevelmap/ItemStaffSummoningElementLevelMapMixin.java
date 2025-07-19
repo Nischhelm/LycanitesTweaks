@@ -214,10 +214,12 @@ public abstract class ItemStaffSummoningElementLevelMapMixin extends ItemScepter
                     * (this.lycanitesTweaks$getLevel(itemStack, elementName) - 1) * 0.25F);
     }
 
+    @Unique
     public boolean lycanitesTweaks$isLevelingChargeItem(ItemStack itemStack){
         return itemStack.getItem() instanceof ChargeItem;
     }
 
+    @Unique
     public int lycanitesTweaks$getExperienceFromChargeItem(ItemStack itemStack){
         return (this.lycanitesTweaks$isLevelingChargeItem(itemStack)) ? ChargeItem.CHARGE_EXPERIENCE : 0;
     }

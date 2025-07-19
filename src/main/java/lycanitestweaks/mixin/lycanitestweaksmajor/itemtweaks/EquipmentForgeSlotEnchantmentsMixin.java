@@ -16,7 +16,6 @@ public abstract class EquipmentForgeSlotEnchantmentsMixin {
             at = @At(value = "RETURN", ordinal = 2)
     )
     public boolean lycanitesTweaks_lycanitesMobsEquipmentForgeSlot_isItemValid(boolean isCompleteEquipment, @Local(argsOnly = true) ItemStack itemStack){
-        return isCompleteEquipment &&
-                !(itemStack.isItemEnchanted() && ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.craftedEquipEnchDisassembleLock);
+        return isCompleteEquipment && (!itemStack.isItemEnchanted() || !ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.craftedEquipEnchPreventsDisassemble);
     }
 }

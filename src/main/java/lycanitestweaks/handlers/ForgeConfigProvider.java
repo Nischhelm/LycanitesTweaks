@@ -161,9 +161,9 @@ public class ForgeConfigProvider {
 
     public static Set<Enchantment> getEquipmentEnchantmentBlacklist() {
         if(ForgeConfigProvider.craftedEquipmentEnchantsBlacklist.isEmpty()
-                && ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.blacklistedCraftedEquipmentEnchants.length > 0)
+                && ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.blacklistedEquipmentEnchants.length > 0)
             ForgeConfigProvider.craftedEquipmentEnchantsBlacklist.addAll(Arrays
-                    .stream(ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.blacklistedCraftedEquipmentEnchants)
+                    .stream(ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.blacklistedEquipmentEnchants)
                     .map(ResourceLocation::new)
                     .map(ForgeRegistries.ENCHANTMENTS::getValue)
                     .collect(Collectors.toSet())

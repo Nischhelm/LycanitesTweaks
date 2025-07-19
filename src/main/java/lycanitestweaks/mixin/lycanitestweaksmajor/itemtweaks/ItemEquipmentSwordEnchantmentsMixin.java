@@ -45,7 +45,7 @@ public abstract class ItemEquipmentSwordEnchantmentsMixin extends ItemBase {
         }
         else {
             if(itemStack.isItemEnchanted()){
-                if(ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.craftedEquipEnchDisassembleLock) tooltip.add(I18n.format("item.equipment.description.mixin.enchlock"));
+                if(ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.craftedEquipEnchPreventsDisassemble) tooltip.add(I18n.format("item.equipment.description.mixin.enchlock"));
                 else tooltip.add(I18n.format("item.equipment.description.mixin.enchremove"));
             }
             else tooltip.add(I18n.format("item.equipment.description.mixin.enchantable"));

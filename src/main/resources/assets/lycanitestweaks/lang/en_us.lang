@@ -102,9 +102,9 @@ gui.jei.equipmentpart.pike.description=Pike Slot Parts are one type of part that
 gui.jei.equipmentpart.jewel.description=Jewel Slot Parts are one type of part that makes an equipment complete. It must be connected to a compatible Head slot part.
 
 item.equipment.description.mixin.enchantable=§dEnchantable§r
-item.equipment.description.mixin.enchlock=§rEnchanted, §ccan not§r disassemble
+item.equipment.description.mixin.enchlock=§rEnchanted, can §cnot§r disassemble
 item.equipment.description.mixin.enchremove=§rDisassembling §cclears§r enchantments
-item.equipment.description.mixin.enchrequirement=§rAll parts must be level §a%s§r in order to be enchantable
+item.equipment.description.mixin.enchrequirement=§rMinimum part levels to enchant: §a%s§r
 item.summoningstaff.description.mixin=§rThe §5§lEquipment Infuser§r can infuse a §lcharge§r to this staff and allow leveling §lassociated elements§r.
 item.summoningstaff.description.mixin.chargeitem=§r(§lCharge§r: §d%s§r)
 item.summoningstaff.description.mixin.element=§r[§lElement§r: §b%s§r]

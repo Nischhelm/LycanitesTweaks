@@ -77,9 +77,11 @@ public class CreatureInteractConfig {
     @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurelimitedvanillasaddle.json")
     public boolean mountVanillaSaddleLimited = true;
 
-    @Config.Comment("In order to use a vanilla saddle, the mount must be at least this level")
+    @Config.Comment("In order to use a vanilla saddle, the mount must be at least this level\n" +
+            "10 - About half a stack of charges, current default with restricted mount ability.\n" +
+            "16 - About a stack and a half of charges, previously used default.")
     @Config.Name("Mount with Vanilla Saddles - Level Requirement")
-    public int vanillaSaddleLevelRequirement = 16;
+    public int vanillaSaddleLevelRequirement = 10;
 
     @Config.Comment("Creatures with the vanilla saddle can use their abilities")
     @Config.Name("Mount with Vanilla Saddles - Allow Abilities")
