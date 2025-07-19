@@ -3,7 +3,8 @@ package lycanitestweaks.capability.lycanitestweaksplayer;
 import com.lycanitesmobs.core.entity.ExtendedPlayer;
 import com.lycanitesmobs.core.pets.PetEntry;
 import lycanitestweaks.network.PacketHandler;
-import lycanitestweaks.network.PacketKeybindsSync;
+import lycanitestweaks.network.PacketKeybindsKeyboundPetEntry;
+import lycanitestweaks.network.PacketKeybindsSoulgazerToggle;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -15,6 +16,7 @@ import java.util.UUID;
 public class LycanitesTweaksPlayerCapability implements ILycanitesTweaksPlayerCapability {
 
     // This kinda really only exists for keybind handling
+    public boolean needsFullSync = true;
 
     private EntityPlayer player;
     private SOULGAZER_AUTO_ID soulgazerAuto = SOULGAZER_AUTO_ID.NONE;
@@ -60,25 +62,36 @@ public class LycanitesTweaksPlayerCapability implements ILycanitesTweaksPlayerCa
     }
 
     @Override
-    public void sync() {
-        if(!this.player.world.isRemote) {
-            PacketKeybindsSync packet = new PacketKeybindsSync(this);
-            EntityPlayerMP playerMP = (EntityPlayerMP) this.player;
-            PacketHandler.instance.sendTo(packet, playerMP);
+    public void updateTick() {
+        // Initial Network Sync:
+        if(!this.player.getEntityWorld().isRemote && this.needsFullSync) {
+            this.syncKeyboundPet();
+            this.syncSoulgazerToggle();
+
+            this.needsFullSync = false;
         }
+    }
+
+    @Override
+    public void sync() {
+        this.syncKeyboundPet();
+        this.syncSoulgazerToggle();
     }
 
     // Used only by client using Vanilla Lycanites packets
     @Override
     public void setKeyboundPet(PetEntry petEntry) {
-        if(this.player.getEntityWorld().isRemote) this.keyboundPetEntry = petEntry;
+        this.keyboundPetEntry = petEntry;
+        this.sync();
     }
 
     // Used only by client using Vanilla Lycanites packets
     @Override
     public void setKeyboundPetSpawning() {
         if(this.player.getEntityWorld().isRemote) {
-            if(this.keyboundPetEntry != null) {
+            if(this.keyboundPetEntry != null && this.keyboundPetEntry.active) {
+                if(this.player.isRiding() && this.player.getRidingEntity() == this.keyboundPetEntry.entity) return;
+
                 this.keyboundPetEntry.setSpawningActive(!this.keyboundPetEntry.spawningActive);
 
                 if(this.keyboundPetEntry.isRespawning) {
@@ -89,16 +102,9 @@ public class LycanitesTweaksPlayerCapability implements ILycanitesTweaksPlayerCa
                 }
                 else {
                     if (this.keyboundPetEntry.spawningActive) {
-                        if(this.keyboundPetEntry.entity == null || !this.keyboundPetEntry.entity.isEntityAlive()) {
-                            this.player.sendStatusMessage(new TextComponentTranslation(
-                                    "message.keybound.active.cooldown"),
-                                    true);
-                        }
-                        else {
-                            this.player.sendStatusMessage(new TextComponentTranslation(
-                                    "message.keybound.active.spawning"),
-                                    true);
-                        }
+                        this.player.sendStatusMessage(new TextComponentTranslation(
+                                "message.keybound.active.spawning"),
+                                true);
                     }
                     else {
                         this.player.sendStatusMessage(new TextComponentTranslation(
@@ -178,6 +184,28 @@ public class LycanitesTweaksPlayerCapability implements ILycanitesTweaksPlayerCa
             int manualID = this.getSoulgazerManualToggle() ? 1 : 2;
             this.player.sendStatusMessage(new TextComponentTranslation("item.soulgazer.description.keybind.manual." + manualID), true);
             this.sync();
+        }
+    }
+
+    private void syncKeyboundPet(){
+        PacketKeybindsKeyboundPetEntry keyboundPetEntry = new PacketKeybindsKeyboundPetEntry(this);
+        if(this.player.getEntityWorld().isRemote) {
+            PacketHandler.instance.sendToServer(keyboundPetEntry);
+        }
+        else {
+            EntityPlayerMP playerMP = (EntityPlayerMP) this.player;
+            PacketHandler.instance.sendTo(keyboundPetEntry, playerMP);
+        }
+    }
+
+    private void syncSoulgazerToggle(){
+        PacketKeybindsSoulgazerToggle soulgazerToggle = new PacketKeybindsSoulgazerToggle(this);
+        if(this.player.getEntityWorld().isRemote) {
+            PacketHandler.instance.sendToServer(soulgazerToggle);
+        }
+        else {
+            EntityPlayerMP playerMP = (EntityPlayerMP) this.player;
+            PacketHandler.instance.sendTo(soulgazerToggle, playerMP);
         }
     }
 }

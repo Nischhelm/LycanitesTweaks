@@ -33,6 +33,7 @@ public class ForgeConfigProvider {
     private static final Set<Enchantment> craftedEquipmentEnchantsBlacklist = new HashSet<>();
     private static final Set<String> transformBossSpawnerNames = new HashSet<>();
     private static final Map<String, Integer> effectsApplyScaleLevelLimited = new HashMap<>();
+    private static final Map<String, Integer> elementsApplyScaleLevelLimitedBuffs = new HashMap<>();
     private static final Map<String, Integer> elementsApplyScaleLevelLimitedDebuffs = new HashMap<>();
     private static final Set<ResourceLocation> cleansedCureEffects = new HashSet<>();
     private static final Set<ResourceLocation> immunizationCureEffects = new HashSet<>();
@@ -90,6 +91,7 @@ public class ForgeConfigProvider {
         ForgeConfigProvider.craftedEquipmentEnchantsBlacklist.clear();
         ForgeConfigProvider.transformBossSpawnerNames.clear();
         ForgeConfigProvider.effectsApplyScaleLevelLimited.clear();
+        ForgeConfigProvider.elementsApplyScaleLevelLimitedBuffs.clear();
         ForgeConfigProvider.elementsApplyScaleLevelLimitedDebuffs.clear();
         ForgeConfigProvider.cleansedCureEffects.clear();
         ForgeConfigProvider.immunizationCureEffects.clear();
@@ -196,6 +198,25 @@ public class ForgeConfigProvider {
                             }
                     )));
         return ForgeConfigProvider.effectsApplyScaleLevelLimited;
+    }
+
+    public static Map<String, Integer> getLevelLimitedElementBuffs(){
+        if(ForgeConfigProvider.elementsApplyScaleLevelLimitedBuffs.isEmpty())
+            ForgeConfigProvider.elementsApplyScaleLevelLimitedBuffs.putAll(Arrays
+                    .stream(ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.elementsLevelLimitedBuffs)
+                    .map(s -> s.split(","))
+                    .collect(Collectors.toMap(
+                            split -> split[0].trim(), //Key
+                            split -> {                //Value
+                                try {
+                                    return Integer.valueOf(split[1].trim());
+                                } catch (Exception e) {
+                                    LycanitesTweaks.LOGGER.error("Failed to parse {} in elementsLevelLimitedBuffs", split[1].trim());
+                                }
+                                return 0;
+                            }
+                    )));
+        return ForgeConfigProvider.elementsApplyScaleLevelLimitedBuffs;
     }
 
     public static Map<String, Integer> getLevelLimitedElementDebuffs(){

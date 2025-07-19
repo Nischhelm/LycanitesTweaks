@@ -151,11 +151,11 @@ public class AltarInfoWitheringHeights extends AltarInfo implements IAltarNoBoos
             for (int z = 0; z < width; z++) {
                 for (int x = 0; x < width; x++) {
                     if(z == 0 || z == width -  1 || x == 0 || x == width - 1) {
-                        altarsBeastiaryScreen.drawItemStack(new ItemStack(Items.SKULL, 1, 1), drawX + (x * drawOffsetX), drawY - (x * drawOffsetY / 2), (z + x + 1) * drawOffsetZ, scale);
+                        altarsBeastiaryScreen.drawItemStack(new ItemStack(Items.SKULL, 1, 1), drawX + (x * drawOffsetX), drawY - (x * drawOffsetY / 2), (x + 1) * drawOffsetZ, scale);
                         skullCount++;
                     }
                     else {
-                        altarsBeastiaryScreen.drawItemStack(new ItemStack(bodyBlock), drawX + (x * drawOffsetX), drawY - (x * drawOffsetY / 2), (z + x + 1) * drawOffsetZ, scale);
+                        altarsBeastiaryScreen.drawItemStack(new ItemStack(bodyBlock), drawX + (x * drawOffsetX), drawY - (x * drawOffsetY / 2), (x + 1) * drawOffsetZ, scale);
                         bodyCount++;
                     }
                 }

@@ -173,11 +173,11 @@ public abstract class AltarInfoTemplate extends AltarInfo implements IAltarBeast
             for (int xIndex = 0; xIndex < blockPatternStrings[yIndex].length(); xIndex++) {
                 switch (blockPatternStrings[yIndex].charAt(xIndex)) {
                     case '#':
-                        altarsBeastiaryScreen.drawItemStack(new ItemStack(this.bodyBlock), drawX, drawY - (xIndex * drawOffsetY / 2), (xIndex + yIndex) * drawOffsetZ, scale);
+                        altarsBeastiaryScreen.drawItemStack(new ItemStack(this.bodyBlock), drawX, drawY - (xIndex * drawOffsetY / 2), yIndex * drawOffsetZ, scale);
                         bodyCount++;
                         break;
                     case '^':
-                        altarsBeastiaryScreen.drawItemStack(new ItemStack(this.coreBlock), drawX, drawY - (xIndex * drawOffsetY / 2), (xIndex + yIndex) * drawOffsetZ, scale);
+                        altarsBeastiaryScreen.drawItemStack(new ItemStack(this.coreBlock), drawX, drawY - (xIndex * drawOffsetY / 2), yIndex * drawOffsetZ, scale);
                         break;
                 }
                 drawX += drawOffsetX;

@@ -31,13 +31,6 @@ public class ClientEventListener {
                     event.getToolTip().addAll(Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(
                             I18n.format("item.soulgazer.description.pmlsoulgazer"), ItemBase.DESCRIPTION_WIDTH));
                 }
-                if(event.getEntityPlayer().isCreative()){
-                    event.getToolTip().add(I18n.format("item.soulgazer.description.pmlcreative",
-                            pml.getTotalEnchantmentLevels(),
-                            pml.getHighestLevelPetSoulbound()
-                    ));
-                }
-
             }
             else if (item instanceof ItemStaffSummoning) {
                 if(PlayerMobLevelsConfig.getPmlBonusCategories().containsKey(PlayerMobLevelsConfig.BonusCategory.SummonMinion)) {

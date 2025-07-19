@@ -135,11 +135,11 @@ public class AltarsBeastiaryScreen extends BeastiaryScreen {
             for (int xIndex = 0; xIndex < blockPatternStrings[yIndex].length(); xIndex++) {
                 switch (blockPatternStrings[yIndex].charAt(xIndex)) {
                     case '#':
-                        this.drawItemStack(new ItemStack(Blocks.OBSIDIAN), drawX, drawY - (xIndex * drawOffsetY / 2), (xIndex + yIndex) * drawOffsetZ, scale);
+                        this.drawItemStack(new ItemStack(Blocks.OBSIDIAN), drawX, drawY - (xIndex * drawOffsetY / 2), yIndex * drawOffsetZ, scale);
 						bodyCount++;
                         break;
                     case '^':
-                        this.drawItemStack(new ItemStack(Blocks.DIAMOND_BLOCK), drawX, drawY - (xIndex * drawOffsetY / 2), (xIndex + yIndex) * drawOffsetZ, scale);
+                        this.drawItemStack(new ItemStack(Blocks.DIAMOND_BLOCK), drawX, drawY - (xIndex * drawOffsetY / 2), yIndex * drawOffsetZ, scale);
                         break;
                 }
                 drawX += drawOffsetX;
@@ -232,9 +232,9 @@ public class AltarsBeastiaryScreen extends BeastiaryScreen {
 		int yScaled = (int)(y / scale);
 		GlStateManager.pushMatrix();
 		GlStateManager.scale(scale, scale, scale);
-		GlStateManager.translate(0, 0, -512.0F);
-		this.zLevel = 512.0F - z;
-		this.itemRender.zLevel = 512.0F - z;
+		GlStateManager.translate(0, 0, 0); // InF used z = 32F
+		this.zLevel = -z; // InF used 200F
+		this.itemRender.zLevel = -z; // InF used 200F
 		net.minecraft.client.gui.FontRenderer font = null;
 		if (!stack.isEmpty()) font = stack.getItem().getFontRenderer(stack);
 		if (font == null) font = this.getFontRenderer();

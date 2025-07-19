@@ -83,7 +83,10 @@ public class Helpers {
     }
 
     public static boolean hasSoulgazerEquiped(EntityLivingBase target, boolean ignoreHand){
-        if(!ignoreHand && target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer) return true;
+        if(!ignoreHand){
+            if(target.getHeldItemMainhand().getItem() instanceof ItemSoulgazer) return true;
+            if(target.getHeldItemOffhand().getItem() instanceof ItemSoulgazer) return true;
+        }
 
         if(ModLoadedUtil.isBaublesLoaded()) {
             if (target instanceof EntityPlayer) return BaublesHandler.hasSoulgazerBauble((EntityPlayer) target);

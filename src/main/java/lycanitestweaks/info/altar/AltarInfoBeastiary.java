@@ -194,7 +194,7 @@ public class AltarInfoBeastiary extends AltarInfo implements IAltarNoBoost, IAlt
             drawY = startY;
             for (int z = 0; z < width; z++) {
                 for (int x = 0; x < width; x++) {
-                    altarsBeastiaryScreen.drawItemStack(new ItemStack(bodyBlock), drawX + (x * drawOffsetX), drawY - (x * drawOffsetY / 2), (z + x + 1) * drawOffsetZ, scale);
+                    altarsBeastiaryScreen.drawItemStack(new ItemStack(bodyBlock), drawX + (x * drawOffsetX), drawY - (x * drawOffsetY / 2), x * drawOffsetZ, scale);
                     bodyCount++;
                 }
                 drawX -= drawOffsetX;

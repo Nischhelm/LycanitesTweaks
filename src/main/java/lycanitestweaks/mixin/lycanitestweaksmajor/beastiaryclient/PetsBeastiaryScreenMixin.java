@@ -46,8 +46,8 @@ public abstract class PetsBeastiaryScreenMixin extends BeastiaryScreen {
     )
     public void lycanitesTweaks_lycanitesMobsCreaturesBeastiaryScreen_drawForeground(int mouseX, int mouseY, float partialTicks, CallbackInfo ci){
         ILycanitesTweaksPlayerCapability ltp = LycanitesTweaksPlayerCapability.getForPlayer(player);
-        if(this.creaturePreviewEntity == null
-                || ltp == null
+        if(ltp == null
+                || this.playerExt.selectedPet == null
                 || ltp.getKeyboundPetID() == this.playerExt.selectedPet.petEntryID){
             this.lycanitesTweaks$setKeyboundButton.visible = false;
         }

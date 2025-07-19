@@ -53,6 +53,17 @@ public class CreatureStatsConfig {
     @Config.RangeDouble(min = 0)
     public double capPierceRatio = 3.0D;
 
+    @Config.Comment("List of elements whose Buffs will have capped level scaling. In vanilla Lycanites, Wisps are the only mobs who apply buffs.\n" +
+            "Format:[elementName, maxScaleLevel]\n" +
+            "\telementName - Name of the element to limit, must be all lowercase\n" +
+            "\tmaxScaleLevel - Final Level before duration and amplifier stop increasing")
+    @Config.Name("0.b Elements' Buffs Level Limit")
+    public String[] elementsLevelLimitedBuffs = {
+            "arbour, 15",
+            "arcane, 0",
+            "fae, 0"
+    };
+
     @Config.Comment("List of elements whose Debuffs will have capped level scaling.\n" +
             "Format:[elementName, maxScaleLevel]\n" +
             "\telementName - Name of the element to limit, must be all lowercase\n" +

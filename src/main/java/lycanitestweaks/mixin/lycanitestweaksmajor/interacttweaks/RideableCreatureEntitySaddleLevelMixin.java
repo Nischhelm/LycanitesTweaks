@@ -15,6 +15,8 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(RideableCreatureEntity.class)
 public abstract class RideableCreatureEntitySaddleLevelMixin extends TameableCreatureEntity {
@@ -26,24 +28,17 @@ public abstract class RideableCreatureEntitySaddleLevelMixin extends TameableCre
         super(world);
     }
 
-    @ModifyReturnValue(
-            method = "hasSaddle",
-            at = @At("RETURN"),
+    @Inject(
+            method = "moveMountedWithHeading",
+            at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/core/entity/RideableCreatureEntity;mountAbility(Lnet/minecraft/entity/Entity;)V"),
             remap = false
     )
-    public boolean lycanitesTweaks_lycanitesMobsRideableCreatureEntity_hasSaddleVanillaLimited(boolean original, @Local ItemStack saddleStack) {
-        if (!original) {
-            if (!saddleStack.isEmpty() && saddleStack.getItem() == Items.SADDLE) {
-                lycanitesTweaks$hasVanillaSaddle = true;
-                return true;
-            }
-        }
-        lycanitesTweaks$hasVanillaSaddle = false;
-        return original;
+    public void lycanitesTweaks_lycanitesMobsRideableCreatureEntity_moveMountedWithHeadingVanillaLimited(float strafe, float up, float forward, CallbackInfo ci, @Local EntityPlayer player){
+        if(lycanitesTweaks$hasVanillaSaddle && !ForgeConfigHandler.majorFeaturesConfig.creatureInteractConfig.vanillaSaddleAllowAbilities)
+            player.sendStatusMessage(new TextComponentTranslation("message.mount.fail.noability"), true);
     }
 
-    // Doing handling here is ridiculous
-    // Fired twice for some reason, hide it with status message
+    // Fired twice for both hands, hide it with status message
     @ModifyExpressionValue(
             method = "getInteractCommands",
             at = @At(value = "FIELD", target = "Lnet/minecraft/world/World;isRemote:Z")
@@ -63,6 +58,22 @@ public abstract class RideableCreatureEntitySaddleLevelMixin extends TameableCre
                 }
             }
         }
+        return original;
+    }
+
+    @ModifyReturnValue(
+            method = "hasSaddle",
+            at = @At("RETURN"),
+            remap = false
+    )
+    public boolean lycanitesTweaks_lycanitesMobsRideableCreatureEntity_hasSaddleVanillaLimited(boolean original, @Local ItemStack saddleStack) {
+        if (!original) {
+            if (!saddleStack.isEmpty() && saddleStack.getItem() == Items.SADDLE) {
+                lycanitesTweaks$hasVanillaSaddle = true;
+                return true;
+            }
+        }
+        lycanitesTweaks$hasVanillaSaddle = false;
         return original;
     }
 

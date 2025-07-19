@@ -38,7 +38,8 @@ public abstract class ExtendedEntityPickupMixin {
             remap = false
     )
     public void lycanitesTweaks_lycanitesExtendedEntity_baseCreatureDrop(ExtendedEntity instance, Entity message){
-        if(this.pickedUpByEntity instanceof BaseCreatureEntity) ((BaseCreatureEntity) this.pickedUpByEntity).dropPickupEntity();
+        if(this.pickedUpByEntity instanceof BaseCreatureEntity && this.pickedUpByEntity.isEntityAlive())
+            ((BaseCreatureEntity) this.pickedUpByEntity).dropPickupEntity();
         else instance.setPickedUpByEntity(message);
     }
 

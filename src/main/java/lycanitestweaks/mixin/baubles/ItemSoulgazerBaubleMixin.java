@@ -29,4 +29,15 @@ public abstract class ItemSoulgazerBaubleMixin extends ItemBase implements IBaub
         if(repairStack.getItem() == Items.ENDER_PEARL && ForgeConfigHandler.integrationConfig.soulgazerBaubleRepairMaterial) return true;
         return super.getIsRepairable(itemStack, repairStack);
     }
+
+    // Might need to move this elsewhere incase nbt is used elsewhere
+    // Keep nbt when used as recipe input
+    @Override
+    public ItemStack getContainerItem(ItemStack itemStack){
+        ItemStack copyStack = super.getContainerItem(itemStack);
+
+        if(itemStack.hasTagCompound()) copyStack.setTagCompound(itemStack.getTagCompound().copy());
+
+        return copyStack;
+    }
 }

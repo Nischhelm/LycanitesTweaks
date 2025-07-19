@@ -12,7 +12,11 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -76,5 +80,45 @@ public class LycanitesTweaksPlayerCapabilityHandler {
         @Override
         public void readNBT(Capability<LycanitesTweaksPlayerCapability> capability, LycanitesTweaksPlayerCapability instance, EnumFacing side, NBTBase nbt) {
         }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        if (event.phase == TickEvent.Phase.END) {
+            EntityPlayer player = event.player;
+            ILycanitesTweaksPlayerCapability ltp = LycanitesTweaksPlayerCapability.getForPlayer(player);
+            ltp.updateTick();
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerClone(PlayerEvent.Clone event) {
+        ILycanitesTweaksPlayerCapability original = LycanitesTweaksPlayerCapability.getForPlayer(event.getOriginal());
+        ILycanitesTweaksPlayerCapability ltp = LycanitesTweaksPlayerCapability.getForPlayer(event.getEntityPlayer());
+
+        if(original instanceof LycanitesTweaksPlayerCapability && ltp instanceof LycanitesTweaksPlayerCapability) {
+            ((LycanitesTweaksPlayerCapability) ltp).keyboundPetEntry = ((LycanitesTweaksPlayerCapability) original).keyboundPetEntry;
+            ltp.setSoulgazerAutoToggle(original.getSoulgazerAutoToggle());
+            ltp.setSoulgazerManualToggle(original.getSoulgazerManualToggle());
+        }
+    }
+
+    // ==================================================
+    //                    Player Changed Dimension
+    // ==================================================
+    @SubscribeEvent
+    public static void onPlayerChangedDimensionEvent(PlayerChangedDimensionEvent event) {
+        ILycanitesTweaksPlayerCapability ltp = LycanitesTweaksPlayerCapability.getForPlayer(event.player);
+        if(ltp instanceof LycanitesTweaksPlayerCapability) ((LycanitesTweaksPlayerCapability) ltp).needsFullSync = true;
+    }
+
+
+    // ==================================================
+    //                    Player Respawn
+    // ==================================================
+    @SubscribeEvent
+    public static void onPlayerRespawnEvent(PlayerRespawnEvent event) {
+        ILycanitesTweaksPlayerCapability ltp = LycanitesTweaksPlayerCapability.getForPlayer(event.player);
+        if(ltp instanceof LycanitesTweaksPlayerCapability) ((LycanitesTweaksPlayerCapability) ltp).needsFullSync = true;
     }
 }

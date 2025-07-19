@@ -18,7 +18,7 @@ import lycanitestweaks.handlers.features.effect.CripplingEffectsHandler;
 import lycanitestweaks.handlers.features.effect.ItemCuringEffectsHandler;
 import lycanitestweaks.handlers.features.entity.EntityLivingHandler;
 import lycanitestweaks.handlers.features.entity.EntityLootHandler;
-import lycanitestweaks.handlers.features.item.ItemSoulgazerMoreInteractionsHandler;
+import lycanitestweaks.handlers.features.item.ItemSoulgazerTweaksHandler;
 import lycanitestweaks.handlers.features.item.ItemStaffSummingLevelMapHandler;
 import lycanitestweaks.info.altar.AltarInfoBeastiary;
 import lycanitestweaks.info.altar.AltarInfoChargedCreeper;
@@ -56,7 +56,7 @@ public class LycanitesTweaks {
         LycanitesTweaksPlayerCapabilityHandler.registerCapability();
         MinecraftForge.EVENT_BUS.register(LycanitesTweaksPlayerCapabilityHandler.AttachCapabilityHandler.class);
         MinecraftForge.EVENT_BUS.register(LycanitesTweaksPlayerCapabilityHandler.class);
-        MinecraftForge.EVENT_BUS.register(ItemSoulgazerMoreInteractionsHandler.class);
+        MinecraftForge.EVENT_BUS.register(ItemSoulgazerTweaksHandler.class);
 
         if(ForgeConfigHandler.majorFeaturesConfig.escConfig.entityStoreCreatureCapability){
             EntityStoreCreatureCapabilityHandler.registerCapability();

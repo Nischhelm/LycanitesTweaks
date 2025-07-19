@@ -10,6 +10,7 @@ public interface ILycanitesTweaksPlayerCapability {
     EntityPlayer getPlayer();
     void setPlayer(EntityPlayer player);
 
+    void updateTick();
     void sync();
 
     void setKeyboundPet(PetEntry petEntry);

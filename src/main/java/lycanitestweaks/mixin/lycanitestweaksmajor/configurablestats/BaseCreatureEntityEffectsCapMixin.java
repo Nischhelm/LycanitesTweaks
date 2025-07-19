@@ -14,6 +14,26 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 public abstract class BaseCreatureEntityEffectsCapMixin {
 
     @ModifyArgs(
+            method = "applyBuffs",
+            at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/core/info/ElementInfo;buffEntity(Lnet/minecraft/entity/EntityLivingBase;II)V"),
+            remap = false
+    )
+    public void lycanitesTweaks_lycanitesMobsBaseCreatureEntity_applyBuffsLevelLimit(Args args, @Local(argsOnly = true, ordinal = 0)int duration, @Local(argsOnly = true, ordinal = 1) int amplifier, @Local ElementInfo element){
+        if(ForgeConfigProvider.getLevelLimitedElementBuffs().containsKey(element.name)){
+            args.set(1,
+                    Helpers.getEffectDurationLevelLimited(
+                            (BaseCreatureEntity)(Object)this,
+                            duration,
+                            ForgeConfigProvider.getLevelLimitedElementBuffs().get(element.name)));
+            args.set(2,
+                    Helpers.getEffectAmplifierLevelLimited(
+                            (BaseCreatureEntity)(Object)this,
+                            amplifier,
+                            ForgeConfigProvider.getLevelLimitedElementBuffs().get(element.name)));
+        }
+    }
+
+    @ModifyArgs(
             method = "applyDebuffs",
             at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/core/info/ElementInfo;debuffEntity(Lnet/minecraft/entity/EntityLivingBase;II)V"),
             remap = false

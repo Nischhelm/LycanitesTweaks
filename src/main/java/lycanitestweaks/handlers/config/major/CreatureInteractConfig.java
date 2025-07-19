@@ -53,6 +53,24 @@ public class CreatureInteractConfig {
             "sleep"
     };
 
+    @Config.Comment("Allows flying, amphibious, and lava mount movement to have horizontal speed scale to level.\n" +
+            "Normally Lycanites only scales mounted vertical speed and grounded horizontal speed.\n")
+    @Config.Name("Flying Mount Level Boosted Horizontal Speed")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.feature.mountscaleflyspeed.json")
+    public boolean mountFlySpeedScaled = true;
+
+    @Config.Comment("Multiplier on total level scaled speed. Lycanites uses 1.25 for vertical movement.")
+    @Config.Name("Flying Mount Level Boosted Horizontal Speed - Modifier")
+    public float mountFlySpeedScaledModifier = 1.25F;
+
+    @Config.Comment("Maximum blocks per second. Vanilla Lycanites uses 10.\n" +
+            "It is better to set the speed stat cap instead of relying on this.\n" +
+            "Set to 10 to disable this extra check and use Lycanites original handling.")
+    @Config.Name("Flying Mount Level Boosted Horizontal Speed - Maximum")
+    @Config.RangeDouble(min = 0, max = 10)
+    public double mountFlySpeedScaledMaxmimum = 10;
+
     @Config.Comment("Allow mounts to be use vanilla saddles based on levels")
     @Config.Name("Mount with Vanilla Saddles")
     @Config.RequiresMcRestart

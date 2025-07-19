@@ -71,6 +71,28 @@ public class ItemTweaksConfig {
             "srparasites:bleed"
     };
 
+    @Config.Comment("Using the Soulgazer on a tamed pet will provide buffs based on its Elemental properties and Creature stats.\n" +
+            "Not all pets are capable of providing buffs")
+    @Config.Name("Soulgazer Buff From Pet")
+    public boolean soulgazerBuffFromPet = true;
+
+    @Config.Comment("If true, then players must be sneaking in order to obtain the buff")
+    @Config.Name("Soulgazer Buff From Pet - Requires Sneak")
+    public boolean soulgazerBuffFromPetSneak = true;
+
+    @Config.Comment("Cooldown in ticks, shared with the Creature Study Cooldown")
+    @Config.Name("Soulgazer Buff From Pet - Study Cooldown")
+    @Config.RangeInt(min = 0)
+    public int soulgazerBuffStudyCooldown = 200;
+
+    @Config.Comment("Holding a Soulgazer will prevent debuffs based on active Soulbound pets' elemental properties")
+    @Config.Name("Soulgazer Soulbound Debuff Immunities")
+    public boolean soulgazerDebuffImmunity = true;
+
+    @Config.Comment("If true, than only the Keybound Pet is checked instead of all active. Requires 'Modify Beastiary Information' to set a Keybound Pet.")
+    @Config.Name("Soulgazer Soulbound Debuffs Immunities - Keybound Only")
+    public boolean soulgazerDebuffImmunityKeybound = true;
+
     @Config.Comment("Save and use NBT stored Element Level Map to spawn higher level minions")
     @Config.Name("Summon Staff Level Map")
     @Config.RequiresMcRestart
