@@ -36,6 +36,7 @@ public abstract class PetsBeastiaryScreenMixin extends BeastiaryScreen {
     )
     public void lycanitesTweaks_lycanitesMobsPetsBeastiaryScreen_initControls(CallbackInfo ci){
         lycanitesTweaks$setKeyboundButton = new GuiButton(KEYBOUND_BUTTON_ID, this.colRightX * 3, this.colRightY + 20, 80, 20, I18n.format("gui.beastiary.pets.mixin.keybound"));
+        lycanitesTweaks$setKeyboundButton.visible = false;
         this.buttonList.add(lycanitesTweaks$setKeyboundButton);
     }
 
