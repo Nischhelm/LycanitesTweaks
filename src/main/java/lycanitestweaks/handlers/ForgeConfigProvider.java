@@ -32,6 +32,7 @@ public class ForgeConfigProvider {
     // Major
     private static final Set<Enchantment> craftedEquipmentEnchantsBlacklist = new HashSet<>();
     private static final Set<String> transformBossSpawnerNames = new HashSet<>();
+    private static final Set<String> elementsApplyBuffBlacklist = new HashSet<>();
     private static final Map<String, Integer> effectsApplyScaleLevelLimited = new HashMap<>();
     private static final Map<String, Integer> elementsApplyScaleLevelLimitedBuffs = new HashMap<>();
     private static final Map<String, Integer> elementsApplyScaleLevelLimitedDebuffs = new HashMap<>();
@@ -90,6 +91,7 @@ public class ForgeConfigProvider {
         ForgeConfigProvider.elementBeastiaryBlacklist.clear();
         ForgeConfigProvider.craftedEquipmentEnchantsBlacklist.clear();
         ForgeConfigProvider.transformBossSpawnerNames.clear();
+        ForgeConfigProvider.elementsApplyBuffBlacklist.clear();
         ForgeConfigProvider.effectsApplyScaleLevelLimited.clear();
         ForgeConfigProvider.elementsApplyScaleLevelLimitedBuffs.clear();
         ForgeConfigProvider.elementsApplyScaleLevelLimitedDebuffs.clear();
@@ -254,5 +256,13 @@ public class ForgeConfigProvider {
                     .map(ResourceLocation::new)
                     .collect(Collectors.toSet()));
         return ForgeConfigProvider.immunizationCureEffects;
+    }
+
+    public static Set<String> getElementsApplyBuffBlacklist(){
+        if(ForgeConfigProvider.elementsApplyBuffBlacklist.isEmpty())
+            ForgeConfigProvider.elementsApplyBuffBlacklist.addAll(Arrays
+                    .stream(ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.elementsBuffsBlacklist)
+                    .collect(Collectors.toSet()));
+        return ForgeConfigProvider.elementsApplyBuffBlacklist;
     }
 }

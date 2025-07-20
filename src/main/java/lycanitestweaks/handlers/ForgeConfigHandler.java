@@ -1,9 +1,7 @@
 package lycanitestweaks.handlers;
 
-import fermiumbooter.FermiumRegistryAPI;
 import fermiumbooter.annotations.MixinConfig;
 import lycanitestweaks.LycanitesTweaks;
-import lycanitestweaks.compat.ModLoadedUtil;
 import lycanitestweaks.handlers.config.ClientConfig;
 import lycanitestweaks.handlers.config.ClientFeaturesConfig;
 import lycanitestweaks.handlers.config.IntegrationConfig;

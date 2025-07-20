@@ -54,14 +54,29 @@ public class CreatureStatsConfig {
     public double capPierceRatio = 3.0D;
 
     @Config.Comment("List of elements whose Buffs will have capped level scaling. In vanilla Lycanites, Wisps are the only mobs who apply buffs.\n" +
-            "Format:[elementName, maxScaleLevel]\n" +
+            "Soulgazers providing buffs when used on tamed pets check this.\n" +
+            "Format: [elementName, maxScaleLevel]\n" +
             "\telementName - Name of the element to limit, must be all lowercase\n" +
             "\tmaxScaleLevel - Final Level before duration and amplifier stop increasing")
     @Config.Name("0.b Elements' Buffs Level Limit")
     public String[] elementsLevelLimitedBuffs = {
             "arbour, 15",
-            "arcane, 0",
-            "fae, 0"
+            "earth, 15"
+    };
+
+    @Config.Comment("List of elements that are blacklisted from applying their buffs. In vanilla Lycanites, Wisps are the only mobs who apply buffs.\n" +
+            "Soulgazers providing buffs when used on tamed pets check this.\n" +
+            "Buffs that have no functions and textures should be blacklisted.\n" +
+            "Format: [elementName]")
+    @Config.Name("0.b Elements' Buffs - Blacklisted Elements")
+    public String[] elementsBuffsBlacklist = {
+            "frost",
+            "lava",
+            "lightning",
+            "poison",
+            "arcane",
+            "fae",
+            "order"
     };
 
     @Config.Comment("List of elements whose Debuffs will have capped level scaling.\n" +

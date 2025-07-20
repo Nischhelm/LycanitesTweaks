@@ -130,6 +130,9 @@ public class ItemEnchantedSoulkey extends Item {
                 this.getStarPower(itemStack),
                 ForgeConfigHandler.server.enchSoulkeyConfig.maxUsages));
 
+        int usages = (this.variant == 0) ? Math.min(this.getGemPower(itemStack), this.getStarPower(itemStack)) : Math.min(this.getGemPower(itemStack) / 2, this.getStarPower(itemStack));
+        rawStrings.append("\n").append(I18n.format("item.lycanitestweaks.enchantedsoulkey.description.remaining", usages));
+
         List<String> formattedDescriptionList = Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(rawStrings.toString(), ItemBase.DESCRIPTION_WIDTH);
         tooltip.addAll(formattedDescriptionList);
     }
