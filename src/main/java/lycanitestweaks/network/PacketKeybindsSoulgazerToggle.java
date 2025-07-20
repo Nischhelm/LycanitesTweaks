@@ -44,7 +44,7 @@ public class PacketKeybindsSoulgazerToggle implements IMessage {
         }
 
         private static void handle(PacketKeybindsSoulgazerToggle message, MessageContext ctx) {
-            ILycanitesTweaksPlayerCapability ltp = LycanitesTweaksPlayerCapability.getForPlayer(Minecraft.getMinecraft().player);
+            ILycanitesTweaksPlayerCapability ltp = LycanitesTweaksPlayerCapability.getForPlayer(ctx.getServerHandler().player);
             if(ltp != null){
                 ltp.setSoulgazerAutoToggle(message.soulgazerAuto);
                 ltp.setSoulgazerManualToggle(message.soulgazerManual);
