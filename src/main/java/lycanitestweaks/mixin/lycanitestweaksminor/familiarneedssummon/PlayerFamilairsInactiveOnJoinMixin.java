@@ -17,6 +17,6 @@ public abstract class PlayerFamilairsInactiveOnJoinMixin {
             remap = false
     )
     public void lycanitesTweaks_lycanitesPlayerFamiliars_parseFamiliarJSON(String jsonString, CallbackInfo ci, @Local PetEntryFamiliar familiarEntry){
-        familiarEntry.setSpawningActive(false);
+        familiarEntry.spawningActive = false;
     }
 }
