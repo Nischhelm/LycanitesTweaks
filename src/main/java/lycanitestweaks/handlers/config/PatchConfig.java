@@ -29,19 +29,35 @@ public class PatchConfig {
     @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patchescancelclientpotionadd.json")
     public boolean cancelClientPotionAdding = true;
 
-    @Config.Comment("Fix an inconsistency in Rare/Boss entity audio where firing projectile, was 1/2 and 1/4 the volume of other sound effects.\n" +
-            "Volume in these instances affected audible distance instead of actual audio volume.\n" +
-            "For example Rahovart's Hellfire Balls were muted at the edge of his arena while Asmodeus' Chaingun could be heard at further distances.")
+    @Config.Comment("Fix an inconsistency in Rare/Boss entity audio where firing projectile, was 1/2 and 1/4 the range of other sound effects.\n" +
+            "Affects audible distance instead of actual audio volume.\n" +
+            "For example Rahovart's Hellfire Balls were muted at the edge of his arena while Asmodeus' Primary Attack could be heard at further distances.\n" +
+            "Asmodeus' Gatling [projectile.devilgatling] may need audio balancing since it is harsher than the deeper attack sfx and was rarely audible.")
     @Config.Name("Fix Boss Entity Projectile Volume")
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patchesbossprojectilevolume.json")
     public boolean bossProjectileVolume = true;
+
+    @Config.Comment("Enable various unused sound files with obvious intent that can not be fixed with sounds.json\n" +
+            "Ignibus melee/range attack\n" +
+            "Rahovart's hell fire wave launch/activation\n" +
+            "All rapid fire projectiles (Cinder, Serpix, Ignibus)")
+    @Config.Name("Enable Unused Sounds")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patches.soundfixes.json")
+    public boolean enableUnusedSounds = true;
 
     @Config.Comment("Removes the floor/ceiling rounding with Rejuvenation and Decay. Rejuv will not have a minimum healing boost and Decay will not nullify low healing.")
     @Config.Name("Remove Healing Rejuv/Decay Rounding")
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurerejuvdecayroundingbegone.json")
     public boolean removeHealEffectsRounding = true;
+
+    @Config.Comment("Fixes a bug where minions despawn and don't get properly cleared from boss mechanics")
+    @Config.Name("Fix Asmodeus' Hellshield Minions")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patches.asmodeusminions.json")
+    public boolean fixAsmodeusMinions = true;
 
     @Config.Comment("Fix Lycanites Entities spawning their minions in walls. If collision is detected, spawn on top of host instead.")
     @Config.Name("Fix Minions Spawning in Walls")
