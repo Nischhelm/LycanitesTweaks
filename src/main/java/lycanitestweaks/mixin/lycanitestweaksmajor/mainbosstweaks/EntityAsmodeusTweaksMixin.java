@@ -103,15 +103,6 @@ public abstract class EntityAsmodeusTweaksMixin extends BaseCreatureEntity {
         }
     }
 
-    // FermiumMixins
-    @ModifyExpressionValue(
-            method = "onLivingUpdate",
-            at = @At(value = "FIELD", target = "Lnet/minecraft/world/World;isRemote:Z", ordinal = 1)
-    )
-    public boolean lycanitesTweaks_lycanitesMobsEntityAsmodeus_onLivingUpdateSeverCleanMinions(boolean isClient){
-        return !isClient;
-    }
-
     @ModifyExpressionValue(
             method = "updatePhases",
             at = @At(value = "FIELD", target = "Lcom/lycanitesmobs/core/entity/creature/EntityAsmodeus;devilstarStreamTimeMax:I"),

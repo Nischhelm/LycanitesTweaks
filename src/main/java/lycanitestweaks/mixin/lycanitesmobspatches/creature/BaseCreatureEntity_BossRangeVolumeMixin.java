@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(BaseCreatureEntity.class)
-public abstract class BaseCreatureEntityBossRangeVolumeMixin {
+public abstract class BaseCreatureEntity_BossRangeVolumeMixin {
 
     @Shadow
     protected abstract float getSoundVolume();

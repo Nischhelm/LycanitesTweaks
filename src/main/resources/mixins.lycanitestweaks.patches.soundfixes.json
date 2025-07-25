@@ -6,7 +6,9 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "creature.BaseCreatureEntity_BossRangeVolumeMixin"
+    "core.EntityIgnibus_SoundMixin",
+    "core.RapidFireProjectileEntity_SoundMixin",
+    "creature.EntityRahovart_SoundMixin"
   ],
   "injectors": {
     "maxShiftBy": 10
