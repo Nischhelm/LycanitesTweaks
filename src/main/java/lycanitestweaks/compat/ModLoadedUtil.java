@@ -8,6 +8,7 @@ public abstract class ModLoadedUtil {
     public static final String DDD_MODID = "distinctdamagedescriptions";
     public static final String DYNAMICSURROUNDINGS_MODID = "dsurround";
     public static final String ICEANDFIRE_MODID = "iceandfire";
+    public static final String INCONTROL_MODID = "incontrol";
     public static final String POTIONCORE_MODID = "potioncore";
     public static final String REACHFIX_MODID = "reachfix";
     public static final String SWITCHBOW_MODID = "switchbow";

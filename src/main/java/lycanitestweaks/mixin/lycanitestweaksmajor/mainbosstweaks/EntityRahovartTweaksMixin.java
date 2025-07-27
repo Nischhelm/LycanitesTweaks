@@ -130,7 +130,7 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
     public double lycanitesTweaks_lycanitesMobsEntityRahovart_updatePhasesMinionSpawnRange(double range){
         int min = ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.minionSpawnRangeMin;
         int max = ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.minionSpawnRangeMax;
-        if(min > max) return range;
+        if(min >= max) return range;
         return (this.getRNG().nextFloat() * (max - min)) + min;
     }
 

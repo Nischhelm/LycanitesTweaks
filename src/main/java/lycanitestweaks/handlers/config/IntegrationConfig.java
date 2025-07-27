@@ -39,6 +39,17 @@ public class IntegrationConfig {
     @Config.RequiresMcRestart
     public boolean infLightingDragonSpawner = FermiumRegistryAPI.isModPresent(ModLoadedUtil.ICEANDFIRE_MODID);
 
+    @Config.Comment("This allows using some additional actions and rules in InControl specifically for Lycanites Mobs.\n" +
+            "New Actions: \"lycanites_addlevel\", \"lycanites_setlevel\", \"lycanites_setsubspecies\", \"lycanites_setvariant\", \"lycanites_setspawnedasboss\", \"lycanites_setbossdamagelimit\"\n" +
+            "All actions can only be used in spawn.json.\n" +
+            "New Rules: \"lycanites_minlevel\", \"lycanites_maxlevel\", \"lycanites_issubspecies\", \"lycanites_isuncommon\", \"lycanites_israre\", \"lycanites_isspawnedasboss\"\n" +
+            "All rules can be used in any incontrol json.")
+    @Config.Name("In Control Compat - Add Actions and Rules")
+    @MixinConfig.CompatHandling(modid = ModLoadedUtil.INCONTROL_MODID, desired = true, reason = "Requires mod to properly function")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.lycanitestweaks.incontrol.json", defaultValue = false)
+    @Config.RequiresMcRestart
+    public boolean enableInControlCompat = FermiumRegistryAPI.isModPresent(ModLoadedUtil.INCONTROL_MODID);
+
     @Config.Comment("Allows love arrows breeding to apply on Lycanites animals")
     @Config.Name("Love Arrow Fix (Switch-Bow)")
     @Config.RequiresMcRestart
