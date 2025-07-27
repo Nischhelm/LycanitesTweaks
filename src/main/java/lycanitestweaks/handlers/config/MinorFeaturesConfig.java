@@ -56,6 +56,19 @@ public class MinorFeaturesConfig {
     @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurebossdamagelimitdpsrecalc.json")
     public boolean bossDPSLimitRecalc = true;
 
+    @Config.Comment("Allows the visual tracking range for Boss Projectile and Portal Sprites to be modified.\n" +
+            "Rahovart's Hellfire Barriers are affected the most as ones on the other side of the arena did not render at all.")
+    @Config.Name("Boss Projectile Modify Tracking Range")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.features.oldprojectiletracking.json")
+    public boolean bossProjectileTracking = true;
+
+    @Config.Comment("Lycanites uses 40")
+    @Config.Name("Boss Projectile Modify Tracking Range - Value")
+    @Config.RequiresMcRestart
+    @Config.RangeInt(min = 40)
+    public int bossProjectileTrackingRange = 80;
+
     @Config.Comment("When reading familiars from URL, Set Spawning Active to false to not automatically spawn them on login")
     @Config.Name("Familiars Inactive On Join")
     @Config.RequiresMcRestart
@@ -81,6 +94,13 @@ public class MinorFeaturesConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(defaultValue = true, earlyMixin = "mixins.lycanitestweaks.vanillaextinguishmoddedfire.json", lateMixin = "mixins.lycanitestweaks.featurelycanitesfirepassable.json")
     public boolean lycanitesFiresNoBreakCollision = true;
+
+    @Config.Comment("Lycanites grants a +2 Explosion Power to explosions caused by Rare variants, increasing damage by around 3x.\n" +
+            "This will remove said bonus and no longer grant the large damage bonus as it is far above the intended Rare damage boost.")
+    @Config.Name("Remove Projectile Explosion Radius Rare Bonus")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.features.projectileexplosionradius.json")
+    public boolean removeBonusExplosionRadius = true;
 
     @Config.Comment("Adds more parity to Repulsion and Weight, repulsion gains weights benefits. This will make Roas, Spectres and Threshers unable to pull an entity with repulsion, as well as disallowing picking up an entity with Repulsion (Behemophet/Fear)")
     @Config.Name("Repulsion Weight Benefits")

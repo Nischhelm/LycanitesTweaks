@@ -8,6 +8,7 @@ import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.info.projectile.behaviours.ProjectileBehaviorDrainEffect;
 import lycanitestweaks.info.projectile.behaviours.ProjectileBehaviourAdvancedFireProjectiles;
 import lycanitestweaks.info.projectile.behaviours.ProjectileBehaviourTargetedForce;
+import lycanitestweaks.info.projectile.behaviours.ProjectileBehaviourTryToDamageMinion;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,6 +22,8 @@ public abstract class ProjectileBehaviorAdditionalMixin {
     private final static String ADVANCED_FIRE_PROJECTILES = LycanitesTweaks.MODID + ":advancedFireProjectiles";
     @Unique
     private final static String TARGETED_FORCE = LycanitesTweaks.MODID + ":targetedForce";
+    @Unique
+    private final static String TRY_DAMAGE_MINION = LycanitesTweaks.MODID + ":tryToDamageMinion";
 
     @ModifyReturnValue(
             method = "createFromJSON",
@@ -42,6 +45,12 @@ public abstract class ProjectileBehaviorAdditionalMixin {
         }
         if(TARGETED_FORCE.equals((type))){
             ProjectileBehaviour projectileBehaviour = new ProjectileBehaviourTargetedForce();
+            projectileBehaviour.type = type;
+            projectileBehaviour.loadFromJSON(json);
+            return projectileBehaviour;
+        }
+        if(TRY_DAMAGE_MINION.equals(type)){
+            ProjectileBehaviour projectileBehaviour = new ProjectileBehaviourTryToDamageMinion();
             projectileBehaviour.type = type;
             projectileBehaviour.loadFromJSON(json);
             return projectileBehaviour;

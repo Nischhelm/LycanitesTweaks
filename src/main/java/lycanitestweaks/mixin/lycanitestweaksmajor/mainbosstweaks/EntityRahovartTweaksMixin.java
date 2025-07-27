@@ -2,9 +2,11 @@ package lycanitestweaks.mixin.lycanitestweaksmajor.mainbosstweaks;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.lycanitesmobs.client.AssetManager;
 import com.lycanitesmobs.core.block.BlockFireBase;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.entity.creature.EntityRahovart;
+import com.lycanitesmobs.core.entity.projectile.EntityHellfireOrb;
 import com.lycanitesmobs.core.entity.projectile.EntityHellfireWall;
 import lycanitestweaks.entity.goals.ExtendedGoalConditions;
 import lycanitestweaks.entity.goals.actions.abilities.HealPortionWhenNoPlayersGoal;
@@ -18,6 +20,7 @@ import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -47,6 +50,8 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
 
     @Shadow(remap = false)
     public int hellfireEnergy;
+    @Shadow(remap = false)
+    public int hellfireWallTime;
 
     public EntityRahovartTweaksMixin(World world) {
         super(world);
@@ -168,7 +173,7 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
             remap = false
     )
     public void lycanitesTweaks_lycanitesMobsEntityRahovart_updatePhasesSelfEnergyP2(CallbackInfo ci){
-        if (this.updateTick % 20L == 0L && this.hellfireEnergy < 100)
+        if (this.updateTick % 20L == 0L && this.hellfireEnergy < 100 && this.hellfireWallTime <= 0)
             this.hellfireEnergy = Math.min(99, this.hellfireEnergy + ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.hellfireEnergySelfP2);
     }
 
@@ -195,7 +200,8 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
             at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/core/entity/projectile/EntityHellfireBarrier;setDead()V")
     )
     public void lycanitesTweaks_lycanitesMobsEntityRahovart_hellfireWallCleanupRefund(CallbackInfo ci){
-        this.hellfireEnergy += ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.hellfireWallCleanupRefund;
+        if(this.getBattlePhase() != 1)
+            this.hellfireEnergy += ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.hellfireWallCleanupRefund;
     }
 
     @ModifyConstant(
@@ -203,7 +209,8 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
             constant = @Constant(intValue = 100),
             remap = false
     )
-    public int lycanitesTweaks_lycanitesMobsEntityRahovart_onMinionDeathBehemothBarrier(int constant){
+    public int lycanitesTweaks_lycanitesMobsEntityRahovart_onMinionDeathBehemothBarrier(int constant, @Local(argsOnly = true) DamageSource damageSource){
+        if(this.getBattlePhase() == 2 && damageSource.getTrueSource() == this) return 0;
         return ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.hellfireBarrierBehemothDegrade;
     }
 
@@ -212,7 +219,8 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
             constant = @Constant(intValue = 50),
             remap = false
     )
-    public int lycanitesTweaks_lycanitesMobsEntityRahovart_onMinionDeathBelphBarrier(int constant){
+    public int lycanitesTweaks_lycanitesMobsEntityRahovart_onMinionDeathBelphBarrier(int constant, @Local(argsOnly = true) DamageSource damageSource){
+        if(this.getBattlePhase() == 2 && damageSource.getTrueSource() == this) return 0;
         return ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.hellfireBarrierBelphDegrade;
     }
 
@@ -221,7 +229,8 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
             at = @At(value = "INVOKE", target = "Lcom/lycanitesmobs/core/entity/projectile/EntityHellfireBarrier;setDead()V")
     )
     public void lycanitesTweaks_lycanitesMobsEntityRahovart_hellfireBarrierCleanupRefund(CallbackInfo ci){
-        this.hellfireEnergy += ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.hellfireBarrierCleanupRefund;
+        if(this.getBattlePhase() != 2)
+            this.hellfireEnergy += ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.hellfireBarrierCleanupRefund;
     }
 
     // Stop the stupid float above fire and swim in water
@@ -276,6 +285,33 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
         }
     }
 
+    @Unique
+    @Override
+    public void onTryToDamageMinion(EntityLivingBase minion, float damageAmount) {
+        super.onTryToDamageMinion(minion, damageAmount);
+        if(ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.hellfireEnergySacrifice && minion instanceof BaseCreatureEntity) {
+            int energy = lycanitesTweaks$getMinionSacrificeEnergy((BaseCreatureEntity) minion);
+            if(energy >= 0) {
+                this.hellfireEnergy += energy;
+                EntityHellfireOrb hellfireOrb = new EntityHellfireOrb(this.getEntityWorld(), this);
+                hellfireOrb.clientOnly = true;
+                hellfireOrb.movement = true;
+                hellfireOrb.projectileLife = 20 * 10;
+                hellfireOrb.setLocationAndAngles(minion.posX + 0.5D, minion.posY + minion.getEyeHeight(), minion.posZ + 0.5D, 0, 0);
+                hellfireOrb.shoot(0, 1, 0, 0.5F, 4);
+                this.getEntityWorld().spawnEntity(hellfireOrb);
+                minion.playSound(AssetManager.getSound("hellfirewave"), 0.5F, 0.4F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+
+                // Amalgalich Suck
+                DamageSource damageSource = new EntityDamageSource("mob", this);
+                damageSource.setDamageIsAbsolute();
+                damageSource.setDamageBypassesArmor();
+                minion.attackEntityFrom(damageSource, 1000);
+                minion.setDead();
+            }
+        }
+    }
+
     // Attempt to remove strong minions on chunk reload
     @Unique
     @Override
@@ -284,5 +320,14 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
             if(((BaseCreatureEntity) minion).isBoss() || ((BaseCreatureEntity) minion).isRareVariant()) ((BaseCreatureEntity) minion).setTemporary(20);
         }
         super.onMinionUpdate(minion, tick);
+    }
+
+    @Unique
+    private int lycanitesTweaks$getMinionSacrificeEnergy(BaseCreatureEntity creature){
+        if(this.hellfireWallTime > 0) return -1;
+        if(creature.isRareVariant() || creature.isBoss()) return ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.hellfireEnergyRare;
+        else if(creature.creatureInfo.getName().equals("behemoth")) return ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.hellfireEnergyMinionMain;
+        else if(creature.creatureInfo.getName().equals("belph")) return ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.hellfireEnergyMinionMain;
+        else return ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.hellfireEnergyMinionOther;
     }
 }
