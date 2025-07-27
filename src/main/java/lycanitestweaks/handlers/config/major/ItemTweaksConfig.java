@@ -16,11 +16,34 @@ public class ItemTweaksConfig {
     @Config.Comment("Allows Lycanites Equipment to be enchanted.\n" +
             "Allows all WEAPON enchantments except Sweeping Edge.\n" +
             "Allows Efficiency as the only TOOL enchantment.\n" +
-            "BREAKABLE enchantments, such as Unbreaking and Mending, are not allowed.")
+            "Allows Unbreaking as the only BREAKABLE enchantment.\n" +
+            "Optional toggles to enable all TOOL and BREAKABLE are available as those require special handling.")
     @Config.Name("Crafted Equipment Enchantments")
     @Config.RequiresMcRestart
-    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featureequipmentswordenchantments.json")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.feature.equipmentenchantments.json")
     public boolean craftedEquipmentEnchantments = true;
+
+    @Config.Comment("TOOL enchantment general compatibility.\n" +
+            "Changes the multi mine behavior from being a natural block break to a player harvest, this has multiple gameplay effects.\n" +
+            "Allows block drop modifying enchantments to function, such as silk touch and fortune.\n" +
+            "The durability cost goes from one per many to one per block.")
+    @Config.Name("Crafted Equipment Multi-Mine TOOL Enchantments Compatibility")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.feature.equipmentharvestblocks.json")
+    public boolean harvestFeaturePlayerHarvest = true;
+
+    @Config.Comment("Allows Lycanites Equipment to be enchanted with TOOL enchantments")
+    @Config.Name("Crafted Equipment Enchantments - Allow TOOL Enchantments")
+    public boolean craftedEquipEnchDigger = true;
+
+    @Config.Comment("Mending enchantment general compatibility for repairing Equipment Sharpness.\n" +
+            "Allows Lycanites Equipment to be enchanted with all BREAKABLE enchantments\n" +
+            "Changes the Item properties to become a breakable item instead of an unbreakable one.\n" +
+            "Should be safe from fully breaking and automatically works for modded Mending (ex So Many Enchantments).")
+    @Config.Name("Crafted Equipment Mending Compatibility")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.feature.equipmentmending.json")
+    public boolean mendingForEquipment = true;
 
     @Config.Comment("Minimum level all parts of equipment must be in order to enchant")
     @Config.Name("Crafted Equipment Enchantments - Minimum Part Level")
@@ -38,7 +61,7 @@ public class ItemTweaksConfig {
             "Format: [modid: path]")
     @Config.Name("Crafted Equipment Enchantments Blacklist")
     public String[] blacklistedEquipmentEnchants = {
-
+        "minecraft:sweeping"
     };
 
     @Config.Comment("Enable customizable effect list and handling for the cleansed/immunization effect")

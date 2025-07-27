@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(EquipmentForgeSlot.class)
-public abstract class EquipmentForgeSlotEnchantmentsMixin {
+public abstract class EquipmentForgeSlot_EnchantmentsMixin {
 
     @ModifyReturnValue(
             method = "isItemValid",
