@@ -27,6 +27,15 @@ public class CreatureStatsConfig {
     @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurespawnedasbossrareboost.json")
     public boolean spawnedAsBossRareBoost = true;
 
+    @Config.Comment("Lazy option to force dungeon configs to follow the Rare variant stat rebalancing.\n" +
+            "This will IGNORE dungeon configs and logs anytime it does so.\n" +
+            "It is recommended to set \"loadDefault\" to \"true\" or change manually.\n" +
+            "Default Lycanites distributes Bosses between level 10-250. This will result in 10 levels per config dungeonLevel, between 20-50")
+    @Config.Name("Override Dungeon Boss Config Level")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(defaultValue = false, lateMixin = "mixins.lycanitestweaks.feature.overridedungeonbosslevel.json")
+    public boolean overrideDungeonBossLevels = false;
+
     @Config.Comment("Dependency for usings caps on bonus stats per level. Does not affect variant/NBT bonuses.")
     @Config.Name("0. Cap Specific Stats")
     @Config.RequiresMcRestart

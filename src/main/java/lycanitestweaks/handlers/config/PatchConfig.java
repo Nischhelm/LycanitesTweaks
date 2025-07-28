@@ -12,6 +12,17 @@ public class PatchConfig {
      *
      */
 
+    @Config.Comment("Lycanites Mobs a few config map errors and therefore always uses a hidden default.\n" +
+            "This will allow the missing configs to generate and be changed.\n" +
+            "\tCreatureConfig -> \"Elemental Fusion Enabled\"\n" +
+            "\tCreatureConfig -> \"Elemental Fusion Mix Bonus\"\n" +
+            "The following are default misspellings that would need to be regenerated or manually corrected.\n" +
+            "\tItemConfig -> \"prismarine_crystals\" (Max Sharpness repair item)")
+    @Config.Name("0. Fix Lycanites Config Errors")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patches.configerrors.json")
+    public boolean fixLycanitesConfigErrors = true;
+
     /*
      * Addressed
      * Block onEntityCollision
