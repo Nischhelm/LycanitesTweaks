@@ -138,10 +138,9 @@ public class EntityLootHandler {
                         new SetCount(nullCond,new RandomValueRange(
                                 ForgeConfigHandler.server.lootConfig.randomChargeScaledCountMinimum,
                                 ForgeConfigHandler.server.lootConfig.randomChargeScaledCountMaximum)),
-                        new ScaleWithMobLevels(nullCond,
+                        new AddCountFromMobLevels(nullCond,
                                 ForgeConfigHandler.server.lootConfig.randomChargeLevelScale,
-                                false,
-                                false,
+                                ForgeConfigHandler.server.lootConfig.randomChargeLevelScale,
                                 ForgeConfigHandler.server.lootConfig.randomChargeDropLimit),
                         // Looting is not level scaled
                         new LootingEnchantBonus(nullCond, new RandomValueRange(0,

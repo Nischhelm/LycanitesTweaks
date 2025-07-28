@@ -20,24 +20,27 @@ public class LootConfig {
     @Config.Comment("Minimum Creature Level for the lycanite mob to drop Random Charges")
     @Config.Name("Random Charge Loot Minimum Mob Level")
     @Config.RequiresMcRestart
-    public int randomChargeMinimumMobLevel = 5;
+    public int randomChargeMinimumMobLevel = 0;
 
     @Config.Comment("How many charges to drop at minimum")
     @Config.Name("Random Charge Loot Minimum Count")
     @Config.RequiresMcRestart
     public int randomChargeScaledCountMinimum = 0;
 
-    @Config.Comment("How many charges to drop at maximum")
+    @Config.Comment("How many charges to drop at maximum before any bonus drops")
     @Config.Name("Random Charge Loot Maximum Count")
     @Config.RequiresMcRestart
     public int randomChargeScaledCountMaximum = 4;
 
-    @Config.Comment("Multiplies the rolled amount of charges (min to max) with moblvl times this scaling factor. Default is 0.1 so the actual min and max are rolled for a lvl 10 lyca mob. A lvl 20 lyca mob will roll twice as much, etc.")
+    @Config.Comment("Level scale to determine the upper bound of bonus drops per mob level, lower bound is always 0.0\n" +
+            "1.0 means the upper bound is 100% the mob's level, up to 10 drops for lvl 10.\n" +
+            "0.5 is 50% the mob's level, so 15 drops for a lvl 30.\n + " +
+            "0.1 is 10% the mob's level, so 5 drops for a lvl 50.")
     @Config.Name("Random Charge Level Scale")
     @Config.RequiresMcRestart
-    public float randomChargeLevelScale = 0.1F;
+    public float randomChargeLevelScale = 0.5F;
 
-    @Config.Comment("Limit the number of items to drop, set to 0 to have no limit")
+    @Config.Comment("Limit the number of total items to drop, calculated after level bonus, set to 0 to have no limit")
     @Config.Name("Random Charge Loot Drop Limit")
     @Config.RequiresMcRestart
     public int randomChargeDropLimit = 1728;
