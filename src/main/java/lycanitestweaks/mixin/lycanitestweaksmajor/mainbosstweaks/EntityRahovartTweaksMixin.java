@@ -99,7 +99,7 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
     )
     public EntityAIBase lycanitesTweaks_lycanitesMobsEntityRahovart_initEntityAIArchville(EntityAIBase task){
         if(ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.royalArchvile)
-            return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true, ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.minionTeleportRange, 0).setMinionInfo("archvile").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(1));
+            return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true, ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.minionTeleportRange, 0).setMinionInfo("archvile").setCustomName("Azazel").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(1));
         return (new SummonLeveledMinionsGoal(this)).setBossMechanic(true, ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.minionTeleportRange, 0).setMinionInfo("archvile").setSummonRate(200).setSummonCap(3).setPerPlayer(true).setSizeScale(2.0D).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(1));
     }
 
@@ -109,7 +109,7 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
     )
     public void lycanitesTweaks_lycanitesMobsEntityRahovart_initEntityAIAdditionalGoals(CallbackInfo ci){
         if(ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.cacodemonSummon)
-            this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setBossMechanic(true, ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.minionTeleportRange, 0).setMinionInfo("cacodemon").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(2)));
+            this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this)).setBossMechanic(true, ForgeConfigHandler.majorFeaturesConfig.rahovartConfig.minionTeleportRange, 0).setMinionInfo("cacodemon").setCustomName("Pain Elemental").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(2)));
     }
 
     @ModifyArg(

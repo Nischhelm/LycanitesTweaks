@@ -7,6 +7,7 @@ import com.lycanitesmobs.core.info.CreatureManager;
 import lycanitestweaks.entity.goals.actions.TeleportToHostGoal;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.text.TextComponentString;
 
 public class SummonLeveledMinionsGoal extends BaseGoal {
     // Properties:
@@ -23,6 +24,7 @@ public class SummonLeveledMinionsGoal extends BaseGoal {
 	protected boolean antiFlight = false;
 	protected boolean setPersistence = false;
 	protected double sizeScale = 1.0F;
+	protected String customName = "";
 
 	/**
 	 * Constructor
@@ -146,6 +148,16 @@ public class SummonLeveledMinionsGoal extends BaseGoal {
 		return this;
 	}
 
+	/**
+	 * Sets the Custom Name of the minions.
+	 * @param customName The Custom Name.
+	 * @return This goal for chaining.
+	 */
+	public SummonLeveledMinionsGoal setCustomName(String customName) {
+		this.customName = customName;
+		return this;
+	}
+
 	@Override
     public boolean shouldExecute() {
 		if(this.host.isPetType("familiar")) {
@@ -194,6 +206,7 @@ public class SummonLeveledMinionsGoal extends BaseGoal {
 		}
 
 		this.host.summonMinion(minion, this.host.getRNG().nextDouble() * 360, this.host.width + 1);
+		if(!this.customName.isEmpty()) minion.setCustomNameTag(this.customName);
 		if(minion instanceof BaseCreatureEntity) {
 			BaseCreatureEntity minionCreature = (BaseCreatureEntity)minion;
 			minionCreature.setAttackTarget(target);
@@ -217,6 +230,7 @@ public class SummonLeveledMinionsGoal extends BaseGoal {
             minionCreature.setVariant(variantIndex);
 
 			minionCreature.applyLevel(host.getLevel()); // refresh stats
+			if(minionCreature.getBossInfo() != null) minionCreature.bossInfo.setName(new TextComponentString(minion.getName()));
         }
 	}
 }

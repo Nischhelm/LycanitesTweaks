@@ -163,7 +163,7 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
         if (ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.crimsonEpion)
             return (new SummonLeveledMinionsGoal(this))
                     .setBossMechanic(true, ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.minionTeleportRange, 0)
-                    .setMinionInfo("epion").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(1));
+                    .setMinionInfo("epion").setCustomName("Crimson Epion").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(1));
         return (new SummonLeveledMinionsGoal(this))
                 .setBossMechanic(true, ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.minionTeleportRange, 0)
                 .setMinionInfo("epion").setSummonRate(100).setSummonCap(3).setPerPlayer(true).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(1));
@@ -195,7 +195,7 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
         if (ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.grueSummon)
             this.tasks.addTask(this.nextIdleGoalIndex, (new SummonLeveledMinionsGoal(this))
                     .setBossMechanic(true, ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.minionTeleportRange, 0)
-                    .setMinionInfo("grue").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(2)));
+                    .setMinionInfo("grue").setCustomName("Night Shade").setSummonRate(600).setSummonCap(1).setVariantIndex(3).setSizeScale(2).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(2)));
 
         if (ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.consumptionAllPhases) {
             this.consumptionGoalP0.setPhase(-1);
