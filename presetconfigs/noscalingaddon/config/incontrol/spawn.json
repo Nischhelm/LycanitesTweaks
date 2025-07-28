@@ -1,0 +1,15 @@
+[
+	{
+		"mod": "lycanitesmobs",
+		"mintime": 13000,
+		"maxtime": 23000,
+		"spawner": false,
+		"seesky": false,
+		"lycanites_addlevel": 5
+	},
+	{
+		"mod": "lycanitesmobs",
+		"spawner": true,
+		"lycanites_addlevel": 5
+	}
+]

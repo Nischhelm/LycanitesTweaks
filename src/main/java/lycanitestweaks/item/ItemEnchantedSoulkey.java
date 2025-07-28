@@ -7,6 +7,7 @@ import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.info.altar.IAltarNoBoost;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -112,6 +113,16 @@ public class ItemEnchantedSoulkey extends Item {
     @Override
     public void addInformation(@Nonnull ItemStack itemStack, World world, @Nonnull List<String> tooltip, @Nonnull ITooltipFlag tooltipFlag) {
         super.addInformation(itemStack, world, tooltip, tooltipFlag);
+        if(ForgeConfigHandler.server.enchSoulkeyConfig.removeTooltip) {
+            String description = I18n.format("item.soulkey.description");
+            FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
+            List<String> formattedDescriptionList = fontRenderer.listFormattedStringToWidth(description, ItemBase.DESCRIPTION_WIDTH);
+            for(Object formattedDescription : formattedDescriptionList) {
+                if(formattedDescription instanceof String)
+                    tooltip.add("§a" + formattedDescription);
+            }
+            return;
+        }
 
         StringBuilder rawStrings = new StringBuilder();
         rawStrings.append(I18n.format("item.lycanitestweaks.enchantedsoulkey.description"));
