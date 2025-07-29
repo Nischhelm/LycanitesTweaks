@@ -1,3 +1,8 @@
+Note for all configs
+Every preset has a large potion of "mod compatibility" not provided.
+This section will auto generate based on if the related mod is installed upon startup.
+These options are mixins and would and require a restart to apply ingame as the config must exist first.
+
 noscalingaddon - Config for an experience without "Player Mob Levels" scaling
 This is meant to be a partial file replacement ready to use with a diff compare. Can be used as a full file replacement.
 Relies on InControl to help allow common mobs to drop charges.
@@ -7,7 +12,7 @@ Relies on InControl to help allow common mobs to drop charges.
 * Disabled additional altars as they were primarily there to populate the Beastiary Tab
 * Disabled "Size Change Foods" and "Soulkeys Set Variant" as no need for min/max without high level threats
 * Disabled "Stat Bonus Receivers - Soulbounded Pets" as no need for min/max without high level threats
-* Disabled "player mob levels bonus" category
+* Disabled "player mob levels bonus", entire system and mixins should be disabled
 * Removed debuff effects limit from "tweak creature stats" category to match vanilla Lycanites
 * Enabled "Override Dungeon Boss Config Level" for laziness and it will log and tell you to set Vanilla Lycanites configs
 

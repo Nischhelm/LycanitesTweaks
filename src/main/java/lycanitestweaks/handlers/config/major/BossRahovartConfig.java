@@ -107,10 +107,10 @@ public class BossRahovartConfig {
     @Config.RangeInt(min = 0, max = 4)
     public int hellfireWallDisplacement = 2;
 
-    @Config.Comment("Specifies Tick Duration of Hellfire Walls (Every 200 lines up with E/W Axis, Lycanites ues 400)")
+    @Config.Comment("Specifies Tick Duration of Hellfire Walls (Every 200 lines up with E/W Axis, Lycanites uses 400)")
     @Config.Name("Hellfire Wall Duration")
     @Config.RangeInt(min = 0)
-    public int hellfireWallTimeMax = 800;
+    public int hellfireWallTimeMax = 400;
 
     @Config.Comment("How much Hellfire energy is refunded upon a p2->p3 transition per active wall")
     @Config.Name("Hellfire Wall Cleanup Refund")

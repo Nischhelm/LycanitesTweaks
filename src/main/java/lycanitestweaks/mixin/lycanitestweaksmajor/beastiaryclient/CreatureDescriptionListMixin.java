@@ -32,7 +32,7 @@ public abstract class CreatureDescriptionListMixin {
             remap = false
     )
     public String lycanitesTweaks_lycanitesMobsCreatureDescriptionList_getContentPML(String original){
-        if(!ForgeConfigHandler.clientFeaturesMixinConfig.beastiaryGUIPML) return original;
+        if(!ForgeConfigHandler.clientFeaturesMixinConfig.beastiaryGUIPML || !ForgeConfigHandler.majorFeaturesConfig.pmlConfig.playerMobLevelCapability) return original;
 
         if(this.parentGui.playerExt.getBeastiary().hasKnowledgeRank(this.creatureKnowledge.creatureName, 2)){
             StringBuilder textBuilder = new StringBuilder();

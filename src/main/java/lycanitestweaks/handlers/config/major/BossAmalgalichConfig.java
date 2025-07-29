@@ -113,17 +113,49 @@ public class BossAmalgalichConfig {
 
     @Config.Comment("Chance that Amalgalich killing an Epion will extinguish Shadow Fire. Player kill is always 100%")
     @Config.Name("Consumption Kill Epion Extinguish Chance")
-    public float consumptionKillEpionChance = 0.8F;
+    @Config.RangeDouble(min = 0, max = 1)
+    public float consumptionKillEpionChance = 0.25F;
 
     @Config.Comment("Custom value for Shadow Fire extinguish width on death (Lycanites uses 10)")
     @Config.Name("Epion Extinguish Width")
     public int customEpionExtinguishWidth = 16;
 
-    @Config.Comment("Replace Lob Darkling with Summon Goal. Lob Darklings are always level 1 and there is no limit to spamming the attack.\n" +
-            "Amalgalich limits the number of Summon Goal Darklings and has them match his level.")
-    @Config.Name("Lob Darklings Replace With Summon Goal")
+    @Config.Comment("Projectile to replace 'lobdarklings' phase 3 auto attack.\n" +
+            "LycanitesTweaks replaces it with a projectile that summons level and variant matching Darklings,\n" +
+            "applies voided + 100% chance to remove one buff on contact,\n" +
+            "and counts as a minion for Consumption kill healing. (JSON configurable!)")
+    @Config.Name("Lob Darklings Replacement Projectile Name")
     @Config.RequiresMcRestart
-    public boolean replaceLobDarkling = true;
+    public String lobDarklingsReplacement = "lichlobdarklings";
+
+    @Config.Comment("Replace Lob Darklings with an attack similar to Asmodeus.\n" +
+            "This style of attack allows fire rate/minion count to be limited instead of level scaled.\n" +
+            "Throwing arc can also be configured instead of being a full 360 degrees.")
+    @Config.Name("Lob Darklings Modified Attack")
+    @Config.RequiresMcRestart
+    public boolean lobDarklingsModify = true;
+
+    @Config.Comment("Lob Darklings throwing tick duration or instant count (Original shoots 3 instantly)")
+    @Config.Name("Lob Darklings Modified Tick Length")
+    @Config.RangeInt(min = 0)
+    public int lobDarklingsTickLength = 3;
+
+    @Config.Comment("One projectile is thrown per this tick rate (Original shoots 3 instantly)\n" +
+            "0 can be set to instantly throw as many projectiles as set Tick Length.")
+    @Config.Name("Lob Darklings Modified Throw Rate")
+    @Config.RangeInt(min = 0)
+    public int lobDarklingsTickRate = 0;
+
+    @Config.Comment("Lob Darklings throwing arc in degrees with a target (Lycanites uses 360)\n" +
+            "With no target, arc is always 360 degrees.")
+    @Config.Name("Lob Darklings Modified Throw Arc")
+    @Config.RangeInt(min = 0, max = 360)
+    public int lobDarklingsArc = 45;
+
+    @Config.Comment("Lob Darklings cooldown ticks (Lycanites uses 200)")
+    @Config.Name("Lob Darklings Modified Cooldown")
+    @Config.RangeInt(min = 0)
+    public int lobDarklingsCooldown = 190;
 
     @Config.Comment("Should Phase 3 Summon a Lunar Grue")
     @Config.Name("Spawns Lunar Grue")

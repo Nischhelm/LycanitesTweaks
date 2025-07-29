@@ -11,7 +11,6 @@ import lycanitestweaks.loot.AddCountFromMobLevels;
 import lycanitestweaks.loot.EnchantWithMobLevels;
 import lycanitestweaks.loot.HasMobLevels;
 import lycanitestweaks.loot.IsVariant;
-import lycanitestweaks.loot.ScaleWithMobLevels;
 import lycanitestweaks.util.Helpers;
 import net.minecraft.init.Items;
 import net.minecraft.world.storage.loot.LootEntry;

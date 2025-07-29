@@ -5,11 +5,13 @@
 		"maxtime": 23000,
 		"spawner": false,
 		"seesky": false,
+		"lycanites_maxlevel": 5,
 		"lycanites_addlevel": 5
 	},
 	{
 		"mod": "lycanitesmobs",
 		"spawner": true,
+		"lycanites_maxlevel": 5,
 		"lycanites_addlevel": 5
 	}
 ]

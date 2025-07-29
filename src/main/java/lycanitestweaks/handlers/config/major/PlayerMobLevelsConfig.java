@@ -27,7 +27,7 @@ public class PlayerMobLevelsConfig {
     @Config.Comment("Enable Capability to calculate a Mob Level associated to a player")
     @Config.Name("0. Player Mob Levels")
     @Config.RequiresMcRestart
-    public boolean playerMobLevelCapability = true;
+    public boolean playerMobLevelCapability = false;
 
     @Config.Comment("The primary opt-out option, allows players to set final total 0-100% modifiers for a single or every creature.\n " +
             "This affects the server-side calculation and removes the client-side Beastiary buttons.")

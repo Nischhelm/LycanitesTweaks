@@ -85,43 +85,47 @@
   },
   "projectile.demonicchaosorb": {
     "category": "ambient",
-    "sounds": [{"name": "lycanitesmobs:projectile/demonicchaosorb", "stream": false}]
+    "sounds": [{"name": "lycanitesmobs:entity/argus/attack", "stream": false}]
   },
   "projectile.demonicchaosorb.impact": {
     "category": "ambient",
-    "sounds": [{"name": "lycanitesmobs:projectile/demonicchaosorb_impact", "stream": false}]
+    "sounds": [{"name": "lycanitesmobs:projectile/chaosorb_impact", "stream": false}]
   },
   "projectile.demonicchaoslaser": {
     "category": "ambient",
-    "sounds": [{"name": "lycanitesmobs:projectile/demonicchaoslaser", "stream": false, "volume": 0.25}]
+    "sounds": [{"name": "lycanitesmobs:projectile/arcanelaser", "stream": false, "volume": 0.25}]
   },
   "projectile.demonicshockspark": {
     "category": "ambient",
-    "sounds": [{"name": "lycanitesmobs:projectile/demonicshockspark", "stream": false}]
+    "sounds": [{"name": "lycanitesmobs:projectile/devilstar", "stream": false}]
+  },
+  "projectile.lichlobdarklings": {
+    "category": "ambient",
+    "sounds": [{"name": "lycanitesmobs:projectile/chaosorb", "stream": false}]
   },
   "projectile.lichshadowfire": {
     "category": "ambient",
-    "sounds": [{"name": "lycanitesmobs:projectile/lichshadowfire", "volume": 0.75, "stream": false}]
+    "sounds": [{"name": "lycanitesmobs:entity/amalgalich/death", "volume": 0.75, "stream": false}]
   },
   "projectile.lichshadowfire.impact": {
     "category": "ambient",
-    "sounds": [{"name": "lycanitesmobs:projectile/lichshadowfire_impact", "volume": 0.75, "stream": false}]
+    "sounds": [{"name": "lycanitesmobs:entity/amalgalich/death", "volume": 0.75, "stream": false}]
   },
   "projectile.lichspectralbolt": {
     "category": "ambient",
-    "sounds": [{"name": "lycanitesmobs:projectile/lichspectralbolt", "stream": false}]
+    "sounds": [{"name": "lycanitesmobs:projectile/spectralbolt", "stream": false}]
   },
   "projectile.sigilhellfireball": {
     "category": "ambient",
-    "sounds": [{"name": "lycanitesmobs:projectile/sigilhellfireball", "stream": false}]
+    "sounds": [{"name": "lycanitesmobs:projectile/hellfireball", "stream": false}]
   },
   "projectile.sigilwraithskull": {
     "category": "ambient",
-    "sounds": [{"name": "lycanitesmobs:projectile/sigilwraithskull", "stream": false}]
+    "sounds": [{"name": "lycanitesmobs:entity/wraith/attack", "stream": false}]
   },
   "projectile.sigilwraithskull.impact": {
     "category": "ambient",
-    "sounds": [{"name": "lycanitesmobs:projectile/sigilwraithskull_impact", "stream": false}]
+    "sounds": [{"name": "lycanitesmobs:entity/wraith/death", "stream": false}]
   },
   "entity.darkling.assimilated.say": {
     "category": "hostile",

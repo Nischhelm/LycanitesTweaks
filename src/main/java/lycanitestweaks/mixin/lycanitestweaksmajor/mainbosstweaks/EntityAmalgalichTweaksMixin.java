@@ -1,6 +1,7 @@
 package lycanitestweaks.mixin.lycanitestweaksmajor.mainbosstweaks;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.lycanitesmobs.core.block.BlockFireBase;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
@@ -18,8 +19,10 @@ import net.minecraft.block.BlockFire;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -50,6 +53,15 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
     private ForceGoal consumptionGoalP0;
     @Shadow(remap = false)
     private ForceGoal consumptionGoalP2;
+
+    @Shadow(remap = false)
+    public abstract void onMinionDeath(EntityLivingBase minion, DamageSource damageSource);
+
+    // Third Phase:
+    @Unique
+    public int lycanitesTweaks$lobDarklingsBurstTime = 0;
+    @Unique
+    public int lycanitesTweaks$lobDarklingsBurstCharge = 0;
 
     public EntityAmalgalichTweaksMixin(World world) {
         super(world);
@@ -169,17 +181,20 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
                 .setMinionInfo("epion").setSummonRate(100).setSummonCap(3).setPerPlayer(true).setConditions((new ExtendedGoalConditions()).setMinimumBattlePhase(1));
     }
 
-    @ModifyArg(
+    @WrapWithCondition(
             method = "initEntityAI",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/EntityAITasks;addTask(ILnet/minecraft/entity/ai/EntityAIBase;)V", ordinal = 14),
-            index = 1
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/EntityAITasks;addTask(ILnet/minecraft/entity/ai/EntityAIBase;)V", ordinal = 14)
     )
-    public EntityAIBase lycanitesTweaks_lycanitesMobsEntityAmalgalich_initEntityAIDarkling(EntityAIBase task) {
-        if (ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.replaceLobDarkling)
-            return (new SummonLeveledMinionsGoal(this))
-                    .setBossMechanic(true, ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.minionTeleportRange, 0)
-                    .setMinionInfo("darkling").setSummonRate(40).setSummonCap(9).setPerPlayer(true).setSizeScale(1.5).setConditions(new ExtendedGoalConditions().setMinimumBattlePhase(2));
-        return task;
+    public boolean lycanitesTweaks_lycanitesMobsEntityAmalgalich_initEntityAILobDarklingsModify(EntityAITasks instance, int idleGoalIndex, EntityAIBase entityAI){
+        return !ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.lobDarklingsModify;
+    }
+
+    @ModifyConstant(
+            method = "initEntityAI",
+            constant = @Constant(stringValue = "lobdarklings")
+    )
+    public String lycanitesTweaks_lycanitesMobsEntityAmalgalich_initEntityAILobDarklingsReplacement(String constant){
+        return ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.lobDarklingsReplacement;
     }
 
     @Inject(
@@ -200,6 +215,40 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
         if (ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.consumptionAllPhases) {
             this.consumptionGoalP0.setPhase(-1);
             this.consumptionGoalP2.setPhase(10);
+        }
+    }
+
+    @Inject(
+            method = "onLivingUpdate",
+            at = @At("RETURN")
+    )
+    public void lycanitesTweaks_lycanitesMobsEntityAmalgalich_onLivingUpdateLobDarklingsModified(CallbackInfo ci){
+        if(!this.getEntityWorld().isRemote) {
+            // ===== Third Phase - Lob Darklings  =====
+            if(this.getBattlePhase() == 2) {
+                // Lob Darklings - Fire:
+                if(this.lycanitesTweaks$lobDarklingsBurstTime > 0) {
+                    this.lycanitesTweaks$lobDarklingsBurstTime--;
+                    if(ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.lobDarklingsTickRate == 0){
+                        for(int i = 0; i < ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.lobDarklingsTickLength; i++){
+                            this.lycanitesTweaks$lobDarklings();
+                        }
+                        lycanitesTweaks$lobDarklingsBurstTime = 0;
+                    }
+                    else if(this.updateTick % ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.lobDarklingsTickRate == 0) {
+                        this.lycanitesTweaks$lobDarklings();
+                    }
+                }
+                // Lob Darklings - Recharge:
+                else if(this.lycanitesTweaks$lobDarklingsBurstCharge > 0) {
+                    this.lycanitesTweaks$lobDarklingsBurstCharge--;
+                }
+                // Lob Darklings - Charged
+                else {
+                    this.lycanitesTweaks$lobDarklingsBurstCharge = ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.lobDarklingsCooldown;
+                    this.lycanitesTweaks$lobDarklingsBurstTime = ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.lobDarklingsTickLength;
+                }
+            }
         }
     }
 
@@ -238,12 +287,34 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
     }
 
     @ModifyConstant(
+            method = "onMinionDeath",
+            constant = @Constant(intValue = 10),
+            remap = false
+    )
+    public int lycanitesTweaks_lycanitesMobsEntityAmalgalich_onMinionDeath(int constant, @Local(argsOnly = true) EntityLivingBase minion, @Local(argsOnly = true) DamageSource damageSource) {
+        if (ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.consumptionKillEpionChance < 1.0F) {
+            if (damageSource.getTrueSource() instanceof EntityAmalgalich && this.getRNG().nextFloat() < ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.consumptionKillEpionChance)
+                return 0;
+        }
+        return ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.customEpionExtinguishWidth;
+    }
+
+    @ModifyConstant(
             method = "onTryToDamageMinion",
             constant = @Constant(floatValue = 1000F),
             remap = false
     )
     public float lycanitesTweaks_lycanitesMobsEntityAmalgalich_onTryToDamageMinionAlways(float damageLimit){
         return 1F;
+    }
+
+    @Inject(
+            method = "onTryToDamageMinion",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityLivingBase;setDead()V", remap = true),
+            remap = false
+    )
+    public void lycanitesTweaks_lycanitesMobsEntityAmalgalich_onTryToDamageMinionEpionDeath(EntityLivingBase minion, float damageAmount, CallbackInfo ci){
+        if(minion.isEntityAlive()) this.onMinionDeath(minion, new EntityDamageSource("mob", this));
     }
 
     @ModifyConstant(
@@ -256,19 +327,6 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
             return (ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.consumptionKillHeal * this.getMaxHealth());
         } else
             return (ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.consumptionKillHeal);
-    }
-
-    @ModifyConstant(
-            method = "onMinionDeath",
-            constant = @Constant(intValue = 10),
-            remap = false
-    )
-    public int lycanitesTweaks_lycanitesMobsEntityAmalgalich_onMinionDeath(int constant, @Local(argsOnly = true) EntityLivingBase minion, @Local(argsOnly = true) DamageSource damageSource) {
-        if (ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.consumptionKillEpionChance < 1.0F) {
-            if (damageSource.getTrueSource() instanceof EntityAmalgalich && this.getRNG().nextFloat() < ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.consumptionKillEpionChance)
-                return 0;
-        }
-        return ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.customEpionExtinguishWidth;
     }
 
     // Stop the stupid float above fire and swim in water
@@ -322,5 +380,24 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
             if(((BaseCreatureEntity) minion).isBoss() || ((BaseCreatureEntity) minion).isRareVariant()) ((BaseCreatureEntity) minion).setTemporary(20);
         }
         super.onMinionUpdate(minion, tick);
+    }
+
+    // ========== Lob Darklings ==========
+    @Unique
+    public void lycanitesTweaks$lobDarklings() {
+        float angle = (this.getAttackTarget() != null)
+                ? (this.world.rand.nextFloat() - 0.5F) * (float)Math.toRadians(ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.lobDarklingsArc)
+                : this.world.rand.nextFloat() * 360F;
+
+        this.fireProjectile(
+                ForgeConfigHandler.majorFeaturesConfig.amalgalichConfig.lobDarklingsReplacement,
+                this.getAttackTarget(),
+                this.world.rand.nextFloat() * 10F,
+                angle,
+                Vec3d.ZERO,
+                0.8F,
+                2F,
+                0F
+        );
     }
 }
