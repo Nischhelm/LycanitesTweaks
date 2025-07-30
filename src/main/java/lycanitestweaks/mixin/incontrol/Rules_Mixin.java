@@ -30,7 +30,9 @@ public abstract class Rules_Mixin {
                 .attribute(Attribute.create(InControlCompat.MIN_LEVEL))
                 .attribute(Attribute.create(InControlCompat.MAX_LEVEL))
                 .attribute(Attribute.create(InControlCompat.IS_SUBSPECIES))
+                .attribute(Attribute.create(InControlCompat.IS_MINION))
                 .attribute(Attribute.create(InControlCompat.IS_UNCOMMON))
-                .attribute(Attribute.create(InControlCompat.IS_RARE));
+                .attribute(Attribute.create(InControlCompat.IS_RARE))
+                .attribute(Attribute.create(InControlCompat.IS_SPAWNEDASBOSS));
     }
 }

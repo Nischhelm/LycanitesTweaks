@@ -5,6 +5,7 @@ import lycanitestweaks.compat.InControlCompat;
 import mcjty.tools.rules.IModRuleCompatibilityLayer;
 import mcjty.tools.rules.RuleBase;
 import mcjty.tools.typed.AttributeMap;
+import net.minecraft.world.storage.loot.RandomValueRange;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -37,20 +38,6 @@ public abstract class RuleBase_Mixin<T extends RuleBase.EventGetter> {
     }
 
     @Unique
-    private void lycanitesTweaks$addAddMobLevelAction(AttributeMap map) {
-        int addLevel = map.get(InControlCompat.ADD_LEVEL);
-        if (addLevel > 0) {
-            actions.add(event -> {
-                if(event.getEntityLiving() instanceof BaseCreatureEntity) {
-                    BaseCreatureEntity creature = ((BaseCreatureEntity) event.getEntityLiving());
-                    creature.onFirstSpawn();
-                    creature.addLevel(addLevel);
-                }
-            });
-        }
-    }
-
-    @Unique
     private void lycanitesTweaks$addSetMobLevelAction(AttributeMap map) {
         int setLevel = map.get(InControlCompat.SET_LEVEL);
         if (setLevel > 0) {
@@ -58,6 +45,28 @@ public abstract class RuleBase_Mixin<T extends RuleBase.EventGetter> {
                 if(event.getEntityLiving() instanceof BaseCreatureEntity) {
                     BaseCreatureEntity creature = ((BaseCreatureEntity) event.getEntityLiving());
                     creature.applyLevel(setLevel);
+                }
+            });
+        }
+    }
+
+    @Unique
+    private void lycanitesTweaks$addAddMobLevelAction(AttributeMap map) {
+        int addLevel = map.get(InControlCompat.ADD_LEVEL);
+        if (addLevel > 0) {
+            actions.add(event -> {
+                if(event.getEntityLiving() instanceof BaseCreatureEntity) {
+                    BaseCreatureEntity creature = ((BaseCreatureEntity) event.getEntityLiving());
+                    creature.onFirstSpawn();
+                    if(map.has(InControlCompat.ADD_LEVEL_RAND_MIN)){
+                        creature.addLevel(
+                                new RandomValueRange(
+                                        map.get(InControlCompat.ADD_LEVEL_RAND_MIN),
+                                        map.get(InControlCompat.ADD_LEVEL))
+                                    .generateInt(creature.getRNG())
+                        );
+                    }
+                    else creature.addLevel(addLevel);
                 }
             });
         }

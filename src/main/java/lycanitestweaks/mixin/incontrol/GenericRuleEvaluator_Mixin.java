@@ -30,6 +30,7 @@ public abstract class GenericRuleEvaluator_Mixin extends CommonRuleEvaluator {
         if (map.has(InControlCompat.MIN_LEVEL)) this.lycanitesTweaks$addMinMobLevelCheck(map);
         if (map.has(InControlCompat.MAX_LEVEL)) this.lycanitesTweaks$addMaxMobLevelCheck(map);
         if (map.has(InControlCompat.IS_SUBSPECIES)) this.lycanitesTweaks$addSubspeciesCheck(map);
+        if (map.has(InControlCompat.IS_MINION)) this.lycanitesTweaks$addminionCheck(map);
         if (map.has(InControlCompat.IS_UNCOMMON)) this.lycanitesTweaks$addUncommonCheck(map);
         if (map.has(InControlCompat.IS_RARE)) this.lycanitesTweaks$addRareCheck(map);
         if (map.has(InControlCompat.IS_SPAWNEDASBOSS)) this.lycanitesTweaks$addSpawnedAsBossCheck(map);
@@ -72,6 +73,16 @@ public abstract class GenericRuleEvaluator_Mixin extends CommonRuleEvaluator {
                 if(creature.firstSpawn) creature.onFirstSpawn();
 
                 return creature.getSubspeciesIndex() == subspecies;
+            }
+            return false;
+        });
+    }
+
+    @Unique
+    private void lycanitesTweaks$addminionCheck(AttributeMap map) {
+        this.checks.add((event, query) -> {
+            if(query.getEntity(event) instanceof BaseCreatureEntity){
+                return ((BaseCreatureEntity) query.getEntity(event)).isMinion();
             }
             return false;
         });

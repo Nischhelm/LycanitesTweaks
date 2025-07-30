@@ -40,10 +40,11 @@ public class IntegrationConfig {
     public boolean infLightingDragonSpawner = FermiumRegistryAPI.isModPresent(ModLoadedUtil.ICEANDFIRE_MODID);
 
     @Config.Comment("This allows using some additional actions and rules in InControl specifically for Lycanites Mobs.\n" +
-            "New Actions: \"lycanites_addlevel\", \"lycanites_setlevel\", \"lycanites_setsubspecies\", \"lycanites_setvariant\", \"lycanites_setspawnedasboss\", \"lycanites_setbossdamagelimit\"\n" +
+            "New Actions: \"lycanites_addlevel\", \"lycanites_addlevelrandmin\", \"lycanites_setlevel\", \"lycanites_setsubspecies\", \"lycanites_setvariant\", \"lycanites_setspawnedasboss\", \"lycanites_setbossdamagelimit\"\n" +
             "All actions can only be used in spawn.json.\n" +
-            "New Rules: \"lycanites_minlevel\", \"lycanites_maxlevel\", \"lycanites_issubspecies\", \"lycanites_isuncommon\", \"lycanites_israre\", \"lycanites_isspawnedasboss\"\n" +
-            "All rules can be used in any incontrol json.")
+            "New Rules: \"lycanites_minlevel\", \"lycanites_maxlevel\", \"lycanites_issubspecies\", \"lycanites_isminion\", \"lycanites_isuncommon\", \"lycanites_israre\", \"lycanites_isspawnedasboss\"\n" +
+            "All rules can be used in any incontrol json.\n" +
+            "Optifine entity constructor caching will cause duplicate actions to fire on the same entity, \"lycanites_addlevel\" is vulnerable if another mod isn't patching Optifine's behavior.")
     @Config.Name("In Control Compat - Add Actions and Rules")
     @MixinConfig.CompatHandling(modid = ModLoadedUtil.INCONTROL_MODID, desired = true, reason = "Requires mod to properly function")
     @MixinConfig.MixinToggle(lateMixin = "mixins.lycanitestweaks.incontrol.json", defaultValue = false)

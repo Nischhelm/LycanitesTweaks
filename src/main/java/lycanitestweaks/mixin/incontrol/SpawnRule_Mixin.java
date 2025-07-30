@@ -18,6 +18,7 @@ public abstract class SpawnRule_Mixin {
     private static GenericAttributeMapFactory lycanitesTweaks_incontrolSpawnRule_addCustomRules(GenericAttributeMapFactory original){
         return original
                 .attribute(Attribute.create(InControlCompat.ADD_LEVEL))
+                .attribute(Attribute.create(InControlCompat.ADD_LEVEL_RAND_MIN))
                 .attribute(Attribute.create(InControlCompat.SET_LEVEL))
                 .attribute(Attribute.create(InControlCompat.SET_SUBSPECIES))
                 .attribute(Attribute.create(InControlCompat.SET_VARIANT))
