@@ -30,7 +30,7 @@ public class LootConfig {
     @Config.Comment("How many charges to drop at maximum before any bonus drops")
     @Config.Name("Random Charge Loot Maximum Count")
     @Config.RequiresMcRestart
-    public int randomChargeScaledCountMaximum = 4;
+    public int randomChargeScaledCountMaximum = 5;
 
     @Config.Comment("Level scale to determine the upper bound of bonus drops per mob level, lower bound is always 0.0\n" +
             "1.0 means the upper bound is 100% the mob's level, up to 10 drops for lvl 10.\n" +
@@ -38,7 +38,7 @@ public class LootConfig {
             "0.1 is 10% the mob's level, so 5 drops for a lvl 50.")
     @Config.Name("Random Charge Level Scale")
     @Config.RequiresMcRestart
-    public float randomChargeLevelScale = 0.5F;
+    public float randomChargeLevelScale = 1F;
 
     @Config.Comment("Limit the number of total items to drop, calculated after level bonus, set to 0 to have no limit")
     @Config.Name("Random Charge Loot Drop Limit")
