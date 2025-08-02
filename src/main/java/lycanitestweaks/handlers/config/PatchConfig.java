@@ -58,6 +58,20 @@ public class PatchConfig {
     @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patches.soundfixes.json")
     public boolean enableUnusedSounds = true;
 
+    @Config.Comment("Prevent bosses from having an avoid target to skip pathfinding and save on performance.\n" +
+            "Stationary bosses should not be pathfinding and their large sizes produces large lag spikes if they try to do so.")
+    @Config.Name("Optimize Stationary Bosses Trying to Pathfind")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patches.bossavoidtarget.json")
+    public boolean stationaryBossNullAvoidTarget = true;
+
+    @Config.Comment("Prevent explosions from affecting invincible large projectiles to save on performance.\n" +
+            "For example two or more Wraiths exploding in Rahovart's flamewalls produced large lag spikes.")
+    @Config.Name("Optimize Explosions On Invincible Projectiles")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patches.bossprojectileexplosionimmunity.json")
+    public boolean stationaryProjectileExplosions = true;
+
     @Config.Comment("Removes the floor/ceiling rounding with Rejuvenation and Decay. Rejuv will not have a minimum healing boost and Decay will not nullify low healing.")
     @Config.Name("Remove Healing Rejuv/Decay Rounding")
     @Config.RequiresMcRestart

@@ -52,7 +52,7 @@ public class BossRahovartConfig {
             "Vanilla Rahovart has cases where minions are not sacrificed and infinitely summons more.")
     @Config.Name("Minion Temporary Duration")
     @Config.RangeInt(min = 0)
-    public int minionTemporaryDuration = 1200;
+    public int minionTemporaryDuration = 6000;
 
     @Config.Comment("Minimum spawn range for only Belphs and Behemoths (Lycanites uses 5)")
     @Config.Name("Minion Spawn Range Minimum")
@@ -88,7 +88,7 @@ public class BossRahovartConfig {
     @Config.Comment("Hellfire energy passively gained per second in Phase 1 (Belph required to fire Wave)")
     @Config.Name("Hellfire Energy Passive Phase 1")
     @Config.RangeInt(min = 0, max = 100)
-    public int hellfireEnergySelfP1 = 0;
+    public int hellfireEnergySelfP1 = 2;
 
     @Config.Comment("How much Hellfire energy is gained from a Behemoth in Phase 2 (Lycanites uses 20 with 0 passive energy)")
     @Config.Name("Hellfire Energy Behemoth")
@@ -98,7 +98,7 @@ public class BossRahovartConfig {
     @Config.Comment("Hellfire energy passively gained per second in Phase 2 (Behemoth required for wall)")
     @Config.Name("Hellfire Energy Passive Phase 2")
     @Config.RangeInt(min = 0, max = 100)
-    public int hellfireEnergySelfP2 = 0;
+    public int hellfireEnergySelfP2 = 3;
 
     @Config.Comment("Specifies Hellfire Walls to clear away from Rahovart,\n " +
             "inner walls snap to outer walls and will always hit original spawn position once.\n " +
@@ -130,14 +130,14 @@ public class BossRahovartConfig {
             "Setting to -1 will not kill the minion.")
     @Config.Name("Hellfire Energy Main Minion Sacrifice Kill")
     @Config.RangeInt(min = -1, max = 100)
-    public int hellfireEnergyMinionMain = 5;
+    public int hellfireEnergyMinionMain = 10;
 
     @Config.Comment("How much Hellfire energy is gained from Rahovart friendly fire sacrificing a minion not specified in other configs.\n" +
             "Setting to -1 will not kill the minion.\n" +
             "In general this should apply to Wraith minions.")
     @Config.Name("Hellfire Energy Other Minion Sacrifice Kill")
     @Config.RangeInt(min = -1, max = 100)
-    public int hellfireEnergyMinionOther = -1;
+    public int hellfireEnergyMinionOther = 5;
 
     @Config.Comment("How much Hellfire energy is gained from Rahovart friendly fire sacrificing a rare/mini-boss minion.\n" +
             "Setting to -1 will not kill the minion.")
@@ -148,7 +148,7 @@ public class BossRahovartConfig {
     @Config.Comment("Hellfire energy passively gained per second in Phase 3 (Lycanites uses 5)")
     @Config.Name("Hellfire Energy Passive Phase 3")
     @Config.RangeInt(min = 0, max = 100)
-    public int hellfireEnergySelfP3 = 5;
+    public int hellfireEnergySelfP3 = 6;
 
     @Config.Comment("Specifies Hellfire Barriers to clear away from Rahovart,\n " +
             "inner barriers snap to outer barriers and will always hit original spawn position once.\n " +

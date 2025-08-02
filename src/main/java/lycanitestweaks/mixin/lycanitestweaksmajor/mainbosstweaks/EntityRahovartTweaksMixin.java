@@ -258,11 +258,6 @@ public abstract class EntityRahovartTweaksMixin extends BaseCreatureEntity {
         return super.doRangedDamage(target, projectile, damage, noPierce);
     }
 
-    // Performance, they never move and have massive hitboxes to spam path navigator
-    @Unique
-    @Override
-    public EntityLivingBase getAvoidTarget() { return null; }
-
     // Thanks Iqury
     @Unique
     @Override

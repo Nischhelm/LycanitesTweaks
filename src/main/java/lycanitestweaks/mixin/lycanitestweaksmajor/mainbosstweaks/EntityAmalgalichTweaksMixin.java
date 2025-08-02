@@ -345,11 +345,6 @@ public abstract class EntityAmalgalichTweaksMixin extends BaseCreatureEntity {
         return super.canEntityBeSeen(target);
     }
 
-    // Performance, they never move and have massive hitboxes to spam path navigator
-    @Unique
-    @Override
-    public EntityLivingBase getAvoidTarget() { return null; }
-
     // Thanks Iqury
     @Unique
     @Override

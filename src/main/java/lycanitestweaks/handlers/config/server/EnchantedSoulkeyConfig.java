@@ -7,6 +7,12 @@ import net.minecraftforge.common.config.Config;
 @MixinConfig(name = LycanitesTweaks.MODID)
 public class EnchantedSoulkeyConfig {
 
+    @Config.Comment("Adds and registers Enchanted Soulkey items:\n" +
+            "Reusable Soulkeys with a recharge/leveling mechanic using Lycanites Equipment Infuser and Station.")
+    @Config.Name("0. Register Enchanted Soulkeys")
+    @Config.RequiresMcRestart
+    public boolean registerEnchantedSoulkeys = true;
+
     @Config.Comment("Holding the key in mainhand will add Creature Levels to Altar Mini Bosses")
     @Config.Name("0. Works for Altar Mini Bosses")
     @Config.RequiresMcRestart
@@ -24,10 +30,6 @@ public class EnchantedSoulkeyConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featureenchantedsoulkeyequipmenttiles.json")
     public boolean allowStationAndInfuser = true;
-
-    @Config.Comment("For use whenever no \"0.\" option is enabled")
-    @Config.Name("Remove Tooltip Information")
-    public boolean removeTooltip = false;
 
     @Config.Comment("Base charge experience required to level up the key. Increases by 25% per level of the key until the max is reached. Each Lycanites Charge gives 50 experience")
     @Config.Name("Base Levelup Experience")

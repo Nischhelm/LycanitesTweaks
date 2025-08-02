@@ -12,9 +12,7 @@ public class LycanitesTweaksPlugin implements IFMLLoadingPlugin {
 	public LycanitesTweaksPlugin() {
 		MixinBootstrap.init();
 
-		// FermiumBooter 1.3.0 can use non-unique @Config.Name fields
-		// In 1.2.0 using non-unique between different Sub Instances caused toggle handling to fail and always use defaults
-
+//		FermiumRegistryAPI.enqueueMixin(true, "mixins.lycanitestweaks.client.bigchildheadall.json"); // funny but clearly broken
 		ForgeConfigProvider.pluginInit();
 	}
 

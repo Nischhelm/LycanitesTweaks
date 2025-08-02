@@ -3,6 +3,9 @@ package lycanitestweaks.handlers;
 import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.entity.item.EntityBossSummonCrystal;
 import lycanitestweaks.entity.item.EntityEncounterSummonCrystal;
+import lycanitestweaks.entity.projectile.EntityChargeArrow;
+import lycanitestweaks.item.ItemChargeStaff;
+import lycanitestweaks.item.ItemRapidChargeStaff;
 import lycanitestweaks.item.ItemEnchantedSoulkey;
 import lycanitestweaks.loot.AddCountFromMobLevels;
 import lycanitestweaks.loot.EnchantWithMobLevels;
@@ -28,6 +31,11 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 @Mod.EventBusSubscriber(modid = LycanitesTweaks.MODID)
 public class LycanitesTweaksRegistry {
 
+        @GameRegistry.ObjectHolder(LycanitesTweaks.MODID + ":chargestaff")
+        public static Item chargestaff = new ItemChargeStaff("chargestaff");
+        @GameRegistry.ObjectHolder(LycanitesTweaks.MODID + ":devilgatlinggun")
+        public static Item devilgatlinggun = new ItemRapidChargeStaff("devilgatlinggun");
+
         @GameRegistry.ObjectHolder(LycanitesTweaks.MODID + ":enchantedsoulkey")
         public static Item enchantedSoulkey = new ItemEnchantedSoulkey("enchantedsoulkey", 0);
         @GameRegistry.ObjectHolder(LycanitesTweaks.MODID + ":enchantedsoulkeydiamond")
@@ -52,7 +60,8 @@ public class LycanitesTweaksRegistry {
 
         @SubscribeEvent
         public static void registerItemEvent(RegistryEvent.Register<Item> event){
-                event.getRegistry().registerAll(enchantedSoulkey, enchantedSoulkeyDiamond, enchantedSoulkeyEmerald);
+                if(ForgeConfigHandler.server.customStaffConfig.registerChargeStaffs) event.getRegistry().registerAll(chargestaff);
+                if(ForgeConfigHandler.server.enchSoulkeyConfig.registerEnchantedSoulkeys) event.getRegistry().registerAll(enchantedSoulkey, enchantedSoulkeyDiamond, enchantedSoulkeyEmerald);
         }
 
         @SubscribeEvent
@@ -75,6 +84,16 @@ public class LycanitesTweaksRegistry {
                         .tracker(64, 1, false)
                         .build()
                 );
+                if(ForgeConfigHandler.server.customStaffConfig.registerChargeStaffs){
+                        event.getRegistry().register(
+                                EntityEntryBuilder.create()
+                                        .entity(EntityChargeArrow.class)
+                                        .id(new ResourceLocation(LycanitesTweaks.MODID, "chargearrow"), id++)
+                                        .name("chargearrow")
+                                        .tracker(48, 1, false)
+                                        .build()
+                        );
+                }
         }
 
         @SubscribeEvent

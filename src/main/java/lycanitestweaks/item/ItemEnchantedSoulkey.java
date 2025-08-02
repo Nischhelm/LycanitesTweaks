@@ -6,8 +6,9 @@ import com.lycanitesmobs.core.item.ItemBase;
 import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.info.altar.IAltarNoBoost;
+import lycanitestweaks.util.IItemInfuserDisplay_Mixin;
+import lycanitestweaks.util.IItemStationDisplay_Mixin;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,7 +33,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemEnchantedSoulkey extends Item {
+public class ItemEnchantedSoulkey extends Item implements IItemInfuserDisplay_Mixin, IItemStationDisplay_Mixin {
 
     // Hybrid of EquipmentPart and Soulkey
     // Don't even need to extend Soulkey or ItemBase
@@ -53,6 +54,42 @@ public class ItemEnchantedSoulkey extends Item {
     // Incase extending Lycanites ItemBase
     //    @Override
     //    public void setup() {}
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public int lycanitesTweaks$getExperienceDisplay(ItemStack stack) {
+        return this.getExperience(stack);
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public int lycanitesTweaks$getNextLevelDisplay(ItemStack stack) {
+        return this.getExperienceForNextLevel(stack);
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public int lycanitesTweaks$getTopDisplay(ItemStack stack) {
+        return this.getGemPower(stack);
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public int lycanitesTweaks$getTopMaxDisplay(ItemStack stack) {
+        return ForgeConfigHandler.server.enchSoulkeyConfig.maxUsages;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public int lycanitesTweaks$getBottomDisplay(ItemStack stack) {
+        return this.getStarPower(stack);
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public int lycanitesTweaks$getBottomMaxDisplay(ItemStack stack) {
+        return ForgeConfigHandler.server.enchSoulkeyConfig.maxUsages;
+    }
 
     /**
      * Determines the Gem Power repair amount of the provided itemstack. Stack size is not taken into account.
@@ -113,16 +150,6 @@ public class ItemEnchantedSoulkey extends Item {
     @Override
     public void addInformation(@Nonnull ItemStack itemStack, World world, @Nonnull List<String> tooltip, @Nonnull ITooltipFlag tooltipFlag) {
         super.addInformation(itemStack, world, tooltip, tooltipFlag);
-        if(ForgeConfigHandler.server.enchSoulkeyConfig.removeTooltip) {
-            String description = I18n.format("item.soulkey.description");
-            FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
-            List<String> formattedDescriptionList = fontRenderer.listFormattedStringToWidth(description, ItemBase.DESCRIPTION_WIDTH);
-            for(Object formattedDescription : formattedDescriptionList) {
-                if(formattedDescription instanceof String)
-                    tooltip.add("§a" + formattedDescription);
-            }
-            return;
-        }
 
         StringBuilder rawStrings = new StringBuilder();
         rawStrings.append(I18n.format("item.lycanitestweaks.enchantedsoulkey.description"));

@@ -20,6 +20,8 @@ public class ClientModRegistry {
 
     @SubscribeEvent
     public static void registerModelEvent(ModelRegistryEvent event) {
+        ModelLoader.setCustomModelResourceLocation(LycanitesTweaksRegistry.chargestaff, 0, new ModelResourceLocation(LycanitesTweaksRegistry.chargestaff.getRegistryName(), "inventory"));
+        ModelLoader.setCustomModelResourceLocation(LycanitesTweaksRegistry.devilgatlinggun, 0, new ModelResourceLocation(LycanitesTweaksRegistry.devilgatlinggun.getRegistryName(), "inventory"));
         ModelLoader.setCustomModelResourceLocation(LycanitesTweaksRegistry.enchantedSoulkey, 0, new ModelResourceLocation(LycanitesTweaksRegistry.enchantedSoulkey.getRegistryName(), "inventory"));
         ModelLoader.setCustomModelResourceLocation(LycanitesTweaksRegistry.enchantedSoulkeyDiamond, 0, new ModelResourceLocation(LycanitesTweaksRegistry.enchantedSoulkeyDiamond.getRegistryName(), "inventory"));
         ModelLoader.setCustomModelResourceLocation(LycanitesTweaksRegistry.enchantedSoulkeyEmerald, 0, new ModelResourceLocation(LycanitesTweaksRegistry.enchantedSoulkeyEmerald.getRegistryName(), "inventory"));

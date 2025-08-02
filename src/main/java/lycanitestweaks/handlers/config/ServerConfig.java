@@ -3,6 +3,7 @@ package lycanitestweaks.handlers.config;
 import fermiumbooter.annotations.MixinConfig;
 import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.handlers.config.server.AltarsConfig;
+import lycanitestweaks.handlers.config.server.CustomStaffConfig;
 import lycanitestweaks.handlers.config.server.EnchantedSoulkeyConfig;
 import lycanitestweaks.handlers.config.server.LootConfig;
 import lycanitestweaks.handlers.config.server.PotionEffectsConfig;
@@ -23,6 +24,11 @@ public class ServerConfig {
             "Additionally, Voided will turn all environmental damages to piercing damage, while Consumed does that with any damage")
     @Config.Name("Additional Effects")
     public final PotionEffectsConfig effectsConfig = new PotionEffectsConfig();
+
+    @Config.Comment("Various staffs based on the current Summon Staffs and the older Scepters.\n" +
+            "Charge Staff - Essentially a bow that shoots Lycanites charges.")
+    @Config.Name("Custom Staffs")
+    public final CustomStaffConfig customStaffConfig = new CustomStaffConfig();
 
     @Config.Comment("Enchanted Soulkeys are a better version of existing Soulkeys.\n" +
             "They not only allow for storing multiple usages for ease of access\n" +

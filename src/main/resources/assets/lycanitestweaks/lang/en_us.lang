@@ -110,6 +110,7 @@ item.summoningstaff.description.mixin.chargeitem=§r(§lCharge§r: §d%s§r)
 item.summoningstaff.description.mixin.element=§r[§lElement§r: §b%s§r]
 item.summoningstaff.description.mixin.level=||§r[§lLvl§r: §a%s§r][§lXP§r: §a%s§r/%s]
 
+item.lycanitestweaks.chargestaff.name=Charge Staff
 item.lycanitestweaks.enchantedsoulkey.name=Enchanted Soulkey
 item.lycanitestweaks.enchantedsoulkeydiamond.name=Enchanted Diamond Soulkey
 item.lycanitestweaks.enchantedsoulkeyemerald.name=Enchanted Emerald Soulkey

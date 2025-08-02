@@ -9,6 +9,7 @@ import com.lycanitesmobs.core.item.ItemBase;
 import com.lycanitesmobs.core.item.temp.ItemScepter;
 import com.lycanitesmobs.core.item.temp.ItemStaffSummoning;
 import lycanitestweaks.handlers.ForgeConfigHandler;
+import lycanitestweaks.util.IItemInfuserDisplay_Mixin;
 import lycanitestweaks.util.IItemStaffSummoningElementLevelMapMixin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -27,7 +28,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 @Mixin(ItemStaffSummoning.class)
-public abstract class ItemStaffSummoningElementLevelMapMixin extends ItemScepter implements IItemStaffSummoningElementLevelMapMixin {
+public abstract class ItemStaffSummoningElementLevelMapMixin extends ItemScepter implements IItemStaffSummoningElementLevelMapMixin, IItemInfuserDisplay_Mixin {
 
     // Could have been a Forge Cap, but it looked like Forge was being inefficient with it
 
@@ -42,6 +43,21 @@ public abstract class ItemStaffSummoningElementLevelMapMixin extends ItemScepter
     )
     public void lycanitesTweaks_lycanitesMobsItemStaffSummoning_applyMinionEffectsLevelMap(BaseCreatureEntity minion, CallbackInfo ci){
         minion.addLevel(this.lycanitesTweaks$getHighestLevel(minion.getElements()) - 1);
+    }
+
+    // Too complex, just show Charge xp value
+    @Unique
+    @SideOnly(Side.CLIENT)
+    @Override
+    public int lycanitesTweaks$getExperienceDisplay(ItemStack stack){
+        return ChargeItem.CHARGE_EXPERIENCE;
+    }
+
+    @Unique
+    @SideOnly(Side.CLIENT)
+    @Override
+    public int lycanitesTweaks$getNextLevelDisplay(ItemStack stack){
+        return ForgeConfigHandler.majorFeaturesConfig.itemTweaksConfig.summonStaffBaseLevelupExperience;
     }
 
     @Unique

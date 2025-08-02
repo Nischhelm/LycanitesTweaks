@@ -26,6 +26,9 @@ public class ForgeConfigProvider {
     private static final Map<String, Set<Integer>> creatureSubspeciesBeastiaryBlacklist = new HashMap<>();
     private static final Set<String> elementBeastiaryBlacklist = new HashSet<>();
 
+    // Server
+    private static final Set<Enchantment> chargeStaffEnchantsBlacklist = new HashSet<>();
+
     // Minor
     private static final Set<ResourceLocation> flowersaurBiomes = new HashSet<>();
 
@@ -84,6 +87,7 @@ public class ForgeConfigProvider {
     }
 
     public static void reset() {
+        ForgeConfigProvider.chargeStaffEnchantsBlacklist.clear();
         ForgeConfigProvider.flowersaurBiomes.clear();
         ForgeConfigProvider.altarBeastiaryBlacklist.clear();
         ForgeConfigProvider.creatureBeastiaryBlacklist.clear();
@@ -159,6 +163,18 @@ public class ForgeConfigProvider {
                     .map(ResourceLocation::new)
                     .collect(Collectors.toSet()));
         return ForgeConfigProvider.flowersaurBiomes;
+    }
+
+    public static Set<Enchantment> getChargeStaffEnchantmentBlacklist() {
+        if(ForgeConfigProvider.chargeStaffEnchantsBlacklist.isEmpty()
+                && ForgeConfigHandler.server.customStaffConfig.blacklistedChargeStaffEnchants.length > 0)
+            ForgeConfigProvider.chargeStaffEnchantsBlacklist.addAll(Arrays
+                    .stream(ForgeConfigHandler.server.customStaffConfig.blacklistedChargeStaffEnchants)
+                    .map(ResourceLocation::new)
+                    .map(ForgeRegistries.ENCHANTMENTS::getValue)
+                    .collect(Collectors.toSet())
+            );
+        return ForgeConfigProvider.chargeStaffEnchantsBlacklist;
     }
 
     public static Set<Enchantment> getEquipmentEnchantmentBlacklist() {

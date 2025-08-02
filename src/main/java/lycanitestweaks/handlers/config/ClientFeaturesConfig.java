@@ -21,6 +21,12 @@ public class ClientFeaturesConfig {
     @Config.Name("0.a LycanitesTweaks Player Mob Levels Beastiary Tab")
     public boolean beastiaryGUIPML = true;
 
+    @Config.Comment("Enables the ability for the Equipment Infuser and Station to display progress bars for additional items\n" +
+            "Ex. LycanitesTweaks Enchanted Soulkeys and Modified Summoning Staffs.")
+    @Config.Name("1. Infuser and Display Additional Items")
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.client.infuserstationdisplaycustom.json")
+    public boolean lycanitesTilesCustomItems = true;
+
     @Config.Comment("PML Beastiary Render order is determined by the order of this list.\n" +
             "\tcategoryName - Spelling must match 'Bonus Categories' entries else hidden\n" +
             "This will be compared to the existence of 'Bonus Categories' entries in the PML config")

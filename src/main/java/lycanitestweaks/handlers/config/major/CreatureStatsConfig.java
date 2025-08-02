@@ -172,7 +172,7 @@ public class CreatureStatsConfig {
     @Config.Comment("Rahovart, Asmodeus, and Amalgalich. Intended to balance the Boss Damage Limit.")
     @Config.Name("2.a Main Boss Total Ratio")
     @Config.RangeDouble(min = 0)
-    public double bossHealthBonusRatio = 0.25D;
+    public double bossHealthBonusRatio = 0.5D;
 
     @Config.Comment("Anything tagged with SpawnedAsBoss such as Dungeon Bosses. Intended to balance when the Boss Damage Limit is applied.")
     @Config.Name("2.a Tagged Boss Excluding Rare Total Ratio")
