@@ -98,6 +98,19 @@ public class PatchConfig {
     @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patchesforgebucket.json")
     public boolean forgeFluidBuckets = true;
 
+    @Config.Comment("The vanilla Lycanites option for \"Variant Rare Despawning\" has an inconsistency where peaceful mode allowed (Chupacabras) entities never despawned.\n" +
+            "This will fix it and allow them to despawn to be consistent with other Rare variants.")
+    @Config.Name("Rare Variant Despawning Consistency")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patches.raredespawnconsistency.json")
+    public boolean rareVariantDespawnConsistency = true;
+
+    @Config.Comment("Fix Altar spawned bosses being able to despawn when Variant despawning is enabled")
+    @Config.Name("Mini Boss Altar Persistence")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patches.altarminibosspersistence.json")
+    public boolean altarMiniBossPersistence = true;
+
     @Config.Comment("Altars post LivingDestroyBlockEvent for every call to setBlockToAir. This fixes custom structure cheeses through griefing.")
     @Config.Name("Mini Boss Altar Posts Forge Event")
     @Config.RequiresMcRestart

@@ -21,6 +21,9 @@
                         "minLevelScale": 0.1,
                         "maxLevelScale": 1.0,
                         "itemLimit": 128
+                      },
+                      {
+                        "function": "lycanitesTweaks:apply_variant_drop_scale"
                       }
                     ]
                 }

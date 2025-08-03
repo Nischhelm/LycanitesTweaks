@@ -6,6 +6,7 @@ import net.minecraftforge.common.config.Config;
 
 @MixinConfig(name = LycanitesTweaks.MODID)
 public class LootConfig {
+
     @Config.Comment("Lycanites Creatures can use JSON loot tables alongside Lycanites Mobs drop list - required for the added loot tables here")
     @Config.Name("0. Vanilla Lootables for Lycanites Mobs")
     @Config.RequiresMcRestart
@@ -60,7 +61,24 @@ public class LootConfig {
     @Config.RequiresMcRestart
     public boolean registerBossSoulkeyLootTables = true;
 
-    @Config.Comment("Register Loot Tables for any creature tagged as SpawnedAsBoss (ex Dungeon/Altar)")
+
+    @Config.Comment("Register Loot Tables for any creature tagged as SpawnedAsBoss (ex Dungeon/Modified Altar)\n" +
+            "Basic configurable number of randomly enchanted books.")
+    @Config.Name("Register SpawnedAsBoss Enchant Randomly Book Loot Tables")
+    @Config.RequiresMcRestart
+    public boolean registerSpawnedAsBossRandomBookLootTables = true;
+
+    @Config.Comment("How many books should drop from the \"SpawnedAsBoss Enchant Randomly Book\" Loot Table\n" +
+            "Consider how applying this tag is configured.\n" +
+            "Dungeons always have this tag, altar mini bosses can be configured, and if random boss spawns are enabled.")
+    @Config.Name("SpawnedAsBoss Enchant Randomly Book Count")
+    @Config.RequiresMcRestart
+    public int spawnedAsBossBookRolls = 2;
+
+    @Config.Comment("Register Loot Tables for any creature tagged as SpawnedAsBoss (ex Dungeon/Modified Altar)\n" +
+            "One non treasure enchanted book drop where the enchantWithLevels loot func is applied with 100% of the Boss' level.\n" +
+            "One treasure enchanted book where enchantWithLevels loot func is applied with 75% of the Boss' level.\n" +
+            "One Bottle o' Enchanting per 2 levels.")
     @Config.Name("Register SpawnedAsBoss With Levels Loot Tables")
     @Config.RequiresMcRestart
     public boolean registerSpawnedAsBossWithLevelsLootTables = true;

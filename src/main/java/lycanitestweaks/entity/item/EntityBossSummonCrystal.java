@@ -232,7 +232,7 @@ public class EntityBossSummonCrystal extends EntityEnderCrystal {
             storeCreature.setStoredCreatureEntity(StoredCreatureEntity.createFromEntity(crystal, entity)
                     .setPersistant(true)
                     .setFixate(true)
-                    .setSpawnAsBoss(true)
+                    .setSpawnAsBoss(entity.spawnedAsBoss)
             );
             crystal.setShowBottom(true);
             crystal.setDestroyBlocks(true);

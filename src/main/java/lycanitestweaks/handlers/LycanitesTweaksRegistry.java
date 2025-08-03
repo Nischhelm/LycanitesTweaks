@@ -8,6 +8,7 @@ import lycanitestweaks.item.ItemChargeStaff;
 import lycanitestweaks.item.ItemRapidChargeStaff;
 import lycanitestweaks.item.ItemEnchantedSoulkey;
 import lycanitestweaks.loot.AddCountFromMobLevels;
+import lycanitestweaks.loot.ApplyVariantItemDropsScale;
 import lycanitestweaks.loot.EnchantWithMobLevels;
 import lycanitestweaks.loot.HasMobLevels;
 import lycanitestweaks.loot.IsVariant;
@@ -51,6 +52,7 @@ public class LycanitesTweaksRegistry {
                 LootConditionManager.registerCondition(new HasMobLevels.Serializer());
                 LootConditionManager.registerCondition(new IsVariant.Serializer());
                 LootFunctionManager.registerFunction(new AddCountFromMobLevels.Serializer());
+                LootFunctionManager.registerFunction(new ApplyVariantItemDropsScale.Serializer());
                 LootFunctionManager.registerFunction(new EnchantWithMobLevels.Serializer());
                 LootFunctionManager.registerFunction(new ScaleWithMobLevels.Serializer());
 

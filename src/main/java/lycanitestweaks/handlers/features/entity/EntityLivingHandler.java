@@ -2,6 +2,7 @@ package lycanitestweaks.handlers.features.entity;
 
 import com.lycanitesmobs.ExtendedWorld;
 import com.lycanitesmobs.core.entity.BaseCreatureEntity;
+import com.lycanitesmobs.core.info.CreatureManager;
 import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.capability.playermoblevel.IPlayerMobLevelCapability;
 import lycanitestweaks.capability.playermoblevel.PlayerMobLevelCapability;
@@ -53,17 +54,29 @@ public class EntityLivingHandler {
     @SubscribeEvent
     public static void onCreatureSpawn(LivingSpawnEvent.SpecialSpawn event) {
         if(event.getWorld().isRemote) return;
-        PlayerMobLevelsConfig.BonusCategory category = null;
+        if(!(event.getEntityLiving() instanceof BaseCreatureEntity)) return;
+        BaseCreatureEntity creature = (BaseCreatureEntity) event.getEntityLiving();
 
+        // Random SpawnedAsBoss
+        if(event.getWorld().rand.nextFloat() < ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.spawnedAsBossNaturalSpawnChance) {
+            if(!CreatureManager.getInstance().creatureGroups.get("animal").hasEntity(creature)) {
+                creature.spawnedAsBoss = true;
+                creature.damageLimit = BaseCreatureEntity.BOSS_DAMAGE_LIMIT;
+                creature.damageMax = BaseCreatureEntity.BOSS_DAMAGE_LIMIT;
+                creature.refreshAttributes();
+            }
+        }
+
+        // Player Mob Levels
+        PlayerMobLevelsConfig.BonusCategory category = null;
         if(event.getSpawner() == null && PlayerMobLevelsConfig.getPmlBonusCategories().containsKey(PlayerMobLevelsConfig.BonusCategory.SpawnerNatural)){
             category = PlayerMobLevelsConfig.BonusCategory.SpawnerNatural;
         }
         else if(event.getSpawner() != null && PlayerMobLevelsConfig.getPmlBonusCategories().containsKey(PlayerMobLevelsConfig.BonusCategory.SpawnerTile)){
             category = PlayerMobLevelsConfig.BonusCategory.SpawnerTile;
         }
-        if(category == null || !(event.getEntityLiving() instanceof BaseCreatureEntity)) return;
+        if(category == null) return;
 
-        BaseCreatureEntity creature = (BaseCreatureEntity) event.getEntityLiving();
         EntityPlayer player = event.getWorld().getClosestPlayerToEntity(event.getEntityLiving(), 128);
         IPlayerMobLevelCapability pml = PlayerMobLevelCapability.getForPlayer(player);
 

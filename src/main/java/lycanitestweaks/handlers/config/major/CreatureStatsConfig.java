@@ -27,6 +27,18 @@ public class CreatureStatsConfig {
     @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.featurespawnedasbossrareboost.json")
     public boolean spawnedAsBossRareBoost = true;
 
+    @Config.Comment("Whether Altar Mini Bosses should be tagged with the SpawnedAsBoss NBT to interact with LycanitesTweaks features.\n" +
+            "Unlike Dungeon Bosses, this tag is not used for correcting boss stat balance and is mostly used for Loot Table checks.")
+    @Config.Name("Altar Mini Boss SpawnedAsBoss NBT Tag")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.features.altarminibossnbtboss.json")
+    public boolean altarMiniBossSpawnedAsBoss = true;
+
+    @Config.Comment("Option to allow SpawnedAsBoss tagged mobs to naturally spawn, intended to simulate the random Rare Variant experience for every mob.")
+    @Config.Name("Spawned As Boss Tagged Natural Spawns - Chance")
+    @Config.RangeDouble(min = 0, max = 1)
+    public float spawnedAsBossNaturalSpawnChance = 0.0045F;
+
     @Config.Comment("Lazy option to force dungeon configs to follow the Rare variant stat rebalancing.\n" +
             "This will IGNORE dungeon configs and logs anytime it does so.\n" +
             "It is recommended to set \"loadDefault\" to \"true\" or change manually.\n" +

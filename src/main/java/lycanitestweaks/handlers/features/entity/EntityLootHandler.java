@@ -8,6 +8,7 @@ import com.lycanitesmobs.core.info.ElementInfo;
 import lycanitestweaks.LycanitesTweaks;
 import lycanitestweaks.handlers.ForgeConfigHandler;
 import lycanitestweaks.loot.AddCountFromMobLevels;
+import lycanitestweaks.loot.ApplyVariantItemDropsScale;
 import lycanitestweaks.loot.EnchantWithMobLevels;
 import lycanitestweaks.loot.HasMobLevels;
 import lycanitestweaks.loot.IsVariant;
@@ -18,6 +19,7 @@ import net.minecraft.world.storage.loot.LootEntryItem;
 import net.minecraft.world.storage.loot.LootPool;
 import net.minecraft.world.storage.loot.RandomValueRange;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
+import net.minecraft.world.storage.loot.functions.EnchantRandomly;
 import net.minecraft.world.storage.loot.functions.LootFunction;
 import net.minecraft.world.storage.loot.functions.LootingEnchantBonus;
 import net.minecraft.world.storage.loot.functions.SetCount;
@@ -71,6 +73,19 @@ public class EntityLootHandler {
     public static void addDefaultBossLoot(LootTableLoadEvent event){
         if (!LycanitesMobs.modid.equals(event.getName().getNamespace())) return;
 
+        if(ForgeConfigHandler.server.lootConfig.registerSpawnedAsBossRandomBookLootTables){
+            LootPool bookTable = new LootPool(
+                    new LootEntry[]{
+                            new LootEntryItem(Items.BOOK, 1, 0,
+                                    new LootFunction[]{new EnchantRandomly(nullCond, null)},
+                                    nullCond,
+                                    LycanitesTweaks.MODID + ":enchant_with_mob_levels_book")},
+                    new LootCondition[]{new IsVariant(-1, false, false, true)},
+                new RandomValueRange(ForgeConfigHandler.server.lootConfig.spawnedAsBossBookRolls), new RandomValueRange(0),
+                    LycanitesTweaks.MODID + "_random_boss_book");
+            event.getTable().addPool(bookTable);
+        }
+
         if(ForgeConfigHandler.server.lootConfig.registerSpawnedAsBossWithLevelsLootTables) {
             LootPool bookTable = new LootPool(
                     new LootEntry[]{
@@ -79,7 +94,7 @@ public class EntityLootHandler {
                                     nullCond,
                                     LycanitesTweaks.MODID + ":enchant_with_mob_levels_book")},
                     new LootCondition[]{new IsVariant(-1, false, false, true)},
-                    new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_boss_book");
+                    new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_scaled_boss_book");
 
             LootPool treasureBookTable = new LootPool(
                     new LootEntry[]{
@@ -90,7 +105,7 @@ public class EntityLootHandler {
                     new LootCondition[]{
                             new IsVariant(-1, false, false, true),
                             new HasMobLevels(30)},
-                    new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_boss_book_treasure");
+                    new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_scaled_boss_book_treasure");
 
             LootPool xpTable = new LootPool(
                     new LootEntry[]{
@@ -101,7 +116,7 @@ public class EntityLootHandler {
                                     nullCond,
                                     LycanitesTweaks.MODID + ":scale_with_mob_levels_xp")},
                     new LootCondition[]{new IsVariant(-1, false, false, true)},
-                    new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_boss_xp");
+                    new RandomValueRange(1), new RandomValueRange(0), LycanitesTweaks.MODID + "_scaledboss_xp");
 
             event.getTable().addPool(bookTable);
             event.getTable().addPool(treasureBookTable);
@@ -143,7 +158,9 @@ public class EntityLootHandler {
                                 ForgeConfigHandler.server.lootConfig.randomChargeDropLimit),
                         // Looting is not level scaled
                         new LootingEnchantBonus(nullCond, new RandomValueRange(0,
-                                ForgeConfigHandler.server.lootConfig.randomChargeLootingBonus), 0)},
+                                ForgeConfigHandler.server.lootConfig.randomChargeLootingBonus), 0),
+                        new ApplyVariantItemDropsScale(nullCond, true, false)
+                },
                 nullCond,
                 entryName);
     }
