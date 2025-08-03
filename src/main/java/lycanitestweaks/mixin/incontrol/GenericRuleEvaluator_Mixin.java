@@ -80,9 +80,10 @@ public abstract class GenericRuleEvaluator_Mixin extends CommonRuleEvaluator {
 
     @Unique
     private void lycanitesTweaks$addminionCheck(AttributeMap map) {
+        boolean minion = map.get(InControlCompat.IS_MINION);
         this.checks.add((event, query) -> {
             if(query.getEntity(event) instanceof BaseCreatureEntity){
-                return ((BaseCreatureEntity) query.getEntity(event)).isMinion();
+                return minion == ((BaseCreatureEntity) query.getEntity(event)).isMinion();
             }
             return false;
         });
@@ -90,12 +91,13 @@ public abstract class GenericRuleEvaluator_Mixin extends CommonRuleEvaluator {
 
     @Unique
     private void lycanitesTweaks$addUncommonCheck(AttributeMap map) {
+        boolean uncommon = map.get(InControlCompat.IS_UNCOMMON);
         this.checks.add((event, query) -> {
             if(query.getEntity(event) instanceof BaseCreatureEntity){
                 BaseCreatureEntity creature = (BaseCreatureEntity) query.getEntity(event);
                 if(creature.firstSpawn) creature.onFirstSpawn();
 
-                return creature.getVariantIndex() != 0;
+                return uncommon == (creature.getVariantIndex() != 0);
             }
             return false;
         });
@@ -103,12 +105,13 @@ public abstract class GenericRuleEvaluator_Mixin extends CommonRuleEvaluator {
 
     @Unique
     private void lycanitesTweaks$addRareCheck(AttributeMap map) {
+        boolean rare = map.get(InControlCompat.IS_RARE);
         this.checks.add((event, query) -> {
             if(query.getEntity(event) instanceof BaseCreatureEntity){
                 BaseCreatureEntity creature = (BaseCreatureEntity) query.getEntity(event);
                 if(creature.firstSpawn) creature.onFirstSpawn();
 
-                return creature.isRareVariant();
+                return rare == creature.isRareVariant();
             }
             return false;
         });
@@ -116,9 +119,10 @@ public abstract class GenericRuleEvaluator_Mixin extends CommonRuleEvaluator {
 
     @Unique
     private void lycanitesTweaks$addSpawnedAsBossCheck(AttributeMap map) {
+        boolean spawnedAsBoss = map.get(InControlCompat.IS_SPAWNEDASBOSS);
         this.checks.add((event, query) -> {
             Entity entity = query.getEntity(event);
-            return entity instanceof BaseCreatureEntity ? ((BaseCreatureEntity) entity).spawnedAsBoss : false;
+            return entity instanceof BaseCreatureEntity && (spawnedAsBoss == ((BaseCreatureEntity) entity).spawnedAsBoss);
         });
     }
 }

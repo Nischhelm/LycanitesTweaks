@@ -12,7 +12,6 @@ import com.lycanitesmobs.core.info.altar.AltarInfoRoyalArchvile;
 import com.lycanitesmobs.core.info.altar.AltarInfoUmberLobber;
 import lycanitestweaks.item.ItemEnchantedSoulkey;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -43,9 +42,6 @@ public abstract class AltarInfoMiniBossEnchantedSoulkeyMixin {
         if(entity instanceof EntityPlayer) {
             ItemStack itemStack = ((EntityPlayer) entity).getHeldItemMainhand();
             if(itemStack.getItem() instanceof ItemEnchantedSoulkey) {
-                creature.enablePersistence();
-                creature.setFixateTarget((EntityLivingBase)entity);
-                creature.spawnedAsBoss = true;
                 creature.addLevel(((ItemEnchantedSoulkey) itemStack.getItem()).getLevel(itemStack) - 1);
             }
         }

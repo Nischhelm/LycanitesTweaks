@@ -105,6 +105,13 @@ public class PatchConfig {
     @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patches.raredespawnconsistency.json")
     public boolean rareVariantDespawnConsistency = true;
 
+    @Config.Comment("Fix Soulcubes not being instantly removed after the Boss Event starts.\n" +
+            "The intent was that the arena builder would replace it, however the delay allows the Soulcube to be collected in various cases.")
+    @Config.Name("Main Boss Altar Instantly Removes Soulcube")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(defaultValue = true, lateMixin = "mixins.lycanitestweaks.patches.altarmainbosssoulcube.json")
+    public boolean altarMainBossConsumeSoulcube = true;
+
     @Config.Comment("Fix Altar spawned bosses being able to despawn when Variant despawning is enabled")
     @Config.Name("Mini Boss Altar Persistence")
     @Config.RequiresMcRestart
