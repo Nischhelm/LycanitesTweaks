@@ -1,16 +1,18 @@
 [
 	{
-		"mod": "lycanitesmobs",
+		"mod": ["minecraft", "lycanitesmobs"],
 		"mintime": 13000,
 		"maxtime": 23000,
 		"spawner": false,
 		"seesky": false,
+		"lycanites_isminion": false,
 		"lycanites_addlevelrandmin": 2,
 		"lycanites_addlevel": 5
 	},
 	{
-		"mod": "lycanitesmobs",
+		"mod": ["minecraft", "lycanitesmobs"],
 		"spawner": true,
+		"lycanites_isminion": false,
 		"lycanites_addlevelrandmin": 4,
 		"lycanites_addlevel": 5
 	}
