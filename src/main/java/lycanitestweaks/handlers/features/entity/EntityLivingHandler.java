@@ -59,7 +59,7 @@ public class EntityLivingHandler {
 
         // Random SpawnedAsBoss
         if(event.getWorld().rand.nextFloat() < ForgeConfigHandler.majorFeaturesConfig.creatureStatsConfig.spawnedAsBossNaturalSpawnChance) {
-            if(!CreatureManager.getInstance().creatureGroups.get("animal").hasEntity(creature)) {
+            if(!creature.isBossAlways() && !creature.isTamed() && !creature.isMinion()  && !CreatureManager.getInstance().creatureGroups.get("animal").hasEntity(creature)) {
                 creature.spawnedAsBoss = true;
                 creature.damageLimit = BaseCreatureEntity.BOSS_DAMAGE_LIMIT;
                 creature.damageMax = BaseCreatureEntity.BOSS_DAMAGE_LIMIT;
